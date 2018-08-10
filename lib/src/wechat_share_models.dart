@@ -22,7 +22,7 @@ class WeChatShareTextModel {
 
 
 class WeChatMiniProgramModel {
-  static const int MINI_PTOGRAM_TYPE_RELEASE = 0;
+  static const int MINI_PROGRAM_TYPE_RELEASE = 0;
   static const int MINI_PROGRAM_TYPE_TEST = 1;
   static const int MINI_PROGRAM_TYPE_PREVIEW = 2;
 
@@ -51,7 +51,7 @@ class WeChatMiniProgramModel {
         this.thumbnail,
       String transaction})
       : this.transaction = transaction ?? "miniProgram",
-      this.miniProgramType = miniProgramType??MINI_PTOGRAM_TYPE_RELEASE,
+      this.miniProgramType = miniProgramType??MINI_PROGRAM_TYPE_RELEASE,
       assert(webPageUrl != null && webPageUrl.isNotEmpty),
       assert(userName != null && userName.isNotEmpty)    ,
       assert(path != null && path.isNotEmpty );

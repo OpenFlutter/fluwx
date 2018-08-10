@@ -1,5 +1,5 @@
-
 import 'package:wechat_plugin/src/wechat_scene.dart';
+
 
 class WeChatShareTextModel{
   final String text;

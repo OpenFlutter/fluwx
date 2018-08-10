@@ -61,14 +61,6 @@ object WeChatPluginHandler {
     fun onResp(resp: BaseResp) {
 
         var code =-99
-//        val ERR_OK = 0
-//        val ERR_COMM = -1
-//        val ERR_USER_CANCEL = -2
-//        val ERR_SENT_FAILED = -3
-//        val ERR_AUTH_DENIED = -4
-//        val ERR_UNSUPPORT = -5
-//        val ERR_BAN = -6
-
         when (resp.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
                 code = 0

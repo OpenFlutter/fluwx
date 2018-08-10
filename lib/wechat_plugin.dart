@@ -31,6 +31,12 @@ class WechatPlugin {
     return await _channel.invokeMethod("shareText",model.toMap());
   }
 
+  static Future shareMiniProgram(WeChatMiniProgramModel model)async{
+    return await _channel.invokeMethod("shareMiniProgram",model.toMap());
+  }
+
+
+
   static Future<dynamic> _handler(MethodCall methodCall){
 
     if("onWeChatResponse" == methodCall.method){

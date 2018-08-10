@@ -1,13 +1,14 @@
 package com.jarvanmo.wechatplugin.handler
 
 import com.jarvanmo.wechatplugin.config.WeChatPluginMethods
-import com.tencent.mm.opensdk.openapi.IWXAPI
-import com.tencent.mm.opensdk.modelbase.BaseResp
-import io.flutter.plugin.common.MethodCall
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.jarvanmo.wechatplugin.config.WechatPluginConfig
+import com.tencent.mm.opensdk.modelbase.BaseResp
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject
 import com.tencent.mm.opensdk.modelmsg.WXTextObject
+import com.tencent.mm.opensdk.openapi.IWXAPI
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
 
@@ -34,9 +35,8 @@ object WeChatPluginHandler {
 
     fun handle(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
-            WeChatPluginMethods.SHARE_TEXT -> {
-                shareText(call)
-            }
+            WeChatPluginMethods.SHARE_TEXT -> shareText(call)
+            WeChatPluginMethods.SHARE_MINI_PROGRAM -> shareMiniProgram(call)
             else -> {
                 result.notImplemented()
             }
@@ -58,43 +58,35 @@ object WeChatPluginHandler {
 
     }
 
+
+    private  fun shareMiniProgram(call: MethodCall){
+        val miniProgramObj = WXMiniProgramObject()
+        miniProgramObj.webpageUrl = call.argument("webPageUrl") // 兼容低版本的网页链接
+        miniProgramObj.miniprogramType = call.argument("miniProgramType")// 正式版:0，测试版:1，体验版:2
+        miniProgramObj.userName = call.argument("userName")     // 小程序原始id
+        miniProgramObj.path = call.argument("path")            //小程序页面路径
+        val msg = WXMediaMessage(miniProgramObj)
+        msg.title = call.argument("title")                   // 小程序消息title
+        msg.description = call.argument("description")               // 小程序消息desc
+//        msg.thumbData = getThumb()                      // 小程序消息封面图片，小于128k
+
+
+        val req = SendMessageToWX.Req()
+        req.transaction = call.argument("transaction")
+        req.message = msg
+        req.scene = call.argument("scene")  // 目前支持会话
+        wxApi.sendReq(req)
+    }
+
     fun onResp(resp: BaseResp) {
-
-        var code =-99
-        when (resp.errCode) {
-            BaseResp.ErrCode.ERR_OK -> {
-                code = 0
-            }
-            BaseResp.ErrCode.ERR_COMM -> {
-                code = 1
-            }
-
-            BaseResp.ErrCode.ERR_USER_CANCEL -> {
-                code = 2
-            }
-            BaseResp.ErrCode.ERR_SENT_FAILED -> {
-                code = -3
-            }
-
-            BaseResp.ErrCode.ERR_AUTH_DENIED -> {
-                code = -4
-            }
-            BaseResp.ErrCode.ERR_UNSUPPORT -> {
-                code = -5
-            }
-
-            else -> {
-            }
-        }
-
-
         val result = mapOf(
                 "errStr" to resp.errStr,
                 "transaction" to resp.transaction,
                 "type" to resp.type,
-                "errCode" to code,
+                "errCode" to resp.errCode,
                 "openId" to resp.openId
         )
+
 
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_RESPONSE, result)

@@ -14,6 +14,7 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
             val channel = MethodChannel(registrar.messenger(), "wechat_plugin")
+            WeChatPluginHandler.setContext(registrar.context().applicationContext)
             channel.setMethodCallHandler(WechatPlugin(channel,registrar))
             WeChatPluginHandler.setMethodChannel(channel)
         }

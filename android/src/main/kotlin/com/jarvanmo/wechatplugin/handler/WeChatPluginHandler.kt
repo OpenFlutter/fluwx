@@ -1,5 +1,7 @@
 package com.jarvanmo.wechatplugin.handler
 
+import android.annotation.SuppressLint
+import android.content.Context
 import com.jarvanmo.wechatplugin.config.WeChatPluginMethods
 import com.jarvanmo.wechatplugin.config.WechatPluginConfig
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -10,8 +12,10 @@ import com.tencent.mm.opensdk.modelmsg.WXTextObject
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import top.zibin.luban.Luban
 
 
+@SuppressLint("StaticFieldLeak")
 /***
  * Created by mo on 2018/8/8
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
@@ -21,6 +25,8 @@ object WeChatPluginHandler {
     private var wxApi: IWXAPI? = null
 
     private var channel: MethodChannel? = null
+
+    private var context: Context? = null
 
 
     fun apiIsNull() = wxApi == null
@@ -32,6 +38,11 @@ object WeChatPluginHandler {
     fun setWxApi(wxApi: IWXAPI) {
         this.wxApi = wxApi
     }
+
+    fun setContext(context: Context){
+        this.context = context.applicationContext
+    }
+
 
     fun handle(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {

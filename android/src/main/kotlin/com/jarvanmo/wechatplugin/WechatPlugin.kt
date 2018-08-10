@@ -24,6 +24,7 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
         when {
             WeChatPluginMethods.INIT == call.method -> {
                 val api =  WXAPIFactory.createWXAPI(registrar.context().applicationContext, call.arguments as String?)
+                api.registerApp(call.arguments as String)
                 WeChatPluginHandler.setWxApi(api)
             }
             WeChatPluginHandler.apiIsNull() -> {

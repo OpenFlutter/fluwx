@@ -45,4 +45,5 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-common:0.24.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
+    implementation 'top.zibin:Luban:1.1.8'
 }

@@ -24,7 +24,6 @@
 		CDDC1203211AD82D0091FA91 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDC1202211AD82D0091FA91 /* libz.tbd */; };
 		CDDC1205211AD83D0091FA91 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDC1204211AD83D0091FA91 /* libsqlite3.tbd */; };
 		CDDC1207211AD8540091FA91 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDC1206211AD8540091FA91 /* libc++.tbd */; };
-		CDDC120B211ADE9D0091FA91 /* WechatPluginMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDC120A211ADE9D0091FA91 /* WechatPluginMethods.swift */; };
 		CDDC120D211AE6B90091FA91 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDDC120C211AE6B90091FA91 /* CoreTelephony.framework */; };
 /* End PBXBuildFile section */
 
@@ -68,7 +67,6 @@
 		CDDC1202211AD82D0091FA91 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CDDC1204211AD83D0091FA91 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		CDDC1206211AD8540091FA91 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		CDDC120A211ADE9D0091FA91 /* WechatPluginMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WechatPluginMethods.swift; sourceTree = "<group>"; };
 		CDDC120C211AE6B90091FA91 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -148,7 +146,6 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
-				CDDC1209211ADE320091FA91 /* Wechat Plugin */,
 				CD425B48211AD23300BF14A6 /* libWeChatSDK.a */,
 				CD425B49211AD23300BF14A6 /* WXApi.h */,
 				CD425B47211AD23300BF14A6 /* WXApiObject.h */,
@@ -170,14 +167,6 @@
 			children = (
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		CDDC1209211ADE320091FA91 /* Wechat Plugin */ = {
-			isa = PBXGroup;
-			children = (
-				CDDC120A211ADE9D0091FA91 /* WechatPluginMethods.swift */,
-			);
-			name = "Wechat Plugin";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,6 +205,7 @@
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = 8JJXUFV6F7;
 						LastSwiftMigration = 0910;
 					};
 				};
@@ -329,7 +319,6 @@
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
-				CDDC120B211ADE9D0091FA91 /* WechatPluginMethods.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +458,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8JJXUFV6F7;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -497,6 +487,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8JJXUFV6F7;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

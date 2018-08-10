@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 struct WechatPluginMethods {
         public static  let SHARE_TEXT = "share_text";
         public static  let  SHARE_IMAGE = "share_image";

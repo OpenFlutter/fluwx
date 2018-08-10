@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
-    
+
+
 public class SwiftWechatPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "wechat_plugin", binaryMessenger: registrar.messenger())
@@ -9,6 +10,14 @@ public class SwiftWechatPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result("iOS " + UIDevice.current.systemVersion)
+   
+    switch call.method {
+    case WeChatPluginMethods.SHARE_TEXT:
+        print("hh")    
+        break;
+    
+    default:
+       print("hh")
+    }
   }
 }

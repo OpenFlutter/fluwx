@@ -16,4 +16,6 @@ public class WechatPluginConfig {
 
     public static final String TEXT = "text";
 
+    public static final String IMAGE ="image";
+    public static final String THUMBNAIL ="thumbnail";
 }

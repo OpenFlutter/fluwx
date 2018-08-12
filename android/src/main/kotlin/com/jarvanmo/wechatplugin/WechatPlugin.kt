@@ -12,9 +12,13 @@ import io.flutter.plugin.common.PluginRegistry.Registrar
 class WechatPlugin(private var channel: MethodChannel,private var registrar: Registrar) : MethodCallHandler {
     companion object {
         @JvmStatic
+        val TAG = "WeChatPlugin"
+        val FILE_NOT_EXIST = "file not exists"
+
+        @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
             val channel = MethodChannel(registrar.messenger(), "wechat_plugin")
-            WeChatPluginHandler.setContext(registrar.context().applicationContext)
+            WeChatPluginHandler.setRegistrar(registrar)
             channel.setMethodCallHandler(WechatPlugin(channel,registrar))
             WeChatPluginHandler.setMethodChannel(channel)
         }
@@ -31,7 +35,9 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
                 result.error("config your wxapi first", "config your wxapi first", null)
                 return
             }
-            else -> WeChatPluginHandler.handle(call, result)
+            call.method.startsWith("share")->{
+                WeChatPluginHandler.handle(call, result)
+            }
         }
 
 

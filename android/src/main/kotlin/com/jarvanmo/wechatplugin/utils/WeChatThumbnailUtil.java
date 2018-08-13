@@ -1,10 +1,8 @@
 package com.jarvanmo.wechatplugin.utils;
 
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 
-import com.jarvanmo.wechatplugin.config.WeChatPluginImageSchema;
+import com.jarvanmo.wechatplugin.constant.WeChatPluginImageSchema;
 
 import java.io.File;
 import java.io.IOException;

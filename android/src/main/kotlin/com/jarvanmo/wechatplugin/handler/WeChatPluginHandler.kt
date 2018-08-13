@@ -1,11 +1,11 @@
 package com.jarvanmo.wechatplugin.handler
 
-import android.graphics.BitmapFactory
 import android.util.Log
 import com.jarvanmo.wechatplugin.WechatPlugin
-import com.jarvanmo.wechatplugin.config.WeChatPluginImageSchema
-import com.jarvanmo.wechatplugin.config.WeChatPluginMethods
-import com.jarvanmo.wechatplugin.config.WechatPluginConfig
+import com.jarvanmo.wechatplugin.constant.CallResult
+import com.jarvanmo.wechatplugin.constant.WeChatPluginImageSchema
+import com.jarvanmo.wechatplugin.constant.WeChatPluginMethods
+import com.jarvanmo.wechatplugin.constant.WechatPluginKeys
 import com.jarvanmo.wechatplugin.utils.AssetManagerUtil
 import com.jarvanmo.wechatplugin.utils.FileUtil
 import com.jarvanmo.wechatplugin.utils.WeChatThumbnailUtil
@@ -16,7 +16,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 import java.io.File
-import java.net.URL
 
 
 /***
@@ -48,6 +47,11 @@ object WeChatPluginHandler {
 
 
     fun handle(call: MethodCall, result: MethodChannel.Result) {
+
+        if (wxApi!!.isWXAppInstalled){
+            result.error(CallResult.RESULT_WE_CHAT_NOT_INSTALLED,CallResult.RESULT_WE_CHAT_NOT_INSTALLED,null)
+            return
+        }
         when (call.method) {
             WeChatPluginMethods.SHARE_TEXT -> shareText(call,result)
             WeChatPluginMethods.SHARE_MINI_PROGRAM -> shareMiniProgram(call, result)
@@ -60,15 +64,16 @@ object WeChatPluginHandler {
 
     private fun shareText(call: MethodCall, result: MethodChannel.Result) {
         val textObj = WXTextObject()
-        textObj.text = call.argument(WechatPluginConfig.TEXT)
+        textObj.text = call.argument(WechatPluginKeys.TEXT)
         val msg = WXMediaMessage()
         msg.mediaObject = textObj
-        msg.description = call.argument(WechatPluginConfig.TEXT)
+        msg.description = call.argument(WechatPluginKeys.TEXT)
         val req = SendMessageToWX.Req()
         req.message = msg
         setCommonArguments(call,req)
         wxApi?.sendReq(req)
         result.success(true)
+
     }
 
 
@@ -81,7 +86,7 @@ object WeChatPluginHandler {
         val msg = WXMediaMessage(miniProgramObj)
         msg.title = call.argument("title")                   // 小程序消息title
         msg.description = call.argument("description")               // 小程序消息desc
-        var thumbnail: String? = call.argument(WechatPluginConfig.THUMBNAIL)
+        var thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
         thumbnail = thumbnail ?: ""
 
         if (thumbnail.isNullOrBlank()) {
@@ -100,10 +105,10 @@ object WeChatPluginHandler {
     }
 
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
-        val imagePath = call.argument<String>(WechatPluginConfig.IMAGE)
+        val imagePath = call.argument<String>(WechatPluginKeys.IMAGE)
         val imgObj = createWxImageObject(imagePath)
         if (imgObj == null) {
-            result.error(WechatPlugin.TAG,WechatPlugin.FILE_NOT_EXIST,imagePath)
+            result.error(CallResult.RESULT_FILE_NOT_EXIST,CallResult.RESULT_FILE_NOT_EXIST,imagePath)
             return
         }
 
@@ -116,7 +121,7 @@ object WeChatPluginHandler {
 //
 //        val thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)
 //        bmp.recycle()
-        msg.thumbData = WeChatThumbnailUtil.thumbnailForCommon(call.argument(WechatPluginConfig.THUMBNAIL), registrar)
+        msg.thumbData = WeChatThumbnailUtil.thumbnailForCommon(call.argument(WechatPluginKeys.THUMBNAIL), registrar)
 //
         val req = SendMessageToWX.Req()
         setCommonArguments(call,req)
@@ -132,14 +137,14 @@ object WeChatPluginHandler {
             val key = imagePath.substring(WeChatPluginImageSchema.SCHEMA_ASSETS.length, imagePath.length)
             val assetFileDescriptor = AssetManagerUtil.openAsset(registrar,key,"")
             imageFile  = FileUtil.createTmpFile(assetFileDescriptor)
-        }else if (imagePath.startsWith(WeChatPluginImageSchema.SCHMEA_FILE)){
+        }else if (imagePath.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)){
             imageFile = File(imagePath)
         }
         if(imageFile != null && imageFile.exists()){
             imgObj = WXImageObject()
             imgObj.setImagePath(imagePath)
         }else{
-            Log.d(WechatPlugin.TAG,WechatPlugin.FILE_NOT_EXIST)
+            Log.d(WechatPlugin.TAG,CallResult.RESULT_FILE_NOT_EXIST)
         }
 
         return  imgObj
@@ -160,15 +165,15 @@ object WeChatPluginHandler {
     }
 
     private fun getScene(value: String) = when (value.toLowerCase()) {
-        WechatPluginConfig.TIMELINE -> SendMessageToWX.Req.WXSceneTimeline
-        WechatPluginConfig.SESSION -> SendMessageToWX.Req.WXSceneSession
-        WechatPluginConfig.FAVORITE -> SendMessageToWX.Req.WXSceneFavorite
+        WechatPluginKeys.TIMELINE -> SendMessageToWX.Req.WXSceneTimeline
+        WechatPluginKeys.SESSION -> SendMessageToWX.Req.WXSceneSession
+        WechatPluginKeys.FAVORITE -> SendMessageToWX.Req.WXSceneFavorite
         else -> SendMessageToWX.Req.WXSceneTimeline
     }
 
     private fun setCommonArguments(call: MethodCall, req: SendMessageToWX.Req) {
-        req.transaction = call.argument(WechatPluginConfig.TRANSACTION)
-        req.scene = getScene(call.argument(WechatPluginConfig.SCENE))
+        req.transaction = call.argument(WechatPluginKeys.TRANSACTION)
+        req.scene = getScene(call.argument(WechatPluginKeys.SCENE))
     }
 
 }

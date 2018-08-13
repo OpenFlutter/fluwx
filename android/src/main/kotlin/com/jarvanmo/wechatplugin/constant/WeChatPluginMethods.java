@@ -1,4 +1,4 @@
-package com.jarvanmo.wechatplugin.config;
+package com.jarvanmo.wechatplugin.constant;
 
 /***
  * Created by mo on 2018/8/8

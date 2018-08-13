@@ -1,6 +1,8 @@
 package com.jarvanmo.wechatplugin
 
-import com.jarvanmo.wechatplugin.config.WeChatPluginMethods
+import android.telecom.Call
+import com.jarvanmo.wechatplugin.constant.CallResult
+import com.jarvanmo.wechatplugin.constant.WeChatPluginMethods
 import com.jarvanmo.wechatplugin.handler.WeChatPluginHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.flutter.plugin.common.MethodChannel
@@ -13,7 +15,6 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
     companion object {
         @JvmStatic
         val TAG = "WeChatPlugin"
-        val FILE_NOT_EXIST = "file not exists"
 
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
@@ -25,6 +26,7 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
     }
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
+        o
         when {
             WeChatPluginMethods.INIT == call.method -> {
                 val api =  WXAPIFactory.createWXAPI(registrar.context().applicationContext, call.arguments as String?)
@@ -32,7 +34,7 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
                 WeChatPluginHandler.setWxApi(api)
             }
             WeChatPluginHandler.apiIsNull() -> {
-                result.error("config your wxapi first", "config your wxapi first", null)
+                result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
                 return
             }
             call.method.startsWith("share")->{

@@ -11,6 +11,16 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
+import android.R.id.message
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.jarvanmo.wechatplugin.utils.Util.bmpToByteArray
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.R.attr.description
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
+import com.tencent.mm.opensdk.modelmsg.WXMusicObject
+
+
 
 
 /***
@@ -51,6 +61,7 @@ object WeChatPluginHandler {
             WeChatPluginMethods.SHARE_TEXT -> shareText(call,result)
             WeChatPluginMethods.SHARE_MINI_PROGRAM -> shareMiniProgram(call, result)
             WeChatPluginMethods.SHARE_IMAGE -> shareImage(call, result)
+            WeChatPluginMethods.SHARE_MUSIC -> shareMusic(call,result)
             else -> {
                 result.notImplemented()
             }
@@ -120,6 +131,30 @@ object WeChatPluginHandler {
         val req = SendMessageToWX.Req()
         setCommonArguments(call,req)
 //        req.message = msg
+        wxApi?.sendReq(req)
+        result.success(true)
+    }
+    private fun shareMusic(call: MethodCall, result: MethodChannel.Result) {
+        val music = WXMusicObject()
+        val musicUrl :String? = call.argument("musicUrl")
+        val musicLowBandUrl :String? = call.argument("musicLowBandUrl")
+        if (musicUrl != null){
+            music.musicUrl = musicUrl
+        }else{
+            music.musicLowBandUrl = musicLowBandUrl
+        }
+        val msg = WXMediaMessage()
+        msg.mediaObject = music
+        msg.title = call.argument("title")
+        msg.description = call.argument("description")
+        val thumbnail:String? = call.argument("thumbnail")
+        if(thumbnail != null && thumbnail.isNotBlank()){
+            msg.thumbData  = WeChatThumbnailUtil.thumbnailForCommon(thumbnail,registrar)
+        }
+
+        val req = SendMessageToWX.Req()
+        setCommonArguments(call, req)
+        req.message = msg
         wxApi?.sendReq(req)
         result.success(true)
     }

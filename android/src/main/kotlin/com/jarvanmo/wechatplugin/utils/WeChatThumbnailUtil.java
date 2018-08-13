@@ -4,15 +4,12 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.jarvanmo.wechatplugin.WechatPlugin;
 import com.jarvanmo.wechatplugin.constant.WeChatPluginImageSchema;
 import com.jarvanmo.wechatplugin.constant.WechatPluginKeys;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
-import java.security.Key;
 
 import io.flutter.plugin.common.PluginRegistry;
 import okhttp3.OkHttpClient;

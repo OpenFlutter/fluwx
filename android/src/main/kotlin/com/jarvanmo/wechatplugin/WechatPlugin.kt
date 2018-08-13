@@ -26,7 +26,7 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
     }
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
-        o
+
         when {
             WeChatPluginMethods.INIT == call.method -> {
                 val api =  WXAPIFactory.createWXAPI(registrar.context().applicationContext, call.arguments as String?)

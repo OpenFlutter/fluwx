@@ -1,17 +1,16 @@
 package com.jarvanmo.wechatplugin
 
-import android.telecom.Call
 import com.jarvanmo.wechatplugin.constant.CallResult
 import com.jarvanmo.wechatplugin.constant.WeChatPluginMethods
 import com.jarvanmo.wechatplugin.handler.WeChatPluginHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-class WechatPlugin(private var channel: MethodChannel,private var registrar: Registrar) : MethodCallHandler {
+class WechatPlugin( private var registrar: Registrar) : MethodCallHandler {
     companion object {
         @JvmStatic
         val TAG = "WeChatPlugin"
@@ -20,7 +19,7 @@ class WechatPlugin(private var channel: MethodChannel,private var registrar: Reg
         fun registerWith(registrar: Registrar): Unit {
             val channel = MethodChannel(registrar.messenger(), "wechat_plugin")
             WeChatPluginHandler.setRegistrar(registrar)
-            channel.setMethodCallHandler(WechatPlugin(channel,registrar))
+            channel.setMethodCallHandler(WechatPlugin(registrar))
             WeChatPluginHandler.setMethodChannel(channel)
         }
     }

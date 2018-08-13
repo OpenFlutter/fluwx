@@ -14,7 +14,10 @@ A Flutter plugin for wechat.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
+  s.static_framework = true
+
   s.dependency 'Flutter'
+  s.dependency 'WechatOpenSDK', '~> 1.8.2'
   
   s.ios.deployment_target = '8.0'
 end

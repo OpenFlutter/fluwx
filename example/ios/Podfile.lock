@@ -2,6 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - wechat_plugin (0.0.1):
     - Flutter
+    - WechatOpenSDK (~> 1.8.2)
   - WechatOpenSDK (1.8.2)
 
 DEPENDENCIES:
@@ -21,9 +22,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  wechat_plugin: 8b62562c4add0cb3b036957b1c6f529fd92981bf
+  wechat_plugin: 101a04e102a362bdc87af3abf66a094cd654d926
   WechatOpenSDK: 676feec516a11173eafd1fe64b10d27babf28701
 
-PODFILE CHECKSUM: 348cd5f0a34c79cb5f6aaff87c10357738de9b8c
+PODFILE CHECKSUM: 9663ba55aa377eec5ca2be16d9a7ad86f8d88698
 
 COCOAPODS: 1.5.3

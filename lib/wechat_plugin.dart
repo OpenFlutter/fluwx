@@ -36,6 +36,11 @@ class WechatPlugin {
   }
 
 
+  static Future shareMusic(WeChatShareMusicModel model)async{
+    return await _channel.invokeMethod("shareMusic",model.toMap());
+  }
+
+
 
   static Future<dynamic> _handler(MethodCall methodCall){
 

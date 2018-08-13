@@ -18,4 +18,6 @@ public class WechatPluginKeys {
 
     public static final String IMAGE ="image";
     public static final String THUMBNAIL ="thumbnail";
+
+    public static final String PACKAGE = "?package=";
 }

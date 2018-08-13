@@ -3,6 +3,9 @@ import 'package:wechat_plugin/src/wechat_scene.dart';
 const String _scene = "scene";
 const String _transaction = "transaction";
 const String _thumbnail = "thumbnail";
+const String _title = "title";
+const String _description ="description";
+
 
 class WeChatShareTextModel {
   final String text;
@@ -80,8 +83,7 @@ class WeChatShareImageModel {
       : this.transaction = transaction ?? "text",
         this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
-        assert(image != null),
-        assert(thumbnail != null);
+        assert(image != null);
 
   Map toMap() {
     return {
@@ -89,6 +91,43 @@ class WeChatShareImageModel {
       _scene: scene.toString(),
       "image": image,
       _thumbnail: thumbnail
+    };
+  }
+}
+
+
+class WeChatShareMusicModel {
+  final String transaction;
+  final WeChatScene scene;
+  final String musicUrl;
+  final String musicLowBandUrl;
+  final String thumbnail;
+  final String title;
+  final String description;
+
+  WeChatShareMusicModel(
+      {String transaction,
+        WeChatScene scene,
+        this.musicUrl,
+        this.musicLowBandUrl ,
+        this.title:"",
+        this.description:"",
+        String thumbnail})
+      : this.transaction = transaction ?? "text",
+        this.scene = scene ?? WeChatScene.TIMELINE,
+        this.thumbnail = thumbnail ?? "",
+        assert(musicUrl != null || musicLowBandUrl != null ),
+        assert(thumbnail != null);
+
+  Map toMap() {
+    return {
+      _transaction: transaction,
+      _scene: scene.toString(),
+      "musicUrl": musicUrl,
+      "musicLowBandUrl":musicLowBandUrl,
+      _thumbnail: thumbnail,
+      _title:title,
+      _description:description
     };
   }
 }

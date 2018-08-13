@@ -1,13 +1,9 @@
 package com.jarvanmo.wechatplugin.handler
 
-import android.util.Log
-import com.jarvanmo.wechatplugin.WechatPlugin
 import com.jarvanmo.wechatplugin.constant.CallResult
-import com.jarvanmo.wechatplugin.constant.WeChatPluginImageSchema
 import com.jarvanmo.wechatplugin.constant.WeChatPluginMethods
 import com.jarvanmo.wechatplugin.constant.WechatPluginKeys
-import com.jarvanmo.wechatplugin.utils.AssetManagerUtil
-import com.jarvanmo.wechatplugin.utils.FileUtil
+import com.jarvanmo.wechatplugin.utils.ShareImageUtil
 import com.jarvanmo.wechatplugin.utils.WeChatThumbnailUtil
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.*
@@ -15,7 +11,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
-import java.io.File
 
 
 /***
@@ -106,21 +101,20 @@ object WeChatPluginHandler {
 
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
         val imagePath = call.argument<String>(WechatPluginKeys.IMAGE)
-        val imgObj = createWxImageObject(imagePath)
+        val byteArray = ShareImageUtil.getImageData(registrar,imagePath)
+        val imgObj = if(byteArray != null){
+            WXImageObject(byteArray)
+        }else{
+            null
+        }
+
         if (imgObj == null) {
             result.error(CallResult.RESULT_FILE_NOT_EXIST,CallResult.RESULT_FILE_NOT_EXIST,imagePath)
             return
         }
 
-
-//        val bmp = BitmapFactory.decodeResource(getResources(), R.drawable.send_img)
-//        val imgObj = WXImageObject(bmp)
-//
         val msg = WXMediaMessage()
         msg.mediaObject = imgObj
-//
-//        val thumbBmp = Bitmap.createScaledBitmap(bmp, THUMB_SIZE, THUMB_SIZE, true)
-//        bmp.recycle()
         msg.thumbData = WeChatThumbnailUtil.thumbnailForCommon(call.argument(WechatPluginKeys.THUMBNAIL), registrar)
 //
         val req = SendMessageToWX.Req()
@@ -130,25 +124,25 @@ object WeChatPluginHandler {
         result.success(true)
     }
 
-    private fun createWxImageObject(imagePath:String):WXImageObject?{
-        var imgObj: WXImageObject? = null
-        var imageFile:File? = null
-        if (imagePath.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)){
-            val key = imagePath.substring(WeChatPluginImageSchema.SCHEMA_ASSETS.length, imagePath.length)
-            val assetFileDescriptor = AssetManagerUtil.openAsset(registrar,key,"")
-            imageFile  = FileUtil.createTmpFile(assetFileDescriptor)
-        }else if (imagePath.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)){
-            imageFile = File(imagePath)
-        }
-        if(imageFile != null && imageFile.exists()){
-            imgObj = WXImageObject()
-            imgObj.setImagePath(imagePath)
-        }else{
-            Log.d(WechatPlugin.TAG,CallResult.RESULT_FILE_NOT_EXIST)
-        }
-
-        return  imgObj
-    }
+//    private fun createWxImageObject(imagePath:String):WXImageObject?{
+//        var imgObj: WXImageObject? = null
+//        var imageFile:File? = null
+//        if (imagePath.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)){
+//            val key = imagePath.substring(WeChatPluginImageSchema.SCHEMA_ASSETS.length, imagePath.length)
+//            val assetFileDescriptor = AssetManagerUtil.openAsset(registrar,key,"")
+//            imageFile  = FileUtil.createTmpFile(assetFileDescriptor)
+//        }else if (imagePath.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)){
+//            imageFile = File(imagePath)
+//        }
+//        if(imageFile != null && imageFile.exists()){
+//            imgObj = WXImageObject()
+//            imgObj.setImagePath(imagePath)
+//        }else{
+//            Log.d(WechatPlugin.TAG,CallResult.RESULT_FILE_NOT_EXIST)
+//        }
+//
+//        return  imgObj
+//    }
     fun onResp(resp: BaseResp) {
         val result = mapOf(
                 "errStr" to resp.errStr,
@@ -157,8 +151,6 @@ object WeChatPluginHandler {
                 "errCode" to resp.errCode,
                 "openId" to resp.openId
         )
-
-
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_RESPONSE, result)
 

@@ -1,24 +1,27 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wechat_plugin/src/wechat_share_models.dart';
 import 'package:wechat_plugin/wechat_plugin.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
+
   @override
   _MyAppState createState() => new _MyAppState();
+
 }
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-
+//wxd930ea5d5a258f4f
   @override
   void initState() {
     super.initState();
+    WechatPlugin.init("wxd930ea5d5a258f4f");
     initPlatformState();
-
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -49,7 +52,14 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: new Center(
-          child: new Text('Running on: $_platformVersion\n'),
+          child: GestureDetector(
+               onTap:(){
+                    var wx = WechatPlugin();
+                    wx.shareText(WeChatShareTextModel(text: "wq kcg r",
+                        transaction: "xxxx${DateTime.now().millisecondsSinceEpoch}",
+                    ));
+               } ,
+              child: new Text('Running on: $_platformVersion\n')),
         ),
       ),
     );

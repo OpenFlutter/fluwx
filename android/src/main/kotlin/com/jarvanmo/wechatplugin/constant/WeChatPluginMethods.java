@@ -13,7 +13,7 @@ public class WeChatPluginMethods {
     public static  final  String SHARE_IMAGE = "shareImage";
     public static  final  String SHARE_MUSIC = "shareMusic";
     public static  final  String SHARE_VIDEO ="shareVideo";
-    public static  final  String SHARE_WEBSITE = "shareWebsite";
+    public static  final  String SHARE_WEB_PAGE = "shareWebPage";
     public static  final  String SHARE_MINI_PROGRAM = "shareMiniProgram";
 
 }

@@ -41,7 +41,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
 //    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-common:0.24.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'

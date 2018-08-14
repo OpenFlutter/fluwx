@@ -62,6 +62,8 @@ object WeChatPluginHandler {
             WeChatPluginMethods.SHARE_MINI_PROGRAM -> shareMiniProgram(call, result)
             WeChatPluginMethods.SHARE_IMAGE -> shareImage(call, result)
             WeChatPluginMethods.SHARE_MUSIC -> shareMusic(call,result)
+            WeChatPluginMethods.SHARE_VIDEO -> shareVideo(call,result)
+            WeChatPluginMethods.SHARE_WEB_PAGE -> shareVideo(call,result)
             else -> {
                 result.notImplemented()
             }
@@ -148,6 +150,52 @@ object WeChatPluginHandler {
         msg.title = call.argument("title")
         msg.description = call.argument("description")
         val thumbnail:String? = call.argument("thumbnail")
+        if(thumbnail != null && thumbnail.isNotBlank()){
+            msg.thumbData  = WeChatThumbnailUtil.thumbnailForCommon(thumbnail,registrar)
+        }
+
+        val req = SendMessageToWX.Req()
+        setCommonArguments(call, req)
+        req.message = msg
+        wxApi?.sendReq(req)
+        result.success(true)
+    }
+
+    private fun  shareVideo(call: MethodCall, result: MethodChannel.Result){
+        val video = WXVideoObject()
+        val videoUrl :String? = call.argument("videoUrl")
+        val videoLowBandUrl :String? = call.argument("videoLowBandUrl")
+        if (videoUrl != null){
+            video.videoUrl = videoUrl
+        }else{
+            video.videoLowBandUrl = videoLowBandUrl
+        }
+        val msg = WXMediaMessage()
+        msg.mediaObject = video
+        msg.title = call.argument(WechatPluginKeys.TITLE)
+        msg.description = call.argument(WechatPluginKeys.DESCRIPTION)
+        val thumbnail:String? = call.argument(WechatPluginKeys.THUMBNAIL)
+        if(thumbnail != null && thumbnail.isNotBlank()){
+            msg.thumbData  = WeChatThumbnailUtil.thumbnailForCommon(thumbnail,registrar)
+        }
+
+        val req = SendMessageToWX.Req()
+        setCommonArguments(call, req)
+        req.message = msg
+        wxApi?.sendReq(req)
+        result.success(true)
+    }
+
+
+    private fun  shareWebPage(call: MethodCall, result: MethodChannel.Result){
+        val webPage = WXWebpageObject()
+        webPage.webpageUrl =  call.argument("webPage")
+        val msg = WXMediaMessage()
+
+        msg.mediaObject = webPage
+        msg.title = call.argument(WechatPluginKeys.TITLE)
+        msg.description = call.argument(WechatPluginKeys.DESCRIPTION)
+        val thumbnail:String? = call.argument(WechatPluginKeys.THUMBNAIL)
         if(thumbnail != null && thumbnail.isNotBlank()){
             msg.thumbData  = WeChatThumbnailUtil.thumbnailForCommon(thumbnail,registrar)
         }

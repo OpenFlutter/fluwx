@@ -66,7 +66,7 @@ class WeChatShareMiniProgramModel {
       "title": title,
       "description": description,
       _transaction: transaction,
-      _scene: scene,
+      _scene: scene.toString(),
       _thumbnail: thumbnail
     };
   }
@@ -125,6 +125,76 @@ class WeChatShareMusicModel {
       _scene: scene.toString(),
       "musicUrl": musicUrl,
       "musicLowBandUrl":musicLowBandUrl,
+      _thumbnail: thumbnail,
+      _title:title,
+      _description:description,
+    };
+  }
+}
+
+
+class WeChatShareVideoModel {
+  final String transaction;
+  final WeChatScene scene;
+  final String videoUrl;
+  final String videoLowBandUrl;
+  final String thumbnail;
+  final String title;
+  final String description;
+
+  WeChatShareVideoModel(
+      {String transaction,
+        WeChatScene scene,
+        this.videoUrl,
+        this.videoLowBandUrl ,
+        this.title:"",
+        this.description:"",
+        String thumbnail})
+      : this.transaction = transaction ?? "text",
+        this.scene = scene ?? WeChatScene.TIMELINE,
+        this.thumbnail = thumbnail ?? "",
+        assert(videoUrl != null || videoLowBandUrl != null ),
+        assert(thumbnail != null);
+
+  Map toMap() {
+    return {
+      _transaction: transaction,
+      _scene: scene.toString(),
+      "videoUrl": videoUrl,
+      "videoLowBandUrl":videoLowBandUrl,
+      _thumbnail: thumbnail,
+      _title:title,
+      _description:description
+    };
+  }
+}
+
+class WeChatShareWebPageModel {
+  final String transaction;
+  final WeChatScene scene;
+  final String webPage;
+  final String thumbnail;
+  final String title;
+  final String description;
+
+  WeChatShareWebPageModel(
+      {String transaction,
+        WeChatScene scene,
+        this.webPage,
+        this.title:"",
+        this.description:"",
+        String thumbnail})
+      : this.transaction = transaction ?? "text",
+        this.scene = scene ?? WeChatScene.TIMELINE,
+        this.thumbnail = thumbnail ?? "",
+        assert(webPage != null ),
+        assert(thumbnail != null);
+
+  Map toMap() {
+    return {
+      _transaction: transaction,
+      _scene: scene.toString(),
+      "webPage": webPage,
       _thumbnail: thumbnail,
       _title:title,
       _description:description

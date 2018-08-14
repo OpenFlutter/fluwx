@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:wechat_plugin/src/wechat_share_models.dart';
 
-class WechatPlugin {
+class Fluwx {
 
 
   static const  MethodChannel _channel = const MethodChannel('wechat_plugin');

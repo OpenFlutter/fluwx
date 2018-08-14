@@ -2,8 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wechat_plugin/src/wechat_share_models.dart';
-import 'package:wechat_plugin/wechat_plugin.dart';
+import 'package:wechat_plugin/fluwx.dart';
 
 void main() => runApp(new MyApp());
 
@@ -20,8 +19,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    WechatPlugin.init("wxd930ea5d5a258f4f");
     initPlatformState();
+    Fluwx.init("wxd930ea5d5a258f4f");
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -54,8 +53,8 @@ class _MyAppState extends State<MyApp> {
         body: new Center(
           child: GestureDetector(
                onTap:(){
-                    var wx = WechatPlugin();
-                    wx.shareText(WeChatShareTextModel(text: "wq kcg r",
+                    var fluwx =Fluwx();
+                    fluwx.shareText(WeChatShareTextModel(text: "wq kcg r",
                         transaction: "xxxx${DateTime.now().millisecondsSinceEpoch}",
                     ));
                } ,

@@ -1,4 +1,4 @@
-import 'package:wechat_plugin/src/wechat_scene.dart';
+import 'wechat_scene.dart';
 
 const String _scene = "scene";
 const String _transaction = "transaction";

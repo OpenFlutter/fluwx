@@ -32,18 +32,18 @@ class WechatPlugin {
      await _channel.invokeMethod("shareText",model.toMap());
   }
 
-  static Future shareMiniProgram(WeChatShareMiniProgramModel model)async{
+   Future shareMiniProgram(WeChatShareMiniProgramModel model)async{
     return await _channel.invokeMethod("shareMiniProgram",model.toMap());
   }
 
 
-  static Future shareMusic(WeChatShareMusicModel model)async{
+   Future shareMusic(WeChatShareMusicModel model)async{
     return await _channel.invokeMethod("shareMusic",model.toMap());
   }
 
 
 
-  static Future<dynamic> _handler(MethodCall methodCall){
+   Future<dynamic> _handler(MethodCall methodCall){
 
     if("onWeChatResponse" == methodCall.method){
       _responseStreamController.add(methodCall.arguments);

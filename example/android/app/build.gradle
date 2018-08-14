@@ -27,8 +27,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.jarvan.fluwxexample"
+        applicationId "net.sourceforge.simcpux"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
@@ -41,6 +40,12 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
         }
     }
 }

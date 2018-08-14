@@ -18,6 +18,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    Fluwx.init("wxd930ea5d5a258f4f");
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

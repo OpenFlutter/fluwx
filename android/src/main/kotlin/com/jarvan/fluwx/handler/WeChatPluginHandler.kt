@@ -47,7 +47,7 @@ object WeChatPluginHandler {
 
     fun handle(call: MethodCall, result: MethodChannel.Result) {
 
-        if (wxApi!!.isWXAppInstalled) {
+        if (!wxApi!!.isWXAppInstalled) {
             result.error(CallResult.RESULT_WE_CHAT_NOT_INSTALLED, CallResult.RESULT_WE_CHAT_NOT_INSTALLED, null)
             return
         }

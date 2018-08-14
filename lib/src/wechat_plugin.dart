@@ -6,13 +6,13 @@ import 'package:fluwx/src/wechat_share_models.dart';
 class Fluwx {
 
 
-  static const  MethodChannel _channel = const MethodChannel('wechat_plugin');
+  static const  MethodChannel _channel = const MethodChannel('fluwx');
 
    StreamController<Map> _responseStreamController = new StreamController.broadcast();
    Stream<Map> get weChatResponseUpdate=>_responseStreamController.stream;
 
    static Future<int>  init(String appId) async{
-    return await _channel.invokeMethod("initWeChat");
+    return await _channel.invokeMethod("initWeChat",appId);
   }
 
    void listen(){

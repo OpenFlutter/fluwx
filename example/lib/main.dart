@@ -1,26 +1,23 @@
+import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wechat_plugin/fluwx.dart';
+import 'package:fluwx/fluwx.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
-
   @override
   _MyAppState createState() => new _MyAppState();
-
 }
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-//wxd930ea5d5a258f4f
+
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    Fluwx.init("wxd930ea5d5a258f4f");
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -28,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-//      platformVersion = await WechatPlugin.platformVersion;
+//      platformVersion = await Fluwx.platformVersion;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -51,14 +48,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: new Center(
-          child: GestureDetector(
-               onTap:(){
-                    var fluwx =Fluwx();
-                    fluwx.shareText(WeChatShareTextModel(text: "wq kcg r",
-                        transaction: "xxxx${DateTime.now().millisecondsSinceEpoch}",
-                    ));
-               } ,
-              child: new Text('Running on: $_platformVersion\n')),
+          child: new Text('Running on: $_platformVersion\n'),
         ),
       ),
     );

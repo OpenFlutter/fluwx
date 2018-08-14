@@ -1,6 +1,6 @@
-# wechat_plugin_example
+# fluwx_example
 
-Demonstrates how to use the wechat_plugin plugin.
+Demonstrates how to use the fluwx plugin.
 
 ## Getting Started
 

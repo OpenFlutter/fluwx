@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:wechat_plugin/src/wechat_share_models.dart';
+import 'package:fluwx/src/wechat_share_models.dart';
 
 class Fluwx {
 

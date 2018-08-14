@@ -1,4 +1,4 @@
-group 'com.jarvanmo.wechatplugin'
+group 'com.jarvan.fluwx'
 version '1.0-SNAPSHOT'
 
 buildscript {
@@ -9,7 +9,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }

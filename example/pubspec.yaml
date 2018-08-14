@@ -1,5 +1,5 @@
-name: wechat_plugin_example
-description: Demonstrates how to use the wechat_plugin plugin.
+name: fluwx_example
+description: Demonstrates how to use the fluwx plugin.
 
 dependencies:
   flutter:
@@ -13,7 +13,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  wechat_plugin:
+  fluwx:
     path: ../
 
 # For information on the generic Dart part of this file, see the

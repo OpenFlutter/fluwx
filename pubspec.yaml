@@ -1,5 +1,5 @@
-name: wechat_plugin
-description: A Flutter plugin for wechat.
+name: fluwx
+description: A new Flutter plugin for Wechat SDK.
 version: 0.0.1
 author:
 homepage:
@@ -14,8 +14,8 @@ dependencies:
 # The following section is specific to Flutter.
 flutter:
   plugin:
-    androidPackage: com.jarvanmo.wechatplugin
-    pluginClass: WechatPlugin
+    androidPackage: com.jarvan.fluwx
+    pluginClass: FluwxPlugin
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

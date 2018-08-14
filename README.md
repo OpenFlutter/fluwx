@@ -1,6 +1,6 @@
-# wechat_plugin
+# fluwx
 
-A Flutter plugin for wechat.
+A new Flutter plugin for Wechat SDK.
 
 ## Getting Started
 

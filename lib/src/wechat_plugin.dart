@@ -11,7 +11,7 @@ class Fluwx {
    StreamController<Map> _responseStreamController = new StreamController.broadcast();
    Stream<Map> get weChatResponseUpdate=>_responseStreamController.stream;
 
-   static Future<int>  init(String appId) async{
+   static Future  init(String appId) async{
     return await _channel.invokeMethod("initWeChat",appId);
   }
 

@@ -18,7 +18,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 //    initPlatformState();
-    Fluwx.init("wxd930ea5d5a258f4f");
+    Fluwx.init("wxd930ea5d5a258f4f").then((_){
+      print("succes");
+    },onError: (value){
+      print("--->$value");
+    });
+
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -58,4 +63,6 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+
 }

@@ -3,6 +3,10 @@
 #import "WXApi.h"
 #import "StringUtil.h"
 #import "CallResults.h"
+#import "WXApiRequestHandler.h"
+#import "FluwxKeys.h"
+#import "StringToWeChatScene.h"
+
 
 @implementation FluwxPlugin
 
@@ -54,19 +58,30 @@ BOOL isWeChatRegistered = NO;
         return;
     }
 
-   if ([shareText isEqualToString: call.method]){
-       [self shareText:call result:result];
-   } else {
-       result(FlutterMethodNotImplemented);
-   }
-
-
-   
+    if ([shareText isEqualToString:call.method]) {
+        [self shareText:call result:result];
+    } else if([shareImage isEqualToString:call.method]){
+        [self shareImage:call result:result];
+        result(FlutterMethodNotImplemented);
+    }
 
 
 }
 
--(void) shareText:(FlutterMethodCall *)call result:(FlutterResult)result{
-
+- (void)shareText:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *text = call.arguments[fluwxKeyText];
+    NSString *scene = call.arguments[fluwxKeyScene];
+    BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
+    result(@(done));
 }
+
+
+- (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *text = call.arguments[fluwxKeyText];
+    NSString *scene = call.arguments[fluwxKeyScene];
+    BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
+    result(@(done));
+}
+
+
 @end

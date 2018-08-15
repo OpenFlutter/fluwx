@@ -128,6 +128,7 @@ object WeChatPluginHandler {
         setCommonArguments(call, req)
 //        req.message = msg
         wxApi?.sendReq(req)
+
         result.success(true)
     }
 

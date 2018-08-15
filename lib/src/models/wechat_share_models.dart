@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../wechat_scene.dart';
 
 const String _scene = "scene";
@@ -75,10 +77,11 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   final String thumbnail;
 
   WeChatShareMiniProgramModel(
-      {this.webPageUrl,
+      {
+        @required  this.webPageUrl,
       int miniProgramType,
       this.userName,
-      this.path,
+      this.path:"/",
       this.title,
       this.description,
       this.thumbnail,
@@ -123,7 +126,7 @@ class WeChatShareImageModel extends WeChatShareModel {
 
   WeChatShareImageModel(
       {String transaction,
-      this.image,
+      @required this.image,
       this.description,
       String thumbnail,
       WeChatScene scene,

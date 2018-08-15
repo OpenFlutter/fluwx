@@ -13,7 +13,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-
   @override
   void initState() {
     super.initState();
@@ -57,7 +56,7 @@ class _MyAppState extends State<MyApp> {
               onPressed: () {
                 var fluwx = Fluwx();
                 fluwx.share(WeChatShareImageModel(
-                  image: "https://www.baidu.com/img/bd_logo1.png",
+                  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1534342262&di=ae1078c9080282ec8bbd4909e6669ee2&src=http://img4q.duitang.com/uploads/item/201402/19/20140219123329_QkdNy.jpeg",
                   transaction: "hehe",
                   title: "from dart",
                   scene: WeChatScene.SESSION

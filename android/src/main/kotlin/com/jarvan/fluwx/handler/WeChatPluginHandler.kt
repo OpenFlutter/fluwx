@@ -57,7 +57,7 @@ object WeChatPluginHandler {
             WeChatPluginMethods.SHARE_IMAGE -> shareImage(call, result)
             WeChatPluginMethods.SHARE_MUSIC -> shareMusic(call, result)
             WeChatPluginMethods.SHARE_VIDEO -> shareVideo(call, result)
-            WeChatPluginMethods.SHARE_WEB_PAGE -> shareVideo(call, result)
+            WeChatPluginMethods.SHARE_WEB_PAGE -> shareWebPage(call, result)
             else -> {
                 result.notImplemented()
             }

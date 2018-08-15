@@ -232,7 +232,8 @@ object WeChatPluginHandler {
                 "transaction" to resp.transaction,
                 "type" to resp.type,
                 "errCode" to resp.errCode,
-                "openId" to resp.openId
+                "openId" to resp.openId,
+                "target" to "android"
         )
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_RESPONSE, result)

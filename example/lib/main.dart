@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
               onPressed: () {
                 var fluwx = Fluwx();
                 fluwx.share(WeChatShareImageModel(
-                  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1534342262&di=450af299b06a8a46220bdbd53d04e1b8&src=http://www.qqzhi.com/uploadpic/2014-09-25/120045136.jpg",
+                  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1534342262&di=ae1078c9080282ec8bbd4909e6669ee2&src=http://img4q.duitang.com/uploads/item/201402/19/20140219123329_QkdNy.jpeg",
                   transaction: "hehe",
                   title: "from dart",
                   scene: WeChatScene.SESSION

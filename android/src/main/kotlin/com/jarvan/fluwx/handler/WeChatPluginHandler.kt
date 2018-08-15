@@ -118,7 +118,12 @@ object WeChatPluginHandler {
 
    private  suspend fun getImageByteArrayCommon(registrar: PluginRegistry.Registrar?,imagePath:String):ByteArray{
         return async(CommonPool){
-            ShareImageUtil.getImageData(registrar, imagePath)
+           val r =  ShareImageUtil.getImageData(registrar, imagePath)
+            if (r == null) {
+                byteArrayOf()
+            }else{
+                r
+            }
         }.await()
     }
 
@@ -148,13 +153,13 @@ object WeChatPluginHandler {
             if (thumbnail.isNullOrBlank()){
                 thumbnail = imagePath
             }
-           val thumbnailData =  getThumbnailByteArrayCommon(registrar,thumbnail!!)
-            handleShareImage(imgObj,call,thumbnailData,result)
+//           val thumbnailData =  getThumbnailByteArrayCommon(registrar,thumbnail!!)
+            handleShareImage(imgObj,call,null,result)
         }
 
     }
 
-    private fun handleShareImage(imgObj:WXImageObject,call: MethodCall,thumbnailData: ByteArray, result: MethodChannel.Result){
+    private fun handleShareImage(imgObj:WXImageObject,call: MethodCall,thumbnailData: ByteArray?, result: MethodChannel.Result){
 
         val msg = WXMediaMessage()
         msg.mediaObject = imgObj

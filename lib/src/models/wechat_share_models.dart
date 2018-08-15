@@ -116,7 +116,6 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
 
 class WeChatShareImageModel extends WeChatShareModel {
   final String transaction;
-  final WeChatScene scene;
   final String image;
   final String thumbnail;
   final String title;
@@ -133,7 +132,6 @@ class WeChatShareImageModel extends WeChatShareModel {
       String mediaTagName,
       this.title})
       : this.transaction = transaction ?? "text",
-        this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
         assert(image != null),
         super(
@@ -160,7 +158,6 @@ class WeChatShareImageModel extends WeChatShareModel {
 
 class WeChatShareMusicModel extends WeChatShareModel {
   final String transaction;
-  final WeChatScene scene;
   final String musicUrl;
   final String musicLowBandUrl;
   final String thumbnail;
@@ -179,7 +176,6 @@ class WeChatShareMusicModel extends WeChatShareModel {
     String messageAction,
     String mediaTagName,
   })  : this.transaction = transaction ?? "text",
-        this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
         assert(musicUrl != null || musicLowBandUrl != null),
         assert(thumbnail != null),
@@ -208,7 +204,6 @@ class WeChatShareMusicModel extends WeChatShareModel {
 
 class WeChatShareVideoModel extends WeChatShareModel {
   final String transaction;
-  final WeChatScene scene;
   final String videoUrl;
   final String videoLowBandUrl;
   final String thumbnail;
@@ -231,7 +226,6 @@ class WeChatShareVideoModel extends WeChatShareModel {
     this.messageAction,
     this.mediaTagName,
   })  : this.transaction = transaction ?? "text",
-        this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
         assert(videoUrl != null || videoLowBandUrl != null),
         assert(thumbnail != null),
@@ -260,7 +254,6 @@ class WeChatShareVideoModel extends WeChatShareModel {
 
 class WeChatShareWebPageModel extends WeChatShareModel {
   final String transaction;
-  final WeChatScene scene;
   final String webPage;
   final String thumbnail;
   final String title;
@@ -277,7 +270,6 @@ class WeChatShareWebPageModel extends WeChatShareModel {
     String messageAction,
     String mediaTagName,
   })  : this.transaction = transaction ?? "text",
-        this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
         assert(webPage != null),
         assert(thumbnail != null),

@@ -56,8 +56,12 @@ class _MyAppState extends State<MyApp> {
           child: new FlatButton(
               onPressed: () {
                 var fluwx = Fluwx();
-                fluwx.share(WeChatShareTextModel(
-                    text: "share text from flutter", transaction: "hehe"));
+                fluwx.share(WeChatShareImageModel(
+                  image: "https://www.baidu.com/img/bd_logo1.png",
+                  transaction: "hehe",
+                  title: "from dart",
+                  scene: WeChatScene.SESSION
+                ));
               },
               child: new Text("share text to wechat")),
         ),

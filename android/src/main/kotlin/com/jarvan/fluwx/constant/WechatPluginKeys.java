@@ -8,10 +8,9 @@ package com.jarvan.fluwx.constant;
 public class WechatPluginKeys {
     public static String appId = "";
     public static final String SCENE = "scene";
-    public static final String TIMELINE = "timeline";
-    public static final String SESSION = "session";
-    public static final String FAVORITE = "favorite";
-
+    public static final String SCENE_TIMELINE = "WeChatScene.TIMELINE";
+    public static final String SCENE_SESSION = "WeChatScene.SESSION";
+    public static final String SCENE_FAVORITE = "WeChatScene.FAVORITE";
     public static final String TRANSACTION = "transaction";
 
     public static final String TEXT = "text";

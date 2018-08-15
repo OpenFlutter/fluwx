@@ -144,27 +144,29 @@ object WeChatPluginHandler {
                 return@launch
             }
 
-            Log.e("tag","${byteArray!!.size}")
-            val msg = WXMediaMessage()
-            msg.mediaObject = imgObj
             var thumbnail:String? = call.argument(WechatPluginKeys.THUMBNAIL)
             if (thumbnail.isNullOrBlank()){
                 thumbnail = imagePath
             }
-//            msg.thumbData = getThumbnailByteArrayCommon(registrar,thumbnail!!)
-
-            msg.title = call.argument<String>(WechatPluginKeys.TITLE)
-            msg.description = call.argument<String>(WechatPluginKeys.DESCRIPTION)
-
-//
-            val req = SendMessageToWX.Req()
-            setCommonArguments(call, req, msg)
-            req.message = msg
-            result.success(wxApi?.sendReq(req))
+           val thumbnailData =  getThumbnailByteArrayCommon(registrar,thumbnail!!)
+            handleShareImage(imgObj,call,thumbnailData,result)
         }
 
+    }
 
+    private fun handleShareImage(imgObj:WXImageObject,call: MethodCall,thumbnailData: ByteArray, result: MethodChannel.Result){
 
+        val msg = WXMediaMessage()
+        msg.mediaObject = imgObj
+
+        msg.thumbData = thumbnailData
+        msg.title = call.argument<String>(WechatPluginKeys.TITLE)
+        msg.description = call.argument<String>(WechatPluginKeys.DESCRIPTION)
+
+        val req = SendMessageToWX.Req()
+        setCommonArguments(call, req, msg)
+        req.message = msg
+        result.success(wxApi?.sendReq(req))
     }
 
     private fun shareMusic(call: MethodCall, result: MethodChannel.Result) {

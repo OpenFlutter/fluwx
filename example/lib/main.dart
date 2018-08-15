@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/main.dart';
 
 void main() => runApp(new MyApp());
 

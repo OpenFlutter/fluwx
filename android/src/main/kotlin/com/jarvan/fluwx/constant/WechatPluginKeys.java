@@ -22,4 +22,8 @@ public class WechatPluginKeys {
     public static final String DESCRIPTION = "description";
 
     public static final String PACKAGE = "?package=";
+
+    public static final String MESSAGE_EXT ="messageExt";
+    public static final String MEDIA_TAG_NAME = "mediaTagName ";
+    public static final String MESSAGE_ACTION = "messageAction";
 }

@@ -18,12 +18,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 //    initPlatformState();
-    Fluwx.init("wxd930ea5d5a258f4f").then((_){
+    Fluwx.init("wxd930ea5d5a258f4f").then((_) {
       print("succes");
-    },onError: (value){
+    }, onError: (value) {
       print("--->$value");
     });
-
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -54,15 +53,15 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: new Center(
-          child:
-              new FlatButton(onPressed: () {
+          child: new FlatButton(
+              onPressed: () {
                 var fluwx = Fluwx();
-                fluwx.shareText(WeChatShareTextModel(text: "share text from flutter",transaction: "hehe"));
-              }, child: new Text("share text to wechat")),
+                fluwx.share(WeChatShareTextModel(
+                    text: "share text from flutter", transaction: "hehe"));
+              },
+              child: new Text("share text to wechat")),
         ),
       ),
     );
   }
-
-
 }

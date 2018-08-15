@@ -4,30 +4,62 @@ const String _scene = "scene";
 const String _transaction = "transaction";
 const String _thumbnail = "thumbnail";
 const String _title = "title";
-const String _description ="description";
+const String _description = "description";
+const String _messageExt = "messageExt";
+const String _mediaTagName = "mediaTagName ";
+const String _messageAction = "messageAction";
 
-
-class WeChatShareTextModel {
-  final String text;
-  final String transaction;
+abstract class WeChatShareModel {
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
   final WeChatScene scene;
 
-  WeChatShareTextModel({String text, String transaction, WeChatScene scene})
+  WeChatShareModel(
+      {this.messageExt,
+      this.messageAction,
+      this.mediaTagName,
+      this.scene: WeChatScene.SESSION});
+
+  Map toMap();
+}
+
+class WeChatShareTextModel extends WeChatShareModel {
+  final String text;
+  final String transaction;
+
+  WeChatShareTextModel(
+      {String text,
+      String transaction,
+      WeChatScene scene,
+      String messageExt,
+      String messageAction,
+      String mediaTagName})
       : this.text = text ?? "",
         this.transaction = transaction ?? "text",
-        this.scene = scene ?? WeChatScene.TIMELINE;
+        super(
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
+  @override
   Map toMap() {
-    return {"text": text, _transaction: transaction, _scene: scene.toString()};
+    return {
+      "text": text,
+      _transaction: transaction,
+      _scene: scene.toString(),
+      _messageExt: messageExt,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
+    };
   }
 }
 
-class WeChatShareMiniProgramModel {
+class WeChatShareMiniProgramModel extends WeChatShareModel {
   static const int MINI_PROGRAM_TYPE_RELEASE = 0;
   static const int MINI_PROGRAM_TYPE_TEST = 1;
   static const int MINI_PROGRAM_TYPE_PREVIEW = 2;
-
-  final WeChatScene scene = WeChatScene.SESSION;
 
   final String webPageUrl;
   final int miniProgramType;
@@ -50,13 +82,23 @@ class WeChatShareMiniProgramModel {
       this.title,
       this.description,
       this.thumbnail,
-      String transaction})
+      String transaction,
+      WeChatScene scene,
+      String messageExt,
+      String messageAction,
+      String mediaTagName})
       : this.transaction = transaction ?? "miniProgram",
         this.miniProgramType = miniProgramType ?? MINI_PROGRAM_TYPE_RELEASE,
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
-        assert(path != null && path.isNotEmpty);
+        assert(path != null && path.isNotEmpty),
+        super(
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
+  @override
   Map toMap() {
     return {
       'webPageUrl': webPageUrl,
@@ -72,31 +114,51 @@ class WeChatShareMiniProgramModel {
   }
 }
 
-class WeChatShareImageModel {
+class WeChatShareImageModel extends WeChatShareModel {
   final String transaction;
   final WeChatScene scene;
   final String image;
   final String thumbnail;
+  final String title;
+  final String description;
 
   WeChatShareImageModel(
-      {String transaction, WeChatScene scene, this.image, String thumbnail})
+      {String transaction,
+      this.image,
+      this.description,
+      String thumbnail,
+      WeChatScene scene,
+      String messageExt,
+      String messageAction,
+      String mediaTagName,
+      this.title})
       : this.transaction = transaction ?? "text",
         this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
-        assert(image != null);
+        assert(image != null),
+        super(
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
+  @override
   Map toMap() {
     return {
       _transaction: transaction,
       _scene: scene.toString(),
       "image": image,
-      _thumbnail: thumbnail
+      _thumbnail: thumbnail,
+      _mediaTagName: mediaTagName,
+      _messageAction: messageAction,
+      _messageExt: messageExt,
+      _title: title,
+      _description: description
     };
   }
 }
 
-
-class WeChatShareMusicModel {
+class WeChatShareMusicModel extends WeChatShareModel {
   final String transaction;
   final WeChatScene scene;
   final String musicUrl;
@@ -105,35 +167,46 @@ class WeChatShareMusicModel {
   final String title;
   final String description;
 
-  WeChatShareMusicModel(
-      {String transaction,
-        WeChatScene scene,
-        this.musicUrl,
-        this.musicLowBandUrl ,
-        this.title:"",
-        this.description:"",
-        String thumbnail})
-      : this.transaction = transaction ?? "text",
+  WeChatShareMusicModel({
+    String transaction,
+    this.musicUrl,
+    this.musicLowBandUrl,
+    this.title: "",
+    this.description: "",
+    String thumbnail,
+    WeChatScene scene,
+    String messageExt,
+    String messageAction,
+    String mediaTagName,
+  })  : this.transaction = transaction ?? "text",
         this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
-        assert(musicUrl != null || musicLowBandUrl != null ),
-        assert(thumbnail != null);
+        assert(musicUrl != null || musicLowBandUrl != null),
+        assert(thumbnail != null),
+        super(
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
+  @override
   Map toMap() {
     return {
       _transaction: transaction,
       _scene: scene.toString(),
       "musicUrl": musicUrl,
-      "musicLowBandUrl":musicLowBandUrl,
+      "musicLowBandUrl": musicLowBandUrl,
       _thumbnail: thumbnail,
-      _title:title,
-      _description:description,
+      _title: title,
+      _description: description,
+      _mediaTagName: mediaTagName,
+      _messageAction: messageAction,
+      _messageExt: messageExt,
     };
   }
 }
 
-
-class WeChatShareVideoModel {
+class WeChatShareVideoModel extends WeChatShareModel {
   final String transaction;
   final WeChatScene scene;
   final String videoUrl;
@@ -142,34 +215,50 @@ class WeChatShareVideoModel {
   final String title;
   final String description;
 
-  WeChatShareVideoModel(
-      {String transaction,
-        WeChatScene scene,
-        this.videoUrl,
-        this.videoLowBandUrl ,
-        this.title:"",
-        this.description:"",
-        String thumbnail})
-      : this.transaction = transaction ?? "text",
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
+
+  WeChatShareVideoModel({
+    String transaction,
+    WeChatScene scene,
+    this.videoUrl,
+    this.videoLowBandUrl,
+    this.title: "",
+    this.description: "",
+    String thumbnail,
+    this.messageExt,
+    this.messageAction,
+    this.mediaTagName,
+  })  : this.transaction = transaction ?? "text",
         this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
-        assert(videoUrl != null || videoLowBandUrl != null ),
-        assert(thumbnail != null);
+        assert(videoUrl != null || videoLowBandUrl != null),
+        assert(thumbnail != null),
+        super(
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
+  @override
   Map toMap() {
     return {
       _transaction: transaction,
       _scene: scene.toString(),
       "videoUrl": videoUrl,
-      "videoLowBandUrl":videoLowBandUrl,
+      "videoLowBandUrl": videoLowBandUrl,
       _thumbnail: thumbnail,
-      _title:title,
-      _description:description
+      _title: title,
+      _description: description,
+      _mediaTagName: mediaTagName,
+      _messageAction: messageAction,
+      _messageExt: messageExt,
     };
   }
 }
 
-class WeChatShareWebPageModel {
+class WeChatShareWebPageModel extends WeChatShareModel {
   final String transaction;
   final WeChatScene scene;
   final String webPage;
@@ -177,27 +266,39 @@ class WeChatShareWebPageModel {
   final String title;
   final String description;
 
-  WeChatShareWebPageModel(
-      {String transaction,
-        WeChatScene scene,
-        this.webPage,
-        this.title:"",
-        this.description:"",
-        String thumbnail})
-      : this.transaction = transaction ?? "text",
+  WeChatShareWebPageModel({
+    String transaction,
+    this.webPage,
+    this.title: "",
+    this.description: "",
+    String thumbnail,
+    WeChatScene scene,
+    String messageExt,
+    String messageAction,
+    String mediaTagName,
+  })  : this.transaction = transaction ?? "text",
         this.scene = scene ?? WeChatScene.TIMELINE,
         this.thumbnail = thumbnail ?? "",
-        assert(webPage != null ),
-        assert(thumbnail != null);
+        assert(webPage != null),
+        assert(thumbnail != null),
+        super(
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
+  @override
   Map toMap() {
     return {
       _transaction: transaction,
       _scene: scene.toString(),
       "webPage": webPage,
       _thumbnail: thumbnail,
-      _title:title,
-      _description:description
+      _title: title,
+      _description: description,
+      _mediaTagName: mediaTagName,
+      _messageAction: messageAction,
+      _messageExt: messageExt,
     };
   }
 }

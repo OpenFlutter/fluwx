@@ -72,7 +72,13 @@ object WeChatPluginHandler {
         msg.description = call.argument(WechatPluginKeys.TEXT)
         val req = SendMessageToWX.Req()
         req.message = msg
-        setCommonArguments(call, req)
+        msg.description
+
+        msg.messageAction =  call.argument<String>(WechatPluginKeys.MESSAGE_ACTION)
+        msg.messageExt =  call.argument<String>(WechatPluginKeys.MESSAGE_EXT)
+        msg.mediaTagName =  call.argument<String>(WechatPluginKeys.MEDIA_TAG_NAME)
+
+        setCommonArguments(call, req,msg)
         wxApi?.sendReq(req)
         result.success(true)
 
@@ -99,7 +105,7 @@ object WeChatPluginHandler {
 
 
         val req = SendMessageToWX.Req()
-        setCommonArguments(call, req)
+        setCommonArguments(call, req,msg)
         req.message = msg
         wxApi?.sendReq(req)
         result.success(true)
@@ -123,10 +129,14 @@ object WeChatPluginHandler {
         val msg = WXMediaMessage()
         msg.mediaObject = imgObj
         msg.thumbData = WeChatThumbnailUtil.thumbnailForCommon(call.argument(WechatPluginKeys.THUMBNAIL), registrar)
+
+        msg.title =  call.argument<String>(WechatPluginKeys.TITLE)
+        msg.description =  call.argument<String>(WechatPluginKeys.DESCRIPTION)
+
 //
         val req = SendMessageToWX.Req()
-        setCommonArguments(call, req)
-//        req.message = msg
+        setCommonArguments(call, req,msg)
+        req.message = msg
         wxApi?.sendReq(req)
 
         result.success(true)
@@ -151,7 +161,7 @@ object WeChatPluginHandler {
         }
 
         val req = SendMessageToWX.Req()
-        setCommonArguments(call, req)
+        setCommonArguments(call, req,msg)
         req.message = msg
         wxApi?.sendReq(req)
         result.success(true)
@@ -175,8 +185,9 @@ object WeChatPluginHandler {
             msg.thumbData = WeChatThumbnailUtil.thumbnailForCommon(thumbnail, registrar)
         }
 
+
         val req = SendMessageToWX.Req()
-        setCommonArguments(call, req)
+        setCommonArguments(call, req,msg)
         req.message = msg
         wxApi?.sendReq(req)
         result.success(true)
@@ -197,7 +208,7 @@ object WeChatPluginHandler {
         }
 
         val req = SendMessageToWX.Req()
-        setCommonArguments(call, req)
+        setCommonArguments(call, req,msg)
         req.message = msg
         wxApi?.sendReq(req)
         result.success(true)
@@ -242,7 +253,11 @@ object WeChatPluginHandler {
         else -> SendMessageToWX.Req.WXSceneTimeline
     }
 
-    private fun setCommonArguments(call: MethodCall, req: SendMessageToWX.Req) {
+    private fun setCommonArguments(call: MethodCall, req: SendMessageToWX.Req,msg:WXMediaMessage) {
+        msg.messageAction =  call.argument<String>(WechatPluginKeys.MESSAGE_ACTION)
+        msg.messageExt =  call.argument<String>(WechatPluginKeys.MESSAGE_EXT)
+        msg.mediaTagName =  call.argument<String>(WechatPluginKeys.MEDIA_TAG_NAME)
+
         req.transaction = call.argument(WechatPluginKeys.TRANSACTION)
         req.scene = getScene(call.argument(WechatPluginKeys.SCENE))
     }

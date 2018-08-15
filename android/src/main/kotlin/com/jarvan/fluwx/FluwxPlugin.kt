@@ -1,14 +1,13 @@
 package com.jarvan.fluwx
 
-import android.util.Log
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.handler.WeChatPluginHandler
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
 class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {

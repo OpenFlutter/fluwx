@@ -4,56 +4,48 @@ import 'package:flutter/services.dart';
 import 'package:fluwx/src/wechat_share_models.dart';
 
 class Fluwx {
+  static const Map<Type, String> _shareModelMethodMapper = {
+    WeChatShareTextModel: "shareText",
+    WeChatShareImageModel: "shareImage",
+    WeChatShareMusicModel: "shareMusic",
+    WeChatShareVideoModel: "shareVideo",
+    WeChatShareWebPageModel: "shareWebPage",
+    WeChatShareMiniProgramModel: "shareMiniProgram"
+  };
 
+  static const MethodChannel _channel = const MethodChannel('fluwx');
 
-  static const  MethodChannel _channel = const MethodChannel('fluwx');
+  StreamController<Map> _responseStreamController =
+      new StreamController.broadcast();
 
-   StreamController<Map> _responseStreamController = new StreamController.broadcast();
-   Stream<Map> get weChatResponseUpdate=>_responseStreamController.stream;
+  Stream<Map> get weChatResponseUpdate => _responseStreamController.stream;
 
-   static Future  init(String appId) async{
-    return await _channel.invokeMethod("initWeChat",appId);
+  static Future init(String appId) async {
+    return await _channel.invokeMethod("initWeChat", appId);
   }
 
-   void listen(){
+  void listen() {
     _channel.setMethodCallHandler(_handler);
   }
 
-   void dispose(){
+  void dispose() {
     _responseStreamController.close();
   }
 
-
-
-   Future shareText(WeChatShareTextModel model) async{
-     await _channel.invokeMethod("shareText",model.toMap());
+  Future share(WeChatShareModel model) async {
+    if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
+      return await _channel.invokeMethod(
+          _shareModelMethodMapper[model.runtimeType], model.toMap());
+    } else {
+      return Future.error("no method mapper found[${model.runtimeType}]");
+    }
   }
 
-   Future shareMiniProgram(WeChatShareMiniProgramModel model)async{
-    return await _channel.invokeMethod("shareMiniProgram",model.toMap());
-  }
-
-
-   Future shareMusic(WeChatShareMusicModel model)async{
-    return await _channel.invokeMethod("shareMusic",model.toMap());
-  }
-
-  Future shareVideo(WeChatShareVideoModel model)async{
-    return await _channel.invokeMethod("shareVideo",model.toMap());
-  }
-
-  Future shareWebPage(WeChatShareWebPageModel model)async{
-    return await _channel.invokeMethod("shareWebPage",model.toMap());
-  }
-
-
-
-   Future<dynamic> _handler(MethodCall methodCall){
-
-    if("onWeChatResponse" == methodCall.method){
+  Future<dynamic> _handler(MethodCall methodCall) {
+    if ("onWeChatResponse" == methodCall.method) {
       _responseStreamController.add(methodCall.arguments);
     }
 
-     return Future.value(true);
+    return Future.value(true);
   }
 }

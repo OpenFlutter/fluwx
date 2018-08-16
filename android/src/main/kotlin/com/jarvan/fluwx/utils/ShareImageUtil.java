@@ -113,6 +113,7 @@ public class ShareImageUtil {
             sink = Okio.buffer(Okio.sink(outputStream));
             source = Okio.source(inputStream);
             sink.writeAll(source);
+            sink.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

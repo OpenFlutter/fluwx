@@ -162,7 +162,9 @@ class WeChatShareImageModel extends WeChatShareModel {
 class WeChatShareMusicModel extends WeChatShareModel {
   final String transaction;
   final String musicUrl;
+  final String musicDataUrl;
   final String musicLowBandUrl;
+  final String musicLowBandDataUrl;
   final String thumbnail;
   final String title;
   final String description;
@@ -173,6 +175,7 @@ class WeChatShareMusicModel extends WeChatShareModel {
     this.musicLowBandUrl,
     this.title: "",
     this.description: "",
+    this.musicDataUrl,
     String thumbnail,
     WeChatScene scene,
     String messageExt,
@@ -194,7 +197,9 @@ class WeChatShareMusicModel extends WeChatShareModel {
       _transaction: transaction,
       _scene: scene.toString(),
       "musicUrl": musicUrl,
+      "musicDataUrl":musicDataUrl,
       "musicLowBandUrl": musicLowBandUrl,
+      "musicLowBandDataUrl":musicLowBandDataUrl,
       _thumbnail: thumbnail,
       _title: title,
       _description: description,

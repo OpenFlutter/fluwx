@@ -18,13 +18,17 @@ import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.util.Log;
 
-public class Util {
+class Util {
 
     private static final String TAG = "SDK_Sample.Util";
 
     public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+        return bmpToByteArray(bmp, CompressFormat.PNG, needRecycle);
+    }
+
+    public static byte[] bmpToByteArray(final Bitmap bmp, CompressFormat format, final boolean needRecycle) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
-        bmp.compress(CompressFormat.PNG, 100, output);
+        bmp.compress(format, 100, output);
         if (needRecycle) {
             bmp.recycle();
         }
@@ -38,6 +42,7 @@ public class Util {
 
         return result;
     }
+
 
     public static byte[] getHtmlByteArray(final String url) {
         URL htmlUrl = null;

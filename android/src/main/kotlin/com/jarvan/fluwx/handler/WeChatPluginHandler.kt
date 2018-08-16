@@ -1,7 +1,6 @@
 package com.jarvan.fluwx.handler
 
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.jarvan.fluwx.R
@@ -9,7 +8,6 @@ import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.jarvan.fluwx.utils.ShareImageUtil
-import com.jarvan.fluwx.utils.Util
 import com.jarvan.fluwx.utils.WeChatThumbnailUtil
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.*
@@ -17,9 +15,6 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
-import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
-import com.tencent.mm.opensdk.modelmsg.WXMusicObject
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -122,18 +117,15 @@ object WeChatPluginHandler {
 
    private  suspend fun getImageByteArrayCommon(registrar: PluginRegistry.Registrar?,imagePath:String):ByteArray{
         return async(CommonPool){
-           val r =  ShareImageUtil.getImageData(registrar, imagePath)
-            if (r == null) {
-                byteArrayOf()
-            }else{
-                r
-            }
+           val result =  ShareImageUtil.getImageData(registrar, imagePath)
+            result ?: byteArrayOf()
         }.await()
     }
 
     private  suspend  fun getThumbnailByteArrayCommon(registrar: PluginRegistry.Registrar?,thumbnail:String):ByteArray{
         return async(CommonPool){
-            WeChatThumbnailUtil.thumbnailForCommon(thumbnail, registrar)
+            val result = WeChatThumbnailUtil.thumbnailForCommon(thumbnail, registrar)
+            result ?: byteArrayOf()
         }.await()
     }
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
@@ -155,12 +147,16 @@ object WeChatPluginHandler {
             }
 
             var thumbnail:String? = call.argument(WechatPluginKeys.THUMBNAIL)
+
             if (thumbnail.isNullOrBlank()){
                 thumbnail = imagePath
             }
+            Log.e("tag","$thumbnail")
 
-            val bitmap = BitmapFactory.decodeResource(registrar!!.context().resources,R.mipmap.ic_launcher)
-           val thumbnailData =  Util.bmpToByteArray(bitmap,true)
+            val thumbnailData = getThumbnailByteArrayCommon(registrar,thumbnail!!)
+
+
+//           val thumbnailData =  Util.bmpToByteArray(bitmap,true)
             handleShareImage(imgObj,call,thumbnailData,result)
         }
 
@@ -170,8 +166,12 @@ object WeChatPluginHandler {
 
         val msg = WXMediaMessage()
         msg.mediaObject = imgObj
+        if(thumbnailData == null || thumbnailData.isEmpty()){
+            msg.thumbData = null
+        }else {
+            msg.thumbData = thumbnailData
+        }
 
-        msg.thumbData = thumbnailData
         msg.title = call.argument<String>(WechatPluginKeys.TITLE)
         msg.description = call.argument<String>(WechatPluginKeys.DESCRIPTION)
 
@@ -187,8 +187,10 @@ object WeChatPluginHandler {
         val musicLowBandUrl: String? = call.argument("musicLowBandUrl")
         if (musicUrl != null) {
             music.musicUrl = musicUrl
+            music.musicDataUrl = call.argument("musicDataUrl")
         } else {
             music.musicLowBandUrl = musicLowBandUrl
+            music.musicLowBandDataUrl =call.argument("musicLowBandDataUrl")
         }
         val msg = WXMediaMessage()
         msg.mediaObject = music

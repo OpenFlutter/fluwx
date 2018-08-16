@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
+
   @override
   void initState() {
     super.initState();
@@ -55,7 +56,14 @@ class _MyAppState extends State<MyApp> {
           child: new FlatButton(
               onPressed: () {
                 var fluwx = Fluwx();
-                fluwx.share(WeChatShareTextModel(text: "hehe"));
+//                thumbnail: 'http://b.hiphotos.baidu.com/image/h%3D300/sign=4bfc640817d5ad6eb5f962eab1c939a3/8718367adab44aedb794e128bf1c8701a08bfb20.jpg',
+                fluwx.share(
+                    WeChatShareImageModel(
+                    image: 'http://a.hiphotos.baidu.com/image/h%3D300/sign=91a426229082d158a4825fb1b00819d5/0824ab18972bd4077557733177899e510eb3096d.jpg',
+                    thumbnail:'http://a.hiphotos.baidu.com/image/h%3D300/sign=91a426229082d158a4825fb1b00819d5/0824ab18972bd4077557733177899e510eb3096d.jpg',
+                    transaction:
+                        'http://b.hiphotos.baidu.com/image/h%3D300/sign=4bfc640817d5ad6eb5f962eab1c939a3/8718367adab44aedb794e128bf1c8701a08bfb20.jpg',
+                    scene: WeChatScene.SESSION));
               },
               child: new Text("share text to wechat")),
         ),

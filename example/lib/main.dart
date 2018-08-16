@@ -17,8 +17,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 //    initPlatformState();
-    Fluwx.init("wxd930ea5d5a258f4f").then((_) {
-      print("succes");
+    Fluwx.init("wxd930ea5d5a258f4f").then((result) {
+      print("succes-->$result");
     }, onError: (value) {
       print("--->$value");
     });
@@ -55,12 +55,7 @@ class _MyAppState extends State<MyApp> {
           child: new FlatButton(
               onPressed: () {
                 var fluwx = Fluwx();
-                fluwx.share(WeChatShareImageModel(
-                  image: "https://timgsa.baidu.com/timg?image&quality=80&size=b10000_10000&sec=1534342262&di=ae1078c9080282ec8bbd4909e6669ee2&src=http://img4q.duitang.com/uploads/item/201402/19/20140219123329_QkdNy.jpeg",
-                  transaction: "hehe",
-                  title: "from dart",
-                  scene: WeChatScene.SESSION
-                ));
+                fluwx.share(WeChatShareTextModel(text: "hehe"));
               },
               child: new Text("share text to wechat")),
         ),

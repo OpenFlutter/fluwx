@@ -1,11 +1,15 @@
 package com.jarvan.fluwx.handler
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
+import com.jarvan.fluwx.R
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.jarvan.fluwx.utils.ShareImageUtil
+import com.jarvan.fluwx.utils.Util
 import com.jarvan.fluwx.utils.WeChatThumbnailUtil
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.*
@@ -138,7 +142,8 @@ object WeChatPluginHandler {
 
         launch(UI){
             val byteArray :ByteArray? = getImageByteArrayCommon(registrar,imagePath)
-            val imgObj = if (byteArray != null) {
+
+            val imgObj = if (byteArray != null && byteArray.isNotEmpty()) {
                 WXImageObject(byteArray)
             } else {
                 null
@@ -153,8 +158,10 @@ object WeChatPluginHandler {
             if (thumbnail.isNullOrBlank()){
                 thumbnail = imagePath
             }
-//           val thumbnailData =  getThumbnailByteArrayCommon(registrar,thumbnail!!)
-            handleShareImage(imgObj,call,null,result)
+
+            val bitmap = BitmapFactory.decodeResource(registrar!!.context().resources,R.mipmap.ic_launcher)
+           val thumbnailData =  Util.bmpToByteArray(bitmap,true)
+            handleShareImage(imgObj,call,thumbnailData,result)
         }
 
     }

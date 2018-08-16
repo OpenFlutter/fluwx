@@ -44,7 +44,8 @@ public class ShareImageUtil {
             bmp = BitmapFactory.decodeFile(path);
             result = Util.bmpToByteArray(bmp, true);
         } else {
-            result = handleNetworkImage(registrar, path);
+//            result = handleNetworkImage(registrar, path);
+            result = Util.inputStreamToByte(openStream(path));
         }
 
         return result;
@@ -53,9 +54,12 @@ public class ShareImageUtil {
     private static byte[] handleNetworkImage(PluginRegistry.Registrar registrar, String path) {
         byte[] result = null;
         InputStream inputStream = openStream(path);
+
         if (inputStream == null) {
             return null;
         }
+
+
 
         String suffix = ".jpg";
         int index = path.lastIndexOf(".");

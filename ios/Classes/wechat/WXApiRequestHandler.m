@@ -29,12 +29,15 @@
            MessageExt:(NSString *)messageExt
                Action:(NSString *)action
            ThumbImage:(UIImage *)thumbImage
-              InScene:(enum WXScene)scene {
+              InScene:(enum WXScene)scene
+                title:(NSString *) title
+          description:(NSString *) description
+                      {
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
     
-    WXMediaMessage *message = [WXMediaMessage messageWithTitle:nil
-                                                   Description:nil
+    WXMediaMessage *message = [WXMediaMessage messageWithTitle:title
+                                                   Description:description
                                                         Object:ext
                                                     MessageExt:messageExt
                                                  MessageAction:action

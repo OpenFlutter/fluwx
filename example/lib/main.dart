@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
                   WeChatShareWebPageModel(
                     webPage: "https://www.jianshu.com/",
                     title: "简书",
-
+                    thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
                   )
                     ).then((result){
                     print("--$result");

@@ -16,6 +16,8 @@ import junit.framework.Assert;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.Log;
 
 class Util {
@@ -44,7 +46,42 @@ class Util {
     }
 
 
-    public static byte[] getHtmlByteArray(final String url) {
+    public static byte[] bmpToByteArray2(final Bitmap bmp, final boolean needRecycle) {
+        int i;
+        int j;
+        if (bmp.getHeight() > bmp.getWidth()) {
+            i = bmp.getWidth();
+            j = bmp.getWidth();
+        } else {
+            i = bmp.getHeight();
+            j = bmp.getHeight();
+        }
+
+        Bitmap localBitmap = Bitmap.createBitmap(i, j, Bitmap.Config.ARGB_4444);
+        Canvas localCanvas = new Canvas(localBitmap);
+
+        while (true) {
+            localCanvas.drawBitmap(bmp, new Rect(0, 0, i, j), new Rect(0, 0, i, j), null);
+            if (needRecycle)
+                bmp.recycle();
+            ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+            localBitmap.compress(Bitmap.CompressFormat.JPEG, 100,
+                    localByteArrayOutputStream);
+            localBitmap.recycle();
+            byte[] arrayOfByte = localByteArrayOutputStream.toByteArray();
+            try {
+                localByteArrayOutputStream.close();
+                return arrayOfByte;
+            } catch (Exception e) {
+                // F.out(e);
+            }
+            i = bmp.getHeight();
+            j = bmp.getHeight();
+        }
+
+    }
+
+        public static byte[] getHtmlByteArray(final String url) {
         URL htmlUrl = null;
         InputStream inStream = null;
         try {

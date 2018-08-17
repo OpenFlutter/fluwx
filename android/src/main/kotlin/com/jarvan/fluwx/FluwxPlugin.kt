@@ -1,5 +1,6 @@
 package com.jarvan.fluwx
 
+import android.util.Log
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.handler.WeChatPluginHandler
@@ -22,6 +23,7 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
     }
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
+        Log.e("---",call.method)
         if(call.method ==  WeChatPluginMethods.INIT ){
             val api = WXAPIFactory.createWXAPI(registrar.context().applicationContext, call.arguments as String?)
             api.registerApp(call.arguments as String)

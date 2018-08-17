@@ -33,6 +33,7 @@ class Fluwx {
   }
 
   Future share(WeChatShareModel model) async {
+    var s = _shareModelMethodMapper[model.runtimeType];
     if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
       return await _channel.invokeMethod(
           _shareModelMethodMapper[model.runtimeType], model.toMap());

@@ -176,6 +176,7 @@ class WeChatShareMusicModel extends WeChatShareModel {
     this.title: "",
     this.description: "",
     this.musicDataUrl,
+    this.musicLowBandDataUrl,
     String thumbnail,
     WeChatScene scene,
     String messageExt,
@@ -269,7 +270,7 @@ class WeChatShareWebPageModel extends WeChatShareModel {
 
   WeChatShareWebPageModel({
     String transaction,
-    this.webPage,
+    @required this.webPage,
     this.title: "",
     this.description: "",
     String thumbnail,

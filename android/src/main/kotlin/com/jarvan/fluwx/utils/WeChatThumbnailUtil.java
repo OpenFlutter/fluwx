@@ -9,6 +9,8 @@ import android.util.Log;
 import com.jarvan.fluwx.constant.WeChatPluginImageSchema;
 import com.jarvan.fluwx.constant.WechatPluginKeys;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,13 +26,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.BufferedSink;
+import okio.BufferedSource;
 import okio.Okio;
 import okio.Source;
 import top.zibin.luban.Luban;
 
 public class WeChatThumbnailUtil {
     public static final int SHARE_IMAGE_THUMB_LENGTH = 32;
-    private static final int COMMON_THUMB_WIDTH = 150;
+    private static final int COMMON_THUMB_WIDTH = 10;
 
     private WeChatThumbnailUtil() {
     }
@@ -102,58 +105,78 @@ public class WeChatThumbnailUtil {
         int size = SHARE_IMAGE_THUMB_LENGTH * 1024;
 
         try {
-            File file1 = Luban
+            File compressedFile = Luban
                     .with(registrar.context())
+                    .ignoreBy(SHARE_IMAGE_THUMB_LENGTH)
                     .setTargetDir(registrar.context().getCacheDir().getAbsolutePath())
-                    .ignoreBy(32)
                     .get(file.getAbsolutePath());
-            if(file.length() <= 32 * 1024){
-                return Util.bmpToByteArray(BitmapFactory.decodeFile(file1.getAbsolutePath()), true);
-            }else {
-                return continueCompress(file1);
+            if (compressedFile.length() < SHARE_IMAGE_THUMB_LENGTH * 1024) {
+                Source source = Okio.source(compressedFile);
+                BufferedSource bufferedSource = Okio.buffer(source);
+                byte[] bytes = bufferedSource.readByteArray();
+                source.close();
+                bufferedSource.close();
+                return bytes;
             }
+            byte[] result = createScaledBitmapWithRatio(compressedFile);
+            if (result.length < SHARE_IMAGE_THUMB_LENGTH * 1024) {
+                return result;
+            }
+
+            return createScaledBitmap(compressedFile);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  new byte[]{};
+        return new byte[]{};
     }
 
-    private static byte[] continueCompress(File file){
-        //        Bitmap bitmap = ThumbnailCompressUtil.makeNormalBitmap(file.getAbsolutePath(), -1, 32 * 1024);
-//        if (bitmap.getByteCount() <= size) {
-//            return bmpToByteArray(bitmap,true);
-//        }
-//
-//
-//        byte[] result = Util.bmpToByteArray(bitmap, true);
-//        if (result.length <= size) {
-//            return result;
-//        }
-//
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+    private static byte[] createScaledBitmapWithRatio(File file) {
 
-        Bitmap bitmap2 = ThumbnailCompressUtil.createScaledBitmapWithRatio(bitmap, COMMON_THUMB_WIDTH, false);
+        Bitmap originBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Bitmap result = ThumbnailCompressUtil.createScaledBitmapWithRatio(originBitmap, COMMON_THUMB_WIDTH, true);
 
-        Util.getHtmlByteArray()
-        if(bitmap2.getByteCount() <= 32 * 1024){
-            return bmpToByteArray(bitmap2,true);
+        String path = file.getAbsolutePath();
+        String suffix = path.substring(path.lastIndexOf("."), path.length());
+        return bmpToByteArray(result, suffix, true);
+
+
+    }
+
+    private static byte[] createScaledBitmap(File file) {
+        Bitmap originBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        Bitmap result = ThumbnailCompressUtil.createScaledBitmap(originBitmap, COMMON_THUMB_WIDTH, true);
+
+        return bmpToByteArray(result, ".png", true);
+    }
+
+    private static byte[] bmpToByteArray(Bitmap bitmap, String suffix, boolean recycle) {
+//        int bytes = bitmap.getByteCount();
+//        ByteBuffer buf = ByteBuffer.allocate(bytes);
+//        bitmap.copyPixelsToBuffer(buf);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        Bitmap.CompressFormat format = Bitmap.CompressFormat.PNG;
+        if (suffix.toLowerCase().equals(".jpg") || suffix.toLowerCase().equals(".jpeg")) {
+            format = Bitmap.CompressFormat.JPEG;
         }
 
-        bitmap = ThumbnailCompressUtil.createScaledBitmap(bitmap,COMMON_THUMB_WIDTH,true);
+        bitmap.compress(format, 100, byteArrayOutputStream);
+        InputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+        byte[] result = null;
 
-        return bmpToByteArray(bitmap,true);
-    }
-
-    private static byte[] bmpToByteArray(Bitmap bitmap, boolean recycle) {
-        int bytes = bitmap.getByteCount();
-        ByteBuffer buf = ByteBuffer.allocate(bytes);
-        bitmap.copyPixelsToBuffer(buf);
         if (recycle) {
             bitmap.recycle();
         }
-
-        return buf.array();
+        Source source = Okio.source(inputStream);
+        BufferedSource bufferedSource = Okio.buffer(source);
+        try {
+            result = bufferedSource.readByteArray();
+            source.close();
+            bufferedSource.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private static File fromAssetForCommon(String thumbnail, PluginRegistry.Registrar registrar) {
@@ -168,8 +191,6 @@ public class WeChatThumbnailUtil {
                 BufferedSink sink = Okio.buffer(Okio.sink(outputStream));
                 Source source = Okio.source(fileDescriptor.createInputStream());
                 sink.writeAll(source);
-                sink.flush();
-
                 source.close();
                 sink.close();
             } catch (IOException e) {
@@ -199,14 +220,30 @@ public class WeChatThumbnailUtil {
                 result = File.createTempFile(UUID.randomUUID().toString(), getSuffix(url));
                 OutputStream outputStream = new FileOutputStream(result);
                 BufferedSink sink = Okio.buffer(Okio.sink(outputStream));
-                Source source = Okio.source(responseBody.byteStream());
-                sink.writeAll(source);
+                sink.writeAll(responseBody.source());
                 sink.flush();
-
-                source.close();
                 sink.close();
             }
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
+    private static File inputStreamToFile(InputStream inputStream,String suffix) {
+        File result = null;
+        try {
+            result = File.createTempFile(UUID.randomUUID().toString(), suffix);
+            OutputStream outputStream = new FileOutputStream(result);
+            BufferedSink sink = Okio.buffer(Okio.sink(outputStream));
+            Source source = Okio.source(inputStream);
+            sink.writeAll(source);
+            sink.flush();
+            sink.close();
+            source.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

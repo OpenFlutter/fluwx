@@ -2,6 +2,7 @@ package com.jarvan.fluwx.utils;
 
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 
 import java.io.IOException;
 
@@ -15,7 +16,12 @@ public final class AssetManagerUtil {
     public static AssetFileDescriptor openAsset(PluginRegistry.Registrar registrar, String assetKey, String assetPackage) {
         AssetFileDescriptor fd = null;
         AssetManager assetManager = registrar.context().getAssets();
-        String key = registrar.lookupKeyForAsset(assetKey, assetPackage);
+        String key;
+        if (TextUtils.isEmpty(assetPackage)) {
+            key = registrar.lookupKeyForAsset(assetKey);
+        } else {
+            key = registrar.lookupKeyForAsset(assetKey, assetPackage);
+        }
         try {
             fd = assetManager.openFd(key);
         } catch (IOException e) {

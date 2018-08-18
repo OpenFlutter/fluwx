@@ -4,9 +4,8 @@
 
 
 ## 写在前面
-
  使用Fluwx之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
- 这有助于你使用Fluwx。Fluwx的api字段名称基本和官方的字段名称是一致的。
+ 这有助于你使用```Fluwx```。```Fluwx```的api字段名称基本和官方的字段名称是一致的。
 ## 引入
 ## 初始化
  ```dart
@@ -41,7 +40,8 @@ Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
               title: "Fluwx",
               thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
               )).then((result){
-               },onError: (msg){
+               },
+               onError: (msg){
                });
 ```
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。

@@ -17,7 +17,6 @@ class _MyAppState extends State<MyApp> {
 //    initPlatformState();
     Fluwx.registerApp(RegisterModel(
         appId: "wxd930ea5d5a258f4f", doOnAndroid: true, doOnIOS: true));
-
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -34,31 +33,31 @@ class _MyAppState extends State<MyApp> {
           child: new FlatButton(
               onPressed: () {
                 var fluwx = Fluwx();
-                fluwx.share(WeChatShareMiniProgramModel(
-                  webPageUrl: "http://www.qq.com",
-                  miniProgramType:
-                      WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
-                  userName: "gh_d43f693ca31f",
-                  path: '/pages/media',
-                  title: "title",
-                  description: "des",
-                  thumbnail:
-                      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
-                ));
+//                fluwx.share(WeChatShareMiniProgramModel(
+//                  webPageUrl: "http://www.qq.com",
+//                  miniProgramType:
+//                  WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
+//                  userName: "gh_d43f693ca31f",
+//                  path: '/pages/media',
+//                  title: "title",
+//                  description: "des",
+//                  thumbnail:
+//                      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
+//                ));
 //                thumbnail: 'http://b.hiphotos.baidu.com/image/h%3D300/sign=4bfc640817d5ad6eb5f962eab1c939a3/8718367adab44aedb794e128bf1c8701a08bfb20.jpg',
-//                fluwx.share(
-//                  WeChatShareWebPageModel(
-//                    webPage: "https://github.com/JarvanMo/fluwx",
-//                    title: "MyGithub",
-//                    thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
-//                  )
-//                    ).then((result){
-//                    print("--$result");
-//                },onError: (msg){
-//                      print(msg);
-//                });
+                fluwx.share(
+                    WeChatShareWebPageModel(
+                        webPage: "https://github.com/JarvanMo/fluwx",
+                        title: "MyGithub",
+                        thumbnail: "assets://images/logo.png"
+                    )
+                    ).then((result){
+                    print("--$result");
+                },onError: (msg){
+                      print(msg);
+                });
 //              fluwx.share(WeChatShareImageModel(image: "imagePath",thumbnail: "thumbanailPath"));
-              },
+                    },
               child: new Text("share ")),
         ),
       ),

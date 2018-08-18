@@ -3,6 +3,7 @@ package com.jarvan.fluwx.utils;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 
 import com.jarvan.fluwx.constant.WeChatPluginImageSchema;
@@ -170,8 +171,14 @@ public class WeChatThumbnailUtil {
 
     private static File getAssetFile(String thumbnail, PluginRegistry.Registrar registrar) {
         File result = null;
-        String key = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_ASSETS.length(), thumbnail.length());
-        AssetFileDescriptor fileDescriptor = AssetManagerUtil.openAsset(registrar, key, getPackage(key));
+        int endIndex = thumbnail.length();
+        int indexOfPackage = thumbnail.indexOf(WechatPluginKeys.PACKAGE);
+        if(indexOfPackage >  0){
+            endIndex = indexOfPackage;
+        }
+        String key = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_ASSETS.length(), endIndex);
+//        flutter_assets/packages/flutter_gallery_assets/ali_connors.jpg?package=flutter_gallery_assets
+        AssetFileDescriptor fileDescriptor = AssetManagerUtil.openAsset(registrar, key,  getPackage(thumbnail));
 
         if (fileDescriptor != null) {
             try {

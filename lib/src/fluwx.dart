@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:fluwx/src/models/wechat_share_models.dart';
+import 'models/flutter_register_model.dart';
+import 'models/wechat_share_models.dart';
 
 class Fluwx {
   static const Map<Type, String> _shareModelMethodMapper = {
@@ -20,12 +21,12 @@ class Fluwx {
 
   Stream<Map> get weChatResponseUpdate => _responseStreamController.stream;
 
-  static Future registerApp(String appId) async {
-    return await _channel.invokeMethod("registerApp", appId);
+  static Future registerApp(RegisterModel model) async {
+    return await _channel.invokeMethod("registerApp", model.toMap());
   }
 
-  static Future unregisterApp() async{
-    return await _channel.invokeMethod("unregisterApp");
+  static Future unregisterApp(RegisterModel model) async{
+    return await _channel.invokeMethod("unregisterApp",model.toMap());
   }
   void listen() {
     _channel.setMethodCallHandler(_handler);

@@ -29,7 +29,7 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
 
 
         if(call.method == WeChatPluginMethods.UNREGISTER_APP){
-            WeChatPluginHandler.unregisterApp()
+            WeChatPluginHandler.unregisterApp(call)
             result.success(true)
             return
         }

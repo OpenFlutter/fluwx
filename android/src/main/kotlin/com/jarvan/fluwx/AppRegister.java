@@ -14,6 +14,5 @@ public class AppRegister extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final IWXAPI api = WXAPIFactory.createWXAPI(context, null);
         // 将该app注册到微信
-        api.registerApp(WechatPluginKeys.appId);
     }
 }

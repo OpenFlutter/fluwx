@@ -39,12 +39,20 @@ object WeChatPluginHandler {
 
 
     fun registerApp(call: MethodCall, result: MethodChannel.Result) {
-        if (wxApi != null) {
-            result.success(true)
+
+        if(!call.argument<Boolean>(WechatPluginKeys.ANDROID)){
             return
         }
 
-        val appId = call.arguments as String?
+        if (wxApi != null) {
+            result.success(mapOf(
+                    WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                    WechatPluginKeys.RESULT to true
+            ))
+            return
+        }
+
+        val appId:String? = call.argument(WechatPluginKeys.APP_ID)
         if (appId.isNullOrBlank()) {
             result.error("invalid app id", "are you sure your app id is correct ?", appId)
             return
@@ -53,10 +61,16 @@ object WeChatPluginHandler {
         val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId)
         val registered = api.registerApp(appId)
         wxApi = api
-        result.success(registered)
+        result.success(mapOf(
+                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                WechatPluginKeys.RESULT to registered
+        ))
     }
 
-    fun unregisterApp() {
+    fun unregisterApp(call: MethodCall) {
+        if(!call.argument<Boolean>(WechatPluginKeys.ANDROID)){
+            return
+        }
         wxApi?.unregisterApp()
         wxApi = null
     }
@@ -317,7 +331,7 @@ object WeChatPluginHandler {
                 "type" to resp.type,
                 "errCode" to resp.errCode,
                 "openId" to resp.openId,
-                "platform" to "android"
+                WechatPluginKeys.PLATFORM to "android"
         )
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_RESPONSE, result)

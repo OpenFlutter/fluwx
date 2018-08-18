@@ -6,7 +6,12 @@ package com.jarvan.fluwx.constant;
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
 public class WechatPluginKeys {
-    public static String appId = "";
+    public static final String ANDROID = "android";
+    public static final String APP_ID = "appId";
+    public static final String PLATFORM = "platform";
+    public static final String RESULT = "result";
+
+
     public static final String SCENE = "scene";
     public static final String SCENE_TIMELINE = "WeChatScene.TIMELINE";
     public static final String SCENE_SESSION = "WeChatScene.SESSION";
@@ -22,7 +27,7 @@ public class WechatPluginKeys {
 
     public static final String PACKAGE = "?package=";
 
-    public static final String MESSAGE_EXT ="messageExt";
+    public static final String MESSAGE_EXT = "messageExt";
     public static final String MEDIA_TAG_NAME = "mediaTagName ";
     public static final String MESSAGE_ACTION = "messageAction";
 }

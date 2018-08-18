@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:fluwx/main.dart';
 
 void main() => runApp(new MyApp());
@@ -16,7 +15,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 //    initPlatformState();
-    Fluwx.registerApp("wxd930ea5d5a258f4f").then((result) {
+    Fluwx.registerApp(RegisterModel(appId: "wxd930ea5d5a258f4f")).then((result) {
       print("succes-->$result");
     }, onError: (value) {
       print("--->$value");

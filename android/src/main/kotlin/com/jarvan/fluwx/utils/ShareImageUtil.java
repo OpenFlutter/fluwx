@@ -51,33 +51,7 @@ public class ShareImageUtil {
         return result;
     }
 
-    private static byte[] handleNetworkImage(PluginRegistry.Registrar registrar, String path) {
-        byte[] result = null;
-        InputStream inputStream = openStream(path);
 
-        if (inputStream == null) {
-            return null;
-        }
-
-
-
-        String suffix = ".jpg";
-        int index = path.lastIndexOf(".");
-        if (index > 0) {
-            suffix = path.substring(index, path.length());
-        }
-        File snapshot = inputStreamToTmpFile(inputStream, suffix);
-
-        File compressedFile = null;
-        compressedFile = CompressImageUtil.compressUtilSmallerThan(35, snapshot, registrar.context());
-        if (compressedFile == null) {
-            return null;
-        }
-
-        result = fileToByteArray(compressedFile);
-
-        return result;
-    }
 
     private static byte[] streamToByteArray(InputStream inputStream) {
         Bitmap bmp = null;

@@ -45,7 +45,7 @@ Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
 ```
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
 所有字段名字和官方文档基本是一致的。
-##图片处理
+## 图片处理
 目前所有需要图片的地方支持网络图片及assets图片。</br>
 使用assets图片需要添加```assets://```。</br>
 也可以在assets图片添加```?package=package_name```以读取指定包的图片。</br>

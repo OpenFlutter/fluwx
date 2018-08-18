@@ -1,3 +1,5 @@
+![logo](/arts/fluwx_logo.png)
+
 # fluwx
 
 A new Flutter plugin for Wechat SDK.

@@ -38,7 +38,7 @@ Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
               WeChatShareWebPageModel(
               webPage: "https://github.com/JarvanMo/fluwx",
               title: "Fluwx",
-              thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
+              thumbnail: "http://d.hiphotos.baidu.com/image/h%3D300/sign=1057e22c6ed9f2d33f1122ef99ee8a53/3bf33a87e950352aadfff8c55f43fbf2b3118b65.jpg",
               )).then((result){
                },
                onError: (msg){

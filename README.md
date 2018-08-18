@@ -19,7 +19,7 @@
  Fluwx正常工作。
  注册完成后，请在对应平台添加如下代码：
  Android：
- ```kotlin
+ ```Kotlin
  FluwxShareHandler.setWXApi(wxapi)
  ```
  iOS

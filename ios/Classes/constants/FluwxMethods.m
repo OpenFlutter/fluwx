@@ -4,7 +4,8 @@
 
 #import "FluwxMethods.h"
 
-NSString *const initWeChat = @"initWeChat";
+NSString *const registerApp = @"registerApp";
+NSString *const unregisterApp = @"unregisterApp";
 NSString *const weChatResponse = @"onWeChatResponse";
 NSString *const shareText = @"shareText";
 NSString *const shareImage = @"shareImage";

@@ -32,11 +32,19 @@ BOOL isWeChatRegistered = NO;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-
-    if ([initWeChat isEqualToString:call.method]) {
+    if ([registerApp isEqualToString:call.method]) {
         [self initWeChatIfNeeded:call result:result];
-    } if ([call.method hasPrefix:@"share"]) {
+        return;
+    }
+
+     if ([unregisterApp isEqualToString:call.method]) {
+            [self initWeChatIfNeeded:call result:result];
+            return;
+        }
+
+     if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
+        return;
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -55,7 +63,6 @@ BOOL isWeChatRegistered = NO;
     }
 
     NSString *appId = call.arguments;
-    NSLog(appId);
     if ([StringUtil isBlank:appId]) {
         result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
         return;
@@ -66,5 +73,9 @@ BOOL isWeChatRegistered = NO;
     result(@YES);
 }
 
+- (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
+[WXApi unregisterApp];
+result(@YES);
+}
 
 @end

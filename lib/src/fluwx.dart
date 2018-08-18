@@ -20,10 +20,13 @@ class Fluwx {
 
   Stream<Map> get weChatResponseUpdate => _responseStreamController.stream;
 
-  static Future init(String appId) async {
-    return await _channel.invokeMethod("initWeChat", appId);
+  static Future registerApp(String appId) async {
+    return await _channel.invokeMethod("registerApp", appId);
   }
 
+  static Future unregisterApp() async{
+    return await _channel.invokeMethod("unregisterApp");
+  }
   void listen() {
     _channel.setMethodCallHandler(_handler);
   }
@@ -33,7 +36,6 @@ class Fluwx {
   }
 
   Future share(WeChatShareModel model) async {
-    var s = _shareModelMethodMapper[model.runtimeType];
     if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
       return await _channel.invokeMethod(
           _shareModelMethodMapper[model.runtimeType], model.toMap());

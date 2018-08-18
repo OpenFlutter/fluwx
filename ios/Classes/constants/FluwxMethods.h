@@ -4,7 +4,8 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const initWeChat;
+extern NSString *const registerApp;
+extern NSString *const unregisterApp;
 extern NSString *const weChatResponse;
 extern NSString *const shareText;
 extern NSString *const shareImage;

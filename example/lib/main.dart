@@ -16,7 +16,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 //    initPlatformState();
-    Fluwx.init("wxd930ea5d5a258f4f").then((result) {
+    Fluwx.registerApp("wxd930ea5d5a258f4f").then((result) {
       print("succes-->$result");
     }, onError: (value) {
       print("--->$value");

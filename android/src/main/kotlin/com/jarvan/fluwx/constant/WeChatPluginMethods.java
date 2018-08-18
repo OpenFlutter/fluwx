@@ -6,7 +6,8 @@ package com.jarvan.fluwx.constant;
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
 public class WeChatPluginMethods {
-    public static final String INIT = "initWeChat";
+    public static final String REGISTER_APP = "registerApp";
+    public static final String UNREGISTER_APP = "unregisterApp";
     public static final String WE_CHAT_RESPONSE = "onWeChatResponse";
 
     public static final String SHARE_TEXT = "shareText";

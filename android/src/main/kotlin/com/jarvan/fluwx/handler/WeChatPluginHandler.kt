@@ -50,7 +50,6 @@ object WeChatPluginHandler {
 
 
     fun handle(call: MethodCall, result: MethodChannel.Result) {
-        Log.e("---",call.method)
         if (!wxApi!!.isWXAppInstalled) {
             result.error(CallResult.RESULT_WE_CHAT_NOT_INSTALLED, CallResult.RESULT_WE_CHAT_NOT_INSTALLED, null)
             return
@@ -98,23 +97,32 @@ object WeChatPluginHandler {
         val msg = WXMediaMessage(miniProgramObj)
         msg.title = call.argument("title")                   // 小程序消息title
         msg.description = call.argument("description")               // 小程序消息desc
-        var thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
-        thumbnail = thumbnail ?: ""
+        val thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
 
-        if (thumbnail.isNullOrBlank()) {
-            msg.thumbData = null
-        } else {
-            msg.thumbData = WeChatThumbnailUtil.thumbnailForMiniProgram(thumbnail, registrar)
+
+        launch {
+            if (thumbnail.isNullOrBlank()) {
+                msg.thumbData = null
+            } else {
+                msg.thumbData = getThumbnailByteArrayMiniProgram(registrar,thumbnail!!)
+            }
+            val req = SendMessageToWX.Req()
+            setCommonArguments(call, req, msg)
+            req.message = msg
+            result.success(wxApi?.sendReq(req))
+
         }
 
 
-        val req = SendMessageToWX.Req()
-        setCommonArguments(call, req, msg)
-        req.message = msg
-        result.success(wxApi?.sendReq(req))
-
     }
 
+    private suspend  fun getThumbnailByteArrayMiniProgram(registrar: PluginRegistry.Registrar?,thumbnail:String):ByteArray{
+
+        return async(CommonPool) {
+            val result = WeChatThumbnailUtil.thumbnailForMiniProgram(thumbnail, registrar)
+            result?: byteArrayOf()
+        }.await()
+    }
 
    private  suspend fun getImageByteArrayCommon(registrar: PluginRegistry.Registrar?,imagePath:String):ByteArray{
         return async(CommonPool){

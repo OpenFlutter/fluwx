@@ -95,6 +95,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
         assert(path != null && path.isNotEmpty),
+        assert(miniProgramType <3 && miniProgramType > -1),
         super(
             mediaTagName: mediaTagName,
             messageAction: messageAction,
@@ -280,6 +281,7 @@ class WeChatShareWebPageModel extends WeChatShareModel {
     String mediaTagName,
   })  : this.transaction = transaction ?? "text",
         assert(webPage != null),
+        assert(thumbnail != null),
         super(
             mediaTagName: mediaTagName,
             messageAction: messageAction,

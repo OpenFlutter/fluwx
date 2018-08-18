@@ -31,13 +31,14 @@ isWeChatRegistered = YES;
 Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
 ```
 ## 开始分享
+以分享文本和网址为例：
 ```dart
   var fluwx = Fluwx();
   fluwx.share(WeChatShareImageModel(image: "imagePath",thumbnail: "thumbanailPath"));
   fluwx.share(
               WeChatShareWebPageModel(
               webPage: "https://github.com/JarvanMo/fluwx",
-              title: "MyGithub",
+              title: "Fluwx",
               thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
               )).then((result){
                },onError: (msg){
@@ -46,6 +47,7 @@ Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
 所有字段名字和官方文档基本是一致的。
 ## 图片处理
+图片仅支持```png```和```jpg```。
 目前所有需要图片的地方支持网络图片及assets图片。</br>
 使用assets图片需要添加```assets://```。</br>
 也可以在assets图片添加```?package=package_name```以读取指定包的图片。</br>

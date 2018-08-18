@@ -28,9 +28,9 @@ isWeChatRegistered = YES;
  ```
 你也可以取消注册你的app。
 ```dart
-  Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
+Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
 ```
-##开始分享
+## 开始分享
 ```dart
   var fluwx = Fluwx();
   fluwx.share(WeChatShareImageModel(image: "imagePath",thumbnail: "thumbanailPath"));
@@ -46,10 +46,10 @@ isWeChatRegistered = YES;
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
 所有字段名字和官方文档基本是一致的。
 ##图片处理
-目前所有需要图片的地方支持网络图片及assets图片。
-使用assets图片需要添加```assets://```。
-也可以在assets图片添加```?package=package_name````以读取指定包的图片。
-未来可能支持```file://```。
-如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。
-##注意
+目前所有需要图片的地方支持网络图片及assets图片。</br>
+使用assets图片需要添加```assets://```。</br>
+也可以在assets图片添加```?package=package_name```以读取指定包的图片。</br>
+未来可能支持```file://```。</br>
+如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。</br>
+## 注意
 所有涉及缩略的最好给Fluwx一个合格的图片（小于32k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被裁剪。

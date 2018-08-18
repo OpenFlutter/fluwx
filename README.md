@@ -52,4 +52,4 @@ Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
 未来可能支持```file://```。</br>
 如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。</br>
 ## 注意
-所有涉及缩略的最好给Fluwx一个合格的图片（小于32k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被裁剪。
+所有涉及缩略的最好给Fluwx一个合格的图片（小于32k,小程序小于120k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被裁剪。

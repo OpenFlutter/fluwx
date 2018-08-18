@@ -75,6 +75,7 @@ BOOL isWeChatRegistered = NO;
 
 - (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
 [WXApi unregisterApp];
+isWeChatRegistered = false;
 result(@YES);
 }
 

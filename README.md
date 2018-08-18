@@ -23,7 +23,7 @@
  FluwxShareHandler.setWXApi(wxapi)
  ```
  iOS
- ```oc
+ ```objective-c
 isWeChatRegistered = YES;
  ```
 你也可以取消注册你的app。

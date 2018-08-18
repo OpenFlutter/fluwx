@@ -15,11 +15,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 //    initPlatformState();
-    Fluwx.registerApp(RegisterModel(appId: "wxd930ea5d5a258f4f")).then((result) {
-      print("succes-->$result");
-    }, onError: (value) {
-      print("--->$value");
-    });
+    Fluwx.registerApp(RegisterModel(
+        appId: "wxd930ea5d5a258f4f", doOnAndroid: true, doOnIOS: true));
+
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -50,8 +48,8 @@ class _MyAppState extends State<MyApp> {
 //                thumbnail: 'http://b.hiphotos.baidu.com/image/h%3D300/sign=4bfc640817d5ad6eb5f962eab1c939a3/8718367adab44aedb794e128bf1c8701a08bfb20.jpg',
 //                fluwx.share(
 //                  WeChatShareWebPageModel(
-//                    webPage: "https://www.jianshu.com/",
-//                    title: "简书",
+//                    webPage: "https://github.com/JarvanMo/fluwx",
+//                    title: "MyGithub",
 //                    thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
 //                  )
 //                    ).then((result){
@@ -59,6 +57,7 @@ class _MyAppState extends State<MyApp> {
 //                },onError: (msg){
 //                      print(msg);
 //                });
+//              fluwx.share(WeChatShareImageModel(image: "imagePath",thumbnail: "thumbanailPath"));
               },
               child: new Text("share ")),
         ),

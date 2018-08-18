@@ -10,11 +10,46 @@
 ## 引入
 ## 初始化
  ```dart
-    Fluwx.registerApp("yourAppId");
+ Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
  ```
-或者
- ```dart
- Fluwx.registerApp();
+ - appId：在微信平台申请的appId。
+ - doOnAndroid:是否在android平台上执行此操作。
+ - doOnIOS:是否在平台上执行此操作。
+ 每一个字段都是非必须的，但是如果不传appId或```doOnAndroid: false```或者```doOnIOS: false```，请务必在对应平台手动注册```WXApi```，以保证
+ Fluwx正常工作。
+ 注册完成后，请在对应平台添加如下代码：
+ Android：
+ ```kotlin
+ FluwxShareHandler.setWXApi(wxapi)
  ```
-
-For help on editing plugin code, view the [documentation](https://flutter.io/platform-plugins/#edit-code).
+ iOS
+ ```oc
+isWeChatRegistered = YES;
+ ```
+你也可以取消注册你的app。
+```dart
+  Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
+```
+##开始分享
+```dart
+  var fluwx = Fluwx();
+  fluwx.share(WeChatShareImageModel(image: "imagePath",thumbnail: "thumbanailPath"));
+  fluwx.share(
+              WeChatShareWebPageModel(
+              webPage: "https://github.com/JarvanMo/fluwx",
+              title: "MyGithub",
+              thumbnail: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
+              )).then((result){
+               },onError: (msg){
+               });
+```
+```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
+所有字段名字和官方文档基本是一致的。
+##图片处理
+目前所有需要图片的地方支持网络图片及assets图片。
+使用assets图片需要添加```assets://```。
+也可以在assets图片添加```?package=package_name````以读取指定包的图片。
+未来可能支持```file://```。
+如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。
+##注意
+所有涉及缩略的最好给Fluwx一个合格的图片（小于32k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被裁剪。

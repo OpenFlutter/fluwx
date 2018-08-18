@@ -1,7 +1,6 @@
 package com.jarvan.fluwx.handler
 
 
-import android.util.Log
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
@@ -25,7 +24,7 @@ import kotlinx.coroutines.experimental.launch
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
-object WeChatPluginHandler {
+object FluwxShareHandler {
     private var wxApi: IWXAPI? = null
 
     private var channel: MethodChannel? = null
@@ -34,9 +33,12 @@ object WeChatPluginHandler {
 
 
     fun setMethodChannel(channel: MethodChannel) {
-        WeChatPluginHandler.channel = channel
+        FluwxShareHandler.channel = channel
     }
 
+    fun setWXApi(wxApi:IWXAPI){
+        this.wxApi = wxApi
+    }
 
     fun registerApp(call: MethodCall, result: MethodChannel.Result) {
 
@@ -76,7 +78,7 @@ object WeChatPluginHandler {
     }
 
     fun setRegistrar(registrar: PluginRegistry.Registrar) {
-        WeChatPluginHandler.registrar = registrar
+        FluwxShareHandler.registrar = registrar
     }
 
 

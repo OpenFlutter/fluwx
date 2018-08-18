@@ -1,17 +1,17 @@
 class RegisterModel {
   final String appId;
-  final bool doIOS;
-  final bool doAndroid;
+  final bool doOnIOS;
+  final bool doOnAndroid;
 
   RegisterModel({
     this.appId,
-    this.doIOS: true,
-    this.doAndroid: true});
+    this.doOnIOS: true,
+    this.doOnAndroid: true});
   Map toMap(){
     return {
       "appId":appId,
-      "iOS":doIOS,
-      "android":doAndroid
+      "iOS":doOnIOS,
+      "android":doOnAndroid
     };
   }
 }

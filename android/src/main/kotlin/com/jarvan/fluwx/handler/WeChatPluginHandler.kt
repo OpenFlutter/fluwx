@@ -276,7 +276,6 @@ object WeChatPluginHandler {
         webPage.webpageUrl = call.argument("webPage")
         val msg = WXMediaMessage()
 
-        Log.e("tag", "share web")
         msg.mediaObject = webPage
         msg.title = call.argument(WechatPluginKeys.TITLE)
         msg.description = call.argument(WechatPluginKeys.DESCRIPTION)
@@ -318,7 +317,7 @@ object WeChatPluginHandler {
                 "type" to resp.type,
                 "errCode" to resp.errCode,
                 "openId" to resp.openId,
-                "target" to "android"
+                "platform" to "android"
         )
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_RESPONSE, result)

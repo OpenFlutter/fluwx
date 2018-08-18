@@ -3,4 +3,4 @@
 *.h linguist-language=dart；
 *.kt linguist-language=dart；
 *.java linguist-language=dart；
-*.m linguist-language=dart；
+*.podsec linguist-language=dart；

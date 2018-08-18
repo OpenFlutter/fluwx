@@ -1,6 +1,5 @@
 package com.jarvan.fluwx.handler
 
-
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys

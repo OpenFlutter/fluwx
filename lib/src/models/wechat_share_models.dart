@@ -77,11 +77,10 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   final String thumbnail;
 
   WeChatShareMiniProgramModel(
-      {
-        @required  this.webPageUrl,
+      {@required this.webPageUrl,
       int miniProgramType,
       this.userName,
-      this.path:"/",
+      this.path: "/",
       this.title,
       this.description,
       this.thumbnail,
@@ -95,7 +94,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
         assert(path != null && path.isNotEmpty),
-        assert(miniProgramType <3 && miniProgramType > -1),
+        assert(miniProgramType < 3 && miniProgramType > -1),
         super(
             mediaTagName: mediaTagName,
             messageAction: messageAction,
@@ -199,9 +198,9 @@ class WeChatShareMusicModel extends WeChatShareModel {
       _transaction: transaction,
       _scene: scene.toString(),
       "musicUrl": musicUrl,
-      "musicDataUrl":musicDataUrl,
+      "musicDataUrl": musicDataUrl,
       "musicLowBandUrl": musicLowBandUrl,
-      "musicLowBandDataUrl":musicLowBandDataUrl,
+      "musicLowBandDataUrl": musicLowBandDataUrl,
       _thumbnail: thumbnail,
       _title: title,
       _description: description,

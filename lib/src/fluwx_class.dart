@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+
 import 'models/flutter_register_model.dart';
 import 'models/wechat_share_models.dart';
 
@@ -25,9 +26,10 @@ class Fluwx {
     return await _channel.invokeMethod("registerApp", model.toMap());
   }
 
-  static Future unregisterApp(RegisterModel model) async{
-    return await _channel.invokeMethod("unregisterApp",model.toMap());
+  static Future unregisterApp(RegisterModel model) async {
+    return await _channel.invokeMethod("unregisterApp", model.toMap());
   }
+
   void listen() {
     _channel.setMethodCallHandler(_handler);
   }

@@ -1,6 +1,1 @@
-enum WeChatScene {
-  SESSION,
-  TIMELINE,
-  FAVORITE
-}
-
+enum WeChatScene { SESSION, TIMELINE, FAVORITE }

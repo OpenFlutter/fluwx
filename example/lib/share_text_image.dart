@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/main.dart';
+import 'package:fluwx/fluwx.dart';
 
 class ShareTextPage extends StatefulWidget {
   @override

@@ -5,7 +5,7 @@ author: JarvanMo <jarvan.mo@gmail.com>
 homepage: https://github.com/JarvanMo/fluwx
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+   sdk: ">=2.0.0-dev.58.0 <3.0.0"
 dependencies:
   flutter:
     sdk: flutter

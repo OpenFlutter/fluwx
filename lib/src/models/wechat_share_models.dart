@@ -117,6 +117,8 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   }
 }
 
+///[image] can't be null.
+///if [thumbnail] is null or blank,fluwx will create a thumbnail through [image]
 class WeChatShareImageModel extends WeChatShareModel {
   final String transaction;
   final String image;
@@ -159,6 +161,8 @@ class WeChatShareImageModel extends WeChatShareModel {
   }
 }
 
+/// if [musicUrl] and [musicLowBandUrl] are both provided,
+/// only [musicUrl] will be used.
 class WeChatShareMusicModel extends WeChatShareModel {
   final String transaction;
   final String musicUrl;
@@ -210,7 +214,8 @@ class WeChatShareMusicModel extends WeChatShareModel {
     };
   }
 }
-
+/// if [videoUrl] and [videoLowBandUrl] are both provided,
+/// only [videoUrl] will be used.
 class WeChatShareVideoModel extends WeChatShareModel {
   final String transaction;
   final String videoUrl;

@@ -8,7 +8,7 @@ package com.jarvan.fluwx.constant;
 public class WeChatPluginMethods {
     public static final String REGISTER_APP = "registerApp";
     public static final String UNREGISTER_APP = "unregisterApp";
-    public static final String WE_CHAT_RESPONSE = "onWeChatResponse";
+    public static final String WE_CHAT_SHARE_RESPONSE = "onShareResponse";
 
     public static final String SHARE_TEXT = "shareText";
     public static final String SHARE_IMAGE = "shareImage";

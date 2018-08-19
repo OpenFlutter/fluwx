@@ -335,7 +335,7 @@ object FluwxShareHandler {
                 WechatPluginKeys.PLATFORM to "android"
         )
 
-        channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_RESPONSE, result)
+        channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_SHARE_RESPONSE, result)
 
     }
 

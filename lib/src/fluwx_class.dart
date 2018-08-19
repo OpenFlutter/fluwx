@@ -17,10 +17,10 @@ class Fluwx {
 
   static const MethodChannel _channel = const MethodChannel('fluwx');
 
-  StreamController<Map> _responseStreamController =
+  StreamController<Map> _responseFromShareController =
       new StreamController.broadcast();
 
-  Stream<Map> get weChatResponseUpdate => _responseStreamController.stream;
+  Stream<Map> get responseFromShare => _responseFromShareController.stream;
 
   ///the [model] should not be null
   static Future registerApp(RegisterModel model) async {
@@ -35,9 +35,14 @@ class Fluwx {
     _channel.setMethodCallHandler(_handler);
   }
 
-  void dispose() {
-    _responseStreamController.close();
+  void disposeAll() {
+    _responseFromShareController.close();
   }
+
+  void disposeResponseFromShare(){
+    _responseFromShareController.close();
+  }
+
   ///the [model] can not be null
   ///see [WeChatShareWebPageModel]
   /// [WeChatShareTextModel]
@@ -54,8 +59,8 @@ class Fluwx {
   }
 
   Future<dynamic> _handler(MethodCall methodCall) {
-    if ("onWeChatResponse" == methodCall.method) {
-      _responseStreamController.add(methodCall.arguments);
+    if ("onShareResponse" == methodCall.method) {
+      _responseFromShareController.add(methodCall.arguments);
     }
 
     return Future.value(true);

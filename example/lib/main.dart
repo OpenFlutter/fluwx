@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_example/share_web_page.dart';
 import 'share_image_page.dart';
 import 'share_text_image.dart';
 
@@ -27,7 +28,8 @@ class _MyAppState extends State<MyApp> {
     return new MaterialApp(
       routes: <String, WidgetBuilder>{
         "shareText": (context) => ShareTextPage(),
-        "shareImage":(context) => ShareImagePage()
+        "shareImage":(context) => ShareImagePage(),
+        "shareWebPage":(context) => ShareWebPagePage(),
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -74,7 +76,10 @@ class ShareSelectorPage extends StatelessWidget {
         new OutlineButton(onPressed: () {
           Navigator.of(context).pushNamed("shareImage");
         }, child: const Text("share image")),
-        new OutlineButton(onPressed: () {}, child: const Text("share webpage")),
+        new OutlineButton(onPressed: () {
+          Navigator.of(context).pushNamed("shareWebPage");
+
+        }, child: const Text("share webpage")),
       ],
     );
   }

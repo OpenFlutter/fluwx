@@ -1,7 +1,7 @@
 name: fluwx
 description: A new Flutter plugin for Wechat SDK.
 version: 0.0.1
-author: JarvanMo<jarvan.mo@gmail.com>
+author: JarvanMo <jarvan.mo@gmail.com>
 homepage: https://github.com/JarvanMo/fluwx
 
 environment:

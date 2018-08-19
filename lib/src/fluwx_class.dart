@@ -22,6 +22,7 @@ class Fluwx {
 
   Stream<Map> get weChatResponseUpdate => _responseStreamController.stream;
 
+  ///the [model] should not be null
   static Future registerApp(RegisterModel model) async {
     return await _channel.invokeMethod("registerApp", model.toMap());
   }
@@ -37,7 +38,12 @@ class Fluwx {
   void dispose() {
     _responseStreamController.close();
   }
-
+  ///the [model] can not be null
+  ///see [WeChatShareWebPageModel]
+  /// [WeChatShareTextModel]
+  ///[WeChatShareVideoModel]
+  ///[WeChatShareMusicModel]
+  ///[WeChatShareImageModel]
   Future share(WeChatShareModel model) async {
     if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
       return await _channel.invokeMethod(

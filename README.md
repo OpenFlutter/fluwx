@@ -29,7 +29,7 @@ isWeChatRegistered = YES;
 ```dart
 Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
 ```
-    注意：尽管可以在```Flutter```完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema等。
+    注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema等。
 ## 开始分享
 以分享文本和网址为例：
 ```dart

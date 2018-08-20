@@ -19,7 +19,7 @@ dependencies:
  ```
  - appId：在微信平台申请的appId。
  - doOnAndroid:是否在android平台上执行此操作。
- - doOnIOS:是否在平台上执行此操作。
+ - doOnIOS:是否在平台上执行此操作。</br>
  每一个字段都是非必须的，但是如果不传appId或```doOnAndroid: false```或者```doOnIOS: false```，请务必在对应平台手动注册```WXApi```，以保证
  Fluwx正常工作。
  注册完成后，请在对应平台添加如下代码：

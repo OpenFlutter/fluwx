@@ -20,14 +20,14 @@ dependencies:
  - appId：在微信平台申请的appId。
  - doOnAndroid:是否在android平台上执行此操作。
  - doOnIOS:是否在平台上执行此操作。</br>
- 每一个字段都是非必须的，但是如果不传appId或```doOnAndroid: false```或者```doOnIOS: false```，请务必在对应平台手动注册```WXApi```，以保证
+ 每一个字段都是非必须的，但是如果不传appId或```doOnAndroid: false```或者```doOnIOS: false```，在使用前请务必手动注册```WXApi```，以保证
  Fluwx正常工作。
  注册完成后，请在对应平台添加如下代码：
- Android：
+ Android上：
  ```Kotlin
  FluwxShareHandler.setWXApi(wxapi)
  ```
- iOS
+ iOS上：
  ```objective-c
 isWeChatRegistered = YES;
  ```
@@ -51,6 +51,7 @@ Fluwx.unregisterApp(RegisterModel(doOnAndroid: true, doOnIOS: true));
                onError: (msg){
                });
 ```
+```fluwx.share(shareModel)```返回值为```bool```。
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
 所有字段名字和官方文档基本是一致的。
 ## 图片处理

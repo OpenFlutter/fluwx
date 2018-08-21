@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 import 'models/flutter_register_model.dart';
 import 'models/wechat_share_models.dart';
-
+import 'models/wechat_send_auth_model.dart';
 class Fluwx {
   static const Map<Type, String> _shareModelMethodMapper = {
     WeChatShareTextModel: "shareText",
@@ -56,6 +56,10 @@ class Fluwx {
     } else {
       return Future.error("no method mapper found[${model.runtimeType}]");
     }
+  }
+
+  Future sendAuth(WeChatSendAuthModel model) async{
+    return await _channel.invokeMethod("sendAuth", model.toMap());
   }
 
   Future<dynamic> _handler(MethodCall methodCall) {

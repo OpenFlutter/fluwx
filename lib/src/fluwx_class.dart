@@ -27,9 +27,9 @@ class Fluwx {
     return await _channel.invokeMethod("registerApp", model.toMap());
   }
 
-  static Future unregisterApp(RegisterModel model) async {
-    return await _channel.invokeMethod("unregisterApp", model.toMap());
-  }
+//  static Future unregisterApp(RegisterModel model) async {
+//    return await _channel.invokeMethod("unregisterApp", model.toMap());
+//  }
 
   void listen() {
     _channel.setMethodCallHandler(_handler);

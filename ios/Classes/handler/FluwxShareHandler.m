@@ -52,7 +52,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     NSString *text = call.arguments[fluwxKeyText];
     NSString *scene = call.arguments[fluwxKeyScene];
     BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
-    result(@(done));
+    result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
 }
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_example/share_music.dart';
 import 'package:fluwx_example/share_web_page.dart';
 import 'share_image_page.dart';
 import 'share_text_image.dart';
@@ -30,6 +31,7 @@ class _MyAppState extends State<MyApp> {
         "shareText": (context) => ShareTextPage(),
         "shareImage":(context) => ShareImagePage(),
         "shareWebPage":(context) => ShareWebPagePage(),
+        "shareMusic":(context) => ShareMusicPage(),
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -40,31 +42,6 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-//  var fluwx = Fluwx();
-////                fluwx.share(WeChatShareMiniProgramModel(
-////                  webPageUrl: "http://www.qq.com",
-////                  miniProgramType:
-////                  WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
-////                  userName: "gh_d43f693ca31f",
-////                  path: '/pages/media',
-////                  title: "title",
-////                  description: "des",
-////                  thumbnail:
-////                      'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534532387799&di=12701cc3f20c1a78a5c7524ec33b4c59&imgtype=0&src=http%3A%2F%2Fwww.cssxt.com%2Fuploadfile%2F2017%2F1208%2F20171208110834538.jpg',
-////                ));
-////                thumbnail: 'http://b.hiphotos.baidu.com/image/h%3D300/sign=4bfc640817d5ad6eb5f962eab1c939a3/8718367adab44aedb794e128bf1c8701a08bfb20.jpg',
-//  fluwx.share(
-//  WeChatShareWebPageModel(
-//  webPage: "https://github.com/JarvanMo/fluwx",
-//  title: "MyGithub",
-//  thumbnail: "assets://images/logo.png"
-//  )
-//  ).then((result){
-//  print("--$result");
-//  },onError: (msg){
-//  print(msg);
-//  });
-////              fluwx.share(WeChatShareImageModel(image: "imagePath",thumbnail: "thumbanailPath"));
 class ShareSelectorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -80,6 +57,10 @@ class ShareSelectorPage extends StatelessWidget {
           Navigator.of(context).pushNamed("shareWebPage");
 
         }, child: const Text("share webpage")),
+        new OutlineButton(onPressed: () {
+          Navigator.of(context).pushNamed("shareMusic");
+
+        }, child: const Text("share music")),
       ],
     );
   }

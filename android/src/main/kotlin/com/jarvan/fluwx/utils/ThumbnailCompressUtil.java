@@ -155,4 +155,32 @@ public class ThumbnailCompressUtil {
         return thumb;
     }
 
+
+    public static Bitmap createScaledBitmapWithRatio(Bitmap bitmap , int maxLength, boolean recycle){
+
+        Bitmap result = bitmap;
+        while (true){
+            double ratio =((double) maxLength )/ result.getByteCount();
+            double width = result.getWidth() * Math.sqrt(ratio);
+            double height = result.getHeight() * Math.sqrt(ratio);
+            Bitmap tmp = Bitmap.createScaledBitmap(result, (int) width, (int)height, true);
+            if (result != bitmap){
+                result.recycle();
+            }
+            result = tmp;
+
+            if (result.getByteCount() < maxLength ) {
+                break;
+            }
+
+        }
+
+        if (recycle) {
+            bitmap.recycle();
+        }
+
+        return  result;
+
+    }
+
 }

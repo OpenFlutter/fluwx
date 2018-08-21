@@ -30,9 +30,8 @@ import okio.Source;
 import top.zibin.luban.Luban;
 
 public class WeChatThumbnailUtil {
-    public static final  int SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH = 120;
-    public static final int MINI_PROGRAM_SCALED_WIDTH = 480;
-    public static final int SHARE_IMAGE_THUMB_LENGTH = 32;
+    public static final  int SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH = 120 * 1024;
+    public static final int SHARE_IMAGE_THUMB_LENGTH = 32 * 1024;
     private static final int COMMON_THUMB_WIDTH = 150;
 
     private WeChatThumbnailUtil() {
@@ -47,7 +46,7 @@ public class WeChatThumbnailUtil {
         } else {
             file = downloadImage(thumbnail);
         }
-        return compress(file, registrar,SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH,MINI_PROGRAM_SCALED_WIDTH);
+        return compress(file, registrar,SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH);
     }
 
 
@@ -60,7 +59,7 @@ public class WeChatThumbnailUtil {
         } else {
             file = downloadImage(thumbnail);
         }
-        return compress(file, registrar,SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH,MINI_PROGRAM_SCALED_WIDTH);
+        return compress(file, registrar,SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH);
     }
 
     public static byte[] thumbnailForCommon(String thumbnail, PluginRegistry.Registrar registrar) {
@@ -72,10 +71,10 @@ public class WeChatThumbnailUtil {
         } else {
             file = downloadImage(thumbnail);
         }
-        return compress(file, registrar,SHARE_IMAGE_THUMB_LENGTH,COMMON_THUMB_WIDTH);
+        return compress(file, registrar,SHARE_IMAGE_THUMB_LENGTH);
     }
 
-    private static byte[] compress(File file, PluginRegistry.Registrar registrar,int resultMaxLength,int scaledWidth) {
+    private static byte[] compress(File file, PluginRegistry.Registrar registrar,int resultMaxLength) {
         if (file == null) {
             return new byte[]{};
         }
@@ -87,7 +86,7 @@ public class WeChatThumbnailUtil {
                     .ignoreBy(resultMaxLength)
                     .setTargetDir(registrar.context().getCacheDir().getAbsolutePath())
                     .get(file.getAbsolutePath());
-            if (compressedFile.length() < resultMaxLength * 1024) {
+            if (compressedFile.length() < resultMaxLength ) {
                 Source source = Okio.source(compressedFile);
                 BufferedSource bufferedSource = Okio.buffer(source);
                 byte[] bytes = bufferedSource.readByteArray();
@@ -95,12 +94,10 @@ public class WeChatThumbnailUtil {
                 bufferedSource.close();
                 return bytes;
             }
-            byte[] result = createScaledBitmapWithRatio(compressedFile,scaledWidth);
-            if (result.length < resultMaxLength * 1024) {
-                return result;
-            }
+           return createScaledBitmapWithRatio(compressedFile,resultMaxLength);
 
-            return createScaledBitmap(compressedFile, resultMaxLength,scaledWidth);
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,10 +105,10 @@ public class WeChatThumbnailUtil {
         return new byte[]{};
     }
 
-    private static byte[] createScaledBitmapWithRatio(File file,int scaledWidth) {
+    private static byte[] createScaledBitmapWithRatio(File file,int resultMaxLength) {
 
         Bitmap originBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        Bitmap result = ThumbnailCompressUtil.createScaledBitmapWithRatio(originBitmap, scaledWidth, true);
+        Bitmap result = ThumbnailCompressUtil.createScaledBitmap(originBitmap, resultMaxLength, true);
 
         String path = file.getAbsolutePath();
         String suffix = path.substring(path.lastIndexOf("."), path.length());

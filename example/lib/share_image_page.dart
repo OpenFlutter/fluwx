@@ -97,6 +97,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
         image: _imagePath,
         thumbnail: _thumbnail,
         transaction: _imagePath,
+        scene: scene,
         description: "这是一张图"));
   }
 

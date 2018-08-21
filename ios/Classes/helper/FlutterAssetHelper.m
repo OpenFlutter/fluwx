@@ -24,7 +24,7 @@
 
 
     if ([result rangeOfString:fluwxKeyPackage].location != NSNotFound) {
-       result = [result stringByReplacingCharactersInRange:<#(NSRange)range#> withString:<#(NSString *)replacement#>]
+//       result = [result stringByReplacingCharactersInRange:<#(NSRange)range#> withString:<#(NSString *)replacement#>]
     }
 
 

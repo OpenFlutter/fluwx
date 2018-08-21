@@ -1,10 +1,9 @@
 #import <fluwx/FluwxPlugin.h>
-#import "FluwxMethods.h"
+
 #import "WXApi.h"
 #import "StringUtil.h"
 #import "../../../../../../ios/Classes/handler/FluwxShareHandler.h"
-#import "FluwxShareHandler.h"
-#import "FluwxShareHandler.h"
+
 
 
 @implementation FluwxPlugin
@@ -74,7 +73,7 @@ BOOL isWeChatRegistered = NO;
 }
 
 - (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-[WXApi unregisterApp];
+[WXApi ];
 isWeChatRegistered = false;
 result(@YES);
 }

@@ -1,4 +1,5 @@
 #import <Flutter/Flutter.h>
+#import "FluwxMethods.h"
 @class FluwxShareHandler;
 
 

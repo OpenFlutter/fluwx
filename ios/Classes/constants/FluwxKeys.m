@@ -22,6 +22,11 @@ NSString *const fluwxKeyMessageExt =@"messageExt";
 NSString *const fluwxKeyMediaTagName = @"mediaTagName ";
 NSString *const fluwxKeyMessageAction = @"messageAction";
 
+NSString *const fluwxKeyPlatform = @"platform";
+NSString *const fluwxKeyIOS=@"iOS";
+
+NSString *const fluwxKeyResult=@"result";
+
 @implementation FluwxKeys {
 
 }

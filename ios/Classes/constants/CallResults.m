@@ -5,8 +5,8 @@
 #import "CallResults.h"
 
 NSString *const resultDone = @"done";
-NSString *const resultErrorNeedWeChat = @"init wechat sdk please";
-NSString *const resultMessageNeedWeChat = @"init wechat sdk please";
+NSString *const resultErrorNeedWeChat = @"wxapi not configured";
+NSString *const resultMessageNeedWeChat = @"please config  wxapi first";
 @implementation CallResults {
 
 }

@@ -9,6 +9,9 @@
 
 
 @implementation FluwxShareHandler
+
+CGFloat thumbnailWidth;
+
 NSObject <FlutterPluginRegistrar> *_registrar;
 
 
@@ -16,6 +19,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     self = [super init];
     if (self) {
         _registrar = registrar;
+        thumbnailWidth = 150;
     }
 
     return self;
@@ -55,17 +59,14 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *imagePath = call.arguments[fluwxKeyImage];
     if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
-
+        [self shareAssetImage:call result:result imagePath:imagePath];
     } else if ([imagePath hasPrefix:SCHEMA_FILE]) {
 
     } else {
         [self shareNetworkImage:call result:result imagePath:imagePath];
     }
 
-    NSString *text = call.arguments[fluwxKeyText];
-    NSString *scene = call.arguments[fluwxKeyScene];
-    BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
-    result(@(done));
+
 }
 
 
@@ -87,22 +88,8 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
 
 
-        NSData *thumbnailData;
-        UIImage *thumbnailImage;
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
-        if ([thumbnail hasPrefix:SCHEMA_ASSETS]) {
-
-        } else if ([thumbnail hasPrefix:SCHEMA_FILE]) {
-
-        } else {
-            NSURL *thumbnailURL = [NSURL URLWithString:thumbnail];
-            thumbnailData = [NSData dataWithContentsOfURL:thumbnailURL];
-            if ([thumbnailData length] > (32 * 1024)) {
-
-            } else {
-                thumbnailImage = [UIImage imageWithData:thumbnailData];
-            }
-        }
 
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -114,28 +101,86 @@ NSObject <FlutterPluginRegistrar> *_registrar;
                                                     Action:fluwxKeyMessageAction
                                                 ThumbImage:thumbnailImage
                                                    InScene:[StringToWeChatScene toScene:scene]];
-            result(@(done));
+            result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
+
+        });
+
+    });
+
+}
+
+
+
+- (void)shareAssetImage:(FlutterMethodCall *)call result:(FlutterResult)result imagePath:(NSString *)imagePath {
+
+
+    NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+    if ([StringUtil isBlank:thumbnail]) {
+        thumbnail = imagePath;
+    }
+
+
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
+    dispatch_async(globalQueue, ^{
+
+        NSData *imageData =  [NSData dataWithContentsOfFile:[self readImageFromAssets:imagePath]];
+
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSString *scene = call.arguments[fluwxKeyScene];
+            BOOL done = [WXApiRequestHandler sendImageData:imageData
+                                                   TagName:call.arguments[fluwxKeyMediaTagName]
+                                                MessageExt:fluwxKeyMessageExt
+                                                    Action:fluwxKeyMessageAction
+                                                ThumbImage:thumbnailImage
+                                                   InScene:[StringToWeChatScene toScene:scene]];
+            result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
+
+        });
+
+    });
+
+}
+
+
+
+- (void)shareWebPage:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_async(globalQueue, ^{
+
+        NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+        UIImage *thumbnailImage =[self getThumbnail:thumbnail size:32 * 1024];
+
+        NSData *imageData =  [NSData dataWithContentsOfFile:[self readImageFromAssets:@""]];
+
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *webPageUrl = call.arguments[@"webPage"];
+            NSString *scene = call.arguments[fluwxKeyScene];
+            BOOL done = [WXApiRequestHandler sendImageData:imageData
+                                                   TagName:call.arguments[fluwxKeyMediaTagName]
+                                                MessageExt:fluwxKeyMessageExt
+                                                    Action:fluwxKeyMessageAction
+                                                ThumbImage:thumbnailImage
+                                                   InScene:[StringToWeChatScene toScene:scene]];
+            result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
 
         });
 
     });
 
 
-}
 
 
-- (void)shareWebPage:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSString *webPageUrl = call.arguments[@"webPage"];
-   
+
 
     NSString *imagePath = call.arguments[fluwxKeyImage];
-    if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
 
-    } else if ([imagePath hasPrefix:SCHEMA_FILE]) {
-
-    } else {
-        [self shareNetworkImage:call result:result imagePath:imagePath];
-    }
 
     NSString *text = call.arguments[fluwxKeyText];
     NSString *scene = call.arguments[fluwxKeyScene];
@@ -144,43 +189,72 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 }
 
 
-+ (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength {
-    // Compress by quality
-    CGFloat compression = 1;
-    NSData *data = UIImageJPEGRepresentation(image, compression);
-    if (data.length < maxLength) return image;
 
-    CGFloat max = 1;
-    CGFloat min = 0;
-    for (int i = 0; i < 6; ++i) {
-        compression = (max + min) / 2;
-        data = UIImageJPEGRepresentation(image, compression);
-        if (data.length < maxLength * 0.9) {
-            min = compression;
-        } else if (data.length > maxLength) {
-            max = compression;
-        } else {
-            break;
-        }
-    }
-    UIImage *resultImage = [UIImage imageWithData:data];
-    if (data.length < maxLength) return resultImage;
 
-    // Compress by size
-    NSUInteger lastDataLength = 0;
-    while (data.length > maxLength && data.length != lastDataLength) {
-        lastDataLength = data.length;
-        CGFloat ratio = (CGFloat)maxLength / data.length;
-        CGSize size = CGSizeMake((NSUInteger)(resultImage.size.width * sqrtf(ratio)),
-                                 (NSUInteger)(resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
-        UIGraphicsBeginImageContext(size);
-        [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
-        resultImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        data = UIImageJPEGRepresentation(resultImage, compression);
+
+- (UIImage *) getThumbnail:(NSString *) thumbnail size:(NSUInteger) size{
+
+
+    UIImage *thumbnailImage = nil;
+
+    if ([StringUtil isBlank:thumbnail]) {
+        return nil;
     }
 
-    return resultImage;
+
+    if ([thumbnail hasPrefix:SCHEMA_ASSETS]) {
+        NSData *imageData2 = [NSData dataWithContentsOfFile:[self readImageFromAssets:thumbnail]];
+        UIImage *tmp = [UIImage imageWithData:imageData2];
+        thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:size isPNG:FALSE];
+
+    } else if ([thumbnail hasPrefix:SCHEMA_FILE]) {
+
+    } else {
+        NSURL *thumbnailURL = [NSURL URLWithString:thumbnail];
+        NSData *thumbnailData = [NSData dataWithContentsOfURL:thumbnailURL];
+
+        UIImage *tmp = [UIImage imageWithData:thumbnailData];
+        thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:size isPNG:FALSE];
+
+    }
+
+
+    return  thumbnailImage;
+
+}
+
+- (NSString *) readImageFromAssets:(NSString *) imagePath{
+    NSArray *array = [self formatAssets:imagePath];
+    NSString* key ;
+    if(array[1] == nil){
+       key = [_registrar lookupKeyForAsset:array[0]];
+    } else{
+        key = [_registrar lookupKeyForAsset:array[0] fromPackage:array[1]];
+    }
+
+    return  [[NSBundle mainBundle] pathForResource:key ofType:nil];
+
+}
+
+
+
+-(NSArray *) formatAssets:(NSString *) originPath{
+    NSString *path = nil;
+    NSString *packageName = nil;
+    int from = [SCHEMA_ASSETS length];
+    int to = [originPath length];
+    NSString *pathWithoutSchema = [originPath substringFromIndex:from toIndex:to];
+    int indexOfPackage = [pathWithoutSchema lastIndexOfString:fluwxKeyPackage];
+
+    if( indexOfPackage != JavaNotFound){
+        path = [pathWithoutSchema substringFromIndex:0 toIndex:indexOfPackage];
+        int begin = indexOfPackage + [fluwxKeyPackage length];
+        packageName = [pathWithoutSchema substringFromIndex:begin toIndex:[pathWithoutSchema length]];
+    } else{
+        path = pathWithoutSchema;
+    }
+
+    return @[path, packageName];
 }
 
 

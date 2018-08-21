@@ -3,7 +3,7 @@
 #import "WXApi.h"
 #import "StringUtil.h"
 #import "../../../../../../ios/Classes/handler/FluwxShareHandler.h"
-
+#import "ImageSchema.h"
 
 
 @implementation FluwxPlugin
@@ -31,6 +31,8 @@ BOOL isWeChatRegistered = NO;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+
     if ([registerApp isEqualToString:call.method]) {
         [self initWeChatIfNeeded:call result:result];
         return;
@@ -56,12 +58,18 @@ BOOL isWeChatRegistered = NO;
 
 
 - (void)initWeChatIfNeeded:(FlutterMethodCall *)call result:(FlutterResult)result {
-    if (isWeChatRegistered) {
-        result(@YES);
+
+    if(!call.arguments[fluwxKeyIOS]){
+        result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@NO});
         return;
     }
 
-    NSString *appId = call.arguments;
+    if (isWeChatRegistered) {
+        result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@YES});
+        return;
+    }
+
+    NSString *appId = call.arguments[appId];
     if ([StringUtil isBlank:appId]) {
         result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
         return;
@@ -69,13 +77,15 @@ BOOL isWeChatRegistered = NO;
 
 
     isWeChatRegistered = [WXApi registerApp:appId];
-    result(@YES);
+    result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult: @(isWeChatRegistered)});
 }
 
 - (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-[WXApi ];
+
 isWeChatRegistered = false;
 result(@YES);
 }
+
+
 
 @end

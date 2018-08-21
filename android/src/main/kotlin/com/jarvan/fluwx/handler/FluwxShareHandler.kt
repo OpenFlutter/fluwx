@@ -42,6 +42,10 @@ object FluwxShareHandler {
     fun registerApp(call: MethodCall, result: MethodChannel.Result) {
 
         if(!call.argument<Boolean>(WechatPluginKeys.ANDROID)){
+            result.success(mapOf(
+                    WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                    WechatPluginKeys.RESULT to false
+            ))
             return
         }
 

@@ -23,5 +23,10 @@ extern NSString *const fluwxKeyMediaTagName;
 extern NSString *const fluwxKeyMessageAction;
 
 
+extern NSString *const fluwxKeyPlatform;
+extern NSString *const fluwxKeyIOS;
+
+extern NSString *const fluwxKeyResult;
+
 @interface FluwxKeys : NSObject
 @end

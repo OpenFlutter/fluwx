@@ -11,6 +11,8 @@
 #import "FluwxMethods.h"
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"
+#import "ThumbnailHelper.h"
+#import "NSStringWrapper.h"
 @class StringUtil;
 
 @interface FluwxShareHandler : NSObject

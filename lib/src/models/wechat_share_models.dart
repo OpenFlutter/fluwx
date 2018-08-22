@@ -198,7 +198,6 @@ class WeChatShareMusicModel extends WeChatShareModel {
   })  : this.transaction = transaction ?? "text",
         this.thumbnail = thumbnail ?? "",
         assert(musicUrl != null || musicLowBandUrl != null),
-        assert(thumbnail != null),
         super(
             mediaTagName: mediaTagName,
             messageAction: messageAction,

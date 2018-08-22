@@ -6,6 +6,7 @@
 //
 //
 
+#import <Foundation/Foundation.h>
 #import "WXApi.h"
 #import "WXApiRequestHandler.h"
 #import "WXApiManager.h"
@@ -36,13 +37,15 @@
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
 
-    WXMediaMessage *message = [WXMediaMessage messageWithTitle:title
-                                                   Description:description
+
+
+    WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ?nil:title
+                                                   Description:(description == (id) [NSNull null]) ?nil:description
                                                         Object:ext
-                                                    MessageExt:messageExt
-                                                 MessageAction:action
+                                                    MessageExt:(messageExt == (id) [NSNull null]) ? nil:messageExt
+                                                 MessageAction:(action == (id) [NSNull null])?nil:action
                                                     ThumbImage:thumbImage
-                                                      MediaTag:tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null])? nil:tagName];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -63,13 +66,13 @@
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = urlString;
 
-    WXMediaMessage *message = [WXMediaMessage messageWithTitle:title
-                                                   Description:description
+    WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ?nil:title
+                                                   Description:(description == (id) [NSNull null]) ?nil:description
                                                         Object:ext
-                                                    MessageExt:messageExt
-                                                 MessageAction:messageAction
+                                                    MessageExt:(messageExt == (id) [NSNull null]) ?nil:messageExt
+                                                 MessageAction:(messageAction == (id) [NSNull null]) ?nil:messageAction
                                                     ThumbImage:thumbImage
-                                                      MediaTag:tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ?nil:tagName];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -100,13 +103,13 @@
     }
 
 
-    WXMediaMessage *message = [WXMediaMessage messageWithTitle:title
+    WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ?nil:title
                                                    Description:description
                                                         Object:ext
-                                                    MessageExt:messageExt
-                                                 MessageAction:messageAction
+                                                    MessageExt:(messageExt == (id) [NSNull null]) ?nil:messageExt
+                                                 MessageAction:(messageAction == (id) [NSNull null]) ?nil:messageAction
                                                     ThumbImage:thumbImage
-                                                      MediaTag:tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ?nil:tagName];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -126,11 +129,11 @@
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene {
     WXMediaMessage *message = [WXMediaMessage message];
-    message.title = title;
-    message.description = description;
-    message.messageExt = messageExt;
-    message.messageAction = messageAction;
-    message.mediaTagName = tagName;
+    message.title = (title == (id) [NSNull null]) ?nil:title;
+    message.description = (description == (id) [NSNull null]) ?nil:description;
+    message.messageExt = (messageExt == (id) [NSNull null]) ?nil:messageExt;
+    message.messageAction = (messageAction == (id) [NSNull null]) ?nil:messageAction;
+    message.mediaTagName = (tagName == (id) [NSNull null]) ?nil:tagName;
     [message setThumbImage:thumbImage];
 
     WXVideoObject *ext = [WXVideoObject object];
@@ -211,13 +214,13 @@
     ext.withShareTicket = withShareTicket;
     ext.miniProgramType = programType;
 
-    WXMediaMessage *message = [WXMediaMessage messageWithTitle:title
-                                                   Description:description
+    WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ?nil:title
+                                                   Description:(description == (id) [NSNull null]) ?nil:description
                                                         Object:ext
-                                                    MessageExt:messageExt
-                                                 MessageAction:messageAction
+                                                    MessageExt:(messageExt == (id) [NSNull null]) ?nil:messageExt
+                                                 MessageAction:(messageAction == (id) [NSNull null]) ?nil:messageAction
                                                     ThumbImage:thumbImage
-                                                      MediaTag:tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ?nil:tagName];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message

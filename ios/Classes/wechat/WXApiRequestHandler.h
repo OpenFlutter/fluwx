@@ -20,7 +20,9 @@
            MessageExt:(NSString *)messageExt
                Action:(NSString *)action
            ThumbImage:(UIImage *)thumbImage
-              InScene:(enum WXScene)scene;
+              InScene:(enum WXScene)scene
+                title:(NSString *)title
+          description:(NSString *)description;
 
 + (BOOL)sendLinkURL:(NSString *)urlString
             TagName:(NSString *)tagName

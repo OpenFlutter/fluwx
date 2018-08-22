@@ -102,10 +102,13 @@ NSObject <FlutterPluginRegistrar> *_registrar;
             NSString *scene = call.arguments[fluwxKeyScene];
             BOOL done = [WXApiRequestHandler sendImageData:imageData
                                                    TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:fluwxKeyMessageExt
-                                                    Action:fluwxKeyMessageAction
+                                                MessageExt:call.arguments[fluwxKeyMessageExt]
+                                                    Action:call.arguments[fluwxKeyMessageAction]
                                                 ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]];
+                                                   InScene:[StringToWeChatScene toScene:scene]
+                                                    title:call.arguments[fluwxKeyTitle]
+                                               description:call.arguments[fluwxKeyDescription]
+                                                ];
             result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
@@ -135,12 +138,20 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSString *scene = call.arguments[fluwxKeyScene];
-            BOOL done = [WXApiRequestHandler sendImageData:imageData
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:fluwxKeyMessageExt
-                                                    Action:fluwxKeyMessageAction
-                                                ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]];
+//            BOOL done = [WXApiRequestHandler sendImageData:imageData
+//                                                   TagName:call.arguments[fluwxKeyMediaTagName]
+//                                                MessageExt:fluwxKeyMessageExt
+//                                                    Action:fluwxKeyMessageAction
+//                                                ThumbImage:thumbnailImage
+//                                                   InScene:[StringToWeChatScene toScene:scene]];
+            BOOL done  = [WXApiRequestHandler sendImageData:imageData
+                                                    TagName:call.arguments[fluwxKeyMediaTagName]
+                                                   MessageExt:call.arguments[fluwxKeyMessageExt]
+                                                     Action:call.arguments[fluwxKeyMessageAction]
+                                                 ThumbImage:thumbnailImage
+                                                    InScene:[StringToWeChatScene toScene:scene]
+                                                      title:call.arguments[fluwxKeyTitle]
+                                                description:call.arguments[fluwxKeyDescription]];
             result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
@@ -152,7 +163,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
 - (void)shareWebPage:(FlutterMethodCall *)call result:(FlutterResult)result {
 
-    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
 
         NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
@@ -327,7 +338,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 - (NSString *)readImageFromAssets:(NSString *)imagePath {
     NSArray *array = [self formatAssets:imagePath];
     NSString *key;
-    if (array[1] == nil) {
+    if ([StringUtil isBlank:array[1]]) {
         key = [_registrar lookupKeyForAsset:array[0]];
     } else {
         key = [_registrar lookupKeyForAsset:array[0] fromPackage:array[1]];
@@ -340,7 +351,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
 - (NSArray *)formatAssets:(NSString *)originPath {
     NSString *path = nil;
-    NSString *packageName = nil;
+    NSString *packageName = @"";
     int from = [SCHEMA_ASSETS length];
     int to = [originPath length];
     NSString *pathWithoutSchema = [originPath substringFromIndex:from toIndex:to];

@@ -1,6 +1,7 @@
 package com.jarvan.fluwx
 
 import com.jarvan.fluwx.constant.WeChatPluginMethods
+import com.jarvan.fluwx.handler.FluwxLoginHandler
 import com.jarvan.fluwx.handler.FluwxShareHandler
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -32,6 +33,10 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
             return
         }
 
+        if ("sendAuth" == call.method){
+            FluwxLoginHandler.sendAuth(call,result)
+            return
+        }
 
         if( call.method.startsWith("share")){
             FluwxShareHandler.handle(call, result)

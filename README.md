@@ -58,7 +58,7 @@ isWeChatRegistered = YES;
                });
 ```
 ```fluwx.share(shareModel)```返回值为:
-```
+```dart
 {
    "platform":"Android",//或者iOS
    result:true //或者false，取决于WXApi.sendRequest()的结果

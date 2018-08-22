@@ -57,7 +57,13 @@ isWeChatRegistered = YES;
                onError: (msg){
                });
 ```
-```fluwx.share(shareModel)```返回值为```bool```。
+```fluwx.share(shareModel)```返回值为:
+```
+{
+   "platform":"Android",//或者iOS
+   result:true //或者false，取决于WXApi.sendRequest()的结果
+ }
+```
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
 所有字段名字和官方文档基本是一致的。
 ## 图片处理

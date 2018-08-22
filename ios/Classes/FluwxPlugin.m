@@ -69,7 +69,7 @@ BOOL isWeChatRegistered = NO;
         return;
     }
 
-    NSString *appId = call.arguments[appId];
+    NSString *appId = call.arguments[@"appId"];
     if ([StringUtil isBlank:appId]) {
         result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
         return;

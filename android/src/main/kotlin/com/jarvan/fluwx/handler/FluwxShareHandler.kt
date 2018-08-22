@@ -135,11 +135,11 @@ object FluwxShareHandler {
         miniProgramObj.miniprogramType = call.argument("miniProgramType")// 正式版:0，测试版:1，体验版:2
         miniProgramObj.userName = call.argument("userName")     // 小程序原始id
         miniProgramObj.path = call.argument("path")            //小程序页面路径
+        miniProgramObj.withShareTicket = call.argument("withShareTicket")
         val msg = WXMediaMessage(miniProgramObj)
-        msg.title = call.argument("title")                   // 小程序消息title
+        msg.title = call.argument(WechatPluginKeys.TITLE)                   // 小程序消息title
         msg.description = call.argument("description")               // 小程序消息desc
         val thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
-
 
         launch {
             if (thumbnail.isNullOrBlank()) {
@@ -234,7 +234,7 @@ object FluwxShareHandler {
         val music = WXMusicObject()
         val musicUrl: String? = call.argument("musicUrl")
         val musicLowBandUrl: String? = call.argument("musicLowBandUrl")
-        if (musicUrl != null) {
+        if (musicUrl != null && musicUrl.isNotBlank()) {
             music.musicUrl = musicUrl
             music.musicDataUrl = call.argument("musicDataUrl")
         } else {
@@ -265,7 +265,7 @@ object FluwxShareHandler {
         val video = WXVideoObject()
         val videoUrl: String? = call.argument("videoUrl")
         val videoLowBandUrl: String? = call.argument("videoLowBandUrl")
-        if (videoUrl != null) {
+        if (videoUrl != null && videoUrl.isNotBlank()) {
             video.videoUrl = videoUrl
         } else {
             video.videoLowBandUrl = videoLowBandUrl

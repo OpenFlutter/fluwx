@@ -43,6 +43,12 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         [self shareImage:call result:result];
     } else if ([shareWebPage isEqualToString:call.method]) {
         [self shareWebPage:call result:result];
+    } else if ([shareMusic isEqualToString:call.method]) {
+        [self shareMusic:call result:result];
+    } else if ([shareVideo isEqualToString:call.method]) {
+        [self shareVideo:call result:result];
+    } else if([shareMiniProgram isEqualToString:call.method]){
+        [self shareMiniProgram:call result:result];
     }
 
 
@@ -52,7 +58,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     NSString *text = call.arguments[fluwxKeyText];
     NSString *scene = call.arguments[fluwxKeyScene];
     BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
-    result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
+    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 }
 
 
@@ -91,7 +97,6 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
 
-
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSString *scene = call.arguments[fluwxKeyScene];
@@ -101,14 +106,13 @@ NSObject <FlutterPluginRegistrar> *_registrar;
                                                     Action:fluwxKeyMessageAction
                                                 ThumbImage:thumbnailImage
                                                    InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
 
     });
 
 }
-
 
 
 - (void)shareAssetImage:(FlutterMethodCall *)call result:(FlutterResult)result imagePath:(NSString *)imagePath {
@@ -124,7 +128,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
 
-        NSData *imageData =  [NSData dataWithContentsOfFile:[self readImageFromAssets:imagePath]];
+        NSData *imageData = [NSData dataWithContentsOfFile:[self readImageFromAssets:imagePath]];
 
         UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
@@ -137,14 +141,13 @@ NSObject <FlutterPluginRegistrar> *_registrar;
                                                     Action:fluwxKeyMessageAction
                                                 ThumbImage:thumbnailImage
                                                    InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
 
     });
 
 }
-
 
 
 - (void)shareWebPage:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -154,45 +157,143 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
         NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
 
-        UIImage *thumbnailImage =[self getThumbnail:thumbnail size:32 * 1024];
-
-        NSData *imageData =  [NSData dataWithContentsOfFile:[self readImageFromAssets:@""]];
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
 
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *webPageUrl = call.arguments[@"webPage"];
             NSString *scene = call.arguments[fluwxKeyScene];
-            BOOL done = [WXApiRequestHandler sendImageData:imageData
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:fluwxKeyMessageExt
-                                                    Action:fluwxKeyMessageAction
-                                                ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@(done)});
+
+            BOOL done = [WXApiRequestHandler sendLinkURL:webPageUrl
+                                                 TagName:call.arguments[fluwxKeyMediaTagName]
+                                                   Title:call.arguments[fluwxKeyTitle]
+                                             Description:call.arguments[fluwxKeyDescription]
+                                              ThumbImage:thumbnailImage
+                                              MessageExt:call.arguments[fluwxKeyMessageExt]
+                                           MessageAction:call.arguments[fluwxKeyMessageAction]
+                                                 InScene:[StringToWeChatScene toScene:scene]];
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
 
     });
 
 
-
-
-
-
-    NSString *imagePath = call.arguments[fluwxKeyImage];
-
-
-    NSString *text = call.arguments[fluwxKeyText];
-    NSString *scene = call.arguments[fluwxKeyScene];
-    BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
-    result(@(done));
 }
 
+- (void)shareMusic:(FlutterMethodCall *)call result:(FlutterResult)result {
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_async(globalQueue, ^{
+
+        NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
 
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSString *scene = call.arguments[fluwxKeyScene];
+
+            BOOL done = [WXApiRequestHandler sendMusicURL:call.arguments[@"musicUrl"]
+                                                  dataURL:call.arguments[@"musicDataUrl"]
+                                          MusicLowBandUrl:call.arguments[@"musicLowBandUrl"]
+                                      MusicLowBandDataUrl:call.arguments[@"musicLowBandDataUrl"]
+                                                    Title:call.arguments[fluwxKeyTitle]
+                                              Description:call.arguments[fluwxKeyDescription]
+                                               ThumbImage:thumbnailImage
+                                               MessageExt:call.arguments[fluwxKeyMessageExt]
+                                            MessageAction:call.arguments[fluwxKeyMessageAction]
+                                                  TagName:call.arguments[fluwxKeyMediaTagName]
+                                                  InScene:[StringToWeChatScene toScene:scene]];
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+
+        });
+
+    });
+
+}
+
+- (void)shareVideo:(FlutterMethodCall *)call result:(FlutterResult)result {
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_async(globalQueue, ^{
+
+        NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
 
-- (UIImage *) getThumbnail:(NSString *) thumbnail size:(NSUInteger) size{
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSString *scene = call.arguments[fluwxKeyScene];
+
+            BOOL done = [WXApiRequestHandler sendVideoURL:call.arguments[@"videoUrl"]
+                                          VideoLowBandUrl:call.arguments[@"videoLowBandUrl"]
+                                                    Title:call.arguments[fluwxKeyTitle]
+                                              Description:call.arguments[fluwxKeyDescription]
+                                               ThumbImage:thumbnailImage
+                                               MessageExt:call.arguments[fluwxKeyMessageExt]
+                                            MessageAction:call.arguments[fluwxKeyMessageAction]
+                                                  TagName:call.arguments[fluwxKeyMediaTagName]
+                                                  InScene:[StringToWeChatScene toScene:scene]];
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+
+        });
+
+    });
+
+}
+
+- (void)shareMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_async(globalQueue, ^{
+
+        NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:120 * 1024];
+
+        NSData *hdImageData = nil;
+
+        NSString *hdImagePath = call.arguments[@"hdImagePath"];
+        if (![StringUtil isBlank:hdImagePath]) {
+            if ([hdImagePath hasPrefix:SCHEMA_ASSETS]) {
+                hdImageData = [NSData dataWithContentsOfFile:[self readImageFromAssets:hdImagePath]];
+
+            } else if ([hdImagePath hasPrefix:SCHEMA_FILE]) {
+
+            } else {
+                NSURL *hdImageURL = [NSURL URLWithString:hdImagePath];
+                hdImageData = [NSData dataWithContentsOfURL:hdImageURL];
+
+
+            }
+
+        }
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSString *scene = call.arguments[fluwxKeyScene];
+            BOOL done = [WXApiRequestHandler sendMiniProgramWebpageUrl:call.arguments[@"webPageUrl"]
+                                                              userName:call.arguments[@"userName"]
+                                                                  path:call.arguments[@"path"]
+                                                                 title:fluwxKeyTitle
+                                                           Description:fluwxKeyDescription
+                                                            ThumbImage:thumbnailImage
+                                                           hdImageData:hdImageData
+                                                       withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
+                                                       miniProgramType:(WXMiniProgramType) call.arguments[@"miniProgramType"]
+                                                            MessageExt:call.arguments[fluwxKeyMessageExt]
+                                                         MessageAction:call.arguments[fluwxKeyMessageAction]
+                                                               TagName:call.arguments[fluwxKeyMediaTagName]
+                                                               InScene:[StringToWeChatScene toScene:scene]];
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+
+        });
+
+    });
+
+}
+
+- (UIImage *)getThumbnail:(NSString *)thumbnail size:(NSUInteger)size {
 
 
     UIImage *thumbnailImage = nil;
@@ -219,26 +320,25 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     }
 
 
-    return  thumbnailImage;
+    return thumbnailImage;
 
 }
 
-- (NSString *) readImageFromAssets:(NSString *) imagePath{
+- (NSString *)readImageFromAssets:(NSString *)imagePath {
     NSArray *array = [self formatAssets:imagePath];
-    NSString* key ;
-    if(array[1] == nil){
-       key = [_registrar lookupKeyForAsset:array[0]];
-    } else{
+    NSString *key;
+    if (array[1] == nil) {
+        key = [_registrar lookupKeyForAsset:array[0]];
+    } else {
         key = [_registrar lookupKeyForAsset:array[0] fromPackage:array[1]];
     }
 
-    return  [[NSBundle mainBundle] pathForResource:key ofType:nil];
+    return [[NSBundle mainBundle] pathForResource:key ofType:nil];
 
 }
 
 
-
--(NSArray *) formatAssets:(NSString *) originPath{
+- (NSArray *)formatAssets:(NSString *)originPath {
     NSString *path = nil;
     NSString *packageName = nil;
     int from = [SCHEMA_ASSETS length];
@@ -246,11 +346,11 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     NSString *pathWithoutSchema = [originPath substringFromIndex:from toIndex:to];
     int indexOfPackage = [pathWithoutSchema lastIndexOfString:fluwxKeyPackage];
 
-    if( indexOfPackage != JavaNotFound){
+    if (indexOfPackage != JavaNotFound) {
         path = [pathWithoutSchema substringFromIndex:0 toIndex:indexOfPackage];
         int begin = indexOfPackage + [fluwxKeyPackage length];
         packageName = [pathWithoutSchema substringFromIndex:begin toIndex:[pathWithoutSchema length]];
-    } else{
+    } else {
         path = pathWithoutSchema;
     }
 

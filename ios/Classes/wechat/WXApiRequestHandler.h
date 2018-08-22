@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WXApiObject.h"
+#import "StringUtil.h"
 
 @interface WXApiRequestHandler : NSObject
 
@@ -26,19 +27,30 @@
               Title:(NSString *)title
         Description:(NSString *)description
          ThumbImage:(UIImage *)thumbImage
+         MessageExt:(NSString *)messageExt
+      MessageAction:(NSString *)messageAction
             InScene:(enum WXScene)scene;
 
 + (BOOL)sendMusicURL:(NSString *)musicURL
              dataURL:(NSString *)dataURL
+     MusicLowBandUrl:(NSString *)musicLowBandUrl
+ MusicLowBandDataUrl:(NSString *)musicLowBandDataUrl
                Title:(NSString *)title
          Description:(NSString *)description
           ThumbImage:(UIImage *)thumbImage
+          MessageExt:(NSString *)messageExt
+       MessageAction:(NSString *)messageAction
+             TagName:(NSString *)tagName
              InScene:(enum WXScene)scene;
 
 + (BOOL)sendVideoURL:(NSString *)videoURL
+     VideoLowBandUrl:(NSString *)videoLowBandUrl
                Title:(NSString *)title
          Description:(NSString *)description
           ThumbImage:(UIImage *)thumbImage
+          MessageExt:(NSString *)messageExt
+       MessageAction:(NSString *)messageAction
+             TagName:(NSString *)tagName
              InScene:(enum WXScene)scene;
 
 + (BOOL)sendEmotionData:(NSData *)emotionData
@@ -61,6 +73,9 @@
                       hdImageData:(NSData *)hdImageData
                   withShareTicket:(BOOL)withShareTicket
                   miniProgramType:(WXMiniProgramType)programType
+                       MessageExt:(NSString *)messageExt
+                    MessageAction:(NSString *)messageAction
+                          TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene;
 
 + (BOOL)launchMiniProgramWithUserName:(NSString *)userName

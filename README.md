@@ -7,7 +7,7 @@
  使用```Fluwx```之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
  这有助于你使用```Fluwx```。```Fluwx```的api字段名称基本和官方的字段名称是一致的。
  ios部分还在持续开发中。
-###目前功能
+### 目前功能
 * 文本分享。
 * 网站分享。
 * 图片分享。

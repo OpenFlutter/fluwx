@@ -7,11 +7,19 @@
  使用```Fluwx```之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
  这有助于你使用```Fluwx```。```Fluwx```的api字段名称基本和官方的字段名称是一致的。
  ios部分还在持续开发中。
+###目前功能
+* 文本分享。
+* 网站分享。
+* 图片分享。
+* 音乐分享。
+* 视频分享。
+* 小程序分享。
+
 ## 引入
 在```pubspec.yaml```文件中添加如下代码：
 ```yaml
 dependencies:
-  fluwx: ^0.0.1
+  fluwx: ^0.0.2
 ```
 ## 初始化
  ```dart
@@ -60,4 +68,6 @@ isWeChatRegistered = YES;
 未来可能支持```file://```。</br>
 如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。</br>
 ## 注意
-所有涉及缩略的最好给Fluwx一个合格的图片（小于32k,小程序小于120k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被裁剪。
+所有涉及缩略的最好给Fluwx一个合格的图片（小于32k,小程序小于120k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被缩放。
+###更多功能敬请请期待
+

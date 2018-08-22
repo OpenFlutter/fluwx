@@ -124,7 +124,13 @@ object FluwxShareHandler {
         msg.mediaTagName = call.argument<String>(WechatPluginKeys.MEDIA_TAG_NAME)
 
         setCommonArguments(call, req, msg)
-        result.success(wxApi?.sendReq(req))
+        val done = wxApi?.sendReq(req)
+        result.success(
+                mapOf(
+                        WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                        WechatPluginKeys.RESULT to done
+                )
+        )
 
     }
 
@@ -150,7 +156,13 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            result.success(wxApi?.sendReq(req))
+            val done = wxApi?.sendReq(req)
+            result.success(
+                    mapOf(
+                            WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                            WechatPluginKeys.RESULT to done
+                    )
+            )
 
         }
 
@@ -227,7 +239,13 @@ object FluwxShareHandler {
         val req = SendMessageToWX.Req()
         setCommonArguments(call, req, msg)
         req.message = msg
-        result.success(wxApi?.sendReq(req))
+        val done = wxApi?.sendReq(req)
+        result.success(
+                mapOf(
+                        WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                        WechatPluginKeys.RESULT to done
+                )
+        )
     }
 
     private fun shareMusic(call: MethodCall, result: MethodChannel.Result) {
@@ -255,7 +273,13 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            result.success(wxApi?.sendReq(req))
+            val done = wxApi?.sendReq(req)
+            result.success(
+                    mapOf(
+                            WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                            WechatPluginKeys.RESULT to done
+                    )
+            )
         }
 
 
@@ -283,7 +307,13 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            result.success(wxApi?.sendReq(req))
+            val done = wxApi?.sendReq(req)
+            result.success(
+                    mapOf(
+                            WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                            WechatPluginKeys.RESULT to done
+                    )
+            )
         }
 
 
@@ -306,7 +336,13 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            result.success(wxApi?.sendReq(req))
+            val done = wxApi?.sendReq(req)
+            result.success(
+                    mapOf(
+                            WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                            WechatPluginKeys.RESULT to done
+                    )
+            )
         }
     }
 

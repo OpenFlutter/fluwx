@@ -1,5 +1,6 @@
 package com.jarvan.fluwx.handler
 
+import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
@@ -13,7 +14,6 @@ object WXAPiHandler {
     var wxApi: IWXAPI? = null
 
 
-
     fun setRegistrar(registrar: PluginRegistry.Registrar) {
         WXAPiHandler.registrar = registrar
     }
@@ -21,7 +21,7 @@ object WXAPiHandler {
 
     fun registerApp(call: MethodCall, result: MethodChannel.Result) {
 
-        if(!call.argument<Boolean>(WechatPluginKeys.ANDROID)){
+        if (!call.argument<Boolean>(WechatPluginKeys.ANDROID)) {
             return
         }
 
@@ -33,7 +33,7 @@ object WXAPiHandler {
             return
         }
 
-        val appId:String? = call.argument(WechatPluginKeys.APP_ID)
+        val appId: String? = call.argument(WechatPluginKeys.APP_ID)
         if (appId.isNullOrBlank()) {
             result.error("invalid app id", "are you sure your app id is correct ?", appId)
             return
@@ -46,5 +46,15 @@ object WXAPiHandler {
                 WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
                 WechatPluginKeys.RESULT to registered
         ))
+    }
+
+    fun checkWeChatInstallation(result: MethodChannel.Result){
+        if (wxApi == null) {
+            result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
+            return
+        }else{
+            result.success(wxApi!!.isWXAppInstalled)
+        }
+
     }
 }

@@ -30,7 +30,7 @@ import okio.Source;
 import top.zibin.luban.Luban;
 
 public class WeChatThumbnailUtil {
-    public static final  int SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH = 120 * 1024;
+    public static final int SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH = 120 * 1024;
     public static final int SHARE_IMAGE_THUMB_LENGTH = 32 * 1024;
     private static final int COMMON_THUMB_WIDTH = 150;
 
@@ -46,7 +46,7 @@ public class WeChatThumbnailUtil {
         } else {
             file = downloadImage(thumbnail);
         }
-        return compress(file, registrar,SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH);
+        return compress(file, registrar, SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH);
     }
 
 
@@ -59,7 +59,7 @@ public class WeChatThumbnailUtil {
         } else {
             file = downloadImage(thumbnail);
         }
-        return compress(file, registrar,SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH);
+        return compress(file, registrar, SHARE_MINI_PROGRAM_IMAGE_THUMB_LENGTH);
     }
 
     public static byte[] thumbnailForCommon(String thumbnail, PluginRegistry.Registrar registrar) {
@@ -71,10 +71,10 @@ public class WeChatThumbnailUtil {
         } else {
             file = downloadImage(thumbnail);
         }
-        return compress(file, registrar,SHARE_IMAGE_THUMB_LENGTH);
+        return compress(file, registrar, SHARE_IMAGE_THUMB_LENGTH);
     }
 
-    private static byte[] compress(File file, PluginRegistry.Registrar registrar,int resultMaxLength) {
+    private static byte[] compress(File file, PluginRegistry.Registrar registrar, int resultMaxLength) {
         if (file == null) {
             return new byte[]{};
         }
@@ -86,7 +86,7 @@ public class WeChatThumbnailUtil {
                     .ignoreBy(resultMaxLength)
                     .setTargetDir(registrar.context().getCacheDir().getAbsolutePath())
                     .get(file.getAbsolutePath());
-            if (compressedFile.length() < resultMaxLength ) {
+            if (compressedFile.length() < resultMaxLength) {
                 Source source = Okio.source(compressedFile);
                 BufferedSource bufferedSource = Okio.buffer(source);
                 byte[] bytes = bufferedSource.readByteArray();
@@ -94,9 +94,7 @@ public class WeChatThumbnailUtil {
                 bufferedSource.close();
                 return bytes;
             }
-           return createScaledBitmapWithRatio(compressedFile,resultMaxLength);
-
-
+            return createScaledBitmapWithRatio(compressedFile, resultMaxLength);
 
 
         } catch (IOException e) {
@@ -105,7 +103,7 @@ public class WeChatThumbnailUtil {
         return new byte[]{};
     }
 
-    private static byte[] createScaledBitmapWithRatio(File file,int resultMaxLength) {
+    private static byte[] createScaledBitmapWithRatio(File file, int resultMaxLength) {
 
         Bitmap originBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
         Bitmap result = ThumbnailCompressUtil.createScaledBitmap(originBitmap, resultMaxLength, true);
@@ -117,18 +115,18 @@ public class WeChatThumbnailUtil {
 
     }
 
-    private static byte[] createScaledBitmap(File file,int resultMaxLength,int scaledWidth) {
+    private static byte[] createScaledBitmap(File file, int resultMaxLength, int scaledWidth) {
         Bitmap originBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
 
         Bitmap result = null;
 
-        int width =scaledWidth;
-        while (width > 10){
+        int width = scaledWidth;
+        while (width > 10) {
             result = ThumbnailCompressUtil.createScaledBitmap(originBitmap, width, false);
-            if (result.getByteCount() < resultMaxLength* 1024){
+            if (result.getByteCount() < resultMaxLength * 1024) {
                 break;
-            }else {
-                width = width -10;
+            } else {
+                width = width - 10;
             }
         }
 
@@ -170,12 +168,12 @@ public class WeChatThumbnailUtil {
         File result = null;
         int endIndex = thumbnail.length();
         int indexOfPackage = thumbnail.indexOf(WechatPluginKeys.PACKAGE);
-        if(indexOfPackage >  0){
+        if (indexOfPackage > 0) {
             endIndex = indexOfPackage;
         }
         String key = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_ASSETS.length(), endIndex);
 //        flutter_assets/packages/flutter_gallery_assets/ali_connors.jpg?package=flutter_gallery_assets
-        AssetFileDescriptor fileDescriptor = AssetManagerUtil.openAsset(registrar, key,  getPackage(thumbnail));
+        AssetFileDescriptor fileDescriptor = AssetManagerUtil.openAsset(registrar, key, getPackage(thumbnail));
 
         if (fileDescriptor != null) {
             try {
@@ -201,6 +199,7 @@ public class WeChatThumbnailUtil {
         }
         return packageStr;
     }
+
     private static File downloadImage(String url) {
         File result = null;
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
@@ -225,7 +224,7 @@ public class WeChatThumbnailUtil {
     }
 
 
-    private static File inputStreamToFile(InputStream inputStream,String suffix) {
+    private static File inputStreamToFile(InputStream inputStream, String suffix) {
         File result = null;
         try {
             result = File.createTempFile(UUID.randomUUID().toString(), suffix);

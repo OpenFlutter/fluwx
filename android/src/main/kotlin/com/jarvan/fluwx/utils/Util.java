@@ -81,7 +81,7 @@ class Util {
 
     }
 
-        public static byte[] getHtmlByteArray(final String url) {
+    public static byte[] getHtmlByteArray(final String url) {
         URL htmlUrl = null;
         InputStream inStream = null;
         try {

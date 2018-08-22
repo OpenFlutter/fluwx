@@ -20,8 +20,11 @@ class Fluwx {
   StreamController<Map> _responseFromShareController =
       new StreamController.broadcast();
 
-  Stream<Map> get responseFromShare => _responseFromShareController.stream;
+  StreamController<Map> _responseFromAuthController =
+  new StreamController.broadcast();
 
+  Stream<Map> get responseFromShare => _responseFromShareController.stream;
+  Stream<Map> get responseFromAuth => _responseFromAuthController.stream;
   ///the [model] should not be null
   static Future registerApp(RegisterModel model) async {
     return await _channel.invokeMethod("registerApp", model.toMap());
@@ -37,10 +40,15 @@ class Fluwx {
 
   void disposeAll() {
     _responseFromShareController.close();
+    _responseFromAuthController.close();
   }
 
   void disposeResponseFromShare(){
     _responseFromShareController.close();
+  }
+
+  void disposeResponseFromAuth(){
+    _responseFromAuthController.close();
   }
 
   ///the [model] can not be null
@@ -62,9 +70,15 @@ class Fluwx {
     return await _channel.invokeMethod("sendAuth", model.toMap());
   }
 
+  Future isWeChatInstalled() async{
+    return await _channel.invokeMethod("isWeChatInstalled");
+  }
+
   Future<dynamic> _handler(MethodCall methodCall) {
     if ("onShareResponse" == methodCall.method) {
       _responseFromShareController.add(methodCall.arguments);
+    }else if("onAuthResponse" == methodCall.method){
+      _responseFromAuthController.add(methodCall.arguments);
     }
 
     return Future.value(true);

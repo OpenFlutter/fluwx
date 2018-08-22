@@ -52,7 +52,6 @@ public class ShareImageUtil {
     }
 
 
-
     private static byte[] streamToByteArray(InputStream inputStream) {
         Bitmap bmp = null;
         bmp = BitmapFactory.decodeStream(inputStream);

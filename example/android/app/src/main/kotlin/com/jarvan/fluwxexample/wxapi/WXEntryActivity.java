@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import com.jarvan.fluwx.handler.FluwxShareHandler;
+import com.jarvan.fluwx.handler.FluwxLoginHandler;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
@@ -35,7 +35,6 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler{
 
 	@Override
 	public void onResp(BaseResp resp) {
-		FluwxShareHandler.INSTANCE.onResp(resp);
 	}
 	
 

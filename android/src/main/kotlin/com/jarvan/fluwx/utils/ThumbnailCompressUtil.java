@@ -88,28 +88,27 @@ public class ThumbnailCompressUtil {
             // 重置baos即清空baos
             baos.reset();
             // 这里压缩options%，把压缩后的数据存放到baos中
-            if(options <=  0){
+            if (options <= 0) {
                 options = 0;
             }
             bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
 
-            if(options == 0 ){
+            if (options == 0) {
                 break;
             }
 
         }
 
 
-
         return bitmap;
     }
 
-    public static  Bitmap compress(String nativeImagePath){
+    public static Bitmap compress(String nativeImagePath) {
         Bitmap.CompressFormat format = Bitmap.CompressFormat.JPEG;
         if (nativeImagePath.toLowerCase().endsWith(".png")) {
             format = Bitmap.CompressFormat.PNG;
         }
-        Log.e("tag",nativeImagePath);
+        Log.e("tag", nativeImagePath);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Bitmap bitmap = BitmapFactory.decodeFile(nativeImagePath);
         bitmap.compress(format, 90, baos);
@@ -124,6 +123,7 @@ public class ThumbnailCompressUtil {
 
         return result;
     }
+
     public static Bitmap createScaledBitmapWithRatio(Bitmap bitmap, float thumbWidth, boolean recycle) {
         Bitmap thumb;
         int imagw = bitmap.getWidth();
@@ -156,20 +156,20 @@ public class ThumbnailCompressUtil {
     }
 
 
-    public static Bitmap createScaledBitmapWithRatio(Bitmap bitmap , int maxLength, boolean recycle){
+    public static Bitmap createScaledBitmapWithRatio(Bitmap bitmap, int maxLength, boolean recycle) {
 
         Bitmap result = bitmap;
-        while (true){
-            double ratio =((double) maxLength )/ result.getByteCount();
+        while (true) {
+            double ratio = ((double) maxLength) / result.getByteCount();
             double width = result.getWidth() * Math.sqrt(ratio);
             double height = result.getHeight() * Math.sqrt(ratio);
-            Bitmap tmp = Bitmap.createScaledBitmap(result, (int) width, (int)height, true);
-            if (result != bitmap){
+            Bitmap tmp = Bitmap.createScaledBitmap(result, (int) width, (int) height, true);
+            if (result != bitmap) {
                 result.recycle();
             }
             result = tmp;
 
-            if (result.getByteCount() < maxLength ) {
+            if (result.getByteCount() < maxLength) {
                 break;
             }
 
@@ -179,7 +179,7 @@ public class ThumbnailCompressUtil {
             bitmap.recycle();
         }
 
-        return  result;
+        return result;
 
     }
 

@@ -5,10 +5,7 @@ import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.jarvan.fluwx.utils.ShareImageUtil
 import com.jarvan.fluwx.utils.WeChatThumbnailUtil
-import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.*
-import com.tencent.mm.opensdk.openapi.IWXAPI
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
@@ -23,8 +20,8 @@ import kotlinx.coroutines.experimental.launch
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
-object FluwxShareHandler {
-    private var wxApi: IWXAPI? = null
+internal object FluwxShareHandler {
+
 
     private var channel: MethodChannel? = null
 
@@ -35,50 +32,6 @@ object FluwxShareHandler {
         FluwxShareHandler.channel = channel
     }
 
-    fun setWXApi(wxApi:IWXAPI){
-        this.wxApi = wxApi
-    }
-
-    fun registerApp(call: MethodCall, result: MethodChannel.Result) {
-
-        if(!call.argument<Boolean>(WechatPluginKeys.ANDROID)){
-            result.success(mapOf(
-                    WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
-                    WechatPluginKeys.RESULT to false
-            ))
-            return
-        }
-
-        if (wxApi != null) {
-            result.success(mapOf(
-                    WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
-                    WechatPluginKeys.RESULT to true
-            ))
-            return
-        }
-
-        val appId:String? = call.argument(WechatPluginKeys.APP_ID)
-        if (appId.isNullOrBlank()) {
-            result.error("invalid app id", "are you sure your app id is correct ?", appId)
-            return
-        }
-
-        val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId)
-        val registered = api.registerApp(appId)
-        wxApi = api
-        result.success(mapOf(
-                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
-                WechatPluginKeys.RESULT to registered
-        ))
-    }
-
-    fun unregisterApp(call: MethodCall) {
-        if(!call.argument<Boolean>(WechatPluginKeys.ANDROID)){
-            return
-        }
-        wxApi?.unregisterApp()
-        wxApi = null
-    }
 
     fun setRegistrar(registrar: PluginRegistry.Registrar) {
         FluwxShareHandler.registrar = registrar
@@ -86,12 +39,12 @@ object FluwxShareHandler {
 
 
     fun handle(call: MethodCall, result: MethodChannel.Result) {
-        if (wxApi == null) {
+        if (WXAPiHandler.wxApi == null) {
             result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
             return
         }
 
-        if (!wxApi!!.isWXAppInstalled) {
+        if (!WXAPiHandler.wxApi!!.isWXAppInstalled) {
             result.error(CallResult.RESULT_WE_CHAT_NOT_INSTALLED, CallResult.RESULT_WE_CHAT_NOT_INSTALLED, null)
             return
         }
@@ -124,7 +77,7 @@ object FluwxShareHandler {
         msg.mediaTagName = call.argument<String>(WechatPluginKeys.MEDIA_TAG_NAME)
 
         setCommonArguments(call, req, msg)
-        val done = wxApi?.sendReq(req)
+        val done = WXAPiHandler.wxApi?.sendReq(req)
         result.success(
                 mapOf(
                         WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
@@ -156,7 +109,7 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            val done = wxApi?.sendReq(req)
+            val done = WXAPiHandler.wxApi?.sendReq(req)
             result.success(
                     mapOf(
                             WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
@@ -239,7 +192,7 @@ object FluwxShareHandler {
         val req = SendMessageToWX.Req()
         setCommonArguments(call, req, msg)
         req.message = msg
-        val done = wxApi?.sendReq(req)
+        val done = WXAPiHandler.wxApi?.sendReq(req)
         result.success(
                 mapOf(
                         WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
@@ -273,7 +226,7 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            val done = wxApi?.sendReq(req)
+            val done = WXAPiHandler.wxApi?.sendReq(req)
             result.success(
                     mapOf(
                             WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
@@ -307,7 +260,7 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            val done = wxApi?.sendReq(req)
+            val done = WXAPiHandler.wxApi?.sendReq(req)
             result.success(
                     mapOf(
                             WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
@@ -336,7 +289,7 @@ object FluwxShareHandler {
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
-            val done = wxApi?.sendReq(req)
+            val done = WXAPiHandler.wxApi?.sendReq(req)
             result.success(
                     mapOf(
                             WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
@@ -365,19 +318,7 @@ object FluwxShareHandler {
 //
 //        return  imgObj
 //    }
-    fun onResp(resp: BaseResp) {
-        val result = mapOf(
-                "errStr" to resp.errStr,
-                "transaction" to resp.transaction,
-                "type" to resp.type,
-                "errCode" to resp.errCode,
-                "openId" to resp.openId,
-                WechatPluginKeys.PLATFORM to "android"
-        )
 
-        channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_SHARE_RESPONSE, result)
-
-    }
 
     private fun getScene(value: String) = when (value) {
         WechatPluginKeys.SCENE_TIMELINE -> SendMessageToWX.Req.WXSceneTimeline

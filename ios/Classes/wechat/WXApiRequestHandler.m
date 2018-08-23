@@ -321,6 +321,18 @@
                      delegate:[FluwxResponseHandler responseHandler]];
 }
 
++ (BOOL)sendAuthRequestScope:(NSString *)scope
+                       State:(NSString *)state
+                      OpenID:(NSString *)openID
+             {
+    SendAuthReq *req = [[SendAuthReq alloc] init];
+    req.scope = scope; // @"post_timeline,sns"
+    req.state = state;
+    req.openID = openID;
+
+    return [WXApi sendReq:req];
+}
+
 + (BOOL)openProfileWithAppID:(NSString *)appID
                  Description:(NSString *)description
                     UserName:(NSString *)userName

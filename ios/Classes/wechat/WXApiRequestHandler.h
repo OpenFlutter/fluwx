@@ -102,6 +102,11 @@
                       OpenID:(NSString *)openID
             InViewController:(UIViewController *)viewController;
 
++ (BOOL)sendAuthRequestScope:(NSString *)scope
+                       State:(NSString *)state
+                      OpenID:(NSString *)openID;
+
+
 + (BOOL)openProfileWithAppID:(NSString *)appID
                  Description:(NSString *)description
                     UserName:(NSString *)userName

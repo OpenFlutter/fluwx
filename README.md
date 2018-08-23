@@ -14,12 +14,13 @@
 * 音乐分享。
 * 视频分享。
 * 小程序分享。
+* 发送Auth认证。
 
 ## 引入
 在```pubspec.yaml```文件中添加如下代码：
 ```yaml
 dependencies:
-  fluwx: ^0.0.2
+  fluwx: ^0.0.3
 ```
 ## 初始化
  ```dart

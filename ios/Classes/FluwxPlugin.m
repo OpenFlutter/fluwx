@@ -4,6 +4,7 @@
 #import "StringUtil.h"
 #import "../../../../../../ios/Classes/handler/FluwxShareHandler.h"
 #import "ImageSchema.h"
+#import "FluwxResponseHandler.h"
 
 
 @implementation FluwxPlugin
@@ -15,7 +16,9 @@ BOOL isWeChatRegistered = NO;
     FlutterMethodChannel *channel = [FlutterMethodChannel
             methodChannelWithName:@"fluwx"
                   binaryMessenger:[registrar messenger]];
+
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar];
+    [[FluwxResponseHandler responseHandler] setMethodChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
 
 

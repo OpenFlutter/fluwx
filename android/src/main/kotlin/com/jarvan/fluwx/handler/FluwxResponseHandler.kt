@@ -37,7 +37,7 @@ object FluwxResponseHandler {
                 type to response.type,
                 errCode to response.errCode,
                 openId to response.openId,
-                WechatPluginKeys.PLATFORM to "android"
+                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID
         )
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_SHARE_RESPONSE, result)

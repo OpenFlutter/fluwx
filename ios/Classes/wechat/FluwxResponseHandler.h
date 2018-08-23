@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Flutter/Flutter.h>
+#import "FluwxKeys.h"
 #import "WXApi.h"
 
 @protocol WXApiManagerDelegate <NSObject>
@@ -40,10 +42,12 @@
 - (void)managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *)response;
 @end
 
-@interface WXApiManager : NSObject<WXApiDelegate>
+@interface FluwxResponseHandler : NSObject<WXApiDelegate>
 
 @property (nonatomic, assign) id<WXApiManagerDelegate> delegate;
 
-+ (instancetype)sharedManager;
++ (instancetype)responseHandler;
+
+- (void) setMethodChannel:(FlutterMethodChannel *) flutterMethodChannel;
 
 @end

@@ -214,6 +214,7 @@
     ext.withShareTicket = withShareTicket;
     ext.miniProgramType = programType;
 
+
     WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ?nil:title
                                                    Description:(description == (id) [NSNull null]) ?nil:description
                                                         Object:ext

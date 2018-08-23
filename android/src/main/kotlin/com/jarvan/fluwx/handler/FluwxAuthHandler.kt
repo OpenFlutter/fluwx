@@ -11,7 +11,11 @@ internal object FluwxAuthHandler {
         val req = SendAuth.Req()
         req.scope = call.argument("scope")
         req.state = call.argument("state")
-        req.openId = call.argument("openId")
+        val openId = call.argument<String?>("openId")
+        if(!openId.isNullOrBlank()){
+            req.openId = call.argument("openId")
+        }
+
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
 

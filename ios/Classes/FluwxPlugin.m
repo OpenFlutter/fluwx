@@ -1,11 +1,10 @@
 #import <fluwx/FluwxPlugin.h>
 
 #import "WXApi.h"
-#import "StringUtil.h"
 #import "../../../../../../ios/Classes/handler/FluwxShareHandler.h"
-#import "ImageSchema.h"
-#import "FluwxResponseHandler.h"
+
 #import "FluwxAuthHandler.h"
+#import "FluwxWXApiHandler.h"
 
 
 @implementation FluwxPlugin
@@ -30,6 +29,7 @@ BOOL isWeChatRegistered = NO;
     if (self) {
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
+        _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
     }
 
     return self;
@@ -39,12 +39,12 @@ BOOL isWeChatRegistered = NO;
 
 
     if ([registerApp isEqualToString:call.method]) {
-        [self initWeChatIfNeeded:call result:result];
+        [_fluwxWXApiHandler registerApp:call result:result];
         return;
     }
 
-    if ([unregisterApp isEqualToString:call.method]) {
-        [self initWeChatIfNeeded:call result:result];
+    if([@"isWeChatInstalled" isEqualToString :call.method]){
+        [_fluwxWXApiHandler checkWeChatInstallation:call result:result];
         return;
     }
 
@@ -65,28 +65,6 @@ BOOL isWeChatRegistered = NO;
 }
 
 
-- (void)initWeChatIfNeeded:(FlutterMethodCall *)call result:(FlutterResult)result {
-
-    if (!call.arguments[fluwxKeyIOS]) {
-        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @NO});
-        return;
-    }
-
-    if (isWeChatRegistered) {
-        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @YES});
-        return;
-    }
-
-    NSString *appId = call.arguments[@"appId"];
-    if ([StringUtil isBlank:appId]) {
-        result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
-        return;
-    }
-
-
-    isWeChatRegistered = [WXApi registerApp:appId];
-    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(isWeChatRegistered)});
-}
 
 - (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
 

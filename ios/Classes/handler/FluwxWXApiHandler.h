@@ -3,6 +3,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Flutter/Flutter.h>
+#import "FluwxKeys.h"
 
 
-@interface FluwxWXApiHandler : NSObject @end
+@interface FluwxWXApiHandler : NSObject
+- (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result;
+- (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result;
+@end

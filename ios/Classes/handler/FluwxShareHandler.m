@@ -352,10 +352,10 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 - (NSArray *)formatAssets:(NSString *)originPath {
     NSString *path = nil;
     NSString *packageName = @"";
-    int from = [SCHEMA_ASSETS length];
-    int to = [originPath length];
+    NSInteger from = [SCHEMA_ASSETS length];
+    NSInteger to = [originPath length];
     NSString *pathWithoutSchema = [originPath substringFromIndex:from toIndex:to];
-    int indexOfPackage = [pathWithoutSchema lastIndexOfString:fluwxKeyPackage];
+    NSInteger indexOfPackage = [pathWithoutSchema lastIndexOfString:fluwxKeyPackage];
 
     if (indexOfPackage != JavaNotFound) {
         path = [pathWithoutSchema substringFromIndex:0 toIndex:indexOfPackage];

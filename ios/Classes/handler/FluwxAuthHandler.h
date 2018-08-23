@@ -1,5 +1,5 @@
 //
-// Created by mo on 2018/8/16.
+// Created by mo on 2018/8/23.
 //
 
 #import <Foundation/Foundation.h>
@@ -15,7 +15,7 @@
 #import "NSStringWrapper.h"
 @class StringUtil;
 
-@interface FluwxShareHandler : NSObject
+@interface FluwxAuthHandler : NSObject
 -(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
-- (void)handleShare:(FlutterMethodCall *)call result:(FlutterResult)result;
+- (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end

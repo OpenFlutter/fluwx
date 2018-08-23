@@ -1,8 +1,9 @@
 class WeChatSendAuthModel {
   final String scope;
   final String state;
+  final String openId;
 
-  WeChatSendAuthModel(this.scope, this.state) :
+  WeChatSendAuthModel(this.scope, this.state,this.openId) :
         assert(scope != null && scope
             .trim()
             .isNotEmpty);
@@ -10,7 +11,8 @@ class WeChatSendAuthModel {
   Map toMap() {
     return {
       "scope":scope,
-      "state":state
+      "state":state,
+      "openId":openId
     };
 
   }

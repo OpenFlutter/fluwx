@@ -2,7 +2,7 @@ package com.jarvan.fluwx
 
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WeChatPluginMethods.IS_WE_CHAT_INSTALLED
-import com.jarvan.fluwx.handler.FluwxLoginHandler
+import com.jarvan.fluwx.handler.FluwxAuthHandler
 import com.jarvan.fluwx.handler.FluwxResponseHandler
 import com.jarvan.fluwx.handler.FluwxShareHandler
 import com.jarvan.fluwx.handler.WXAPiHandler
@@ -44,7 +44,7 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
         }
 
         if ("sendAuth" == call.method) {
-            FluwxLoginHandler.sendAuth(call, result)
+            FluwxAuthHandler.sendAuth(call, result)
             return
         }
 

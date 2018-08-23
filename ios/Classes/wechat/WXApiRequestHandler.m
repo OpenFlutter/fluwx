@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "WXApi.h"
 #import "WXApiRequestHandler.h"
-#import "WXApiManager.h"
 #import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
 #import "WXMediaMessage+messageConstruct.h"
 
@@ -319,7 +318,7 @@
 
     return [WXApi sendAuthReq:req
                viewController:viewController
-                     delegate:[WXApiManager sharedManager]];
+                     delegate:[FluwxResponseHandler responseHandler]];
 }
 
 + (BOOL)openProfileWithAppID:(NSString *)appID

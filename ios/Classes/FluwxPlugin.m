@@ -5,6 +5,7 @@
 #import "../../../../../../ios/Classes/handler/FluwxShareHandler.h"
 #import "ImageSchema.h"
 #import "FluwxResponseHandler.h"
+#import "FluwxAuthHandler.h"
 
 
 @implementation FluwxPlugin
@@ -24,10 +25,11 @@ BOOL isWeChatRegistered = NO;
 
 }
 
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     self = [super init];
     if (self) {
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
+        _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
     }
 
     return self;
@@ -41,12 +43,18 @@ BOOL isWeChatRegistered = NO;
         return;
     }
 
-     if ([unregisterApp isEqualToString:call.method]) {
-            [self initWeChatIfNeeded:call result:result];
-            return;
-        }
+    if ([unregisterApp isEqualToString:call.method]) {
+        [self initWeChatIfNeeded:call result:result];
+        return;
+    }
 
-     if ([call.method hasPrefix:@"share"]) {
+
+    if([@"sendAuth" isEqualToString :call.method]){
+        [_fluwxAuthHandler handleAuth:call result:result];
+        return;
+    }
+
+    if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
         return;
     } else {
@@ -54,21 +62,18 @@ BOOL isWeChatRegistered = NO;
     }
 
 
-
-
-
 }
 
 
 - (void)initWeChatIfNeeded:(FlutterMethodCall *)call result:(FlutterResult)result {
 
-    if(!call.arguments[fluwxKeyIOS]){
-        result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@NO});
+    if (!call.arguments[fluwxKeyIOS]) {
+        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @NO});
         return;
     }
 
     if (isWeChatRegistered) {
-        result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult:@YES});
+        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @YES});
         return;
     }
 
@@ -80,15 +85,14 @@ BOOL isWeChatRegistered = NO;
 
 
     isWeChatRegistered = [WXApi registerApp:appId];
-    result(@{fluwxKeyPlatform:fluwxKeyIOS,fluwxKeyResult: @(isWeChatRegistered)});
+    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(isWeChatRegistered)});
 }
 
 - (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
 
-isWeChatRegistered = false;
-result(@YES);
+    isWeChatRegistered = false;
+    result(@YES);
 }
-
 
 
 @end

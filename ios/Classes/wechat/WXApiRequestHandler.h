@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "WXApiObject.h"
 #import "StringUtil.h"
+#import "FluwxResponseHandler.h"
 
 @interface WXApiRequestHandler : NSObject
 

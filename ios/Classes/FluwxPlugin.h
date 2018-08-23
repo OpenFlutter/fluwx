@@ -3,7 +3,7 @@
 #import "FluwxKeys.h"
 @class FluwxShareHandler;
 @class FluwxResponseHandler;
-
+@class FluwxAuthHandler;
 
 extern BOOL isWeChatRegistered;
 
@@ -12,6 +12,8 @@ extern BOOL isWeChatRegistered;
 
 @private
     FluwxShareHandler *_fluwxShareHandler;
+@private
+    FluwxAuthHandler *_fluwxAuthHandler;
 }
 
 @end

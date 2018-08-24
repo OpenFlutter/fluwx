@@ -2,10 +2,7 @@ package com.jarvan.fluwx
 
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WeChatPluginMethods.IS_WE_CHAT_INSTALLED
-import com.jarvan.fluwx.handler.FluwxAuthHandler
-import com.jarvan.fluwx.handler.FluwxResponseHandler
-import com.jarvan.fluwx.handler.FluwxShareHandler
-import com.jarvan.fluwx.handler.WXAPiHandler
+import com.jarvan.fluwx.handler.*
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -48,11 +45,18 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
             return
         }
 
+        if(call.method == WeChatPluginMethods.PAY){
+            FluwxPayHandler.pay(call,result)
+            return
+        }
+
         if (call.method.startsWith("share")) {
             FluwxShareHandler.handle(call, result)
         } else {
             result.notImplemented()
         }
+
+
 
     }
 }

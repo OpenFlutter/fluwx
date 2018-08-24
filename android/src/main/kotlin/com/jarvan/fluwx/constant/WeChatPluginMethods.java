@@ -19,4 +19,7 @@ public class WeChatPluginMethods {
     public static final String SHARE_WEB_PAGE = "shareWebPage";
     public static final String SHARE_MINI_PROGRAM = "shareMiniProgram";
 
+    public static final String PAY = "pay";
+    public static final String WE_CHAT_PAY_RESPONSE = "onPayResponse";
+
 }

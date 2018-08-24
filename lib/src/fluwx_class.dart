@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'models/flutter_register_model.dart';
 import 'models/wechat_share_models.dart';
 import 'models/wechat_send_auth_model.dart';
+import 'models/wechat_pay_model.dart';
 class Fluwx {
   static const Map<Type, String> _shareModelMethodMapper = {
     WeChatShareTextModel: "shareText",
@@ -23,8 +24,12 @@ class Fluwx {
   StreamController<Map> _responseFromAuthController =
   new StreamController.broadcast();
 
+  StreamController<Map> _responseFromPayController =
+  new StreamController.broadcast();
+
   Stream<Map> get responseFromShare => _responseFromShareController.stream;
   Stream<Map> get responseFromAuth => _responseFromAuthController.stream;
+  Stream<Map> get responseFromPay => _responseFromPayController.stream;
   ///the [model] should not be null
   static Future registerApp(RegisterModel model) async {
     return await _channel.invokeMethod("registerApp", model.toMap());
@@ -41,6 +46,7 @@ class Fluwx {
   void disposeAll() {
     _responseFromShareController.close();
     _responseFromAuthController.close();
+    _responseFromPayController.close();
   }
 
   void disposeResponseFromShare(){
@@ -49,6 +55,10 @@ class Fluwx {
 
   void disposeResponseFromAuth(){
     _responseFromAuthController.close();
+  }
+
+  void disposeResponseFromPay(){
+    _responseFromPayController.close();
   }
 
   ///the [model] can not be null
@@ -79,8 +89,14 @@ class Fluwx {
       _responseFromShareController.add(methodCall.arguments);
     }else if("onAuthResponse" == methodCall.method){
       _responseFromAuthController.add(methodCall.arguments);
+    }else if("onPayResponse" == methodCall.method){
+      _responseFromPayController.add(methodCall.arguments);
     }
 
     return Future.value(true);
+  }
+
+  Future pay(WeChatPayModel model) async {
+    return await _channel.invokeMethod("pay",model.toMap());
   }
 }

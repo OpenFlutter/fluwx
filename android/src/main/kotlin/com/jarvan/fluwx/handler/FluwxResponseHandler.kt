@@ -5,6 +5,7 @@ import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelpay.PayResp
 import io.flutter.plugin.common.MethodChannel
 
 object FluwxResponseHandler {
@@ -27,7 +28,25 @@ object FluwxResponseHandler {
             handleAuthResponse(response)
         }else if (response is SendMessageToWX.Resp){
             handleSendMessageResp(response)
+        }else if(response is PayResp){
+            handlePayResp(response)
         }
+    }
+
+    private fun handlePayResp(response: PayResp) {
+        val result = mapOf(
+                "prepayId" to response.prepayId,
+                "returnKey" to response.returnKey,
+                "extData" to response.extData,
+                errStr to response.errStr,
+                WechatPluginKeys.TRANSACTION to response.transaction,
+                type to response.type,
+                errCode to response.errCode,
+                openId to response.openId,
+                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID
+
+        )
+        channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_PAY_RESPONSE, result)
     }
 
     private fun handleSendMessageResp(response: SendMessageToWX.Resp) {
@@ -60,4 +79,6 @@ object FluwxResponseHandler {
         )
         channel?.invokeMethod("onAuthResponse", result)
     }
+
+
 }

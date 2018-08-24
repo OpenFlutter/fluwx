@@ -40,6 +40,8 @@
 - (void)managerDidRecvNonTaxpayResponse:(WXNontaxPayResp *)response;
 
 - (void)managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *)response;
+
+- (void)managerDidRecvPaymentResponse:(PayResp *)response;
 @end
 
 @interface FluwxResponseHandler : NSObject<WXApiDelegate>

@@ -82,6 +82,7 @@ FlutterMethodChannel *methodChannel = nil;
 
         };
         [methodChannel invokeMethod:@"onAuthResponse" arguments:result];
+
     } else if ([resp isKindOfClass:[AddCardToWXCardPackageResp class]]) {
         if (_delegate
                 && [_delegate respondsToSelector:@selector(managerDidRecvAddCardResponse:)]) {
@@ -120,6 +121,23 @@ FlutterMethodChannel *methodChannel = nil;
         if ([_delegate respondsToSelector:@selector(managerDidRecvPayInsuranceResponse:)]) {
             [_delegate managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *) resp];
         }
+    }else if ([resp isKindOfClass:[PayResp class]]) {
+        if ([_delegate respondsToSelector:@selector(managerDidRecvPaymentResponse)]) {
+            [_delegate managerDidRecvPaymentResponse:(PayResp *) resp];
+        }
+
+
+
+        PayResp *payResp = (PayResp *) resp;
+
+        NSDictionary *result = @{
+                description: payResp.description,
+                errStr: payResp.errStr,
+                errCode: @(payResp.errCode),
+                type: @(payResp.type),
+                fluwxKeyPlatform: fluwxKeyIOS,
+        };
+        [methodChannel invokeMethod:@"onAuthResponse" arguments:result];
     }
 }
 

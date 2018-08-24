@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluwx/fluwx.dart';
-import 'package:fluwx_example/share_music.dart';
-import 'package:fluwx_example/share_web_page.dart';
+import 'share_music.dart';
+import 'share_web_page.dart';
 import 'share_image_page.dart';
 import 'share_text_image.dart';
 

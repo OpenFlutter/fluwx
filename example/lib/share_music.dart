@@ -128,7 +128,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
       description: _description,
       transaction: "music",
       musicUrl: _musicUrl,
-      musicLowBandDataUrl: _musicLowBandUrl
+        musicLowBandUrl: _musicLowBandUrl,
     );
 
     fluwx.share(model);

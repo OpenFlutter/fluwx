@@ -43,6 +43,9 @@ isWeChatRegistered = YES;
 
 
     注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema等。
+
+### 传送门
+* [发送Auth认证](docs/SEND_AUTH.md)。
 ## 开始分享
 以分享文本和网址为例：
 ```dart

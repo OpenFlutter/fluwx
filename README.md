@@ -54,7 +54,7 @@ isWeChatRegistered = YES;
 ### 更多功能敬请请期待
 
 ## LICENSE
--------
+
 
 Copyright 2018 OpenFlutter Project
 

@@ -17,10 +17,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
   void initState() {
     super.initState();
     fluwx = new Fluwx();
-    fluwx.sendAuth(WeChatSendAuthModel(
-      scope: "snsapi_userinfo",
-          state:"wechat_sdk_demo_test",
-    ));
   }
   @override
   Widget build(BuildContext context) {

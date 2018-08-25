@@ -63,6 +63,6 @@
     );
 
     fluwx.share(model);
-```dart
+```
 音乐的分享有两种：```musicUrl```和```musicLowBandUrl```。这两种形式是不共存的，如果
-    都二者都进行了赋值，那么只会读取```musicUrl```。
+都二者都进行了赋值，那么只会读取```musicUrl```。

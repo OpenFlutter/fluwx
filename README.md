@@ -22,6 +22,7 @@
 dependencies:
   fluwx: ^0.0.3
 ```
+
 ## 初始化
  ```dart
  Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
@@ -43,6 +44,8 @@ isWeChatRegistered = YES;
 
 
     注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema等。
+
+
 
 ### 传送门
 * [发送Auth认证](docs/SEND_AUTH.md)。
@@ -70,14 +73,6 @@ isWeChatRegistered = YES;
 ```
 ```fluwx.share(WeChatShareModel)```目前仅支持系统内```WeChatShareModel```的子类，不支持自定义。
 所有字段名字和官方文档基本是一致的。
-## 图片处理
-图片仅支持```png```和```jpg```。
-目前所有需要图片的地方支持网络图片及assets图片。</br>
-使用assets图片需要添加```assets://```。</br>
-也可以在assets图片添加```?package=package_name```以读取指定包的图片。</br>
-未来可能支持```file://```。</br>
-如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。</br>
-## 注意
-所有涉及缩略的最好给Fluwx一个合格的图片（小于32k,小程序小于120k），否则Fluwx将会对图片进行处理，这样做的结果可能并不是你所预期的，如缩略图被缩放。
+
 ### 更多功能敬请请期待
 

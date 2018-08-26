@@ -16,12 +16,26 @@
 * 小程序分享。
 * 发送Auth认证。
 
+## 技术参数
+   Android部分使用到了```kotlin-1.2.60```。以下是Android部分所涉及到的技术:
+   ```groovy
+       implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
+       implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
+       implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
+       implementation 'top.zibin:Luban:1.1.8'
+       implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+   ```
+   iOS部分涉及到的技术：
+   ```ruby
+    s.dependency 'WechatOpenSDK','~> 1.8.2'
+   ```
 ## 引入
 在```pubspec.yaml```文件中添加如下代码：
 ```yaml
 dependencies:
   fluwx: ^0.0.3
 ```
+
 
 ## 初始化
 使用```Fluwx```前，需要进行初始化操作：

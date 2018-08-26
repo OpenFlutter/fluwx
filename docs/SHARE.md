@@ -67,16 +67,16 @@
 音乐的分享有两种：```musicUrl```和```musicLowBandUrl```。这两种形式是不共存的，如果
 都二者都进行了赋值，那么只会读取```musicUrl```。
 ### 分享视频
-```
-    var model = new WeChatShareVideoModel(
-      videoUrl: _videoUrl,
-      transaction: "video",
-      videoLowBandUrl: _videoLowBandUrl,
-      thumbnail: _thumnail,
-      description: _description,
-      title: _title
-    );
-    fluwx.share(model);
+```dart
+   var model = new WeChatShareVideoModel(
+     videoUrl: _videoUrl,
+     transaction: "video",
+     videoLowBandUrl: _videoLowBandUrl,
+     thumbnail: _thumnail,
+     description: _description,
+     title: _title
+   );
+   fluwx.share(model);
 ```
 视频的分享有两种：```videoUrl```和```videoLowBandUrl```。这两种形式是不共存的，如果
 都二者都进行了赋值，那么只会读取```videoUrl```。

@@ -49,7 +49,7 @@ dependencies:
  ```Fluwx```正常工作。
  注册完成后，请在使用```Fluwx```前在对应平台添加如下代码：
  Android上：
- ```Kotlin
+ ```kotlin
  FluwxShareHandler.setWXApi(wxapi)
  ```
  iOS上：

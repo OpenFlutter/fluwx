@@ -18,7 +18,7 @@
 
 ## 技术参数
    Android部分使用到了```kotlin-1.2.60```。以下是Android部分所涉及到的技术:
-   ```groovy
+   ```gradle
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
@@ -26,7 +26,7 @@
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
    ```
    iOS部分涉及到的技术：
-   ```ruby
+   ```podspec
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
 ## 引入

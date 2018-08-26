@@ -61,8 +61,9 @@ isWeChatRegistered = YES;
 
 ### 传送门
 * [分享功能](docs/SHARE.md)。
-* [发送Auth认证](docs/SEND_AUTH.md)。
+* [Auth认证](docs/SEND_AUTH.md)。
 * [支付](docs/WXPay.md)。
+* [回调](docs/RESPONSE.md)。
 
 
 ### 更多功能敬请请期待

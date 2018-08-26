@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_example/share_video_page.dart';
 import 'share_music.dart';
 import 'share_web_page.dart';
 import 'share_image_page.dart';
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
         "shareImage":(context) => ShareImagePage(),
         "shareWebPage":(context) => ShareWebPagePage(),
         "shareMusic":(context) => ShareMusicPage(),
+        "shareVideo":(context) => ShareVideoPage(),
       },
       home: new Scaffold(
           appBar: new AppBar(

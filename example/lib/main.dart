@@ -47,23 +47,29 @@ class _MyAppState extends State<MyApp> {
 class ShareSelectorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Column(
-      children: <Widget>[
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareText");
-        }, child: const Text("share text")),
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareImage");
-        }, child: const Text("share image")),
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareWebPage");
+    return Center(
+      child: new Column(
+        children: <Widget>[
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareText");
+          }, child: const Text("share text")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareImage");
+          }, child: const Text("share image")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareWebPage");
 
-        }, child: const Text("share webpage")),
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareMusic");
+          }, child: const Text("share webpage")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareMusic");
 
-        }, child: const Text("share music")),
-      ],
+          }, child: const Text("share music")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareVideo");
+
+          }, child: const Text("share video")),
+        ],
+      ),
     );
   }
 }

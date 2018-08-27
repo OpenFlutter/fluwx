@@ -12,6 +12,11 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+  return  [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application {
 
 }

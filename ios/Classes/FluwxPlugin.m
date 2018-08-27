@@ -5,6 +5,7 @@
 
 #import "FluwxAuthHandler.h"
 #import "FluwxWXApiHandler.h"
+#import "FluwxPaymentHandler.h"
 
 
 @implementation FluwxPlugin
@@ -30,6 +31,7 @@ BOOL isWeChatRegistered = NO;
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
         _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
+        _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] init];
     }
 
     return self;
@@ -51,6 +53,11 @@ BOOL isWeChatRegistered = NO;
 
     if([@"sendAuth" isEqualToString :call.method]){
         [_fluwxAuthHandler handleAuth:call result:result];
+        return;
+    }
+
+    if([@"pay" isEqualToString :call.method]){
+        [_fluwxPaymentHandler handlePayment:call result:result];
         return;
     }
 

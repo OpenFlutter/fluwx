@@ -4,10 +4,12 @@
 #import "FluwxWXApiHandler.h"
 
 
+
 @class FluwxShareHandler;
 @class FluwxResponseHandler;
 @class FluwxAuthHandler;
 @class FluwxWXApiHandler;
+@class FluwxPaymentHandler;
 
 extern BOOL isWeChatRegistered;
 
@@ -19,6 +21,8 @@ extern BOOL isWeChatRegistered;
 @private
     FluwxAuthHandler *_fluwxAuthHandler;
 @private FluwxWXApiHandler *_fluwxWXApiHandler;
+@private FluwxPaymentHandler *_fluwxPaymentHandler;
+
 }
 
 @end

@@ -384,7 +384,6 @@
           Timestamp:(UInt32)timestamp
             Package:(NSString *)package
                Sign:(NSString *)sign
-        Description:(NSString *)description
 {
     PayReq *req = [[PayReq alloc] init];
     req.partnerId = partnerId;
@@ -393,6 +392,8 @@
     req.timeStamp = timestamp;
     req.package = package;
     req.sign = sign;
+
+
 
 
     return [WXApi sendReq:req];

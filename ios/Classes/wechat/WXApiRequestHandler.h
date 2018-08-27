@@ -138,7 +138,5 @@
             NonceStr:(NSString *)nonceStr
            Timestamp:(UInt32)timestamp
              Package:(NSString *)package
-                Sign:(NSString *)sign
-         Description:(NSString *)description
-             ;
+                Sign:(NSString *)sign;
 @end

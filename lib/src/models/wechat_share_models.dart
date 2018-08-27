@@ -58,6 +58,16 @@ class WeChatShareTextModel extends WeChatShareModel {
   }
 }
 
+///
+/// [WeChatScene] is not supported here due to WeChat's limits.
+/// [miniProgramTyp] only supports the following number:
+/// [MINI_PROGRAM_TYPE_RELEASE]
+/// [MINI_PROGRAM_TYPE_TEST]
+/// [MINI_PROGRAM_TYPE_PREVIEW]
+/// the default value is [MINI_PROGRAM_TYPE_RELEASE]
+///
+/// [hdImagePath] only works with iOS
+///
 class WeChatShareMiniProgramModel extends WeChatShareModel {
   static const int MINI_PROGRAM_TYPE_RELEASE = 0;
   static const int MINI_PROGRAM_TYPE_TEST = 1;
@@ -89,8 +99,8 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
       this.title,
       this.description,
       this.thumbnail,
-        this.withShareTicket:false,
-        this.hdImagePath,
+      this.withShareTicket: false,
+      this.hdImagePath,
       String transaction,
       WeChatScene scene,
       String messageExt,
@@ -120,8 +130,8 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
       _transaction: transaction,
       _scene: scene.toString(),
       _thumbnail: thumbnail,
-      "withShareTicket":withShareTicket,
-      "hdImagePath":hdImagePath
+      "withShareTicket": withShareTicket,
+      "hdImagePath": hdImagePath
     };
   }
 }
@@ -222,6 +232,7 @@ class WeChatShareMusicModel extends WeChatShareModel {
     };
   }
 }
+
 /// if [videoUrl] and [videoLowBandUrl] are both provided,
 /// only [videoUrl] will be used.
 class WeChatShareVideoModel extends WeChatShareModel {

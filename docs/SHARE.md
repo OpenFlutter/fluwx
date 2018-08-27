@@ -50,7 +50,7 @@
         scene: scene,
         description: "image"));
 ```
->  注意：如果`不指定 `thumbnail`，那么`Fluwx`将尝试从`image`中获取缩略图。
+>  注意：如果不指定 `thumbnail`，那么`Fluwx`将尝试从`image`中获取缩略图。
 
 ### 分享音乐
 ```dart

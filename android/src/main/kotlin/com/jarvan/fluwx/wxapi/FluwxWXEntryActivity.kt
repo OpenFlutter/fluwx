@@ -10,7 +10,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 
 
-class FluwxWXEntryActivity:Activity(), IWXAPIEventHandler {
+open class FluwxWXEntryActivity:Activity(), IWXAPIEventHandler {
 
 
 

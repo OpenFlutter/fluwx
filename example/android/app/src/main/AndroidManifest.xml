@@ -35,7 +35,18 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".wxapi.WXEntryActivity" />
-        <activity android:name=".wxapi.WXPayEntryActivity" />
+        <activity
+            android:name="net.sourceforge.simcpux.wxapi.WXEntryActivity"
+            android:theme="@style/DisablePreviewTheme"
+            android:exported="true"
+            android:launchMode="singleTop">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="sdksample"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity" />
     </application>
 </manifest>

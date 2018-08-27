@@ -3,6 +3,7 @@ package com.jarvan.fluwx.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.jarvan.fluwx.handler.FluwxResponseHandler
 import com.jarvan.fluwx.handler.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
@@ -38,7 +39,9 @@ open class FluwxWXEntryActivity:Activity(), IWXAPIEventHandler {
 
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
     override fun onResp(resp: BaseResp) {
+
         FluwxResponseHandler.handleResponse(resp)
+        finish()
     }
 
 

@@ -1,5 +1,6 @@
 package com.jarvan.fluwx.handler
 
+import android.util.Log
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -77,6 +78,7 @@ object FluwxResponseHandler {
                 type to response.type,
                 WechatPluginKeys.TRANSACTION to response.transaction
         )
+
         channel?.invokeMethod("onAuthResponse", result)
     }
 

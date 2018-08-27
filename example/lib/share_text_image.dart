@@ -14,6 +14,7 @@ class _ShareTextPageState extends State<ShareTextPage> {
   void initState() {
     super.initState();
     fluwx = new Fluwx();
+
   }
   @override
   Widget build(BuildContext context) {
@@ -84,6 +85,8 @@ class _ShareTextPageState extends State<ShareTextPage> {
       transaction: "text${DateTime.now().millisecondsSinceEpoch}",
       scene: scene
     ));
+
+//    fluwx.sendAuth(WeChatSendAuthModel(scope: "snsapi_userinfo",state: "wechat_sdk_demo_test"));
   }
 
   void handleRadioValueChanged(WeChatScene scene){

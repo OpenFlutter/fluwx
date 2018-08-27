@@ -1,6 +1,8 @@
 package com.jarvan.fluwxexample
 
 import android.os.Bundle
+import net.sourceforge.simcpux.wxapi.WXEntryActivity
+import net.sourceforge.simcpux.wxapi.WXPayEntryActivity
 
 import io.flutter.app.FlutterActivity
 import io.flutter.plugins.GeneratedPluginRegistrant

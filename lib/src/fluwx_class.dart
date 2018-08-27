@@ -16,7 +16,7 @@ class Fluwx {
     WeChatShareMiniProgramModel: "shareMiniProgram"
   };
 
-  static const MethodChannel _channel = const MethodChannel('fluwx');
+  static const MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx');
 
   StreamController<Map> _responseFromShareController =
       new StreamController.broadcast();

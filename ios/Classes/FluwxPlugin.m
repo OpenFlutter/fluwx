@@ -15,7 +15,7 @@ BOOL isWeChatRegistered = NO;
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     FlutterMethodChannel *channel = [FlutterMethodChannel
-            methodChannelWithName:@"fluwx"
+            methodChannelWithName:@"com.jarvanmo/fluwx"
                   binaryMessenger:[registrar messenger]];
 
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar];

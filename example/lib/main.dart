@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_example/share_video_page.dart';
 import 'share_music.dart';
 import 'share_web_page.dart';
 import 'share_image_page.dart';
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
         "shareImage":(context) => ShareImagePage(),
         "shareWebPage":(context) => ShareWebPagePage(),
         "shareMusic":(context) => ShareMusicPage(),
+        "shareVideo":(context) => ShareVideoPage(),
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -45,23 +47,29 @@ class _MyAppState extends State<MyApp> {
 class ShareSelectorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Column(
-      children: <Widget>[
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareText");
-        }, child: const Text("share text")),
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareImage");
-        }, child: const Text("share image")),
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareWebPage");
+    return Center(
+      child: new Column(
+        children: <Widget>[
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareText");
+          }, child: const Text("share text")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareImage");
+          }, child: const Text("share image")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareWebPage");
 
-        }, child: const Text("share webpage")),
-        new OutlineButton(onPressed: () {
-          Navigator.of(context).pushNamed("shareMusic");
+          }, child: const Text("share webpage")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareMusic");
 
-        }, child: const Text("share music")),
-      ],
+          }, child: const Text("share music")),
+          new OutlineButton(onPressed: () {
+            Navigator.of(context).pushNamed("shareVideo");
+
+          }, child: const Text("share video")),
+        ],
+      ),
     );
   }
 }

@@ -36,5 +36,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".wxapi.WXEntryActivity" />
+        <activity android:name=".wxapi.WXPayEntryActivity" />
     </application>
 </manifest>

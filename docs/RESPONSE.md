@@ -14,7 +14,7 @@
 在你的`AppDelegate`中重写下面方法：
 ```objective-c
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+  return  [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
 }
 
 ```

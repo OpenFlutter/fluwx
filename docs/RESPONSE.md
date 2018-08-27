@@ -20,6 +20,11 @@
 ```
 
 ### Flutter
+```dart
+    _fluwx.response.listen((response){
+      //do something
+    });
+```
 从微信回调的值为`WeChatResponse`，其实`type`字段为：
 ```dart
 enum ResponseType {

@@ -19,7 +19,7 @@ fluwx.pay(WeChatPayModel(
 ### 返回值处理
 注：此返回值是此方法调用的直接返回值，并非支付之后的回调，回调请查看[相关文档](docs/RESPONSE.md)
 
- ```fluwx.pay(model)```返回的是一个```Map```：
+ `fluwx.pay(model)`返回的是一个`Map`：
 ```dart
     {
       "platform":"Android",//或者iOS

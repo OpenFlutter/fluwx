@@ -4,8 +4,8 @@
 
 
 ## 使用需知
- 使用```Fluwx```之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
- 这有助于你使用```Fluwx```。
+ 使用`Fluwx`之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
+ 这有助于你使用`Fluwx`。
 
 ### 目前功能
 * 文本分享。
@@ -17,7 +17,7 @@
 * 发送Auth认证。
 
 ## 技术参数
-   Android部分使用到了```kotlin-1.2.60```。以下是Android部分所涉及到的技术:
+   Android部分使用到了`kotlin-1.2.60`。以下是Android部分所涉及到的技术:
    ```gradle
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
@@ -30,7 +30,7 @@
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
 ## 引入
-在```pubspec.yaml```文件中添加如下代码：
+在`pubspec.yaml`文件中添加如下代码：
 ```yaml
 dependencies:
   fluwx: ^0.0.3
@@ -38,16 +38,16 @@ dependencies:
 
 
 ## 初始化
-使用```Fluwx```前，需要进行初始化操作：
+使用`Fluwx`前，需要进行初始化操作：
  ```dart
  Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
  ```
- - ```appId```：在微信平台申请的appId。
- - ```doOnAndroid```:是否在android平台上执行此操作。
- - ```doOnIOS```:是否在平台上执行此操作。</br>
- 每一个字段都是非必须的，但是如果不传```appId```或```doOnAndroid: false```或者```doOnIOS: false```，在使用前请务必手动注册```WXApi```，以保证
- ```Fluwx```正常工作。
- 注册完成后，请在使用```Fluwx```前在对应平台添加如下代码：
+ - `appId`：在微信平台申请的appId。
+ - `doOnAndroid`:是否在android平台上执行此操作。
+ - `doOnIOS`:是否在平台上执行此操作。</br>
+ 每一个字段都是非必须的，但是如果不传`appId`或`doOnAndroid: false`或者`doOnIOS: false`，在使用前请务必手动注册`WXApi`，以保证
+ `Fluwx`正常工作。
+ 注册完成后，请在使用`Fluwx`前在对应平台添加如下代码：
  Android上：
  ```kotlin
  FluwxShareHandler.setWXApi(wxapi)

@@ -80,3 +80,19 @@
 ```
 视频的分享有两种：`videoUrl`和`videoLowBandUrl`。这两种形式是不共存的，如果
 都二者都进行了赋值，那么只会读取`videoUrl`。
+### 分享小程序
+```dart
+ var model =new WeChatShareMiniProgramModel(
+      webPageUrl: _webPageUrl,
+      miniProgramType: WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
+      userName: _userName,
+      title: _title,
+      description: _description,
+      thumbnail: _thumbnail
+    );
+    fluwx.share(model);
+```
+`miniProgramType`仅支持三种:
+* MINI_PROGRAM_TYPE_RELEASE
+* MINI_PROGRAM_TYPE_TEST
+* MINI_PROGRAM_TYPE_PREVIEW

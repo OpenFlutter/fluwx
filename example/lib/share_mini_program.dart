@@ -10,7 +10,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
 
   Fluwx fluwx;
   WeChatScene scene = WeChatScene.SESSION;
-  String  _webPageUr = "http://www.qq.com";
+  String  _webPageUrl = "http://www.qq.com";
   String _thumbnail =
       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534614311230&di=b17a892b366b5d002f52abcce7c4eea0&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170516%2F51296b2673704ae2992d0a28c244274c_th.png";
  String _title = "Fluwx";
@@ -42,7 +42,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
             new TextField(
               controller: TextEditingController(text: "http://www.qq.com"),
               onChanged: (str){
-                _webPageUr = str;
+                _webPageUrl = str;
               },
               decoration: InputDecoration(
                   labelText: "web page url"
@@ -101,7 +101,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
 
   void _share() {
     var model =new WeChatShareMiniProgramModel(
-      webPageUrl: _webPageUr,
+      webPageUrl: _webPageUrl,
       miniProgramType: WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
       userName: _userName,
       title: _title,

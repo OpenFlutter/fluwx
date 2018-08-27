@@ -27,7 +27,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
 
   @override
   Widget build(BuildContext context) {
-    new Scaffold(
+   return new Scaffold(
       appBar: AppBar(
         title: const Text("ShareMiniProgram"),
         actions: <Widget>[
@@ -37,7 +37,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
 
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: new Column(
+        child: new ListView(
           children: <Widget>[
             new TextField(
               controller: TextEditingController(text: "http://www.qq.com"),

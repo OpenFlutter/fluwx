@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_example/send_auth.dart';
 import 'package:fluwx_example/share_video_page.dart';
 import 'share_music.dart';
 import 'share_web_page.dart';
@@ -34,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         "shareWebPage":(context) => ShareWebPagePage(),
         "shareMusic":(context) => ShareMusicPage(),
         "shareVideo":(context) => ShareVideoPage(),
+        "sendAuth":(context) => SendAuthPage(),
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -50,24 +52,46 @@ class ShareSelectorPage extends StatelessWidget {
     return Center(
       child: new Column(
         children: <Widget>[
-          new OutlineButton(onPressed: () {
-            Navigator.of(context).pushNamed("shareText");
-          }, child: const Text("share text")),
-          new OutlineButton(onPressed: () {
-            Navigator.of(context).pushNamed("shareImage");
-          }, child: const Text("share image")),
-          new OutlineButton(onPressed: () {
-            Navigator.of(context).pushNamed("shareWebPage");
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(onPressed: () {
+              Navigator.of(context).pushNamed("shareText");
+            }, child: const Text("share text")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(onPressed: () {
+              Navigator.of(context).pushNamed("shareImage");
+            }, child: const Text("share image")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(onPressed: () {
+              Navigator.of(context).pushNamed("shareWebPage");
 
-          }, child: const Text("share webpage")),
-          new OutlineButton(onPressed: () {
-            Navigator.of(context).pushNamed("shareMusic");
+            }, child: const Text("share webpage")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(onPressed: () {
+              Navigator.of(context).pushNamed("shareMusic");
 
-          }, child: const Text("share music")),
-          new OutlineButton(onPressed: () {
-            Navigator.of(context).pushNamed("shareVideo");
+            }, child: const Text("share music")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(onPressed: () {
+              Navigator.of(context).pushNamed("shareVideo");
 
-          }, child: const Text("share video")),
+            }, child: const Text("share video")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(onPressed: () {
+              Navigator.of(context).pushNamed("sendAuth");
+
+            }, child: const Text("send auth")),
+          ),
         ],
       ),
     );

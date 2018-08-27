@@ -20,3 +20,12 @@
 ```
 
 ### Flutter
+从微信回调的值为`WeChatResponse`，其实`type`字段为：
+```dart
+enum ResponseType {
+    SHARE,
+    AUTH,
+    PAYMENT }
+```
+`result`为微信回传的值，其类型为`Map`，具体返回值请参阅微信官方文档，但均额外包含一个
+`platform`字段，其实为`android`或者`iOS`，以便作差异化处理。

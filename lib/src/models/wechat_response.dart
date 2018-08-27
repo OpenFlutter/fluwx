@@ -1,5 +1,6 @@
 enum ResponseType { SHARE, AUTH, PAYMENT }
 
+/// response data from WeChat.
 class WeChatResponse {
   final Map result;
   final ResponseType type;

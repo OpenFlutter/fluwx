@@ -14,7 +14,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
   void initState() {
     super.initState();
     _fluwx = new Fluwx();
-    _fluwx.responseFromAuth.listen((data){
+    _fluwx.response.listen((data){
       setState(() {
         _result = data.toString();
       });

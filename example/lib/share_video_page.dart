@@ -2,15 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
 
-class ShareMusicPage extends StatefulWidget {
+class ShareVideoPage extends StatefulWidget {
   @override
   _ShareMusicPageState createState() => _ShareMusicPageState();
 }
 
-class _ShareMusicPageState extends State<ShareMusicPage> {
+class _ShareMusicPageState extends State<ShareVideoPage> {
   Fluwx fluwx;
-  String _musicUrl = "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3";
-  String  _musicLowBandUrl = "http://www.qq.com";
+  String _videoUrl = "http://www.qq.com";
+  String  _videoLowBandUrl = "http://www.qq.com";
   String _title = "Beyond";
   String _description = "A Popular Rock Band From China";
   String _thumnail ="assets://images/logo.png";
@@ -26,7 +26,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        title: const Text("ShareMusicPage"),
+        title: const Text("ShareVideoPage"),
         actions: <Widget>[
           IconButton(icon: Icon(Icons.share,color: Colors.white,), onPressed: _share)
         ],
@@ -39,19 +39,19 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
             new TextField(
               controller: TextEditingController(text: "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3"),
               onChanged: (str){
-                _musicUrl = str;
+                _videoUrl = str;
               },
               decoration: InputDecoration(
-                  labelText: "music url"
+                  labelText: "video url"
               ),
             ),
             new TextField(
               controller: TextEditingController(text: "http://www.qq.com"),
               onChanged: (str){
-                _musicLowBandUrl = str;
+                _videoLowBandUrl = str;
               },
               decoration: InputDecoration(
-                  labelText: "music low band url"
+                  labelText: "video low band url"
               ),
             ),
             new TextField(
@@ -123,15 +123,14 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
   }
 
   void _share() {
-    var model = WeChatShareMusicModel(
-      title: _title,
+    var model = new WeChatShareVideoModel(
+      videoUrl: _videoUrl,
+      transaction: "video",
+      videoLowBandUrl: _videoLowBandUrl,
+      thumbnail: _thumnail,
       description: _description,
-      transaction: "music",
-      musicUrl: _musicUrl,
-        musicLowBandUrl: _musicLowBandUrl,
-      thumbnail: _thumnail
+      title: _title
     );
-
     fluwx.share(model);
   }
 

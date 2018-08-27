@@ -1,2 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jarvan.fluwx"></manifest>
+    package="com.jarvan.fluwx">
+    <application>
+        <activity
+            android:name=".wxapi.FluwxWXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/DisablePreviewTheme" />
+    </application>
+</manifest>

@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class WeChatPayModel{
   final appId;
   final partnerId;
@@ -10,8 +12,9 @@ class WeChatPayModel{
   final extData;
 
 
-  WeChatPayModel(this.appId, this.partnerId, this.prepayId, this.packageValue,
-      this.nonceStr, this.timeStamp, this.sign,{this.signType, this.extData});
+  WeChatPayModel({@required this.appId,@required this.partnerId,@required this.prepayId,
+    @required this.packageValue,@required this.nonceStr,@required this.timeStamp,@required this.sign,
+    this.signType, this.extData});
 
   Map toMap() {
     return {

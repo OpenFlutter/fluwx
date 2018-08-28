@@ -9,7 +9,7 @@ import 'share_music.dart';
 import 'share_web_page.dart';
 import 'share_image_page.dart';
 import 'share_text_image.dart';
-
+import 'pay_page.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -37,7 +37,9 @@ class _MyAppState extends State<MyApp> {
         "shareMusic": (context) => ShareMusicPage(),
         "shareVideo": (context) => ShareVideoPage(),
         "sendAuth": (context) => SendAuthPage(),
-        "shareMiniProgram":(context) => ShareMiniProgramPage()
+        "shareMiniProgram":(context) => ShareMiniProgramPage(),
+        "pay":(context)=> PayPage(),
+
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -109,6 +111,14 @@ class ShareSelectorPage extends StatelessWidget {
                   Navigator.of(context).pushNamed("sendAuth");
                 },
                 child: const Text("send auth")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("pay");
+                },
+                child: const Text("pay")),
           ),
         ],
       ),

@@ -441,6 +441,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -448,6 +449,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jarvanmo.fluwx-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../..\"/** \"${PROJECT_DIR}/../..\"/**";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -466,6 +468,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -473,6 +476,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jarvanmo.fluwx-example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../..\"/** \"${PROJECT_DIR}/../..\"/**";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

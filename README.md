@@ -29,6 +29,12 @@
    ```podspec
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
+   Flutter版本信息<br>
+   >Flutter 0.7.1 • channel dev • https://github.com/flutter/flutter.git<br>
+   >Framework • revision 3c624f8b2c (4 days ago) • 2018-08-23 19:23:02 -0700<br>
+   >Engine • revision 0b728a3140<br>
+   >Tools • Dart 2.1.0-dev.1.0.flutter-ccb16f7282<br>
+
 ## 引入
 在`pubspec.yaml`文件中添加如下代码：
 ```yaml

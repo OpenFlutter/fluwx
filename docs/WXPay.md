@@ -2,6 +2,7 @@
 
 
 ### 拉起支付
+ 
 ```dart
 Fluwx fluwx = new Fluwx();
 fluwx.pay(WeChatPayModel(

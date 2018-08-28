@@ -39,7 +39,7 @@
 在`pubspec.yaml`文件中添加如下代码：
 ```yaml
 dependencies:
-  fluwx: ^0.0.3
+  fluwx: ^0.0.4
 ```
 
 

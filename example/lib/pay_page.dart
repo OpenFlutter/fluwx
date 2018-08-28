@@ -49,11 +49,11 @@ class _PayPageState extends State<PayPage> {
             _fluwx.pay(
               WeChatPayModel(
                 appId: result['appid'].toString(),
-                partnerId: result['partnerId'].toString(),
-                prepayId: result['prepayId'].toString(),
-                packageValue: result['packageValue'].toString(),
-                nonceStr: result['nonceStr'].toString(),
-                timeStamp: result['timeStamp'].toString(),
+                partnerId: result['partnerid'].toString(),
+                prepayId: result['prepayid'].toString(),
+                packageValue: result['package'].toString(),
+                nonceStr: result['noncestr'].toString(),
+                timeStamp: result['timestamp'].toString(),
                 sign: result['sign'].toString(),
               ),
             );

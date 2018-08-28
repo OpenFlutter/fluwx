@@ -18,6 +18,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
     super.initState();
     fluwx = new Fluwx();
   }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -45,7 +46,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 _imagePath = value;
               },
               keyboardType: TextInputType.multiline,
-
             ),
             TextField(
               decoration: InputDecoration(labelText: "缩略地址"),

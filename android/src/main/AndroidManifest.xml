@@ -1,6 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jarvan.fluwx">
+<manifest package="com.jarvan.fluwx">
+
     <application>
 
-</application>
+    </application>
 </manifest>

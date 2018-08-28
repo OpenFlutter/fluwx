@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import com.jarvan.fluwx.constant.WeChatPluginImageSchema;
 import com.jarvan.fluwx.constant.WechatPluginKeys;
 
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -23,7 +22,6 @@ import okhttp3.ResponseBody;
 import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
-import top.zibin.luban.Luban;
 
 public class ShareImageUtil {
 

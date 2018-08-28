@@ -12,7 +12,7 @@ internal object FluwxAuthHandler {
         req.scope = call.argument("scope")
         req.state = call.argument("state")
         val openId = call.argument<String?>("openId")
-        if(!openId.isNullOrBlank()){
+        if (!openId.isNullOrBlank()) {
             req.openId = call.argument("openId")
         }
 

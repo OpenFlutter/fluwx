@@ -12,7 +12,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
   Fluwx fluwx;
   String _url = "share text from fluwx";
   String _title = "Fluwx";
-  String _thumnail ="assets://images/logo.png";
+  String _thumnail = "assets://images/logo.png";
   WeChatScene scene = WeChatScene.SESSION;
 
   @override
@@ -27,40 +27,40 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
       appBar: AppBar(
         title: const Text("ShareWebPage"),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.share,color: Colors.white,), onPressed: _share)
+          IconButton(
+              icon: Icon(
+                Icons.share,
+                color: Colors.white,
+              ),
+              onPressed: _share)
         ],
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: new Column(
           children: <Widget>[
             new TextField(
-              controller: TextEditingController(text: "https://github.com/JarvanMo/fluwx"),
-              onChanged: (str){
+              controller: TextEditingController(
+                  text: "https://github.com/JarvanMo/fluwx"),
+              onChanged: (str) {
                 _url = str;
               },
-              decoration: InputDecoration(
-                  labelText: "web page"
-              ),
+              decoration: InputDecoration(labelText: "web page"),
             ),
             new TextField(
               controller: TextEditingController(text: "Fluwx"),
-              onChanged: (str){
+              onChanged: (str) {
                 _title = str;
               },
-              decoration: InputDecoration(
-                  labelText: "thumbnail"
-              ),
+              decoration: InputDecoration(labelText: "thumbnail"),
             ),
             new TextField(
-              controller: TextEditingController(text: "assets://images/logo.png"),
-              onChanged: (str){
+              controller:
+                  TextEditingController(text: "assets://images/logo.png"),
+              onChanged: (str) {
                 _thumnail = str;
               },
-              decoration: InputDecoration(
-                  labelText: "thumbnail"
-              ),
+              decoration: InputDecoration(labelText: "thumbnail"),
             ),
             new Row(
               children: <Widget>[
@@ -70,8 +70,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.SESSION,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged
-                    ),
+                        onChanged: handleRadioValueChanged),
                     const Text("会话")
                   ],
                 ),
@@ -80,8 +79,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.TIMELINE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged
-                    ),
+                        onChanged: handleRadioValueChanged),
                     const Text("朋友圈")
                   ],
                 ),
@@ -90,8 +88,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.FAVORITE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged
-                    ),
+                        onChanged: handleRadioValueChanged),
                     const Text("收藏")
                   ],
                 )
@@ -104,17 +101,16 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
   }
 
   void _share() {
-   var model = WeChatShareWebPageModel(
+    var model = WeChatShareWebPageModel(
         webPage: _url,
         title: _title,
         thumbnail: _thumnail,
-        scene :scene,
-        transaction: "hh"
-        );
-   fluwx.share(model);
+        scene: scene,
+        transaction: "hh");
+    fluwx.share(model);
   }
 
-  void handleRadioValueChanged(WeChatScene scene){
+  void handleRadioValueChanged(WeChatScene scene) {
     setState(() {
       this.scene = scene;
     });

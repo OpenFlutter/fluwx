@@ -15,7 +15,7 @@ object FluwxResponseHandler {
 
     private const val errStr = "errStr"
     private const val errCode = "errCode"
-    private const val openId ="openId"
+    private const val openId = "openId"
     private const val type = "type"
 
     fun setMethodChannel(channel: MethodChannel) {
@@ -23,13 +23,12 @@ object FluwxResponseHandler {
     }
 
 
-
     fun handleResponse(response: BaseResp) {
         if (response is SendAuth.Resp) {
             handleAuthResponse(response)
-        }else if (response is SendMessageToWX.Resp){
+        } else if (response is SendMessageToWX.Resp) {
             handleSendMessageResp(response)
-        }else if(response is PayResp){
+        } else if (response is PayResp) {
             handlePayResp(response)
         }
     }
@@ -64,7 +63,7 @@ object FluwxResponseHandler {
 
     }
 
-    private fun  handleAuthResponse(response:SendAuth.Resp){
+    private fun handleAuthResponse(response: SendAuth.Resp) {
         val result = mapOf(
                 WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
                 errCode to response.errCode,

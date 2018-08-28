@@ -48,11 +48,11 @@ object WXAPiHandler {
         ))
     }
 
-    fun checkWeChatInstallation(result: MethodChannel.Result){
+    fun checkWeChatInstallation(result: MethodChannel.Result) {
         if (wxApi == null) {
             result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
             return
-        }else{
+        } else {
             result.success(wxApi!!.isWXAppInstalled)
         }
 

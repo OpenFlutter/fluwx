@@ -35,7 +35,7 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
             return
         }
 
-        if(call.method == IS_WE_CHAT_INSTALLED){
+        if (call.method == IS_WE_CHAT_INSTALLED) {
             WXAPiHandler.checkWeChatInstallation(result)
             return
         }
@@ -45,8 +45,8 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
             return
         }
 
-        if(call.method == WeChatPluginMethods.PAY){
-            FluwxPayHandler.pay(call,result)
+        if (call.method == WeChatPluginMethods.PAY) {
+            FluwxPayHandler.pay(call, result)
             return
         }
 
@@ -55,7 +55,6 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
         } else {
             result.notImplemented()
         }
-
 
 
     }

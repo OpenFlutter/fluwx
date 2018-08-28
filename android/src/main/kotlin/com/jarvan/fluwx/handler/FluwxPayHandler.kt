@@ -15,19 +15,19 @@ object FluwxPayHandler {
         if (WXAPiHandler.wxApi == null) {
             result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
             return
-        }else{
+        } else {
 
 // 将该app注册到微信
             val request = PayReq()
             request.appId = call.argument("appId")
             request.partnerId = call.argument("partnerId")
-            request.prepayId= call.argument("prepayId")
+            request.prepayId = call.argument("prepayId")
             request.packageValue = call.argument("packageValue")
-            request.nonceStr= call.argument("nonceStr")
-            request.timeStamp= call.argument("timeStamp")
-            request.sign= call.argument("sign")
-            request.signType= call.argument("signType")
-            request.extData=call.argument("extData")
+            request.nonceStr = call.argument("nonceStr")
+            request.timeStamp = call.argument("timeStamp")
+            request.sign = call.argument("sign")
+            request.signType = call.argument("signType")
+            request.extData = call.argument("extData")
             val done = WXAPiHandler.wxApi!!.sendReq(request)
             result.success(
                     mapOf(

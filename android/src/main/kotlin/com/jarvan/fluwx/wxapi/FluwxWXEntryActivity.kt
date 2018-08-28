@@ -11,8 +11,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 
 
-open class FluwxWXEntryActivity:Activity(), IWXAPIEventHandler {
-
+open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
 
     // IWXAPI 是第三方app和微信通信的openapi接口

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import 'models/flutter_register_model.dart';
-import 'models/wechat_share_models.dart';
-import 'models/wechat_send_auth_model.dart';
 import 'models/wechat_pay_model.dart';
 import 'models/wechat_response.dart';
+import 'models/wechat_send_auth_model.dart';
+import 'models/wechat_share_models.dart';
 
 StreamController<WeChatResponse> _responseController =
     new StreamController.broadcast();
@@ -16,11 +16,14 @@ final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
 
 Future<dynamic> _handler(MethodCall methodCall) {
   if ("onShareResponse" == methodCall.method) {
-    _responseController.add(WeChatResponse(methodCall.arguments, ResponseType.SHARE));
+    _responseController
+        .add(WeChatResponse(methodCall.arguments, ResponseType.SHARE));
   } else if ("onAuthResponse" == methodCall.method) {
-    _responseController.add(WeChatResponse(methodCall.arguments, ResponseType.AUTH));
+    _responseController
+        .add(WeChatResponse(methodCall.arguments, ResponseType.AUTH));
   } else if ("onPayResponse" == methodCall.method) {
-    _responseController.add(WeChatResponse(methodCall.arguments, ResponseType.PAYMENT));
+    _responseController
+        .add(WeChatResponse(methodCall.arguments, ResponseType.PAYMENT));
   }
 
   return Future.value(true);
@@ -44,14 +47,13 @@ class Fluwx {
   }
 
   ///we don't need the response any longer.
-  static void dispose(){
+  static void dispose() {
     _responseController.close();
   }
 
 //  static Future unregisterApp(RegisterModel model) async {
 //    return await _channel.invokeMethod("unregisterApp", model.toMap());
 //  }
-
 
   ///the [model] can not be null
   ///see [WeChatShareWebPageModel]

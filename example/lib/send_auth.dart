@@ -7,14 +7,14 @@ class SendAuthPage extends StatefulWidget {
 }
 
 class _SendAuthPageState extends State<SendAuthPage> {
-
   Fluwx _fluwx;
-  String _result ="无";
+  String _result = "无";
+
   @override
   void initState() {
     super.initState();
     _fluwx = new Fluwx();
-    _fluwx.response.listen((data){
+    _fluwx.response.listen((data) {
       setState(() {
         _result = data.toString();
       });
@@ -29,10 +29,12 @@ class _SendAuthPageState extends State<SendAuthPage> {
       ),
       body: Column(
         children: <Widget>[
-          OutlineButton(onPressed: (){
-            _fluwx.sendAuth(new WeChatSendAuthModel(scope: "snsapi_userinfo",state: "wechat_sdk_demo_test"));
-          },
-          child: const Text("send auth"),
+          OutlineButton(
+            onPressed: () {
+              _fluwx.sendAuth(new WeChatSendAuthModel(
+                  scope: "snsapi_userinfo", state: "wechat_sdk_demo_test"));
+            },
+            child: const Text("send auth"),
           ),
           const Text("响应结果;"),
           Text(_result)

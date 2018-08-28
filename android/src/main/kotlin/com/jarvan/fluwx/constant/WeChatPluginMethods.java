@@ -10,7 +10,7 @@ public class WeChatPluginMethods {
     public static final String UNREGISTER_APP = "unregisterApp";
     public static final String WE_CHAT_SHARE_RESPONSE = "onShareResponse";
 
-    public static final  String IS_WE_CHAT_INSTALLED = "isWeChatInstalled";
+    public static final String IS_WE_CHAT_INSTALLED = "isWeChatInstalled";
 
     public static final String SHARE_TEXT = "shareText";
     public static final String SHARE_IMAGE = "shareImage";

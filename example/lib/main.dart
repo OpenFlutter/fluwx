@@ -1,15 +1,17 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
-import 'send_auth.dart';
-import 'share_mini_program.dart';
-import 'share_video_page.dart';
-import 'share_music.dart';
-import 'share_web_page.dart';
-import 'share_image_page.dart';
-import 'share_text_image.dart';
+
 import 'pay_page.dart';
+import 'send_auth.dart';
+import 'share_image_page.dart';
+import 'share_mini_program.dart';
+import 'share_music.dart';
+import 'share_text_image.dart';
+import 'share_video_page.dart';
+import 'share_web_page.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -37,9 +39,8 @@ class _MyAppState extends State<MyApp> {
         "shareMusic": (context) => ShareMusicPage(),
         "shareVideo": (context) => ShareVideoPage(),
         "sendAuth": (context) => SendAuthPage(),
-        "shareMiniProgram":(context) => ShareMiniProgramPage(),
-        "pay":(context)=> PayPage(),
-
+        "shareMiniProgram": (context) => ShareMiniProgramPage(),
+        "pay": (context) => PayPage(),
       },
       home: new Scaffold(
           appBar: new AppBar(

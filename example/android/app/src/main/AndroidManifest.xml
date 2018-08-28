@@ -47,6 +47,17 @@
                 <data android:scheme="sdksample"/>
             </intent-filter>
         </activity>
-        <activity android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity" />
+        <activity
+            android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity"
+            android:theme="@style/DisablePreviewTheme"
+            android:exported="true"
+            android:launchMode="singleTop">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="sdksample"/>
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

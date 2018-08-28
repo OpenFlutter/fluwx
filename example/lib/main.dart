@@ -55,7 +55,7 @@ class ShareSelectorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: new Column(
+      child: new ListView(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(8.0),

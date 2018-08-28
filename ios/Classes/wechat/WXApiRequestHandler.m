@@ -377,14 +377,10 @@
     return [WXApi sendReq:chooseInvoiceReq];
 }
 
-- (BOOL)sendPayment:(NSString *)appId
-          PartnerId:(NSString *)partnerId
-           PrepayId:(NSString *)prepayId
-           NonceStr:(NSString *)nonceStr
-          Timestamp:(UInt32)timestamp
-            Package:(NSString *)package
-               Sign:(NSString *)sign
-{
+
+
++ (BOOL)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign {
+
     PayReq *req = [[PayReq alloc] init];
     req.partnerId = partnerId;
     req.prepayId = prepayId;
@@ -397,6 +393,6 @@
 
 
     return [WXApi sendReq:req];
-
 }
+
 @end

@@ -1,4 +1,4 @@
-![logo](/arts/fluwx_logo.png)
+![logo](./arts/fluwx_logo.png)
 
 适用于Flutter的微信SDK，方便快捷。
 

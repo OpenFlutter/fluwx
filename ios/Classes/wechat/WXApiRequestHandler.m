@@ -94,10 +94,10 @@
 
     if ([StringUtil isBlank:musicURL]) {
         ext.musicLowBandUrl = musicLowBandUrl;
-        ext.musicLowBandDataUrl = musicLowBandDataUrl;
+        ext.musicLowBandDataUrl = (musicLowBandDataUrl == (id) [NSNull null]) ? nil : musicLowBandDataUrl ;
     } else {
         ext.musicUrl = musicURL;
-        ext.musicDataUrl = dataURL;
+        ext.musicDataUrl = (dataURL == (id) [NSNull null]) ? nil : dataURL ;
     }
 
 
@@ -205,13 +205,23 @@
                           TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene {
     WXMiniProgramObject *ext = [WXMiniProgramObject object];
-    ext.webpageUrl = webpageUrl;
-    ext.userName = userName;
-    ext.path = path;
-    ext.hdImageData = hdImageData;
+    ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
+    ext.userName =(userName == (id) [NSNull null]) ? nil : userName ;
+    ext.path = (path == (id) [NSNull null]) ? nil : path;
+    ext.hdImageData = (hdImageData == (id) [NSNull null]) ? nil : hdImageData;
     ext.withShareTicket = withShareTicket;
-    ext.miniProgramType = programType;
 
+
+    WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
+    if(programType == 0){
+        miniProgramType = WXMiniProgramTypeRelease;
+    } else if(programType == 1){
+        miniProgramType =WXMiniProgramTypeTest;
+    } else if(programType == 2){
+        miniProgramType = WXMiniProgramTypePreview;
+    }
+
+    ext.miniProgramType = miniProgramType;
 
     WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ? nil : title
                                                    Description:(description == (id) [NSNull null]) ? nil : description

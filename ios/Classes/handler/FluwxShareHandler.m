@@ -193,7 +193,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 }
 
 - (void)shareMusic:(FlutterMethodCall *)call result:(FlutterResult)result {
-    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
 
         NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
@@ -225,7 +225,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 }
 
 - (void)shareVideo:(FlutterMethodCall *)call result:(FlutterResult)result {
-    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
 
         NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
@@ -255,7 +255,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 }
 
 - (void)shareMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
-    dispatch_queue_t globalQueue = dispatch_get_global_queue(1, 1);
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0,0);
     dispatch_async(globalQueue, ^{
 
         NSString *thumbnail = call.arguments[fluwxKeyThumbnail];

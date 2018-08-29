@@ -96,7 +96,10 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
         miniProgramType: WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
         userName: _userName,
         title: _title,
+        path: _path,
         description: _description,
+        scene: WeChatScene.SESSION,
+        hdImagePath: _thumbnail,
         thumbnail: _thumbnail);
     fluwx.share(model);
   }

@@ -25,7 +25,7 @@
 
 }
 
-- (NSString *)nilToEmpty:(NSString *)string {
++ (NSString *)nilToEmpty:(NSString *)string {
     return string == nil?@"":string;
 }
 @end

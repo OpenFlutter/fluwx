@@ -13,12 +13,12 @@
 ，也不要忘记在`AndroidManifest.mxl`中注册：
 ```xml
      <activity
-            android:name="net.sourceforge.simcpux.wxapi.WXEntryActivity"
+            android:name="your.package.name.registered.on.wechat.wxapi.WXEntryActivity"
             android:theme="@style/DisablePreviewTheme"
             android:exported="true"
             android:launchMode="singleTop"/>
      <activity
-            android:name="net.sourceforge.simcpux.wxapi.WXPayEntryActivity"
+            android:name="your.package.name.registered.on.wechat.wxapi.WXPayEntryActivity"
             android:theme="@style/DisablePreviewTheme"
             android:exported="true"
             android:launchMode="singleTop"/>

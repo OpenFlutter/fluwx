@@ -15,6 +15,9 @@ class _ShareTextPageState extends State<ShareTextPage> {
   void initState() {
     super.initState();
     fluwx = new Fluwx();
+    fluwx.response.listen((data){
+      print(data.toString());
+    });
   }
 
   @override
@@ -84,7 +87,9 @@ class _ShareTextPageState extends State<ShareTextPage> {
     fluwx.share(WeChatShareTextModel(
         text: _text,
         transaction: "text${DateTime.now().millisecondsSinceEpoch}",
-        scene: scene));
+        scene: scene)).then((data){
+          print(data);
+    });
 
 //    fluwx.sendAuth(WeChatSendAuthModel(scope: "snsapi_userinfo",state: "wechat_sdk_demo_test"));
   }

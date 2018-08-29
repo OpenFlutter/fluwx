@@ -382,6 +382,7 @@
 + (BOOL)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign {
 
     PayReq *req = [[PayReq alloc] init];
+    req.openID = (appId == (id) [NSNull null]) ? nil : appId;
     req.partnerId = partnerId;
     req.prepayId = prepayId;
     req.nonceStr = nonceStr;

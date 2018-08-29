@@ -6,7 +6,7 @@
 
 
 @implementation FluwxPaymentHandler
-- (instancetype)initWithRegistrar {
+- (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
     self = [super init];
 
     return self;
@@ -29,7 +29,7 @@
     NSString *nonceStr = call.arguments[@"nonceStr"];
     UInt32 timeStamp = (UInt32) call.arguments[@"timeStamp"];
     NSString *sign = call.arguments[@"sign"];
-    BOOL done = [WXApiRequestHandler sendPayment:@""
+    BOOL done = [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
                                        PartnerId:partnerId
                                         PrepayId:prepayId
                                         NonceStr:nonceStr

@@ -54,7 +54,9 @@ class _PayPageState extends State<PayPage> {
                   timeStamp: result['timestamp'].toString(),
                   sign: result['sign'].toString(),
                 ),
-              );
+              ).then((data){
+                print("---》$data");
+              });
             },
             child: const Text("pay"),
           ),

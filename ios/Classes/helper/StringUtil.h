@@ -7,4 +7,5 @@
 
 @interface StringUtil : NSObject
 + (BOOL) isBlank:(NSString *)string;
++ (NSString *) nilToEmpty:(NSString *) string;
 @end

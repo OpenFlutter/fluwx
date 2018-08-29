@@ -12,6 +12,10 @@
 
 BOOL isWeChatRegistered = NO;
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     FlutterMethodChannel *channel = [FlutterMethodChannel
@@ -31,11 +35,15 @@ BOOL isWeChatRegistered = NO;
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
         _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
-        _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] init];
+        _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
+
     }
 
     return self;
 }
+
+
+
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
 

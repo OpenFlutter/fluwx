@@ -36,7 +36,6 @@ FlutterMethodChannel *methodChannel = nil;
 }
 
 #pragma mark - WXApiDelegate
-
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
         if (_delegate
@@ -46,14 +45,19 @@ FlutterMethodChannel *methodChannel = nil;
 //            @{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)}
         }
 
+
         SendMessageToWXResp *messageResp = (SendMessageToWXResp *) resp;
+
+
+
+
         NSDictionary *result = @{
-                description: messageResp.description,
-                errStr: messageResp.errStr,
+                description: messageResp.description == nil ?@"":messageResp.description,
+                errStr: messageResp.errStr == nil ? @"":messageResp.errStr,
                 errCode: @(messageResp.errCode),
-                type: @(messageResp.type),
-                country: messageResp.country,
-                lang: messageResp.lang,
+                type: messageResp.type == nil ? @2 :@(messageResp.type),
+                country: messageResp.country== nil ? @"":messageResp.country,
+                lang: messageResp.lang  == nil ? @"":messageResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS
         };
         [methodChannel invokeMethod:@"onShareResponse" arguments:result];
@@ -70,15 +74,15 @@ FlutterMethodChannel *methodChannel = nil;
 
         SendAuthResp *authResp = (SendAuthResp *) resp;
         NSDictionary *result = @{
-                description: authResp.description,
-                errStr: authResp.errStr,
+                description: authResp.description == nil ?@"":authResp.description,
+                errStr: authResp.errStr == nil ?@"":authResp.errStr,
                 errCode: @(authResp.errCode),
-                type: @(authResp.type),
-                country: authResp.country,
-                lang: authResp.lang,
+                type: authResp.type == nil ?@1:@(authResp.type),
+                country: authResp.country == nil? @"":authResp.country,
+                lang: authResp.lang == nil?@"":authResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS,
-                @"code":authResp.code,
-                @"state":authResp.state
+                @"code":[StringUtil nilToEmpty:authResp.code],
+                @"state": [StringUtil nilToEmpty:authResp.state]
 
         };
         [methodChannel invokeMethod:@"onAuthResponse" arguments:result];
@@ -131,10 +135,10 @@ FlutterMethodChannel *methodChannel = nil;
         PayResp *payResp = (PayResp *) resp;
 
         NSDictionary *result = @{
-                description: payResp.description,
-                errStr: payResp.errStr,
+                description:[StringUtil nilToEmpty:payResp.description] ,
+                errStr: [StringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
-                type: @(payResp.type),
+                type: payResp.type == nil ?@5:@(payResp.type),
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
         [methodChannel invokeMethod:@"onAuthResponse" arguments:result];

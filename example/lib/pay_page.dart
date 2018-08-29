@@ -44,7 +44,8 @@ class _PayPageState extends State<PayPage> {
               var data = await response.transform(Utf8Decoder()).join();
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
-              _fluwx.pay(
+              _fluwx
+                  .pay(
                 WeChatPayModel(
                   appId: result['appid'].toString(),
                   partnerId: result['partnerid'].toString(),
@@ -54,7 +55,8 @@ class _PayPageState extends State<PayPage> {
                   timeStamp: result['timestamp'].toString(),
                   sign: result['sign'].toString(),
                 ),
-              ).then((data){
+              )
+                  .then((data) {
                 print("---》$data");
               });
             },

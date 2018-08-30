@@ -1,8 +1,0 @@
-*.dart linguist-language=Dart
-*.m linguist-language=Dart
-*.h linguist-language=Dart
-*.kt linguist-language=Dart
-*.java linguist-language=Dart
-*.podsec linguist-language=Dart
-*.podsec linguist-language=Dart
-*.gradle linguist-language=Dart

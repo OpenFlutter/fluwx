@@ -100,7 +100,7 @@ internal object FluwxShareHandler {
         msg.description = call.argument("description")               // 小程序消息desc
         val thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
 
-        launch {
+        launch((UI)) {
             if (thumbnail.isNullOrBlank()) {
                 msg.thumbData = null
             } else {

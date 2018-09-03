@@ -19,7 +19,7 @@
 ## 技术参数
    Android部分使用到了`kotlin-1.2.60`。以下是Android部分所涉及到的技术:
    ```gradle
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
     implementation 'top.zibin:Luban:1.1.8'
@@ -39,7 +39,7 @@
 在`pubspec.yaml`文件中添加如下代码：
 ```yaml
 dependencies:
-  fluwx: ^0.0.8
+  fluwx: ^0.1.0
 ```
 
 

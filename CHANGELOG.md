@@ -1,3 +1,7 @@
+## 0.1.0
+* 增加了MTA选项
+* Android部分的微信SDK提供方式由implementation更换为api
+
 ## 0.0.8
 * 修复了iOS无法分享小程序的bug
 * 修复了iOS分享音乐崩溃的问题

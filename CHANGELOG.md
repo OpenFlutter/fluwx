@@ -1,3 +1,6 @@
+## 0.1.1
+* 修复iOS分享去处错误的bug
+
 ## 0.1.0
 * 增加了MTA选项
 * Android部分的微信SDK提供方式由implementation更换为api

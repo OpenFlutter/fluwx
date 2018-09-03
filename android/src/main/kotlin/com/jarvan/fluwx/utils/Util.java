@@ -27,6 +27,24 @@ class Util {
         return bmpToByteArray(bmp, CompressFormat.PNG, needRecycle);
     }
 
+    public static byte[] bmpToCompressedByteArray(final Bitmap bmp, CompressFormat format, final boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(format, 25, output);
+        if (needRecycle) {
+            bmp.recycle();
+        }
+
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
     public static byte[] bmpToByteArray(final Bitmap bmp, CompressFormat format, final boolean needRecycle) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         bmp.compress(format, 100, output);

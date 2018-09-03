@@ -25,6 +25,8 @@ import okio.Source;
 
 public class ShareImageUtil {
 
+    final static int WX_MAX_IMAGE_BYTE_SIZE = 10485760;
+
     public static byte[] getImageData(PluginRegistry.Registrar registrar, String path) {
         byte[] result = null;
         if (path.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)) {
@@ -39,8 +41,14 @@ public class ShareImageUtil {
 
         } else if (path.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
             Bitmap bmp = null;
-            bmp = BitmapFactory.decodeFile(path);
-            result = Util.bmpToByteArray(bmp, true);
+            String pathWithoutUri = path.substring("file://".length());
+            bmp = BitmapFactory.decodeFile(pathWithoutUri);
+
+            if (bmp.getAllocationByteCount() >= WX_MAX_IMAGE_BYTE_SIZE) {
+                result = Util.bmpToCompressedByteArray(bmp, Bitmap.CompressFormat.JPEG, true);
+            } else {
+                result = Util.bmpToByteArray(bmp, true);
+            }
         } else {
 //            result = handleNetworkImage(registrar, path);
             result = Util.inputStreamToByte(openStream(path));

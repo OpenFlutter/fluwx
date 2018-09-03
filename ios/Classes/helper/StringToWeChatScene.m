@@ -8,13 +8,12 @@
 @implementation StringToWeChatScene
 + (enum WXScene) toScene:(NSString *)string {
 
-    if ([string caseInsensitiveCompare:@"SESSION"]) {
-        return WXSceneSession;
-    }
-    if ([string caseInsensitiveCompare:@"FAVORITE"]) {
+    if ([string caseInsensitiveCompare:@"WeChatScene.TIMELINE"]) {
+        return WXSceneTimeline;
+    }else if ([string caseInsensitiveCompare:@"WeChatScene.FAVORITE"]) {
         return WXSceneFavorite;
     } else {
-        return WXSceneTimeline;
+        return WXSceneSession;
     }
 }
 

@@ -1,3 +1,6 @@
+## 0.1.2
+* 修复iOS中FluwxShareHandler.h的导入问题
+
 ## 0.1.1
 * 修复iOS分享去处错误的bug
 

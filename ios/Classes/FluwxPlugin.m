@@ -1,7 +1,7 @@
 #import <fluwx/FluwxPlugin.h>
 
 #import "WXApi.h"
-#import "../../../../../../ios/Classes/handler/FluwxShareHandler.h"
+
 
 #import "FluwxAuthHandler.h"
 #import "FluwxWXApiHandler.h"

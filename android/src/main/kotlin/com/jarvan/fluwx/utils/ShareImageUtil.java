@@ -3,6 +3,7 @@ package com.jarvan.fluwx.utils;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 
 import com.jarvan.fluwx.constant.WeChatPluginImageSchema;
 import com.jarvan.fluwx.constant.WechatPluginKeys;
@@ -44,7 +45,13 @@ public class ShareImageUtil {
             String pathWithoutUri = path.substring("file://".length());
             bmp = BitmapFactory.decodeFile(pathWithoutUri);
 
-            if (bmp.getAllocationByteCount() >= WX_MAX_IMAGE_BYTE_SIZE) {
+            int byteCount;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)  {
+                byteCount = bmp.getAllocationByteCount();
+            }else {
+               byteCount = bmp.getByteCount();
+            }
+            if (byteCount >= WX_MAX_IMAGE_BYTE_SIZE) {
                 result = Util.bmpToCompressedByteArray(bmp, Bitmap.CompressFormat.JPEG, true);
             } else {
                 result = Util.bmpToByteArray(bmp, true);

@@ -123,6 +123,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
         videoLowBandUrl: _videoLowBandUrl,
         thumbnail: _thumnail,
         description: _description,
+        scene: this.scene,
         title: _title);
     fluwx.share(model);
   }

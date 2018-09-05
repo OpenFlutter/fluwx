@@ -1,3 +1,5 @@
+## 0.1.3
+* `ResponseType` 更名为`WeChatResponseType`
 ## 0.1.2
 * 修复iOS中FluwxShareHandler.h的导入问题
 

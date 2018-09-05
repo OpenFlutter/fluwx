@@ -1,6 +1,7 @@
+# 微信支付
 
 
-### Pay
+### 拉起支付
  
 ```dart
 Fluwx fluwx = new Fluwx();
@@ -16,15 +17,14 @@ fluwx.pay(WeChatPayModel(
                   extData: '选填'
                 ));
 ```
-### Return 
-The return value of `fluwx.share(model)` is a `Map`：
+### 返回值处理
+注：此返回值是此方法调用的直接返回值，并非支付之后的回调，回调请查看[相关文档](./RESPONSE.md)
 
  `fluwx.pay(model)`返回的是一个`Map`：
 ```dart
     {
-      "platform":"Android",//or iOS
-       result:true //or false，depends on WXApi.sendRequest()
+      "platform":"Android",//或者iOS
+       result:true //或者false，取决于WXApi.sendRequest()的结果
      }
 ```
-For the response from WeChat,read [RESPONSE](./doc/RESPONSE.md) please.
   

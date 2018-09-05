@@ -1,23 +1,23 @@
 ![logo](./arts/fluwx_logo.png)
 
-适用于Flutter的微信SDK，方便快捷。
+`Fluwx` makes easier using WeChatSDK on Flutter.
 
 
-## 使用需知
- 使用`Fluwx`之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
+## Before
+ Before using`Fluwx`,I highly recommond you read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
  这有助于你使用`Fluwx`。
 
-### 目前功能
-* 文本分享。
-* 网站分享。
-* 图片分享。
-* 音乐分享。
-* 视频分享。
-* 小程序分享。
-* 发送Auth认证。
+### What does Fluwx support?
+* Share Text.
+* Share WebPage.
+* Share Image.
+* Share Music.
+* Share Video.
+* Share MiniProgram.
+* Send Auth.
 
-## 技术参数
-   Android部分使用到了`kotlin-1.2.60`。以下是Android部分所涉及到的技术:
+## Tech Used In Flux
+  For Android,`kotlin-1.2.60` is included:
    ```gradle
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
@@ -25,53 +25,53 @@
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
    ```
-   iOS部分涉及到的技术：
+   For iOS:
    ```podspec
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
-   Flutter版本信息<br>
+   For Flutter<br>
    > Flutter 0.7.5 • channel dev • https://github.com/flutter/flutter.git<br>
    > Framework • revision eab5cd9853 (4 days ago) • 2018-08-30 14:47:04 -0700<br>
    > Engine • revision dc7b5eb89d<br>
    > Tools • Dart 2.1.0-dev.3.0.flutter-760a9690c2<br>
 
-## 引入
-在`pubspec.yaml`文件中添加如下代码：
+## Import
+add the following in your `pubspec.yaml` file:
 ```yaml
 dependencies:
   fluwx: ^0.1.3
 ```
 
 
-## 初始化
-使用`Fluwx`前，需要进行初始化操作：
+## Init Fluwx
+Before using`Fluwx`,you should init `FLuwx`：
  ```dart
  Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
  ```
- - `appId`：在微信平台申请的appId。
- - `doOnAndroid`:是否在android平台上执行此操作。
- - `doOnIOS`:是否在平台上执行此操作。</br>
- 每一个字段都是非必须的，但是如果不传`appId`或`doOnAndroid: false`或者`doOnIOS: false`，请务必手动注册`WXApi`以保证`Fluwx`正常工作。
- 注册完成后，请在使用`Fluwx`前在对应平台添加如下代码：
- Android上：
+ - `appId`：the appId you applied from WeChat.
+ - `doOnAndroid`:whether init for Android.
+ - `doOnIOS`:whether init for iOS
+ Each param isn't necessary.However,if `appId`is blank, or `doOnAndroid: false`, or `doOnIOS: false`，you must register your `WXApi` on the particular platform in order to ensure  `Fluwx` can work.
+ After tha，add the following code before using `Fluwx` on the particular platform:
+ For Android：
  ```kotlin
  FluwxShareHandler.setWXApi(wxapi)
  ```
- iOS上：
+ For iOS:
  ```objective-c
 isWeChatRegistered = YES;
  ```
 
-> 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema，Android上的WXEntryActivity等。
+> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to doon the particular platform.For example, creat a `WXEntryActivity` for android and add a URLSchema for iOS. 
 
-### 传送门
-* [分享](./doc/SHARE.md)。
+### More
+* [Share](./doc/SHARE.md)。
 * [Auth](./doc/SEND_AUTH.md)。
-* [支付](./doc/WXPay.md)。
-* [回调](./doc/RESPONSE.md)。
+* [Payment](./doc/WXPay.md)。
+* [Resonse](./doc/RESPONSE.md)。
 
 
-### 更多功能敬请请期待
+### Waiting 
 
 ## LICENSE
 

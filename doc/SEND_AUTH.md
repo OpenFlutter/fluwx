@@ -1,16 +1,17 @@
-## 发送Auth验证
-`Fluwx`目前只支持获取`code`，若要获取`access_token`请在服务器端完成。
+## Send Auth
+We'll get a `code` by sending auth:
 ```dart
    fluwx.sendAuth(WeChatSendAuthModel(
       scope: "snsapi_userinfo",
           state:"wechat_sdk_demo_test",
     ));
 ```
-### 返回值处理
- `fluwx.share(model)`返回的是一个`Map`：
+`Fluwx` doesn't support getting `access_toke`.
+### Return
+ The return value of `fluwx.share(model)` is a `Map`：
 ```dart
     {
-       "platform":"Android",//或者iOS
-       result:true //或者false，取决于WXApi.sendRequest()的结果
+       "platform":"Android",//or iOS
+       result:true //or false，depending on the result of WXApi.sendRequest()
      }
 ```

@@ -1,16 +1,16 @@
-### 微信调回
-微信的回调也要根据平台的不同进行差异化处理(如果你不需要回调，请忽略)。
+### Response From WeChat
+There's some work we have to do on the particular plaform(if you don't need this,just ignore).
 
 ### Android
-由于机制问题，`Android`端需要在`WXEntryActivity`或`WXPayEntryActivity`中添加如下代码：
+For`Android`,create `WXEntryActivity`or`WXPayEntryActivity`,and override the following function：
 ```kotlin
    override fun onResp(resp: BaseResp) {
         FluwxResponseHandler.handleResponse(resp)
    }
 ```
-你也可以直接继承`FluwxWXEntryActivity`。
-`WXEntryActivity`和`WXPayEntryActivity`创建规则请参阅官方文档。具体可以参考[example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )
-，也不要忘记在`AndroidManifest.mxl`中注册：
+You can also directly inherit `FluwxWXEntryActivity`,and then you can do nothing.
+For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read[example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )
+，never register your Activity in `AndroidManifest.mxl`:
 ```xml
      <activity
             android:name="your.package.name.registered.on.wechat.wxapi.WXEntryActivity"
@@ -26,7 +26,7 @@
 ```
 
 ### iOS
-在你的`AppDelegate.m`中重写下面方法：
+override the following function in`AppDelegate.m`:
 ```objective-c
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
@@ -38,17 +38,18 @@
 ```
 
 ### Flutter
+We can get the reponse from WeChat after sharing and etc:
 ```dart
     _fluwx.response.listen((response){
       //do something
     });
 ```
-从微信回调的值为`WeChatResponse`，其实`type`字段为枚举：
+The type of return value is `WeChatResponse`，and  `type` is an enum:
 ```dart
 enum WeChatResponseType {
     SHARE,
     AUTH,
     PAYMENT }
 ```
-`result`为微信回传的值，其类型为`Map`，具体返回值请参阅微信官方文档，但均额外包含一个
-`platform`字段，其值为`android`或者`iOS`，以便开发者作差异化处理。
+`result` is the real response from WeChat，it's a `Map`, read the WeChat documents for more details.
+Howver,there an addtional param  `platform`，the value of `platform` is `android`or`iOS`.

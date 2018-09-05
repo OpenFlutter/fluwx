@@ -1,19 +1,20 @@
-### 简述
-目前`Fluwx`并不是支持所有的分享类型，目前仅支持文本分享、图片分享、网址分享
-    音乐、视频以及小程序的分享。未来会考虑增加更多支持。
+### Summary
+`Fluwx` doesn't support all kind of sharing.Only text, image, web page,
+music, video and mini program are supported.We'll consider the more.
+More support will be considered in the future.
+.
 
 
- >  注意：目前分享中涉及到图片的地方仅支持`png`和`jpg`，支持网络图片及`assets`图片。<br>
- >  使用`assets`图片需要添加`assets://`。<br>
- >  也可以在`assets`图片添加`?package=package_name`以读取指定包的图片。<br>
- >  未来可能支持`file://`,目前以`file://`图片不会做任何处理。<br>
- >  如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。<br>
- >  由于微信的限制，一般的缩略图要小于32k(小程序的缩略图要小于120k)，所以在使用缩略的时候<br>
- >  很有必要使用一张合格的缩略图，否则`Fluwx`进行压缩，其结果可能并不是你所预期的。
+ >  NOTE：Images or thumbnails used for sharing only support `png`and`jpg`.Network or assets images are OK.<br>
+ >  However,using images from `assets`,you have to add a schema `assets://`。<br>
+ >  For assets image from  a particular package,you have to add a query param:`?package=package_name`<br>
+ >  We consider support `file://` in the future,so paths begin with  `file://` are ok, but fluwx does nothing<br>
+ >  If no schema or wrong schema proivided,fluwx will load it as network image.Be careful<br>
+ >  Due to the limits of WeChat，the thumbnail must be smaller than 32k(mini-program's is smaller than 120k),you'd better provide <br>
+ >  a qualified thumbnail.Otherwise, `Fluwx` will compress it for you. The result of compression is unpredictable.
 
-### 分享去处
-    绝大部分分享可以分享到会话，朋友圈，收藏（小程序目前只能分享到会话）。默认分享到会话。
-
+### The Destination 
+    The destination of sharing can be SESSION(default),TIMELINE or FAVORITE.However,mini-program only support SESSION.
 ```dart
     ///[WeChatScene.SESSION]会话
     ///[WeChatScene.TIMELINE]朋友圈
@@ -24,24 +25,24 @@
       FAVORITE
       }
 ```
-### 返回值处理
- `fluwx.share(model)`返回的是一个`Map`：
+### Return
+ the return value of `fluwx.share(model)` is `Map`：
 ```dart
     {
-       "platform":"Android",//或者iOS
-       result:true //或者false，取决于WXApi.sendRequest()的结果
+       "platform":"Android",//or iOS
+       result:true //or false，depends on WXApi.sendRequest()
      }
 ```
 
-### 分享文本
+### Share Text
 ```dart
   fluwx.share(WeChatShareTextModel(
       text: "text from fluwx",
-      transaction: "transaction}",//仅在android上有效，下同。
+      transaction: "transaction}",
       scene: scene
     ));
 ```
-### 分享图片
+### Share Image
 ```dart
  fluwx.share(WeChatShareImageModel(
         image: _imagePath,
@@ -50,9 +51,9 @@
         scene: scene,
         description: "image"));
 ```
->  注意：如果不指定 `thumbnail`，那么`Fluwx`将尝试从`image`中获取缩略图。
+>  NOTE：`Fluwx` will create thumbnail from `image` if thumbnail isn't provided.
 
-### 分享音乐
+### Share Music
 ```dart
   var model = WeChatShareMusicModel(
       title: _title,
@@ -64,9 +65,8 @@
 
     fluwx.share(model);
 ```
-音乐的分享有两种：`musicUrl`和`musicLowBandUrl`。这两种形式是不共存的，如果
-都二者都进行了赋值，那么只会读取`musicUrl`。
-### 分享视频
+Two kind of music：`musicUrl`和`musicLowBandUrl`.They are not coexisting，if both are assigned, only`musicUrl` will be used.
+### Share Video
 ```dart
    var model = new WeChatShareVideoModel(
      videoUrl: _videoUrl,
@@ -78,9 +78,8 @@
    );
    fluwx.share(model);
 ```
-视频的分享有两种：`videoUrl`和`videoLowBandUrl`。这两种形式是不共存的，如果
-都二者都进行了赋值，那么只会读取`videoUrl`。
-### 分享小程序
+Two kind of video:`videoUrl`和`videoLowBandUrl`.They are not coexisting，if both are assigned, only `videoUrl` will be used.
+### Share Mini Program
 ```dart
  var model =new WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,
@@ -92,7 +91,7 @@
     );
     fluwx.share(model);
 ```
-`miniProgramType`仅支持三种:
+`miniProgramType` only suports the following values:
 * MINI_PROGRAM_TYPE_RELEASE
 * MINI_PROGRAM_TYPE_TEST
 * MINI_PROGRAM_TYPE_PREVIEW

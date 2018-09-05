@@ -45,7 +45,7 @@
 ```
 从微信回调的值为`WeChatResponse`，其实`type`字段为枚举：
 ```dart
-enum ResponseType {
+enum WeChatResponseType {
     SHARE,
     AUTH,
     PAYMENT }

@@ -1,5 +1,7 @@
 ![logo](./arts/fluwx_logo.png)
 
+[中文请移步此处](./README_CN.md)
+
 `Fluwx` makes easier using WeChatSDK on Flutter.
 
 
@@ -68,7 +70,7 @@ isWeChatRegistered = YES;
 * [Share](./doc/SHARE.md)。
 * [Auth](./doc/SEND_AUTH.md)。
 * [Payment](./doc/WXPay.md)。
-* [Resonse](./doc/RESPONSE.md)。
+* [Response](./doc/RESPONSE.md)。
 
 
 ### Waiting 

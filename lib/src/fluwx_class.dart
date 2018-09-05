@@ -17,13 +17,13 @@ final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
 Future<dynamic> _handler(MethodCall methodCall) {
   if ("onShareResponse" == methodCall.method) {
     _responseController
-        .add(WeChatResponse(methodCall.arguments, ResponseType.SHARE));
+        .add(WeChatResponse(methodCall.arguments, WeChatResponseType.SHARE));
   } else if ("onAuthResponse" == methodCall.method) {
     _responseController
-        .add(WeChatResponse(methodCall.arguments, ResponseType.AUTH));
+        .add(WeChatResponse(methodCall.arguments, WeChatResponseType.AUTH));
   } else if ("onPayResponse" == methodCall.method) {
     _responseController
-        .add(WeChatResponse(methodCall.arguments, ResponseType.PAYMENT));
+        .add(WeChatResponse(methodCall.arguments, WeChatResponseType.PAYMENT));
   }
 
   return Future.value(true);

@@ -18,7 +18,7 @@
 * Share MiniProgram.
 * Send Auth.
 
-## Tech Used In Flux
+## Tech Used In Fluwx
   For Android,`kotlin-1.2.60` is included:
    ```gradle
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'

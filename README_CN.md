@@ -65,10 +65,10 @@ isWeChatRegistered = YES;
 > 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema，Android上的WXEntryActivity等。
 
 ### 传送门
-* [分享](./doc/SHARE.md)。
-* [Auth](./doc/SEND_AUTH.md)。
-* [支付](./doc/WXPay.md)。
-* [回调](./doc/RESPONSE.md)。
+* [分享](./doc/SHARE_CN.md)。
+* [Auth](./doc/SEND_AUTH_CN.md)。
+* [支付](./doc/WXPay_CN.md)。
+* [回调](./doc/RESPONSE_CN.md)。
 
 
 ### 更多功能敬请请期待

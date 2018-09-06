@@ -1,3 +1,6 @@
+## 0.1。4
+* 修复了iOS分享去处错误的问题
+
 ## 0.1.3
 * `ResponseType` 更名为`WeChatResponseType`
 ## 0.1.2

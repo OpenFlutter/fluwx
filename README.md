@@ -7,7 +7,7 @@
 
 ## Before
  Before using`Fluwx`,I highly recommond you read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
- 这有助于你使用`Fluwx`。
+ this'll help you。
 
 ### What does Fluwx support?
 * Share Text.

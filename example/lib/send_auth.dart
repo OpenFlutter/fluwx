@@ -22,6 +22,12 @@ class _SendAuthPageState extends State<SendAuthPage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _result = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

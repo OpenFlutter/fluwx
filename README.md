@@ -17,6 +17,7 @@
 * Share Video.
 * Share MiniProgram.
 * Send Auth.
+* Pay
 
 ## Tech Used In Fluwx
   For Android,`kotlin-1.2.60` is included:

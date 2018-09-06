@@ -8,9 +8,9 @@
 @implementation StringToWeChatScene
 + (enum WXScene) toScene:(NSString *)string {
 
-    if ([string caseInsensitiveCompare:@"WeChatScene.TIMELINE"]) {
+    if ([string isEqualToString:@"WeChatScene.TIMELINE"]) {
         return WXSceneTimeline;
-    }else if ([string caseInsensitiveCompare:@"WeChatScene.FAVORITE"]) {
+    }else if ([string isEqualToString:@"WeChatScene.FAVORITE"]) {
         return WXSceneFavorite;
     } else {
         return WXSceneSession;

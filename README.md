@@ -65,7 +65,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 isWeChatRegistered = YES;
  ```
 
-> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to doon the particular platform.For example, creat a `WXEntryActivity` for android and add a URLSchema for iOS. 
+> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, creat a `WXEntryActivity` for android and add a URLSchema for iOS. 
 
 ### More
 * [Share](./doc/SHARE.md)。

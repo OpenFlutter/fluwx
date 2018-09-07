@@ -37,6 +37,8 @@ override the following function in`AppDelegate.m`:
 }
 ```
 
+> NOTE:Don't forget to add URL Schema in order to go back to  your app.
+
 ### Flutter
 We can get the reponse from WeChat after sharing and etc:
 ```dart

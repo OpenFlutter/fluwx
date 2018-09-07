@@ -36,6 +36,7 @@
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
 }
 ```
+> 注意：为了能够返回你的app，请不要忘记添加URL Schema。
 
 ### Flutter
 ```dart

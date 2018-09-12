@@ -4,9 +4,26 @@
 ### Android
 由于机制问题，`Android`端需要在`WXEntryActivity`或`WXPayEntryActivity`中添加如下代码：
 ```kotlin
-   override fun onResp(resp: BaseResp) {
-        FluwxResponseHandler.handleResponse(resp)
-   }
+
+     public override fun onCreate(savedInstanceState: Bundle?) {
+          super.onCreate(savedInstanceState)
+
+          WXAPiHandler.wxApi?.handleIntent(intent, this)
+      }
+
+      override fun onNewIntent(intent: Intent) {
+          super.onNewIntent(intent)
+
+          setIntent(intent)
+          WXAPiHandler.wxApi?.handleIntent(intent, this)
+      }
+
+
+      override fun onResp(resp: BaseResp) {
+
+          FluwxResponseHandler.handleResponse(resp)
+          finish()
+      }
 ```
 你也可以直接继承`FluwxWXEntryActivity`。
 `WXEntryActivity`和`WXPayEntryActivity`创建规则请参阅官方文档。具体可以参考[example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )

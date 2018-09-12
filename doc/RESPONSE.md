@@ -4,9 +4,26 @@ There's some work we have to do on the particular plaform(if you don't need this
 ### Android
 For`Android`,create `WXEntryActivity`or`WXPayEntryActivity`,and override the following function：
 ```kotlin
-   override fun onResp(resp: BaseResp) {
-        FluwxResponseHandler.handleResponse(resp)
-   }
+
+     public override fun onCreate(savedInstanceState: Bundle?) {
+          super.onCreate(savedInstanceState)
+
+          WXAPiHandler.wxApi?.handleIntent(intent, this)
+      }
+
+      override fun onNewIntent(intent: Intent) {
+          super.onNewIntent(intent)
+
+          setIntent(intent)
+          WXAPiHandler.wxApi?.handleIntent(intent, this)
+      }
+
+
+      override fun onResp(resp: BaseResp) {
+
+          FluwxResponseHandler.handleResponse(resp)
+          finish()
+      }
 ```
 You can also directly inherit `FluwxWXEntryActivity`,and then you can do nothing.
 For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read[example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )

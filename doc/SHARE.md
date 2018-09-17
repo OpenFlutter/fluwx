@@ -11,9 +11,10 @@ More support will be considered in the future.
  >  We consider support `file://` in the future,so paths begin with  `file://` are ok, but fluwx does nothing<br>
  >  If no schema or wrong schema proivided,fluwx will load it as network image.Be careful<br>
  >  Due to the limits of WeChat，the thumbnail must be smaller than 32k(mini-program's is smaller than 120k),you'd better provide <br>
- >  a qualified thumbnail.Otherwise, `Fluwx` will compress it for you. The result of compression is unpredictable.
-
-### The Destination 
+ >  a qualified thumbnail.Otherwise, `Fluwx` will compress it for you. The result of compression is unpredictable.<br>
+ >  Considering that we may obtain a path such as *content://media/external/file* on Android, `fluwx` also support reading image or thumbnail from `content://`.<br>
+ >  `content://` only works on Android.
+### The Destination
     The destination of sharing can be SESSION(default),TIMELINE or FAVORITE.However,mini-program only support SESSION.
 ```dart
     ///[WeChatScene.SESSION]会话

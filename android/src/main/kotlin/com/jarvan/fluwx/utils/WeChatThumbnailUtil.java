@@ -40,7 +40,8 @@ public class WeChatThumbnailUtil {
         if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)) {
             file = getAssetFile(thumbnail, registrar);
         } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
-            file = new File(thumbnail);
+            String pathWithoutUri = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_FILE.length());
+            file = new File(pathWithoutUri);
         } else {
             file = downloadImage(thumbnail);
         }
@@ -65,7 +66,8 @@ public class WeChatThumbnailUtil {
         if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)) {
             file = getAssetFile(thumbnail, registrar);
         } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
-            file = new File(thumbnail);
+            String pathWithoutUri = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_FILE.length());
+            file = new File(pathWithoutUri);
         } else {
             file = downloadImage(thumbnail);
         }

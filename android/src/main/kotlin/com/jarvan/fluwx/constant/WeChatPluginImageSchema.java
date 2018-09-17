@@ -5,4 +5,5 @@ public class WeChatPluginImageSchema {
     public static final String SCHMEA_HTTP = "http://";
     public static final String SCHMEA_HTTPS = "https://";
     public static final String SCHEMA_FILE = "file://";
+    public static final String SCHEMA_CONTENT = "content://";
 }

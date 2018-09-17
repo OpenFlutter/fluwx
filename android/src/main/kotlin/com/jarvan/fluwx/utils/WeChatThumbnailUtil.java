@@ -15,9 +15,13 @@
  */
 package com.jarvan.fluwx.utils;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.jarvan.fluwx.constant.WeChatPluginImageSchema;
 import com.jarvan.fluwx.constant.WechatPluginKeys;
@@ -57,6 +61,8 @@ public class WeChatThumbnailUtil {
         } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
             String pathWithoutUri = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_FILE.length());
             file = new File(pathWithoutUri);
+        } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_CONTENT)) {
+            file = getFileFromContentProvider(registrar, thumbnail);
         } else {
             file = downloadImage(thumbnail);
         }
@@ -83,6 +89,8 @@ public class WeChatThumbnailUtil {
         } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
             String pathWithoutUri = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_FILE.length());
             file = new File(pathWithoutUri);
+        } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_CONTENT)) {
+            file = getFileFromContentProvider(registrar, thumbnail);
         } else {
             file = downloadImage(thumbnail);
         }
@@ -264,5 +272,41 @@ public class WeChatThumbnailUtil {
             suffix = path.substring(index, path.length());
         }
         return suffix;
+    }
+
+    private static File getFileFromContentProvider(PluginRegistry.Registrar registrar, String path) {
+        Source source = null;
+        BufferedSink sink = null;
+
+        File file = null;
+        try {
+            Context context = registrar.context().getApplicationContext();
+            Uri uri = Uri.parse(path);
+            String suffix = null;
+            String mimeType = context.getContentResolver().getType(uri);
+            if (TextUtils.equals(mimeType, "image/jpeg") || TextUtils.equals(mimeType, "image/jpg")) {
+                suffix = ".jpg";
+            } else if (TextUtils.equals(mimeType, "image/png")) {
+                suffix = ".png";
+            }
+
+
+            file = File.createTempFile(UUID.randomUUID().toString(), suffix);
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+
+            if (inputStream == null) {
+                return null;
+            }
+            OutputStream outputStream = new FileOutputStream(file);
+            sink = Okio.buffer(Okio.sink(outputStream));
+            source = Okio.source(inputStream);
+            sink.writeAll(source);
+            source.close();
+            sink.close();
+        } catch (IOException e) {
+            Log.i("fluwx", "reading image failed:\n" + e.getMessage());
+        }
+
+        return file;
     }
 }

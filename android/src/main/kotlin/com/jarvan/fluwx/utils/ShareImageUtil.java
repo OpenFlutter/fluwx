@@ -15,10 +15,14 @@
  */
 package com.jarvan.fluwx.utils;
 
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.jarvan.fluwx.constant.WeChatPluginImageSchema;
 import com.jarvan.fluwx.constant.WechatPluginKeys;
@@ -56,22 +60,14 @@ public class ShareImageUtil {
             }
 
         } else if (path.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
-            Bitmap bmp = null;
             String pathWithoutUri = path.substring("file://".length());
-            bmp = BitmapFactory.decodeFile(pathWithoutUri);
-
-            int byteCount;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)  {
-                byteCount = bmp.getAllocationByteCount();
-            }else {
-               byteCount = bmp.getByteCount();
+            result = fileToByteArray(registrar,pathWithoutUri);
+        } else if(path.startsWith(WeChatPluginImageSchema.SCHEMA_CONTENT)){
+            File file = getFileFromContentProvider(registrar,path);
+            if (file != null) {
+                result = fileToByteArray(registrar,file.getAbsolutePath());
             }
-            if (byteCount >= WX_MAX_IMAGE_BYTE_SIZE) {
-                result = Util.bmpToCompressedByteArray(bmp, Bitmap.CompressFormat.JPEG, true);
-            } else {
-                result = Util.bmpToByteArray(bmp, true);
-            }
-        } else {
+        }else {
 //            result = handleNetworkImage(registrar, path);
             result = Util.inputStreamToByte(openStream(path));
         }
@@ -92,6 +88,26 @@ public class ShareImageUtil {
         return Util.bmpToByteArray(bmp, true);
     }
 
+    private static  byte[] fileToByteArray(PluginRegistry.Registrar registrar, String pathWithoutUri){
+
+        byte[] result =  null;
+        Bitmap bmp = null;
+        bmp = BitmapFactory.decodeFile(pathWithoutUri);
+
+        int byteCount;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)  {
+            byteCount = bmp.getAllocationByteCount();
+        }else {
+            byteCount = bmp.getByteCount();
+        }
+        if (byteCount >= WX_MAX_IMAGE_BYTE_SIZE) {
+            result = Util.bmpToCompressedByteArray(bmp, Bitmap.CompressFormat.JPEG, true);
+        } else {
+            result = Util.bmpToByteArray(bmp, true);
+        }
+
+        return result;
+    }
 
     private static String getPackage(String assetsName) {
         String packageStr = null;
@@ -163,5 +179,41 @@ public class ShareImageUtil {
             return null;
         }
 
+    }
+
+    private static File getFileFromContentProvider(PluginRegistry.Registrar registrar,String path) {
+        Source source = null;
+        BufferedSink sink = null;
+
+        File file = null;
+        try {
+            Context context = registrar.context().getApplicationContext();
+            Uri uri = Uri.parse(path);
+            String suffix = null;
+            String mimeType = context.getContentResolver().getType(uri);
+            if (TextUtils.equals(mimeType, "image/jpeg") || TextUtils.equals(mimeType, "image/jpg")) {
+                suffix = ".jpg";
+            } else if (TextUtils.equals(mimeType, "image/png")) {
+                suffix = ".png";
+            }
+
+
+            file = File.createTempFile(UUID.randomUUID().toString(), suffix);
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+
+            if (inputStream == null) {
+                return null;
+            }
+            OutputStream outputStream = new FileOutputStream(file);
+            sink = Okio.buffer(Okio.sink(outputStream));
+            source = Okio.source(inputStream);
+            sink.writeAll(source);
+            source.close();
+            sink.close();
+        } catch (IOException e) {
+            Log.i("fluwx","reading image failed:\n" + e.getMessage());
+        }
+
+        return file;
     }
 }

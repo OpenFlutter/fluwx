@@ -8,8 +8,8 @@ More support will be considered in the future.
  >  NOTE：Images or thumbnails used for sharing only support `png`and`jpg`.Network or assets images are OK.<br>
  >  However,using images from `assets`,you have to add a schema `assets://`。<br>
  >  For assets image from  a particular package,you have to add a query param:`?package=package_name`<br>
- >  We consider support `file://` in the future,so paths begin with  `file://` are ok, but fluwx does nothing<br>
- >  If no schema or wrong schema proivided,fluwx will load it as network image.Be careful<br>
+ >  If you want to use local image,`file://` must be provided.For example, a local image path should be "file://path/to/your/image.jpg". <br>
+ >  If no schema or wrong schema provided,`Fluwx` will load it as network image.Be careful<br>
  >  Due to the limits of WeChat，the thumbnail must be smaller than 32k(mini-program's is smaller than 120k),you'd better provide <br>
  >  a qualified thumbnail.Otherwise, `Fluwx` will compress it for you. The result of compression is unpredictable.<br>
  >  Considering that we may obtain a path such as *content://media/external/file* on Android, `fluwx` also support reading image or thumbnail from `content://`.<br>

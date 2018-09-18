@@ -6,12 +6,12 @@
  >  注意：目前分享中涉及到图片的地方仅支持`png`和`jpg`，支持网络图片及`assets`图片。<br>
  >  使用`assets`图片需要添加`assets://`。<br>
  >  也可以在`assets`图片添加`?package=package_name`以读取指定包的图片。<br>
- >  未来可能支持`file://`,目前以`file://`图片不会做任何处理。<br>
+ >  如果你想使用本地图片请勿必提供`file://`，比如`file://path/to/your/image.jpg`。<br>
  >  如果不指定schema或者schema错误,将会被处理为网络图片，请谨慎。<br>
  >  由于微信的限制，一般的缩略图要小于32k(小程序的缩略图要小于120k)，所以在使用缩略的时候<br>
  >  很有必要使用一张合格的缩略图，否则`Fluwx`进行压缩，其结果可能并不是你所预期的。
-  >  考虑到在`Android`上，我们可能得到像*content://media/external/file*这样的路径, `fluwx` 也支持从`content://`中读取图片或者缩略图.<br>
-  >  `content://` 只在Android上有效。
+ >  考虑到在`Android`上，我们可能得到像*content://media/external/file*这样的路径, `fluwx` 也支持从`content://`中读取图片或者缩略图.<br>
+ >  `content://` 只在Android上有效。
 
 ### 分享去处
     绝大部分分享可以分享到会话，朋友圈，收藏（小程序目前只能分享到会话）。默认分享到会话。

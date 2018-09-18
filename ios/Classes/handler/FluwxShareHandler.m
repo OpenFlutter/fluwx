@@ -67,7 +67,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
         [self shareAssetImage:call result:result imagePath:imagePath];
     } else if ([imagePath hasPrefix:SCHEMA_FILE]) {
-
+        [self shareLocalImage:call result:result imagePath:imagePath];
     } else {
         [self shareNetworkImage:call result:result imagePath:imagePath];
     }
@@ -116,6 +116,52 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     });
 
 }
+
+- (void)shareLocalImage:(FlutterMethodCall *)call result:(FlutterResult)result imagePath:(NSString *)imagePath {
+
+
+    NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+    if ([StringUtil isBlank:thumbnail]) {
+        thumbnail = imagePath;
+    }
+
+
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
+    dispatch_async(globalQueue, ^{
+
+//        NSURL *imageURL = [NSURL URLWithString:imagePath];
+        NSUInteger startIndex = SCHEMA_FILE.length;
+
+//        int startIndex = SCHEMA_FILE.e
+        NSString *imagePathWithoutUri = [imagePath substringFromIndex:startIndex];
+        //下载图片
+        NSData *imageData = [NSData dataWithContentsOfFile:imagePathWithoutUri];
+
+
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
+
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSString *scene = call.arguments[fluwxKeyScene];
+            BOOL done = [WXApiRequestHandler sendImageData:imageData
+                                                   TagName:call.arguments[fluwxKeyMediaTagName]
+                                                MessageExt:call.arguments[fluwxKeyMessageExt]
+                                                    Action:call.arguments[fluwxKeyMessageAction]
+                                                ThumbImage:thumbnailImage
+                                                   InScene:[StringToWeChatScene toScene:scene]
+                                                     title:call.arguments[fluwxKeyTitle]
+                                               description:call.arguments[fluwxKeyDescription]
+            ];
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+
+        });
+
+    });
+
+}
+
 
 
 - (void)shareAssetImage:(FlutterMethodCall *)call result:(FlutterResult)result imagePath:(NSString *)imagePath {
@@ -270,7 +316,11 @@ NSObject <FlutterPluginRegistrar> *_registrar;
                 hdImageData = [NSData dataWithContentsOfFile:[self readImageFromAssets:hdImagePath]];
 
             } else if ([hdImagePath hasPrefix:SCHEMA_FILE]) {
+                NSUInteger startIndex = SCHEMA_FILE.length;
 
+//        int startIndex = SCHEMA_FILE.e
+                NSString *imagePathWithoutUri = [hdImagePath substringFromIndex:startIndex];
+                hdImageData = [NSData dataWithContentsOfFile:imagePathWithoutUri];
             } else {
                 NSURL *hdImageURL = [NSURL URLWithString:hdImagePath];
                 hdImageData = [NSData dataWithContentsOfURL:hdImageURL];
@@ -320,7 +370,13 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:size isPNG:FALSE];
 
     } else if ([thumbnail hasPrefix:SCHEMA_FILE]) {
+        NSUInteger startIndex = SCHEMA_FILE.length;
 
+//        int startIndex = SCHEMA_FILE.e
+        NSString *thumbnailPathWithoutUri = [thumbnail substringFromIndex:startIndex];
+        NSData *thumbnailData = [NSData dataWithContentsOfFile:thumbnailPathWithoutUri];
+        UIImage *tmp = [UIImage imageWithData:thumbnailData];
+        thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:size isPNG:FALSE];
     } else {
         NSURL *thumbnailURL = [NSURL URLWithString:thumbnail];
         NSData *thumbnailData = [NSData dataWithContentsOfURL:thumbnailURL];

@@ -1,3 +1,6 @@
+## 0.1.6
+* 修复transitive dependencies。
+
 ## 0.1.5
 * 增加了本地图片的支持
 

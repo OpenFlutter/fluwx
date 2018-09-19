@@ -33,7 +33,6 @@
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
    For Flutter<br>
-   > Flutter 0.7.5 • channel dev • https://github.com/flutter/flutter.git<br>
    Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git
    Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700
    Engine • revision 58a1894a1c

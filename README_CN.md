@@ -31,10 +31,10 @@
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
    Flutter版本信息<br>
-   Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git
-   Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700
-   Engine • revision 58a1894a1c
-   Tools • Dart 2.1.0-dev.3.1.flutter-760a9690c2
+   Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git<br>
+   Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700<br>
+   Engine • revision 58a1894a1c<br>
+   Tools • Dart 2.1.0-dev.3.1.flutter-760a9690c2<br>
    
    
    

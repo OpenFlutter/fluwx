@@ -31,10 +31,13 @@
     s.dependency 'WechatOpenSDK','~> 1.8.2'
    ```
    Flutter版本信息<br>
-   > Flutter 0.7.5 • channel dev • https://github.com/flutter/flutter.git<br>
-   > Framework • revision eab5cd9853 (4 days ago) • 2018-08-30 14:47:04 -0700<br>
-   > Engine • revision dc7b5eb89d<br>
-   > Tools • Dart 2.1.0-dev.3.0.flutter-760a9690c2<br>
+   Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git<br>
+   Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700<br>
+   Engine • revision 58a1894a1c<br>
+   Tools • Dart 2.1.0-dev.3.1.flutter-760a9690c2<br>
+   
+   
+   
 
 ## 引入
 在`pubspec.yaml`文件中添加如下代码：

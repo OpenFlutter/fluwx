@@ -1,3 +1,5 @@
+## 0.1.7
+* 删除`Fluwx.registerApp(RegisterModel)`，现在使用`Fluwx.register()`。
 ## 0.1.6
 * 修复transitive dependencies。
 

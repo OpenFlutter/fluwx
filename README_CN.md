@@ -43,14 +43,14 @@
 在`pubspec.yaml`文件中添加如下代码：
 ```yaml
 dependencies:
-  fluwx: ^0.1.6
+  fluwx: ^0.1.7
 ```
 
 
 ## 初始化
 使用`Fluwx`前，需要进行初始化操作：
  ```dart
- Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
+     Fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
  ```
  - `appId`：在微信平台申请的appId。
  - `doOnAndroid`:是否在android平台上执行此操作。

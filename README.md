@@ -42,14 +42,14 @@
 add the following in your `pubspec.yaml` file:
 ```yaml
 dependencies:
-  fluwx: ^0.1.6
+  fluwx: ^0.1.7
 ```
 
 
 ## Init Fluwx
 Before using`Fluwx`,you should init `FLuwx`：
  ```dart
- Fluwx.registerApp(RegisterModel(appId: "your app id", doOnAndroid: true, doOnIOS: true));
+    Fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
  ```
  - `appId`：the appId you applied from WeChat.
  - `doOnAndroid`:whether init for Android.

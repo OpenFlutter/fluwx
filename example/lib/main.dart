@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Fluwx.registerApp(RegisterModel(appId: "wxd930ea5d5a258f4f"));
+    Fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

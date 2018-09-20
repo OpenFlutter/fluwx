@@ -17,7 +17,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-import 'models/flutter_register_model.dart';
 import 'models/wechat_pay_model.dart';
 import 'models/wechat_response.dart';
 import 'models/wechat_send_auth_model.dart';
@@ -56,9 +55,20 @@ class Fluwx {
 
   Stream<WeChatResponse> get response => _responseController.stream;
 
-  ///the [model] should not be null
-  static Future registerApp(RegisterModel model) async {
-    return await _channel.invokeMethod("registerApp", model.toMap());
+  ///[appId] is not necessary.
+  ///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
+  ///if [doOnAndroid] is true, fluwx will register WXApi on Android.
+  static Future register(
+      {String appId,
+      bool doOnIOS: true,
+      doOnAndroid: true,
+      enableMTA: false}) async {
+    return await _channel.invokeMethod("registerApp", {
+      "appId": appId,
+      "iOS": doOnIOS,
+      "android": doOnAndroid,
+      "enableMTA": enableMTA
+    });
   }
 
   ///we don't need the response any longer.
@@ -70,7 +80,7 @@ class Fluwx {
 //    return await _channel.invokeMethod("unregisterApp", model.toMap());
 //  }
 
-  ///the [model] can not be null
+  ///the [WeChatShareModel] can not be null
   ///see [WeChatShareWebPageModel]
   /// [WeChatShareTextModel]
   ///[WeChatShareVideoModel]

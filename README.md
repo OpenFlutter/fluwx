@@ -54,7 +54,8 @@ Before using`Fluwx`,you should init `FLuwx`：
  - `appId`：the appId you applied from WeChat.
  - `doOnAndroid`:whether init for Android.
  - `doOnIOS`:whether init for iOS
-Each param isn't necessary.However,if `appId`is blank, or `doOnAndroid: false`, or `doOnIOS: false`，you must register your `WXApi` on the particular platform in order to ensure  `Fluwx` can work.
+ 
+ Each param isn't necessary.However,if `appId`is blank, or `doOnAndroid: false`, or `doOnIOS: false`，you must register your `WXApi` on the particular platform in order to ensure  `Fluwx` can work.
  After tha，add the following code before using `Fluwx` on the particular platform:
  For Android：
  ```kotlin

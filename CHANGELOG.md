@@ -1,3 +1,7 @@
+## 0.1.8
+* `WeChatPayModel`里的字段不再是`dynamic`。
+* 修复了iOS对支付功能中timestamp处理不正确的问题。
+
 ## 0.1.7
 * 删除`Fluwx.registerApp(RegisterModel)`，现在使用`Fluwx.register()`。
 ## 0.1.6

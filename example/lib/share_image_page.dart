@@ -95,7 +95,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
   void _shareImage() {
     fluwx.share(WeChatShareImageModel(
         image: _imagePath,
-        thumbnail: "",
+        thumbnail: _thumbnail,
         transaction: _imagePath,
         scene: scene,
         description: "这是一张图"));

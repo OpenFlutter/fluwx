@@ -16,15 +16,15 @@
 import 'package:flutter/foundation.dart';
 
 class WeChatPayModel {
-  final appId;
-  final partnerId;
-  final prepayId;
-  final packageValue;
-  final nonceStr;
-  final timeStamp;
-  final sign;
-  final signType;
-  final extData;
+  final String appId;
+  final String partnerId;
+  final String prepayId;
+  final String packageValue;
+  final String nonceStr;
+  final int timeStamp;
+  final String sign;
+  final String signType;
+  final String extData;
 
   WeChatPayModel(
       {@required this.appId,

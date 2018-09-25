@@ -13,6 +13,8 @@
 }
 
 - (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+
     if (!isWeChatRegistered) {
         result([FlutterError errorWithCode:resultErrorNeedWeChat message:resultMessageNeedWeChat details:nil]);
         return;
@@ -23,11 +25,13 @@
         return;
     }
 
-    NSString *partnerId = call.arguments[@"partnerId"];
+    NSNumber * timestamp =  call.arguments[@"timeStamp"];
+
+            NSString *partnerId = call.arguments[@"partnerId"];
     NSString *prepayId = call.arguments[@"prepayId"];
     NSString *packageValue = call.arguments[@"packageValue"];
     NSString *nonceStr = call.arguments[@"nonceStr"];
-    UInt32 timeStamp = (UInt32) call.arguments[@"timeStamp"];
+    UInt32 timeStamp = [timestamp unsignedIntValue];
     NSString *sign = call.arguments[@"sign"];
     BOOL done = [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
                                        PartnerId:partnerId

@@ -44,15 +44,15 @@ class _PayPageState extends State<PayPage> {
               var data = await response.transform(Utf8Decoder()).join();
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
-              _fluwx
-                  .pay(
+              print(result["timestamp"]);
+              _fluwx.pay(
                 WeChatPayModel(
                   appId: result['appid'].toString(),
                   partnerId: result['partnerid'].toString(),
                   prepayId: result['prepayid'].toString(),
                   packageValue: result['package'].toString(),
                   nonceStr: result['noncestr'].toString(),
-                  timeStamp: result['timestamp'].toString(),
+                  timeStamp: result['timestamp'],
                   sign: result['sign'].toString(),
                 ),
               )

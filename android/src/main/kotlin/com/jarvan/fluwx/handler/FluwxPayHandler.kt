@@ -39,7 +39,7 @@ object FluwxPayHandler {
             request.prepayId = call.argument("prepayId")
             request.packageValue = call.argument("packageValue")
             request.nonceStr = call.argument("nonceStr")
-            request.timeStamp = call.argument("timeStamp")
+            request.timeStamp = call.argument<Long>("timeStamp").toString()
             request.sign = call.argument("sign")
             request.signType = call.argument("signType")
             request.extData = call.argument("extData")

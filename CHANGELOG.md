@@ -1,3 +1,6 @@
+## 0.1.9
+* 修复了不传*thumbnail*在Android上会崩溃的bug。
+
 ## 0.1.8
 * `WeChatPayModel`里的字段不再是`dynamic`。
 * 修复了iOS对支付功能中timestamp处理不正确的问题。

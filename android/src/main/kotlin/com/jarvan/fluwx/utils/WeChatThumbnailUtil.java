@@ -129,7 +129,7 @@ public class WeChatThumbnailUtil {
     private static byte[] createScaledBitmapWithRatio(File file, int resultMaxLength) {
 
         Bitmap originBitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        Bitmap result = ThumbnailCompressUtil.createScaledBitmap(originBitmap, resultMaxLength, true);
+        Bitmap result = ThumbnailCompressUtil.createScaledBitmapWithRatio(originBitmap, resultMaxLength, true);
 
         String path = file.getAbsolutePath();
         String suffix = path.substring(path.lastIndexOf("."), path.length());

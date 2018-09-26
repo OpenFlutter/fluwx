@@ -42,7 +42,7 @@
 add the following in your `pubspec.yaml` file:
 ```yaml
 dependencies:
-  fluwx: ^0.1.9
+  fluwx: ^0.2.0
 ```
 
 

@@ -27,6 +27,7 @@
 @class FluwxPaymentHandler;
 
 extern BOOL isWeChatRegistered;
+extern BOOL handleOpenURLByFluwx;
 
 
 @interface FluwxPlugin : NSObject<FlutterPlugin> {

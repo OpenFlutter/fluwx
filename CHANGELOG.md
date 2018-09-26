@@ -1,3 +1,6 @@
+## 0.2.0
+* iOS支持Swift了。
+
 ## 0.1.9
 * 修复了不传*thumbnail*在Android上会崩溃的bug。
 

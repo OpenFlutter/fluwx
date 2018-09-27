@@ -6,9 +6,9 @@
 由于`WeChatOpenSDK`用到了静态库，所以当我们编译swift的时候会报一个错误： `include non-modular headers`。
 为了支持swift,我们不得不将`WeChatOpenSDK`里的头文件变成public的:
 
-![make_headers_public](./arts/public_headers_1.png)
+![make_headers_public](../arts/public_headers_1.png)
 
-![make_headers_public](./arts/public_headers_2.png)
+![make_headers_public](../arts/public_headers_2.png)
 
 
 ##

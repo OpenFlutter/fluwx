@@ -44,7 +44,7 @@ QQ群：892398530。
 在`pubspec.yaml`文件中添加如下代码：
 ```yaml
 dependencies:
-  fluwx: ^0.2.0
+  fluwx: ^0.2.1
 ```
 
 

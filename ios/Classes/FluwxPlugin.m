@@ -22,7 +22,7 @@ BOOL handleOpenURLByFluwx = YES;
                   binaryMessenger:[registrar messenger]];
 
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar];
-    [[FluwxResponseHandler responseHandler] setMethodChannel:channel];
+    [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
 
 
@@ -88,7 +88,7 @@ BOOL handleOpenURLByFluwx = YES;
     if(handleOpenURLByFluwx){
         NSString * aURLString =  [aNotification userInfo][@"url"];
         NSURL * aURL = [NSURL URLWithString:aURLString];
-        return [WXApi handleOpenURL:aURL delegate:[FluwxResponseHandler responseHandler]];
+        return [WXApi handleOpenURL:aURL delegate:[FluwxResponseHandler defaultManager]];
     } else{
         return NO;
     }

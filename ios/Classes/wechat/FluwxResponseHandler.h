@@ -49,7 +49,7 @@
 
 @property (nonatomic, assign) id<WXApiManagerDelegate> delegate;
 
-+ (instancetype)responseHandler;
++ (instancetype)defaultManager;
 
 - (void) setMethodChannel:(FlutterMethodChannel *) flutterMethodChannel;
 

@@ -20,7 +20,7 @@ const NSString *description = @"description";
 
 #pragma mark - LifeCycle
 
-+ (instancetype)responseHandler {
++ (instancetype)defaultManager {
     static dispatch_once_t onceToken;
     static FluwxResponseHandler *instance;
     dispatch_once(&onceToken, ^{

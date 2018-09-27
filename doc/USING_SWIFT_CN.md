@@ -11,4 +11,19 @@
 ![make_headers_public](../arts/public_headers_2.png)
 
 
-##
+## 回调监听
+在你的`AppDelegate.swift`文件中重写以下方法：
+```swift
+
+  import fluwx
+
+  override  func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return WXApi.handleOpen(url, delegate: FluwxResponseHandler.defaultManager())
+    }
+
+    // NOTE: 9.0以后使用新API接口
+  override  func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        return WXApi.handleOpen(url, delegate: FluwxResponseHandler.defaultManager())
+    }
+
+```

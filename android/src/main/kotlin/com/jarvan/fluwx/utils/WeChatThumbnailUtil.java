@@ -267,9 +267,8 @@ public class WeChatThumbnailUtil {
 
     private static String getSuffix(String path) {
         String suffix = ".jpg";
-        int index = path.lastIndexOf(".");
-        if (index > 0) {
-            suffix = path.substring(index, path.length());
+        if (path.endsWith(".png")) {
+            suffix = ".png";
         }
         return suffix;
     }

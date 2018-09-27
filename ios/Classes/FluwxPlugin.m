@@ -13,7 +13,7 @@ BOOL handleOpenURLByFluwx = YES;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
@@ -30,10 +30,10 @@ BOOL handleOpenURLByFluwx = YES;
 
 - (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     self = [super init];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleOpenURL:)
-                                                 name:@"WeChat"
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(handleOpenURL:)
+//                                                 name:@"WeChat"
+//                                               object:nil];
     if (self) {
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
@@ -84,6 +84,7 @@ BOOL handleOpenURLByFluwx = YES;
 
 
 -(BOOL)handleOpenURL:(NSNotification *)aNotification {
+
     if(handleOpenURLByFluwx){
         NSString * aURLString =  [aNotification userInfo][@"url"];
         NSURL * aURL = [NSURL URLWithString:aURLString];

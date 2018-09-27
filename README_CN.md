@@ -1,6 +1,7 @@
 ![logo](./arts/fluwx_logo.png)
 
 适用于Flutter的微信SDK，方便快捷。
+QQ群：892398530。
 
 
 ## 使用需知

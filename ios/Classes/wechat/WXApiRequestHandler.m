@@ -327,7 +327,7 @@
 
     return [WXApi sendAuthReq:req
                viewController:viewController
-                     delegate:[FluwxResponseHandler responseHandler]];
+                     delegate:[FluwxResponseHandler defaultManager]];
 }
 
 + (BOOL)sendAuthRequestScope:(NSString *)scope

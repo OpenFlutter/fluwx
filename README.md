@@ -74,7 +74,8 @@ isWeChatRegistered = YES;
 * [Payment](./doc/WXPay.md)。
 * [Response](./doc/RESPONSE.md)。
 
-
+### Other
+* [Using Swift?]().
 ### Waiting 
 
 ## LICENSE

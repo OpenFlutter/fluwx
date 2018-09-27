@@ -45,13 +45,15 @@ For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read[ex
 ### iOS
 override the following function in`AppDelegate.m`:
 ```objective-c
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options{
-  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
-}
 ```
 
 > NOTE:Don't forget to add URL Schema in order to go back to  your app.

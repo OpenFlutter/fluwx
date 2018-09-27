@@ -45,13 +45,15 @@
 ### iOS
 在你的`AppDelegate.m`中重写下面方法：
 ```objective-c
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options{
-  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler responseHandler]];
-}
 ```
 > 注意：为了能够返回你的app，请不要忘记添加URL Schema。
 

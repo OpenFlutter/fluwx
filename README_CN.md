@@ -75,6 +75,8 @@ isWeChatRegistered = YES;
 * [支付](./doc/WXPay_CN.md)。
 * [回调](./doc/RESPONSE_CN.md)。
 
+### 其他
+* [使用Swift?]().
 
 ### 更多功能敬请请期待
 

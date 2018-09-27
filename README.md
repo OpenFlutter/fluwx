@@ -75,7 +75,7 @@ isWeChatRegistered = YES;
 * [Response](./doc/RESPONSE.md)。
 
 ### Other
-* [Using Swift?]().
+* [Using Swift?](./doc/USING_SWIFT.md)
 ### Waiting 
 
 ## LICENSE

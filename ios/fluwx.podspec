@@ -15,6 +15,7 @@ A new Flutter plugin for Wechat SDK.
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.static_framework = true
+  spec.pod_target_xcconfig = { 'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'YES' }
   s.dependency 'Flutter'
   s.dependency 'WechatOpenSDK','~> 1.8.2'
   

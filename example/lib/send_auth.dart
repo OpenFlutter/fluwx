@@ -19,6 +19,8 @@ class _SendAuthPageState extends State<SendAuthPage> {
         _result = data.toString();
       });
     });
+
+
   }
 
   @override

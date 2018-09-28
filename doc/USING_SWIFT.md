@@ -8,7 +8,7 @@ There is an exception called `include non-modular headers` if compiling `fluwx` 
 
 We have to allow non-modular includes to support swift,open your target and allow non-modular :
 
-![allow_non_modular_includes](../arts/allow_non_modular_includes)
+![allow_non_modular_includes](../arts/allow_non_modular_includes.png)
 
 
 

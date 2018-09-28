@@ -7,7 +7,7 @@
 当我们使用swift编译`fluwx`的时候会报一个错误： `include non-modular headers`。
 为了支持swift,我们不得不允许*non-modular includes*，打开你的target设置:
 
-![allow_non_modular_includes](../arts/allow_non_modular_includes)
+![allow_non_modular_includes](../arts/allow_non_modular_includes.png)
 
 
 

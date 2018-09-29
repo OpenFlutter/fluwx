@@ -139,9 +139,10 @@ FlutterMethodChannel *methodChannel = nil;
                 errStr: [StringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
                 type: payResp.type == nil ?@5:@(payResp.type),
+                @"returnKey":payResp.returnKey== nil?@"":payResp.returnKey,
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
-        [methodChannel invokeMethod:@"onAuthResponse" arguments:result];
+        [methodChannel invokeMethod:@"onPayResponse" arguments:result];
     }
 }
 

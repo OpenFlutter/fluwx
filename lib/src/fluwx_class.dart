@@ -22,88 +22,109 @@ import 'models/wechat_response.dart';
 import 'models/wechat_send_auth_model.dart';
 import 'models/wechat_share_models.dart';
 
-StreamController<WeChatResponse> _responseController =
+StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();
+
+Stream<WeChatShareResponse> get responseFromShare =>
+    _responseShareController.stream;
+
+StreamController<WeChatAuthResponse> _responseAuthController =
+    new StreamController.broadcast();
+
+Stream<WeChatAuthResponse> get responseFromAuth =>
+    _responseAuthController.stream;
+
+StreamController<WeChatPaymentResponse> _responsePaymentController =
+    new StreamController.broadcast();
+
+Stream<WeChatPaymentResponse> get responseFromPayment =>
+    _responsePaymentController.stream;
 
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
 
 Future<dynamic> _handler(MethodCall methodCall) {
   if ("onShareResponse" == methodCall.method) {
-    _responseController
-        .add(WeChatResponse(methodCall.arguments, WeChatResponseType.SHARE));
+    _responseShareController
+        .add(WeChatShareResponse.fromMap(methodCall.arguments));
   } else if ("onAuthResponse" == methodCall.method) {
-    _responseController
-        .add(WeChatResponse(methodCall.arguments, WeChatResponseType.AUTH));
+    _responseAuthController
+        .add(WeChatAuthResponse.fromMap(methodCall.arguments));
   } else if ("onPayResponse" == methodCall.method) {
-    _responseController
-        .add(WeChatResponse(methodCall.arguments, WeChatResponseType.PAYMENT));
+    _responsePaymentController
+        .add(WeChatPaymentResponse.fromMap(methodCall.arguments));
   }
 
   return Future.value(true);
 }
 
-class Fluwx {
-  static const Map<Type, String> _shareModelMethodMapper = {
-    WeChatShareTextModel: "shareText",
-    WeChatShareImageModel: "shareImage",
-    WeChatShareMusicModel: "shareMusic",
-    WeChatShareVideoModel: "shareVideo",
-    WeChatShareWebPageModel: "shareWebPage",
-    WeChatShareMiniProgramModel: "shareMiniProgram"
-  };
+const Map<Type, String> _shareModelMethodMapper = {
+  WeChatShareTextModel: "shareText",
+  WeChatShareImageModel: "shareImage",
+  WeChatShareMusicModel: "shareMusic",
+  WeChatShareVideoModel: "shareVideo",
+  WeChatShareWebPageModel: "shareWebPage",
+  WeChatShareMiniProgramModel: "shareMiniProgram"
+};
 
-  Stream<WeChatResponse> get response => _responseController.stream;
+///[appId] is not necessary.
+///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
+///if [doOnAndroid] is true, fluwx will register WXApi on Android.
+Future register(
+    {String appId,
+    bool doOnIOS: true,
+    doOnAndroid: true,
+    enableMTA: false}) async {
+  return await _channel.invokeMethod("registerApp", {
+    "appId": appId,
+    "iOS": doOnIOS,
+    "android": doOnAndroid,
+    "enableMTA": enableMTA
+  });
+}
 
-  ///[appId] is not necessary.
-  ///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
-  ///if [doOnAndroid] is true, fluwx will register WXApi on Android.
-  static Future register(
-      {String appId,
-      bool doOnIOS: true,
-      doOnAndroid: true,
-      enableMTA: false}) async {
-    return await _channel.invokeMethod("registerApp", {
-      "appId": appId,
-      "iOS": doOnIOS,
-      "android": doOnAndroid,
-      "enableMTA": enableMTA
-    });
+///we don't need the response any longer if params are true.
+void dispose({shareResponse: true, authResponse: true, paymentResponse: true}) {
+  if (shareResponse) {
+    _responseShareController.close();
   }
 
-  ///we don't need the response any longer.
-  static void dispose() {
-    _responseController.close();
+  if (authResponse) {
+    _responseAuthController.close();
   }
+
+  if (paymentResponse) {
+    _responseAuthController.close();
+  }
+}
 
 //  static Future unregisterApp(RegisterModel model) async {
 //    return await _channel.invokeMethod("unregisterApp", model.toMap());
 //  }
 
-  ///the [WeChatShareModel] can not be null
-  ///see [WeChatShareWebPageModel]
-  /// [WeChatShareTextModel]
-  ///[WeChatShareVideoModel]
-  ///[WeChatShareMusicModel]
-  ///[WeChatShareImageModel]
-  Future share(WeChatShareModel model) async {
-    if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
-      return await _channel.invokeMethod(
-          _shareModelMethodMapper[model.runtimeType], model.toMap());
-    } else {
-      return Future.error("no method mapper found[${model.runtimeType}]");
-    }
+///the [WeChatShareModel] can not be null
+///see [WeChatShareWebPageModel]
+/// [WeChatShareTextModel]
+///[WeChatShareVideoModel]
+///[WeChatShareMusicModel]
+///[WeChatShareImageModel]
+Future share(WeChatShareModel model) async {
+  if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
+    return await _channel.invokeMethod(
+        _shareModelMethodMapper[model.runtimeType], model.toMap());
+  } else {
+    return Future.error("no method mapper found[${model.runtimeType}]");
   }
+}
 
-  Future sendAuth(WeChatSendAuthModel model) async {
-    return await _channel.invokeMethod("sendAuth", model.toMap());
-  }
+Future sendAuth(WeChatSendAuthModel model) async {
+  return await _channel.invokeMethod("sendAuth", model.toMap());
+}
 
-  Future isWeChatInstalled() async {
-    return await _channel.invokeMethod("isWeChatInstalled");
-  }
+Future isWeChatInstalled() async {
+  return await _channel.invokeMethod("isWeChatInstalled");
+}
 
-  Future pay(WeChatPayModel model) async {
-    return await _channel.invokeMethod("pay", model.toMap());
-  }
+Future pay(WeChatPayModel model) async {
+  return await _channel.invokeMethod("pay", model.toMap());
 }

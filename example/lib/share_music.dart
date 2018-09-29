@@ -123,6 +123,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
         description: _description,
         transaction: "music",
         musicUrl: _musicUrl,
+        scene: scene,
         musicLowBandUrl: _musicLowBandUrl,
         thumbnail: _thumnail);
 

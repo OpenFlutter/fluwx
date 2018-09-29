@@ -13,10 +13,10 @@ A new Flutter plugin for Wechat SDK.
   s.author           = { 'JarvanMo' => 'jarvan.mo@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.public_header_files = 'Classes/**/*.h','"${PODS_ROOT}/Headers/Public/OpenWeChatSDK"'
   s.static_framework = true
   s.dependency 'Flutter'
-  s.dependency 'OpenWeChatSDK','< 1.8.3+5'
+  s.dependency 'OpenWeChatSDK','~> 1.8.3+9'
   
   s.ios.deployment_target = '9.0'
 end

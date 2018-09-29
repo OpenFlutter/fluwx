@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class SendAuthPage extends StatefulWidget {
   @override
@@ -7,19 +7,17 @@ class SendAuthPage extends StatefulWidget {
 }
 
 class _SendAuthPageState extends State<SendAuthPage> {
-  Fluwx _fluwx;
+ 
   String _result = "无";
 
   @override
   void initState() {
     super.initState();
-    _fluwx = new Fluwx();
-    _fluwx.response.listen((data) {
+    fluwx.responseFromAuth.listen((data) {
       setState(() {
-        _result = data.toString();
+        _result = "${data.errCode}";
       });
     });
-
 
   }
 
@@ -27,6 +25,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
   void dispose() {
     super.dispose();
     _result = null;
+
   }
 
   @override
@@ -39,11 +38,10 @@ class _SendAuthPageState extends State<SendAuthPage> {
         children: <Widget>[
           OutlineButton(
             onPressed: () {
-              _fluwx
-                  .sendAuth(new WeChatSendAuthModel(
+              fluwx.sendAuth(new fluwx.WeChatSendAuthModel(
                       scope: "snsapi_userinfo", state: "wechat_sdk_demo_test"))
                   .then((data) {
-                print("-------->$data");
+
               });
             },
             child: const Text("send auth"),

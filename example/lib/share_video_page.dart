@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class ShareVideoPage extends StatefulWidget {
   @override
@@ -7,18 +7,17 @@ class ShareVideoPage extends StatefulWidget {
 }
 
 class _ShareMusicPageState extends State<ShareVideoPage> {
-  Fluwx fluwx;
+
   String _videoUrl = "http://www.qq.com";
   String _videoLowBandUrl = "http://www.qq.com";
   String _title = "Beyond";
   String _description = "A Popular Rock Band From China";
   String _thumnail = "assets://images/logo.png";
-  WeChatScene scene = WeChatScene.SESSION;
+  fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
 
   @override
   void initState() {
     super.initState();
-    fluwx = new Fluwx();
   }
 
   @override
@@ -83,8 +82,8 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
                 const Text("分享至"),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.SESSION,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.SESSION,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("会话")
@@ -92,8 +91,8 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.TIMELINE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.TIMELINE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("朋友圈")
@@ -101,8 +100,8 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.FAVORITE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.FAVORITE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("收藏")
@@ -117,7 +116,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
   }
 
   void _share() {
-    var model = new WeChatShareVideoModel(
+    var model = new fluwx.WeChatShareVideoModel(
         videoUrl: _videoUrl,
         transaction: "video",
         videoLowBandUrl: _videoLowBandUrl,
@@ -128,7 +127,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
     fluwx.share(model);
   }
 
-  void handleRadioValueChanged(WeChatScene scene) {
+  void handleRadioValueChanged(fluwx.WeChatScene scene) {
     setState(() {
       this.scene = scene;
     });

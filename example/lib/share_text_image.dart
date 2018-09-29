@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class ShareTextPage extends StatefulWidget {
   @override
@@ -7,15 +7,15 @@ class ShareTextPage extends StatefulWidget {
 }
 
 class _ShareTextPageState extends State<ShareTextPage> {
-  Fluwx fluwx;
+
   String _text = "share text from fluwx";
-  WeChatScene scene = WeChatScene.SESSION;
+  fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
 
   @override
   void initState() {
     super.initState();
-    fluwx = new Fluwx();
-    fluwx.response.listen((data) {
+
+    fluwx.responseFromShare.listen((data) {
       print(data.toString());
     });
   }
@@ -50,8 +50,8 @@ class _ShareTextPageState extends State<ShareTextPage> {
                 const Text("分享至"),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.SESSION,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.SESSION,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("会话")
@@ -59,8 +59,8 @@ class _ShareTextPageState extends State<ShareTextPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.TIMELINE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.TIMELINE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("朋友圈")
@@ -68,8 +68,8 @@ class _ShareTextPageState extends State<ShareTextPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.FAVORITE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.FAVORITE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("收藏")
@@ -85,7 +85,7 @@ class _ShareTextPageState extends State<ShareTextPage> {
 
   void _shareText() {
     fluwx
-        .share(WeChatShareTextModel(
+        .share(fluwx.WeChatShareTextModel(
             text: _text,
             transaction: "text${DateTime.now().millisecondsSinceEpoch}",
             scene: scene))
@@ -96,7 +96,7 @@ class _ShareTextPageState extends State<ShareTextPage> {
 //    fluwx.sendAuth(WeChatSendAuthModel(scope: "snsapi_userinfo",state: "wechat_sdk_demo_test"));
   }
 
-  void handleRadioValueChanged(WeChatScene scene) {
+  void handleRadioValueChanged(fluwx.WeChatScene scene) {
     setState(() {
       this.scene = scene;
     });

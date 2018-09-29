@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io' as H;
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class PayPage extends StatefulWidget {
   @override
@@ -11,16 +11,16 @@ class PayPage extends StatefulWidget {
 
 class _PayPageState extends State<PayPage> {
   String _url = "https://wxpay.wxutil.com/pub_v2/app/app_pay.php";
-  Fluwx _fluwx;
+
   String _result = "无";
 
   @override
   void initState() {
     super.initState();
-    _fluwx = new Fluwx();
-    _fluwx.response.listen((data) {
+
+    fluwx.responseFromPayment.listen((data) {
       setState(() {
-        _result = data.toString();
+        _result = "${data.errCode}";
       });
     });
   }
@@ -45,8 +45,8 @@ class _PayPageState extends State<PayPage> {
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
               print(result["timestamp"]);
-              _fluwx.pay(
-                WeChatPayModel(
+              fluwx.pay(
+                fluwx.WeChatPayModel(
                   appId: result['appid'].toString(),
                   partnerId: result['partnerid'].toString(),
                   prepayId: result['prepayid'].toString(),

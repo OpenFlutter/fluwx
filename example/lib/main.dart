@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 import 'pay_page.dart';
 import 'send_auth.dart';
@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    Fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
+    fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

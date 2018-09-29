@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class ShareMusicPage extends StatefulWidget {
   @override
@@ -7,19 +7,19 @@ class ShareMusicPage extends StatefulWidget {
 }
 
 class _ShareMusicPageState extends State<ShareMusicPage> {
-  Fluwx fluwx;
+
   String _musicUrl =
       "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3";
   String _musicLowBandUrl = "http://www.qq.com";
   String _title = "Beyond";
   String _description = "A Popular Rock Band From China";
   String _thumnail = "assets://images/logo.png";
-  WeChatScene scene = WeChatScene.SESSION;
+  fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
 
   @override
   void initState() {
     super.initState();
-    fluwx = new Fluwx();
+
   }
 
   @override
@@ -84,8 +84,8 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
                 const Text("分享至"),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.SESSION,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.SESSION,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("会话")
@@ -93,8 +93,8 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.TIMELINE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.TIMELINE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("朋友圈")
@@ -102,8 +102,8 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.FAVORITE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.FAVORITE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("收藏")
@@ -118,7 +118,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
   }
 
   void _share() {
-    var model = WeChatShareMusicModel(
+    var model = fluwx.WeChatShareMusicModel(
         title: _title,
         description: _description,
         transaction: "music",
@@ -129,7 +129,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
     fluwx.share(model);
   }
 
-  void handleRadioValueChanged(WeChatScene scene) {
+  void handleRadioValueChanged(fluwx.WeChatScene scene) {
     setState(() {
       this.scene = scene;
     });

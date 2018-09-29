@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx/fluwx.dart' as fluwx;
 
 class ShareImagePage extends StatefulWidget {
   @override
@@ -7,8 +7,8 @@ class ShareImagePage extends StatefulWidget {
 }
 
 class _ShareImagePageState extends State<ShareImagePage> {
-  Fluwx fluwx;
-  WeChatScene scene = WeChatScene.SESSION;
+
+  fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
   String _imagePath =
       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534614311230&di=b17a892b366b5d002f52abcce7c4eea0&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170516%2F51296b2673704ae2992d0a28c244274c_th.png";
   String _thumbnail = "assets://logo.png";
@@ -16,7 +16,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
   @override
   void initState() {
     super.initState();
-    fluwx = new Fluwx();
+
   }
 
   @override
@@ -59,8 +59,8 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 const Text("分享至"),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.SESSION,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.SESSION,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("会话")
@@ -68,8 +68,8 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.TIMELINE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.TIMELINE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("朋友圈")
@@ -77,8 +77,8 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<WeChatScene>(
-                        value: WeChatScene.FAVORITE,
+                    new Radio<fluwx.WeChatScene>(
+                        value: fluwx.WeChatScene.FAVORITE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("收藏")
@@ -93,7 +93,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
   }
 
   void _shareImage() {
-    fluwx.share(WeChatShareImageModel(
+    fluwx.share(fluwx.WeChatShareImageModel(
         image: _imagePath,
         thumbnail: _thumbnail,
         transaction: _imagePath,
@@ -101,7 +101,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
         description: "这是一张图"));
   }
 
-  void handleRadioValueChanged(WeChatScene scene) {
+  void handleRadioValueChanged(fluwx.WeChatScene scene) {
     setState(() {
       this.scene = scene;
     });

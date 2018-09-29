@@ -49,8 +49,7 @@ class WeChatShareResponse {
         iOSLang = map["lang"];
 }
 
-class WeChatAuthResponse{
-
+class WeChatAuthResponse {
   final String errStr;
   final int type;
   final int errCode;
@@ -73,12 +72,11 @@ class WeChatAuthResponse{
         lang = map["lang"],
         code = map["code"],
         androidUrl = map["url"],
-        state =map["state"],
+        state = map["state"],
         androidTransaction = map["transaction"];
-
 }
 
-class WeChatPaymentResponse{
+class WeChatPaymentResponse {
   final String errStr;
   final int type;
   final int errCode;
@@ -88,17 +86,13 @@ class WeChatPaymentResponse{
   final String extData;
   final String androidTransaction;
 
-
-  WeChatPaymentResponse.fromMap(Map map):
-        errStr = map["errStr"],
+  WeChatPaymentResponse.fromMap(Map map)
+      : errStr = map["errStr"],
         type = map["type"],
         errCode = map["errCode"],
         androidOpenId = map["openId"],
         iOSDescription = map["description"],
         androidPrepayId = map["prepayId"],
         extData = map["extData"],
-        androidTransaction = map["transaction"]
-
-  ;
-
+        androidTransaction = map["transaction"];
 }

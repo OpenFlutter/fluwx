@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 ///[WeChatScene.SESSION]会话
 ///[WeChatScene.TIMELINE]朋友圈
 ///[WeChatScene.FAVORITE]收藏

@@ -2,8 +2,8 @@ PODS:
   - Flutter (1.0.0)
   - fluwx (0.0.1):
     - Flutter
-    - "OpenWeChatSDK (< 1.8.3+7)"
-  - "OpenWeChatSDK (1.8.3+6)"
+    - "OpenWeChatSDK (< 1.8.3+6)"
+  - "OpenWeChatSDK (1.8.3+5)"
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
@@ -21,8 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
-  fluwx: e721f11a0f81625896402e16377105a07f4b1442
-  OpenWeChatSDK: 17d7a5e7e5b87438d9419cab92fde907355e1692
+  fluwx: e605d80172274e176305b771a9d4eb31bc9450c6
+  OpenWeChatSDK: e5c9a8c7a549d348bcaef867650b5d9ecaa8c092
 
 PODFILE CHECKSUM: 348e15598a1c6ea25d3ed63919d5ffb9bd1c2ba6
 

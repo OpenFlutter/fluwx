@@ -1,3 +1,6 @@
+## 0.2.2
+* iOS的SDK更换为'OpenWeChatSDK'，并升级到了1.8.3。
+
 ## 0.2.1
 * 修复在Android处理网络图片后缀不对的问题。
 
@@ -13,6 +16,7 @@
 
 ## 0.1.7
 * 删除`Fluwx.registerApp(RegisterModel)`，现在使用`Fluwx.register()`。
+
 ## 0.1.6
 * 修复transitive dependencies。
 

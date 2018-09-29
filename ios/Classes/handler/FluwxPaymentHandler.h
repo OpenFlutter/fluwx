@@ -7,7 +7,7 @@
 #import "WXApiRequestHandler.h"
 #import "FluwxKeys.h"
 #import "StringToWeChatScene.h"
-#import "WXApi.h"
+#import <OpenWeChatSDK/WXApi.h>
 #import "FluwxMethods.h"
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
 #import "FluwxKeys.h"
-#import "WXApi.h"
+#import <OpenWeChatSDK/WXApi.h>
 #import "StringUtil.h"
 
 @protocol WXApiManagerDelegate <NSObject>

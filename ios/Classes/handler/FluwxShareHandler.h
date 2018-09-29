@@ -7,12 +7,12 @@
 #import "WXApiRequestHandler.h"
 #import "FluwxKeys.h"
 #import "StringToWeChatScene.h"
-#import "WXApi.h"
 #import "FluwxMethods.h"
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"
 #import "ThumbnailHelper.h"
 #import "NSStringWrapper.h"
+#import <OpenWeChatSDK/WXApi.h>
 @class StringUtil;
 
 @interface FluwxShareHandler : NSObject

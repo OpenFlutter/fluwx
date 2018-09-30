@@ -59,16 +59,15 @@
 
 ### Flutter
 ```dart
-    _fluwx.response.listen((response){
-      //do something
-    });
+        fluwx.responseFromShare.listen((response){
+          //do something
+        });
+        fluwx.responseFromAuth.listen((response){
+          //do something
+        });
+        fluwx.responseFromPayment.listen((response){
+          //do something
+        });
 ```
-从微信回调的值为`WeChatResponse`，其实`type`字段为枚举：
-```dart
-enum WeChatResponseType {
-    SHARE,
-    AUTH,
-    PAYMENT }
-```
-`result`为微信回传的值，其类型为`Map`，具体返回值请参阅微信官方文档，但均额外包含一个
-`platform`字段，其值为`android`或者`iOS`，以便开发者作差异化处理。
+
+> 注意：如果一个字段以*android*或者*iOS*开头，那么意味这个字段只存在于*android*或者*iOS*。

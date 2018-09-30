@@ -3,7 +3,7 @@
 ### Pay
  
 ```dart
-Fluwx fluwx = new Fluwx();
+import 'package:fluwx/fluwx.dart' as fluwx;
 fluwx.pay(WeChatPayModel(
                   appId: 'wxd930ea5d5a258f4f', 
                   partnerId: '1900000109',

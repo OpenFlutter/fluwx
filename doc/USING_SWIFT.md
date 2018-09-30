@@ -1,16 +1,5 @@
 ## Using Swift?
-`fluwx` supports `swift` since 2.0.0. However,before using swift, there's still a little work to do.
-If anyone has better solutions, tell me please or open a PR.
-
-## Allow Non-modular Includes
-
-There is an exception called `include non-modular headers` if compiling `fluwx` directly.
-
-We have to allow non-modular includes to support swift,open your target and allow non-modular :
-
-![allow_non_modular_includes](../arts/allow_non_modular_includes.png)
-
-
+`fluwx` supports `swift` since 2.0.0.
 
 
 ## Response

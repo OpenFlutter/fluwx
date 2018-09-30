@@ -28,10 +28,7 @@
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
    ```
-   For iOS:
-   ```podspec
-    s.dependency 'WechatOpenSDK','~> 1.8.2'
-   ```
+
    For Flutter：<br>
    Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git<br>
    Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700<br>
@@ -42,29 +39,18 @@
 add the following in your `pubspec.yaml` file:
 ```yaml
 dependencies:
-  fluwx: ^0.2.1
+  fluwx: ^0.3.0
 ```
 
 
-## Init Fluwx
+## Register WeChatSDK via Fluwx
 Before using`Fluwx`,you should init `FLuwx`：
  ```dart
-    Fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
+    import 'package:fluwx/fluwx.dart' as fluwx;
+    fluwx.register(appId:"wxd930ea5d5a258f4f");
  ```
- - `appId`：the appId you applied from WeChat.
- - `doOnAndroid`:whether init for Android.
- - `doOnIOS`:whether init for iOS
- 
- Each param isn't necessary.However,if `appId`is blank, or `doOnAndroid: false`, or `doOnIOS: false`，you must register your `WXApi` on the particular platform in order to ensure  `Fluwx` can work.
- After tha，add the following code before using `Fluwx` on the particular platform:
- For Android：
- ```kotlin
- FluwxShareHandler.setWXApi(wxapi)
- ```
- For iOS:
- ```objective-c
-isWeChatRegistered = YES;
- ```
+
+
 
 > NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, creat a `WXEntryActivity` for android and add a URLSchema for iOS. 
 

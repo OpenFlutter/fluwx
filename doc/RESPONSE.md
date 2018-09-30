@@ -61,10 +61,18 @@ override the following function in`AppDelegate.m`:
 ### Flutter
 We can get the reponse from WeChat after sharing and etc:
 ```dart
-    _fluwx.response.listen((response){
-      //do something
-    });
+       fluwx.responseFromShare.listen((response){
+         //do something
+       });
+       fluwx.responseFromAuth.listen((response){
+         //do something
+       });
+       fluwx.responseFromPayment.listen((response){
+         //do something
+       });
 ```
+> NOTE:If the field starts with "android" or "iOS", it means that only android or iOS has the field.
+
 The type of return value is `WeChatResponse`，and  `type` is an enum:
 ```dart
 enum WeChatResponseType {

@@ -12,7 +12,7 @@
 #import "FluwxPlugin.h"
 #import "ThumbnailHelper.h"
 #import "NSStringWrapper.h"
-#import <OpenWeChatSDK/WXApi.h>
+#import "WXApi.h"
 @class StringUtil;
 
 @interface FluwxShareHandler : NSObject

@@ -3,7 +3,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <OpenWeChatSDK/WXApiObject.h>
+#import "WXApiObject.h"
 
 @interface StringToWeChatScene : NSObject
 + (enum WXScene) toScene : (NSString *) string;

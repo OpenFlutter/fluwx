@@ -13,11 +13,17 @@ A new Flutter plugin for Wechat SDK.
   s.author           = { 'JarvanMo' => 'jarvan.mo@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h','"${PODS_ROOT}/Headers/Public/OpenWeChatSDK"'
+  s.public_header_files = 'Classes/**/*.h'
   s.static_framework = true
   s.dependency 'Flutter'
-  s.dependency 'OpenWeChatSDK','~> 1.8.3+10'
-  
+#  s.dependency 'WechatOpenSDK', '~> 1.8.2'
+
+# s.dependency 'OpenWeChatSDK','~> 1.8.3+10'
+#  s.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}" }
+  s.frameworks = ["SystemConfiguration", "CoreTelephony"]
+  s.libraries = ["z", "sqlite3.0", "c++"]
+  s.preserve_paths = 'Lib/*.a'
+  s.vendored_libraries = "**/*.a"
   s.ios.deployment_target = '9.0'
 end
 

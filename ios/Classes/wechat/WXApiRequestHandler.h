@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <OpenWeChatSDK/WXApiObject.h>
+#import "WXApiObject.h"
 #import "StringUtil.h"
 #import "FluwxResponseHandler.h"
 

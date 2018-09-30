@@ -77,6 +77,7 @@ isWeChatRegistered = YES;
 
 ### 其他
 * [使用Swift?](./doc/USING_SWIFT_CN.md)
+* [有问题?](./doc/QUESTIONS_CN.md)
 
 ### 更多功能敬请请期待
 

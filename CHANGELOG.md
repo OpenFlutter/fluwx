@@ -1,5 +1,5 @@
 ## 0.3.1
-* 修复Flutter-dev-0.9.7-pre在android中添加了*@Nullable*而引起的编译问题
+* 修复了由于Flutter-dev-0.9.7-pre在android中添加了*@Nullable*注解而引起的编译问题
 
 ## 0.3.0
 * 回调方式发生变化，由Map变更为实体类。

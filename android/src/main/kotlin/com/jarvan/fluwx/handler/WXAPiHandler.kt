@@ -36,7 +36,7 @@ object WXAPiHandler {
 
     fun registerApp(call: MethodCall, result: MethodChannel.Result) {
 
-        if (!call.argument<Boolean>(WechatPluginKeys.ANDROID)) {
+        if (call.argument<Boolean>(WechatPluginKeys.ANDROID) == false) {
             return
         }
 
@@ -55,7 +55,7 @@ object WXAPiHandler {
         }
 
 
-        val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId,call.argument<Boolean>("enableMTA"))
+        val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId, call.argument<Boolean>("enableMTA")!!)
         val registered = api.registerApp(appId)
         wxApi = api
         result.success(mapOf(

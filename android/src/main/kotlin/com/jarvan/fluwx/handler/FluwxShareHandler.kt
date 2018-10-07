@@ -106,10 +106,10 @@ internal object FluwxShareHandler {
     private fun shareMiniProgram(call: MethodCall, result: MethodChannel.Result) {
         val miniProgramObj = WXMiniProgramObject()
         miniProgramObj.webpageUrl = call.argument("webPageUrl") // 兼容低版本的网页链接
-        miniProgramObj.miniprogramType = call.argument("miniProgramType")// 正式版:0，测试版:1，体验版:2
+        miniProgramObj.miniprogramType = call.argument("miniProgramType")?:0// 正式版:0，测试版:1，体验版:2
         miniProgramObj.userName = call.argument("userName")     // 小程序原始id
         miniProgramObj.path = call.argument("path")            //小程序页面路径
-        miniProgramObj.withShareTicket = call.argument("withShareTicket")
+        miniProgramObj.withShareTicket = call.argument("withShareTicket")?:true
         val msg = WXMediaMessage(miniProgramObj)
         msg.title = call.argument(WechatPluginKeys.TITLE)                   // 小程序消息title
         msg.description = call.argument("description")               // 小程序消息desc
@@ -164,7 +164,11 @@ internal object FluwxShareHandler {
 
 
         launch(UI) {
-            val byteArray: ByteArray? = getImageByteArrayCommon(registrar, imagePath)
+            val byteArray: ByteArray? = if (imagePath.isNullOrBlank()){
+                byteArrayOf()
+            }else{
+                getImageByteArrayCommon(registrar, imagePath!!)
+            }
 
             val imgObj = if (byteArray != null && byteArray.isNotEmpty()) {
                 WXImageObject(byteArray)
@@ -347,7 +351,7 @@ internal object FluwxShareHandler {
         msg.messageExt = call.argument<String>(WechatPluginKeys.MESSAGE_EXT)
         msg.mediaTagName = call.argument<String>(WechatPluginKeys.MEDIA_TAG_NAME)
         req.transaction = call.argument(WechatPluginKeys.TRANSACTION)
-        req.scene = getScene(call.argument(WechatPluginKeys.SCENE))
+        req.scene = getScene(call.argument(WechatPluginKeys.SCENE)?:WechatPluginKeys.SCENE_SESSION)
     }
 
 }

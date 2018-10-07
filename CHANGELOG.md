@@ -1,3 +1,6 @@
+## 0.3.1
+* 修复Flutter-dev-0.9.7-pre在android中添加了*@Nullable*而引起的编译问题
+
 ## 0.3.0
 * 回调方式发生变化，由Map变更为实体类。
 * iOS的WeChatSDK更换为内部依赖，并升级到了1.8.3。

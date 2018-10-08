@@ -7,7 +7,7 @@ We'll get a `code` by sending auth:
           state:"wechat_sdk_demo_test",
     ));
 ```
-`Fluwx` doesn't support getting `access_toke`.
+Getting `access_token` is not supported by `fluwx`.
 ### Return
  The return value of `fluwx.share(model)` is a `Map`：
 ```dart

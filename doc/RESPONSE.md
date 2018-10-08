@@ -26,8 +26,8 @@ For`Android`,create `WXEntryActivity`or`WXPayEntryActivity`,and override the fol
       }
 ```
 You can also directly inherit `FluwxWXEntryActivity`,and then you can do nothing.
-For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read[example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )
-，never register your Activity in `AndroidManifest.mxl`:
+For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read [example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )
+，never forget to register your Activity in `AndroidManifest.mxl`:
 ```xml
      <activity
             android:name="your.package.name.registered.on.wechat.wxapi.WXEntryActivity"
@@ -43,7 +43,7 @@ For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read[ex
 ```
 
 ### iOS
-override the following function in`AppDelegate.m`:
+override the following function in`AppDelegate`:
 ```objective-c
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];

@@ -19,13 +19,15 @@ QQ群：892398530。
 * 支付。
 
 ## 技术参数
-   Android部分使用到了`kotlin-1.2.60`。以下是Android部分所涉及到的技术:
+   Android部分使用到了`kotlin-1.2.71`。以下是Android部分所涉及到的技术:
    ```gradle
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2'
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+
    ```
 
    Flutter版本信息<br>

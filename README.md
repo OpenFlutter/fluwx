@@ -20,11 +20,12 @@
 * Pay.
 
 ## Tech Used In Fluwx
-  For Android,`kotlin-1.2.60` is included:
+  For Android,`kotlin-1.2.71` is included:
    ```gradle
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.24.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.24.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2'
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
    ```

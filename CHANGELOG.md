@@ -1,3 +1,7 @@
+## 0.3.2
+* *build.gradle*升级到了*3.2.0*
+* *kotlin*升级到了*1.2.71*
+
 ## 0.3.1
 * 修复了由于Flutter-dev-0.9.7-pre在android中添加了*@Nullable*注解而引起的编译问题
 

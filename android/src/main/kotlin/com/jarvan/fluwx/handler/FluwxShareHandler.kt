@@ -24,10 +24,8 @@ import com.tencent.mm.opensdk.modelmsg.*
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
-import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
 
 
 /***
@@ -115,7 +113,7 @@ internal object FluwxShareHandler {
         msg.description = call.argument("description")               // 小程序消息desc
         val thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
 
-        launch((UI)) {
+        GlobalScope.launch((Dispatchers.Main), CoroutineStart.DEFAULT, {
             if (thumbnail.isNullOrBlank()) {
                 msg.thumbData = null
             } else {
@@ -132,38 +130,38 @@ internal object FluwxShareHandler {
                     )
             )
 
-        }
+        })
 
 
     }
 
     private suspend fun getThumbnailByteArrayMiniProgram(registrar: PluginRegistry.Registrar?, thumbnail: String): ByteArray {
 
-        return async(CommonPool) {
+        return GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, {
             val result = WeChatThumbnailUtil.thumbnailForMiniProgram(thumbnail, registrar)
             result ?: byteArrayOf()
-        }.await()
+        }).await()
     }
 
     private suspend fun getImageByteArrayCommon(registrar: PluginRegistry.Registrar?, imagePath: String): ByteArray {
-        return async(CommonPool) {
+        return GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, {
             val result = ShareImageUtil.getImageData(registrar, imagePath)
             result ?: byteArrayOf()
-        }.await()
+        }).await()
     }
 
     private suspend fun getThumbnailByteArrayCommon(registrar: PluginRegistry.Registrar?, thumbnail: String): ByteArray {
-        return async(CommonPool) {
+        return GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT, {
             val result = WeChatThumbnailUtil.thumbnailForCommon(thumbnail, registrar)
             result ?: byteArrayOf()
-        }.await()
+        }).await()
     }
 
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
         val imagePath = call.argument<String>(WechatPluginKeys.IMAGE)
 
 
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT, {
             val byteArray: ByteArray? = if (imagePath.isNullOrBlank()){
                 byteArrayOf()
             }else{
@@ -191,7 +189,7 @@ internal object FluwxShareHandler {
 
 //           val thumbnailData =  Util.bmpToByteArray(bitmap,true)
             handleShareImage(imgObj, call, thumbnailData, result)
-        }
+        })
 
     }
 
@@ -237,7 +235,7 @@ internal object FluwxShareHandler {
         msg.description = call.argument("description")
         val thumbnail: String? = call.argument("thumbnail")
 
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT, {
             if (thumbnail != null && thumbnail.isNotBlank()) {
                 msg.thumbData = getThumbnailByteArrayCommon(registrar, thumbnail)
             }
@@ -252,7 +250,7 @@ internal object FluwxShareHandler {
                             WechatPluginKeys.RESULT to done
                     )
             )
-        }
+        })
 
 
     }
@@ -272,7 +270,7 @@ internal object FluwxShareHandler {
         msg.description = call.argument(WechatPluginKeys.DESCRIPTION)
         val thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
 
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT,  {
             if (thumbnail != null && thumbnail.isNotBlank()) {
                 msg.thumbData = getThumbnailByteArrayCommon(registrar, thumbnail)
             }
@@ -286,7 +284,7 @@ internal object FluwxShareHandler {
                             WechatPluginKeys.RESULT to done
                     )
             )
-        }
+        })
 
 
     }
@@ -301,7 +299,7 @@ internal object FluwxShareHandler {
         msg.title = call.argument(WechatPluginKeys.TITLE)
         msg.description = call.argument(WechatPluginKeys.DESCRIPTION)
         val thumbnail: String? = call.argument(WechatPluginKeys.THUMBNAIL)
-        launch(UI) {
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT, {
             if (thumbnail != null && thumbnail.isNotBlank()) {
                 msg.thumbData = getThumbnailByteArrayCommon(registrar, thumbnail)
             }
@@ -315,7 +313,7 @@ internal object FluwxShareHandler {
                             WechatPluginKeys.RESULT to done
                     )
             )
-        }
+        })
     }
 
     //    private fun createWxImageObject(imagePath:String):WXImageObject?{

@@ -17,10 +17,10 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-import 'models/wechat_pay_model.dart';
 import 'models/wechat_response.dart';
 import 'models/wechat_send_auth_model.dart';
 import 'models/wechat_share_models.dart';
+import 'package:flutter/foundation.dart';
 
 StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();
@@ -125,6 +125,26 @@ Future isWeChatInstalled() async {
   return await _channel.invokeMethod("isWeChatInstalled");
 }
 
-Future pay(WeChatPayModel model) async {
-  return await _channel.invokeMethod("pay", model.toMap());
+
+
+Future pay({@required String appId,
+  @required String partnerId,
+  @required String prepayId,
+  @required String packageValue,
+  @required String nonceStr,
+  @required int timeStamp,
+  @required String sign,
+  String signType,
+  String extData}) async {
+  return await _channel.invokeMethod("pay",{
+    "appId": appId,
+    "partnerId": partnerId,
+    "prepayId": prepayId,
+    "packageValue": packageValue,
+    "nonceStr": nonceStr,
+    "timeStamp": timeStamp,
+    "sign": sign,
+    "signType": signType,
+    "extData": extData,
+  });
 }

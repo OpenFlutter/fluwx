@@ -1,3 +1,6 @@
+## 0.0.3
+* 移除WeChatPayModel
+
 ## 0.3.2
 * *build.gradle*升级到了*3.2.0*
 * *kotlin*升级到了*1.2.71*

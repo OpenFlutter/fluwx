@@ -1,5 +1,6 @@
-## 0.0.3
+## 0.3.3
 * 移除WeChatPayModel
+* 移除ios最小支持。
 
 ## 0.3.2
 * *build.gradle*升级到了*3.2.0*

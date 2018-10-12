@@ -1,6 +1,8 @@
 ## 0.3.3
 * 移除WeChatPayModel
 * 移除ios最小支持。
+* 优化*Android*微信回调。
+* *build.gradle*升级到了*3.2.1*。
 
 ## 0.3.2
 * *build.gradle*升级到了*3.2.0*

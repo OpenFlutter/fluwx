@@ -1,4 +1,4 @@
-package net.sourceforge.simcpux.wxapi;
+package com.jarvan.fluwxexample.wxapi;
 
 import com.jarvan.fluwx.wxapi.FluwxWXEntryActivity;
 

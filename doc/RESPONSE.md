@@ -2,7 +2,10 @@
 There's some work we have to do on the particular plaform(if you don't need this,just ignore).
 
 ### Android
-For`Android`,create `WXEntryActivity`or`WXPayEntryActivity`,and override the following function：
+Fluwx will create `WXEntryActivity`or`WXPayEntryActivity` by itself since *0.4.0*. So the following
+code isn't necessary.
+
+~~For`Android`,create `WXEntryActivity`or`WXPayEntryActivity`,and override the following function：~~
 ```kotlin
 
      public override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +28,9 @@ For`Android`,create `WXEntryActivity`or`WXPayEntryActivity`,and override the fol
           finish()
       }
 ```
-You can also directly inherit `FluwxWXEntryActivity`,and then you can do nothing.
-For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read [example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )
-，never forget to register your Activity in `AndroidManifest.mxl`:
+~~You can also directly inherit `FluwxWXEntryActivity`,and then you can do nothing.
+For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read [example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )~~
+~~，never forget to register your Activity in `AndroidManifest.mxl`:~~
 ```xml
      <activity
             android:name="your.package.name.registered.on.wechat.wxapi.WXEntryActivity"
@@ -41,7 +44,45 @@ For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read [e
             android:launchMode="singleTop"/>
 
 ```
+#### However Customization Is Always Good
+Well, sometimes you need to create `WXEntryActivity`and`WXPayEntryActivity` by yourself because your project isn't
+a pure-flutter-project. The `WXEntryActivity`and`WXPayEntryActivity` must be under *packageName/wxapi/*,you
+can inherit `FluwxWXEntryActivity` for convenience.Then register `WXEntryActivity`and`WXPayEntryActivity`in
+ `AndroidManifest.mxl`:
+ ```
+   <activity android:name=".wxapi.WXEntryActivity"
+             android:theme="@style/DisablePreviewTheme"
+             />
+         <activity android:name=".wxapi.WXPayEntryActivity"
+             android:theme="@style/DisablePreviewTheme"/>
+         <activity-alias
+             android:name="${applicationId}.wxapi.WXEntryActivity"
+             android:exported="true"
+             tools:replace="android:targetActivity"
+             android:targetActivity=".wxapi.WXEntryActivity"
+             android:launchMode="singleTop">
 
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <data android:scheme="sdksample" />
+             </intent-filter>
+         </activity-alias>
+         <activity-alias
+             tools:replace="android:targetActivity"
+             android:name="${applicationId}.wxapi.WXPayEntryActivity"
+             android:exported="true"
+             android:targetActivity=".wxapi.WXPayEntryActivity"
+             android:launchMode="singleTop">
+
+             <intent-filter>
+                 <action android:name="android.intent.action.VIEW" />
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <data android:scheme="sdksample" />
+             </intent-filter>
+         </activity-alias>
+
+ ```
 ### iOS
 override the following function in`AppDelegate`:
 ```objective-c

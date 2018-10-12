@@ -55,7 +55,7 @@ dependencies:
  ```
 
 
-> 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema，Android上的WXEntryActivity等。
+> 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema等。
 
 ### 传送门
 * [分享](./doc/SHARE_CN.md)。

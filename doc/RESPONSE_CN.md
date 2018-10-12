@@ -48,6 +48,7 @@
 有的时候开者仍然需要手动创建`WXEntryActivity`和`WXPayEntryActivity`，比如这并不是一个纯净的Flutter的项目，仍有一部分需要
 原生实现。`WXEntryActivity`and`WXPayEntryActivity` 必须在 *packageName/wxapi/*下面,方便起见，你可以直接继承 `FluwxWXEntryActivity` 。
 然后在`AndroidManifest.mxl`中注册`WXEntryActivity`and`WXPayEntryActivity`:
+```
  <activity android:name=".wxapi.WXEntryActivity"
              android:theme="@style/DisablePreviewTheme"
              />

@@ -1,4 +1,4 @@
-## 0.3.3
+## 0.4.0
 * 移除WeChatPayModel
 * 移除ios最小支持。
 * 优化*Android*微信回调。

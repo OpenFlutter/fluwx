@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import  "WXApi.h"
+#import "WXApi.h"
 #import "WXApiRequestHandler.h"
 #import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
 #import "WXMediaMessage+messageConstruct.h"

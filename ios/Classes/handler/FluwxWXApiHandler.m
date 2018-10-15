@@ -8,7 +8,7 @@
 #import "FluwxPlugin.h"
 #import "CallResults.h"
 #import "WXApi.h"
-
+#import "FluwxKeys.h"
 
 @implementation FluwxWXApiHandler
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {

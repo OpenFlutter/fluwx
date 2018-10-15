@@ -4,12 +4,22 @@
 #import "FluwxAuthHandler.h"
 
 #import "FluwxPaymentHandler.h"
+#import "FluwxMethods.h"
+#import "FluwxKeys.h"
+#import "FluwxWXApiHandler.h"
+#import "FluwxShareHandler.h"
 
 
 @implementation FluwxPlugin
 
 BOOL isWeChatRegistered = NO;
 BOOL handleOpenURLByFluwx = YES;
+
+FluwxShareHandler *_fluwxShareHandler;
+
+FluwxAuthHandler *_fluwxAuthHandler;
+FluwxWXApiHandler *_fluwxWXApiHandler;
+FluwxPaymentHandler *_fluwxPaymentHandler;
 
 - (void)dealloc
 {

@@ -3,7 +3,13 @@
 //
 
 #import "FluwxPaymentHandler.h"
+#import "ThumbnailHelper.h"
+#import "NSStringWrapper.h"
+#import "CallResults.h"
 
+#import "FluwxKeys.h"
+#import "StringToWeChatScene.h"
+#import "FluwxMethods.h"
 
 @implementation FluwxPaymentHandler
 - (instancetype)initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {

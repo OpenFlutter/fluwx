@@ -3,7 +3,12 @@
 //
 
 #import "FluwxAuthHandler.h"
-
+#import "CallResults.h"
+#import "FluwxKeys.h"
+#import "StringToWeChatScene.h"
+#import "FluwxMethods.h"
+#import "ThumbnailHelper.h"
+#import "NSStringWrapper.h"
 
 @implementation FluwxAuthHandler
 

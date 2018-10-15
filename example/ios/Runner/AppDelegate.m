@@ -24,6 +24,7 @@
 // NOTE: 9.0以后使用新API接口
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
+
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 

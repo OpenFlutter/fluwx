@@ -7,6 +7,7 @@
 #import "StringUtil.h"
 #import "FluwxPlugin.h"
 #import "CallResults.h"
+#import "WXApi.h"
 
 
 @implementation FluwxWXApiHandler

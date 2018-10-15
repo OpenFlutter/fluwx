@@ -7,6 +7,8 @@
 //
 
 #import "FluwxResponseHandler.h"
+#import "FluwxKeys.h"
+#import "StringUtil.h"
 
 @implementation FluwxResponseHandler
 

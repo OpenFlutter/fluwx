@@ -5,8 +5,14 @@
 
 #import "FluwxShareHandler.h"
 #import "ImageSchema.h"
-#import "StringUtil.h"
+#import "CallResults.h"
 
+#import "FluwxKeys.h"
+#import "StringToWeChatScene.h"
+#import "FluwxMethods.h"
+#import "StringUtil.h"
+#import "ThumbnailHelper.h"
+#import "NSStringWrapper.h"
 
 @implementation FluwxShareHandler
 

@@ -136,7 +136,7 @@ Future pay({@required String appId,
   @required String sign,
   String signType,
   String extData}) async {
-  return await _channel.invokeMethod("pay",{
+  return await _channel.invokeMethod("payWithFluwx",{
     "appId": appId,
     "partnerId": partnerId,
     "prepayId": prepayId,

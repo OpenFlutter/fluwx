@@ -77,7 +77,7 @@ FluwxPaymentHandler *_fluwxPaymentHandler;
         return;
     }
 
-    if([@"pay" isEqualToString :call.method]){
+    if([@"payWithFluwx" isEqualToString :call.method]){
         [_fluwxPaymentHandler handlePayment:call result:result];
         return;
     }

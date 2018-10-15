@@ -125,18 +125,17 @@ Future isWeChatInstalled() async {
   return await _channel.invokeMethod("isWeChatInstalled");
 }
 
-
-
-Future pay({@required String appId,
-  @required String partnerId,
-  @required String prepayId,
-  @required String packageValue,
-  @required String nonceStr,
-  @required int timeStamp,
-  @required String sign,
-  String signType,
-  String extData}) async {
-  return await _channel.invokeMethod("payWithFluwx",{
+Future pay(
+    {@required String appId,
+    @required String partnerId,
+    @required String prepayId,
+    @required String packageValue,
+    @required String nonceStr,
+    @required int timeStamp,
+    @required String sign,
+    String signType,
+    String extData}) async {
+  return await _channel.invokeMethod("payWithFluwx", {
     "appId": appId,
     "partnerId": partnerId,
     "prepayId": prepayId,

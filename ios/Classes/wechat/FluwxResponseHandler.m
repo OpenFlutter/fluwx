@@ -31,10 +31,10 @@ const NSString *description = @"description";
     return instance;
 }
 
-FlutterMethodChannel *methodChannel = nil;
+FlutterMethodChannel *fluwxMethodChannel = nil;
 
 - (void)setMethodChannel:(FlutterMethodChannel *)flutterMethodChannel {
-    methodChannel = flutterMethodChannel;
+    fluwxMethodChannel = flutterMethodChannel;
 }
 
 #pragma mark - WXApiDelegate
@@ -62,7 +62,7 @@ FlutterMethodChannel *methodChannel = nil;
                 lang: messageResp.lang  == nil ? @"":messageResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS
         };
-        [methodChannel invokeMethod:@"onShareResponse" arguments:result];
+        [fluwxMethodChannel invokeMethod:@"onShareResponse" arguments:result];
 
 
     } else if ([resp isKindOfClass:[SendAuthResp class]]) {
@@ -87,7 +87,7 @@ FlutterMethodChannel *methodChannel = nil;
                 @"state": [StringUtil nilToEmpty:authResp.state]
 
         };
-        [methodChannel invokeMethod:@"onAuthResponse" arguments:result];
+        [fluwxMethodChannel invokeMethod:@"onAuthResponse" arguments:result];
 
     } else if ([resp isKindOfClass:[AddCardToWXCardPackageResp class]]) {
         if (_delegate
@@ -144,7 +144,7 @@ FlutterMethodChannel *methodChannel = nil;
                 @"returnKey":payResp.returnKey== nil?@"":payResp.returnKey,
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
-        [methodChannel invokeMethod:@"onPayResponse" arguments:result];
+        [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];
     }
 }
 

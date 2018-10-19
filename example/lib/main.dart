@@ -11,7 +11,7 @@ import 'share_music.dart';
 import 'share_text_image.dart';
 import 'share_video_page.dart';
 import 'share_web_page.dart';
-
+import 'package:fluwx_example/launch_mini_program_page.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -43,6 +43,7 @@ class _MyAppState extends State<MyApp> {
         "sendAuth": (context) => SendAuthPage(),
         "shareMiniProgram": (context) => ShareMiniProgramPage(),
         "pay": (context) => PayPage(),
+        "launchMiniProgram": (context)  => LaunchMiniProgramPage()
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -122,6 +123,14 @@ class ShareSelectorPage extends StatelessWidget {
                   Navigator.of(context).pushNamed("pay");
                 },
                 child: const Text("pay")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("launchMiniProgram");
+                },
+                child: const Text("Launch MiniProgram")),
           ),
         ],
       ),

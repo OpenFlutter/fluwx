@@ -20,7 +20,7 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
-internal object FluwxAuthHandler {
+internal class FluwxAuthHandler {
 
     fun sendAuth(call: MethodCall, result: MethodChannel.Result) {
         val req = SendAuth.Req()

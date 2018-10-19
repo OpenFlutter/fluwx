@@ -24,17 +24,24 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
+class FluwxPlugin(private val registrar: Registrar,private val channel: MethodChannel) : MethodCallHandler {
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
             val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
             WXAPiHandler.setRegistrar(registrar)
-            FluwxShareHandler.setRegistrar(registrar)
-            FluwxShareHandler.setMethodChannel(channel)
             FluwxResponseHandler.setMethodChannel(channel)
-            channel.setMethodCallHandler(FluwxPlugin(registrar))
+            channel.setMethodCallHandler(FluwxPlugin(registrar,channel))
         }
+    }
+
+    private val fluwxShareHandler = FluwxShareHandler()
+    private val fluwxAuthHandler = FluwxAuthHandler()
+    private val fluwxPayHandler =FluwxPayHandler()
+
+    init {
+        fluwxShareHandler.setRegistrar(registrar)
+        fluwxShareHandler.setMethodChannel(channel)
     }
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
@@ -56,17 +63,17 @@ class FluwxPlugin(private var registrar: Registrar) : MethodCallHandler {
         }
 
         if ("sendAuth" == call.method) {
-            FluwxAuthHandler.sendAuth(call, result)
+            fluwxAuthHandler.sendAuth(call, result)
             return
         }
 
         if (call.method == WeChatPluginMethods.PAY) {
-            FluwxPayHandler.pay(call, result)
+            fluwxPayHandler.pay(call, result)
             return
         }
 
         if (call.method.startsWith("share")) {
-            FluwxShareHandler.handle(call, result)
+            fluwxShareHandler.handle(call, result)
         } else {
             result.notImplemented()
         }

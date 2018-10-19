@@ -22,7 +22,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
-object FluwxPayHandler {
+class FluwxPayHandler {
 
 
     fun pay(call: MethodCall, result: MethodChannel.Result) {

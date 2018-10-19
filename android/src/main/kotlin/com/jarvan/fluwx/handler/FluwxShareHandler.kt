@@ -33,7 +33,7 @@ import kotlinx.coroutines.experimental.android.UI
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
-internal object FluwxShareHandler {
+internal class FluwxShareHandler {
 
 
     private var channel: MethodChannel? = null
@@ -42,12 +42,12 @@ internal object FluwxShareHandler {
 
 
     fun setMethodChannel(channel: MethodChannel) {
-        FluwxShareHandler.channel = channel
+        this.channel = channel
     }
 
 
     fun setRegistrar(registrar: PluginRegistry.Registrar) {
-        FluwxShareHandler.registrar = registrar
+        this.registrar = registrar
     }
 
 

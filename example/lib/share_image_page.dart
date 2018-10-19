@@ -16,7 +16,9 @@ class _ShareImagePageState extends State<ShareImagePage> {
   @override
   void initState() {
     super.initState();
-
+    fluwx.responseFromShare.listen((data){
+      print(data.errCode);
+    });
   }
 
   @override

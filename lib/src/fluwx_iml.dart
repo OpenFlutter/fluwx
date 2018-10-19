@@ -41,6 +41,8 @@ StreamController<WeChatPaymentResponse> _responsePaymentController =
 Stream<WeChatPaymentResponse> get responseFromPayment =>
     _responsePaymentController.stream;
 
+Stream<WeChatLaunchMiniProgramResponse> get responseFromLaunchMiniProgram => _responseLaunchMiniProgramController.stream;
+
 StreamController<WeChatLaunchMiniProgramResponse> _responseLaunchMiniProgramController =
     new StreamController.broadcast();
 

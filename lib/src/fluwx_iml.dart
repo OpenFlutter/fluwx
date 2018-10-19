@@ -21,6 +21,7 @@ import 'models/wechat_response.dart';
 import 'models/wechat_share_models.dart';
 import 'wechat_type.dart';
 import 'package:flutter/foundation.dart';
+import 'utils/utils.dart';
 
 
 StreamController<WeChatShareResponse> _responseShareController =
@@ -138,7 +139,7 @@ Future sendAuth({ String openId,@required String scope,String state}) async {
 
 Future launchMiniProgram({@required String username, String path,  WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
   assert(username != null && username.trim().isNotEmpty);
-  return await _channel.invokeMethod("launchMiniProgram", {"userName": username, "path": path, "miniProgramType": miniProgramType});
+  return await _channel.invokeMethod("launchMiniProgram", {"userName": username, "path": path, "miniProgramType": miniProgramTypeToInt(miniProgramType)});
 }
 
 

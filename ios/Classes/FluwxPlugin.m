@@ -8,6 +8,7 @@
 #import "FluwxKeys.h"
 #import "FluwxWXApiHandler.h"
 #import "FluwxShareHandler.h"
+#import "FluwxLaunchMiniProgramHandler.h"
 
 
 @implementation FluwxPlugin
@@ -49,6 +50,7 @@ FluwxPaymentHandler *_fluwxPaymentHandler;
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
         _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
         _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
+        _fluwxLaunchMiniProgramHandler = [[FluwxLuanchMiniProgramHandler alloc] initWithRegistrar:registrar];
 
     }
 
@@ -88,7 +90,10 @@ FluwxPaymentHandler *_fluwxPaymentHandler;
     } else {
         result(FlutterMethodNotImplemented);
     }
-
+    if([@"launchMiniProgram" isEqualToString :call.method]){
+        [_fluwxLaunchMiniProgramHandler handlerLaunchMiniProgram:call result:result];
+        return;
+    }
 
 }
 

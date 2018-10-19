@@ -24,20 +24,21 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-class FluwxPlugin(private val registrar: Registrar,private val channel: MethodChannel) : MethodCallHandler {
+class FluwxPlugin(private val registrar: Registrar, private val channel: MethodChannel) : MethodCallHandler {
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
             val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
             WXAPiHandler.setRegistrar(registrar)
             FluwxResponseHandler.setMethodChannel(channel)
-            channel.setMethodCallHandler(FluwxPlugin(registrar,channel))
+            channel.setMethodCallHandler(FluwxPlugin(registrar, channel))
         }
     }
 
     private val fluwxShareHandler = FluwxShareHandler()
     private val fluwxAuthHandler = FluwxAuthHandler()
-    private val fluwxPayHandler =FluwxPayHandler()
+    private val fluwxPayHandler = FluwxPayHandler()
+    private val fluwxLaunchMiniProgramHandler = FluwxLaunchMiniProgramHandler()
 
     init {
         fluwxShareHandler.setRegistrar(registrar)
@@ -69,6 +70,11 @@ class FluwxPlugin(private val registrar: Registrar,private val channel: MethodCh
 
         if (call.method == WeChatPluginMethods.PAY) {
             fluwxPayHandler.pay(call, result)
+            return
+        }
+
+        if (call.method ==  WeChatPluginMethods.LAUNCH_MINI_PROGRAM){
+            fluwxLaunchMiniProgramHandler.launchMiniProgram(call,result)
             return
         }
 

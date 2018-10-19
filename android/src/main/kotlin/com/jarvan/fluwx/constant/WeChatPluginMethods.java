@@ -9,6 +9,7 @@ public class WeChatPluginMethods {
     public static final String REGISTER_APP = "registerApp";
     public static final String UNREGISTER_APP = "unregisterApp";
     public static final String WE_CHAT_SHARE_RESPONSE = "onShareResponse";
+    public static final String  WE_CHAT_LAUNCHMINIPROGRAM_RESPONSE ="onLaunchMiniProgramResponse";
 
     public static final String IS_WE_CHAT_INSTALLED = "isWeChatInstalled";
 
@@ -19,6 +20,7 @@ public class WeChatPluginMethods {
     public static final String SHARE_WEB_PAGE = "shareWebPage";
     public static final String SHARE_MINI_PROGRAM = "shareMiniProgram";
 
+    public static final String LAUNCH_MINI_PROGRAM  = "launchMiniProgram";
     public static final String PAY = "payWithFluwx";
     public static final String WE_CHAT_PAY_RESPONSE = "onPayResponse";
 

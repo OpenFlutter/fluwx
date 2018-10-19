@@ -18,7 +18,6 @@ package com.jarvan.fluwx.handler
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelpay.PayReq
-import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 

@@ -20,7 +20,7 @@
 - (void)handleLaunchMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *userName = call.arguments[@"userName"];
     NSString *path = call.arguments[@"path"];
-    WXMiniProgramType *miniProgramType = (WXcall.arguments[@"miniProgramType"]
+    WXMiniProgramType *miniProgramType = (call.arguments[@"miniProgramType"]
 
     [WXApiRequestHandler launchMiniProgramWithUserName:userName
                                         path:path

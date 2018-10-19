@@ -92,7 +92,6 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
   void _share() {
     var model = new fluwx.WeChatShareMiniProgramModel(
         webPageUrl: _webPageUrl,
-        miniProgramType: fluwx.WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
         userName: _userName,
         title: _title,
         path: _path,

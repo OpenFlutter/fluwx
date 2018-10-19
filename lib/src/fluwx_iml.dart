@@ -18,7 +18,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import 'models/wechat_response.dart';
-import 'models/wechat_send_auth_model.dart';
 import 'models/wechat_share_models.dart';
 import 'models/wechat_launchminiprogram_model.dart';
 import 'package:flutter/foundation.dart';
@@ -127,8 +126,11 @@ Future share(WeChatShareModel model) async {
   }
 }
 
-Future sendAuth(WeChatSendAuthModel model) async {
-  return await _channel.invokeMethod("sendAuth", model.toMap());
+Future sendAuth({ String openId,@required String scope,String state}) async {
+  // "scope": scope, "state": state, "openId": openId
+
+  assert(scope != null && scope.isNotEmpty);
+  return await _channel.invokeMethod("sendAuth", {"scope": scope, "state": state, "openId": openId});
 }
 
 Future launchMiniProgram(WeChatLaunchMiniProgramModel model) async {

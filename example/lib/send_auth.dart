@@ -38,8 +38,8 @@ class _SendAuthPageState extends State<SendAuthPage> {
         children: <Widget>[
           OutlineButton(
             onPressed: () {
-              fluwx.sendAuth(new fluwx.WeChatSendAuthModel(
-                      scope: "snsapi_userinfo", state: "wechat_sdk_demo_test"))
+              fluwx.sendAuth(
+                      scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
                   .then((data) {
 
               });

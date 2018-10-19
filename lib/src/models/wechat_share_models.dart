@@ -16,7 +16,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../wechat_type.dart';
-
+import '../utils/utils.dart';
 const String _scene = "scene";
 const String _transaction = "transaction";
 const String _thumbnail = "thumbnail";
@@ -75,21 +75,15 @@ class WeChatShareTextModel extends WeChatShareModel {
 
 ///
 /// [WeChatScene] is not supported here due to WeChat's limits.
-/// [miniProgramTyp] only supports the following number:
-/// [MINI_PROGRAM_TYPE_RELEASE]
-/// [MINI_PROGRAM_TYPE_TEST]
-/// [MINI_PROGRAM_TYPE_PREVIEW]
 /// the default value is [MINI_PROGRAM_TYPE_RELEASE]
 ///
 /// [hdImagePath] only works with iOS
 ///
 class WeChatShareMiniProgramModel extends WeChatShareModel {
-  static const int MINI_PROGRAM_TYPE_RELEASE = 0;
-  static const int MINI_PROGRAM_TYPE_TEST = 1;
-  static const int MINI_PROGRAM_TYPE_PREVIEW = 2;
+
 
   final String webPageUrl;
-  final int miniProgramType;
+  final WXMiniProgramType miniProgramType;
   final String userName;
   final String path;
 
@@ -108,7 +102,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   ///[hdImagePath] only works on iOS.
   WeChatShareMiniProgramModel(
       {@required this.webPageUrl,
-      int miniProgramType,
+      WXMiniProgramType miniProgramType,
       this.userName,
       this.path: "/",
       this.title,
@@ -122,11 +116,10 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
       String messageAction,
       String mediaTagName})
       : this.transaction = transaction ?? "miniProgram",
-        this.miniProgramType = miniProgramType ?? MINI_PROGRAM_TYPE_RELEASE,
+        this.miniProgramType = miniProgramType ?? WXMiniProgramType.RELEASE,
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
         assert(path != null && path.isNotEmpty),
-        assert(miniProgramType < 3 && miniProgramType > -1),
         super(
             mediaTagName: mediaTagName,
             messageAction: messageAction,
@@ -137,7 +130,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   Map toMap() {
     return {
       'webPageUrl': webPageUrl,
-      "miniProgramType": miniProgramType,
+      "miniProgramType": miniProgramTypeToInt(miniProgramType),
       "userName": userName,
       "path": path,
       "title": title,

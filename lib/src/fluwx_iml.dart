@@ -21,6 +21,7 @@ import 'models/wechat_response.dart';
 import 'models/wechat_share_models.dart';
 import 'wechat_type.dart';
 import 'package:flutter/foundation.dart';
+import 'utils/utils.dart';
 
 StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();
@@ -133,9 +134,9 @@ Future sendAuth({ String openId,@required String scope,String state}) async {
   return await _channel.invokeMethod("sendAuth", {"scope": scope, "state": state, "openId": openId});
 }
 
-Future launchMiniProgram({@required String username, String path,  WXMiniProgramType miniprogramtype = WXMiniProgramType.RELEASE}) async {
+Future launchMiniProgram({@required String username, String path,  WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
   assert(username != null && username.trim().isNotEmpty);
-  return await _channel.invokeMethod("launchMiniProgram", {"userName": username, "path": path, "miniProgramType": miniprogramtype});
+  return await _channel.invokeMethod("launchMiniProgram", {"userName": username, "path": path, "miniProgramType": miniProgramType});
 }
 
 
@@ -167,15 +168,3 @@ Future pay(
 }
 
 
-int _miniProgramTypeToInt(WXMiniProgramType type){
-   switch(type){
-     case WXMiniProgramType.PREVIEW:
-      return 0;
-  
-     case WXMiniProgramType.TEST:
-     return 1;
-
-     case WXMiniProgramType.RELEASE:
-      return 2;
-   }
-}

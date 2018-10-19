@@ -21,7 +21,7 @@ import 'models/wechat_response.dart';
 import 'models/wechat_share_models.dart';
 import 'wechat_type.dart';
 import 'package:flutter/foundation.dart';
-import 'utils/utils.dart';
+
 
 StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();

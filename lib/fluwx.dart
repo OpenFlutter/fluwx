@@ -7,5 +7,4 @@ library fluwx;
 export 'src/fluwx_iml.dart';
 export 'src/models/wechat_response.dart';
 export 'src/models/wechat_share_models.dart';
-export 'src/wechat_reponse.dart';
 export 'src/wechat_type.dart';

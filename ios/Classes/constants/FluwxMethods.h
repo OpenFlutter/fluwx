@@ -13,6 +13,7 @@ extern NSString *const shareMusic;
 extern NSString *const shareVideo;
 extern NSString *const shareWebPage;
 extern NSString *const shareMiniProgram;
+extern NSString *const launchMiniProgram;
 
 @interface FluwxMethods : NSObject
 @end

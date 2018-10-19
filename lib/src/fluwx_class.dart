@@ -20,6 +20,7 @@ import 'package:flutter/services.dart';
 import 'models/wechat_response.dart';
 import 'models/wechat_send_auth_model.dart';
 import 'models/wechat_share_models.dart';
+import 'models/wechat_launchminiprogram_model.dart';
 import 'package:flutter/foundation.dart';
 
 StreamController<WeChatShareResponse> _responseShareController =
@@ -40,6 +41,9 @@ StreamController<WeChatPaymentResponse> _responsePaymentController =
 Stream<WeChatPaymentResponse> get responseFromPayment =>
     _responsePaymentController.stream;
 
+StreamController<WeChatLaunchMiniProgramResponse> _responseLaunchMiniProgramController =
+    new StreamController.broadcast();
+
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
 
@@ -50,6 +54,9 @@ Future<dynamic> _handler(MethodCall methodCall) {
   } else if ("onAuthResponse" == methodCall.method) {
     _responseAuthController
         .add(WeChatAuthResponse.fromMap(methodCall.arguments));
+  } else if ("onLaunchMiniProgramResponse" == methodCall.method) {
+    _responseLaunchMiniProgramController
+        .add(WeChatLaunchMiniProgramResponse.fromMap(methodCall.arguments));
   } else if ("onPayResponse" == methodCall.method) {
     _responsePaymentController
         .add(WeChatPaymentResponse.fromMap(methodCall.arguments));
@@ -84,13 +91,16 @@ Future register(
 }
 
 ///we don't need the response any longer if params are true.
-void dispose({shareResponse: true, authResponse: true, paymentResponse: true}) {
+void dispose({shareResponse: true, authResponse: true, paymentResponse: true,launchMiniProgramResponse:true}) {
   if (shareResponse) {
     _responseShareController.close();
   }
 
   if (authResponse) {
     _responseAuthController.close();
+  }
+  if (launchMiniProgramResponse) {
+    _responseLaunchMiniProgramController.close();
   }
 
   if (paymentResponse) {
@@ -120,6 +130,11 @@ Future share(WeChatShareModel model) async {
 Future sendAuth(WeChatSendAuthModel model) async {
   return await _channel.invokeMethod("sendAuth", model.toMap());
 }
+
+Future launchMiniProgram(WeChatLaunchMiniProgramModel model) async {
+  return await _channel.invokeMethod("launchMiniProgram", model.toMap());
+}
+
 
 Future isWeChatInstalled() async {
   return await _channel.invokeMethod("isWeChatInstalled");

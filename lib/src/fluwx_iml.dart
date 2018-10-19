@@ -19,7 +19,7 @@ import 'package:flutter/services.dart';
 
 import 'models/wechat_response.dart';
 import 'models/wechat_share_models.dart';
-import 'models/wechat_launchminiprogram_model.dart';
+import 'wechat_type.dart';
 import 'package:flutter/foundation.dart';
 
 StreamController<WeChatShareResponse> _responseShareController =
@@ -129,12 +129,13 @@ Future share(WeChatShareModel model) async {
 Future sendAuth({ String openId,@required String scope,String state}) async {
   // "scope": scope, "state": state, "openId": openId
 
-  assert(scope != null && scope.isNotEmpty);
+  assert(scope != null && scope.trim().isNotEmpty);
   return await _channel.invokeMethod("sendAuth", {"scope": scope, "state": state, "openId": openId});
 }
 
-Future launchMiniProgram(WeChatLaunchMiniProgramModel model) async {
-  return await _channel.invokeMethod("launchMiniProgram", model.toMap());
+Future launchMiniProgram({@required String username, String path,  WXMiniProgramType miniprogramtype = WXMiniProgramType.RELEASE}) async {
+  assert(username != null && username.trim().isNotEmpty);
+  return await _channel.invokeMethod("launchMiniProgram", {"userName": username, "path": path, "miniProgramType": miniprogramtype});
 }
 
 
@@ -163,4 +164,18 @@ Future pay(
     "signType": signType,
     "extData": extData,
   });
+}
+
+
+int _miniProgramTypeToInt(WXMiniProgramType type){
+   switch(type){
+     case WXMiniProgramType.PREVIEW:
+      return 0;
+  
+     case WXMiniProgramType.TEST:
+     return 1;
+
+     case WXMiniProgramType.RELEASE:
+      return 2;
+   }
 }

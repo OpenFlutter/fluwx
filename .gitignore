@@ -8,3 +8,4 @@ pubspec.lock
 build/
 *.iml
 .idea/
+.vscode/

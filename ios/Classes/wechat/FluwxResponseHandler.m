@@ -119,7 +119,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
 
         WXLaunchMiniProgramResp *miniProgramResp = (WXLaunchMiniProgramResp *) resp;
 
-        
+
         NSDictionary *result = @{
                 description: miniProgramResp.description == nil ?@"":miniProgramResp.description,
                 errStr: miniProgramResp.errStr == nil ?@"":miniProgramResp.errStr,

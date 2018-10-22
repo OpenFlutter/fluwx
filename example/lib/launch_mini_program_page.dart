@@ -16,7 +16,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
     super.initState();
     fluwx.responseFromLaunchMiniProgram.listen((data) {
       setState(() {
-        _result = "${data.extMsg}";
+        _result = "${data.errStr}";
       });
     });
 

@@ -48,15 +48,19 @@ object FluwxResponseHandler {
     }
 
     private fun handleLaunchMiniProgramResponse(response: WXLaunchMiniProgram.Resp) {
-        val result = mapOf(
+        val result = mutableMapOf(
                 errStr to response.errStr,
                 WechatPluginKeys.TRANSACTION to response.transaction,
                 type to response.type,
                 errCode to response.errCode,
                 openId to response.openId,
-                "extMsg" to response.extMsg,
                 WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID
         )
+
+        response.extMsg?.let {
+//            "extMsg" to response.extMsg,
+            result["extMsg"] = response.extMsg
+        }
 
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_LAUNCHMINIPROGRAM_RESPONSE, result)
     }

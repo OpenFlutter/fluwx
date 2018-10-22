@@ -117,17 +117,28 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         }
 
 
+
         WXLaunchMiniProgramResp *miniProgramResp = (WXLaunchMiniProgramResp *) resp;
 
 
-        NSDictionary *result = @{
+        NSDictionary *commonResult = @{
                 description: miniProgramResp.description == nil ?@"":miniProgramResp.description,
                 errStr: miniProgramResp.errStr == nil ?@"":miniProgramResp.errStr,
                 errCode: @(miniProgramResp.errCode),
                 type: miniProgramResp.type == nil ?@1:@(miniProgramResp.type),
                 fluwxKeyPlatform: fluwxKeyIOS,
-                @"extMsg":miniProgramResp.extMsg
+
         };
+
+        NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:commonResult];
+        if(miniProgramResp.extMsg != nil){
+            result[@"extMsg"] = miniProgramResp.extMsg;
+        }
+        
+
+//        @"extMsg":miniProgramResp.extMsg == nil?@"":miniProgramResp.extMsg
+
+
         [fluwxMethodChannel invokeMethod:@"onLaunchMiniProgramResponse" arguments:result];
 
     } else if ([resp isKindOfClass:[WXInvoiceAuthInsertResp class]]) {

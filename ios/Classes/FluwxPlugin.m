@@ -89,7 +89,7 @@ FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
         [_fluwxLaunchMiniProgramHandler handleLaunchMiniProgram:call result:result];
         return;
     }
-    
+
     if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
         return;

@@ -115,6 +115,21 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         if ([_delegate respondsToSelector:@selector(managerDidRecvLaunchMiniProgram:)]) {
             [_delegate managerDidRecvLaunchMiniProgram:(WXLaunchMiniProgramResp *) resp];
         }
+
+
+        WXLaunchMiniProgramResp *miniProgramResp = (WXLaunchMiniProgramResp *) resp;
+
+        
+        NSDictionary *result = @{
+                description: miniProgramResp.description == nil ?@"":miniProgramResp.description,
+                errStr: miniProgramResp.errStr == nil ?@"":miniProgramResp.errStr,
+                errCode: @(miniProgramResp.errCode),
+                type: miniProgramResp.type == nil ?@1:@(miniProgramResp.type),
+                fluwxKeyPlatform: fluwxKeyIOS,
+                @"extMsg":miniProgramResp.extMsg
+        };
+        [fluwxMethodChannel invokeMethod:@"onLaunchMiniProgramResponse" arguments:result];
+
     } else if ([resp isKindOfClass:[WXInvoiceAuthInsertResp class]]) {
         if ([_delegate respondsToSelector:@selector(managerDidRecvInvoiceAuthInsertResponse:)]) {
             [_delegate managerDidRecvInvoiceAuthInsertResponse:(WXInvoiceAuthInsertResp *) resp];

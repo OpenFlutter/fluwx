@@ -339,6 +339,15 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSString *scene = call.arguments[fluwxKeyScene];
+
+            NSNumber *typeInt = call.arguments[@"miniProgramType"];
+            WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
+            if([typeInt isEqualToNumber:@1]){
+                miniProgramType =WXMiniProgramTypeTest;
+            } else if([typeInt isEqualToNumber:@2]){
+                miniProgramType = WXMiniProgramTypePreview;
+            }
+
             BOOL done = [WXApiRequestHandler sendMiniProgramWebpageUrl:call.arguments[@"webPageUrl"]
                                                               userName:call.arguments[@"userName"]
                                                                   path:call.arguments[@"path"]
@@ -347,7 +356,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
                                                             ThumbImage:thumbnailImage
                                                            hdImageData:hdImageData
                                                        withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
-                                                       miniProgramType:(WXMiniProgramType) call.arguments[@"miniProgramType"]
+                                                       miniProgramType:miniProgramType
                                                             MessageExt:call.arguments[fluwxKeyMessageExt]
                                                          MessageAction:call.arguments[fluwxKeyMessageAction]
                                                                TagName:call.arguments[fluwxKeyMediaTagName]

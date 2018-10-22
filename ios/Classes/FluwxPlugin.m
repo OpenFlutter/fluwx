@@ -21,6 +21,7 @@ FluwxShareHandler *_fluwxShareHandler;
 FluwxAuthHandler *_fluwxAuthHandler;
 FluwxWXApiHandler *_fluwxWXApiHandler;
 FluwxPaymentHandler *_fluwxPaymentHandler;
+FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
 
 - (void)dealloc
 {
@@ -50,7 +51,7 @@ FluwxPaymentHandler *_fluwxPaymentHandler;
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
         _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
         _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
-        _fluwxLaunchMiniProgramHandler = [[FluwxLuanchMiniProgramHandler alloc] initWithRegistrar:registrar];
+        _fluwxLaunchMiniProgramHandler = [[FluwxLaunchMiniProgramHandler alloc] initWithRegistrar:registrar];
 
     }
 
@@ -91,7 +92,7 @@ FluwxPaymentHandler *_fluwxPaymentHandler;
         result(FlutterMethodNotImplemented);
     }
     if([@"launchMiniProgram" isEqualToString :call.method]){
-        [_fluwxLaunchMiniProgramHandler handlerLaunchMiniProgram:call result:result];
+//        [_fluwxLaunchMiniProgramHandler handlerLaunchMiniProgram:call result:result];
         return;
     }
 

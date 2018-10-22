@@ -213,16 +213,16 @@
     ext.withShareTicket = withShareTicket;
 
 
-    WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
-    if(programType == 0){
-        miniProgramType = WXMiniProgramTypeRelease;
-    } else if(programType == 1){
-        miniProgramType =WXMiniProgramTypeTest;
-    } else if(programType == 2){
-        miniProgramType = WXMiniProgramTypePreview;
-    }
+//    WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
+//    if(programType == 0){
+//        miniProgramType = WXMiniProgramTypeRelease;
+//    } else if(programType == 1){
+//        miniProgramType =WXMiniProgramTypeTest;
+//    } else if(programType == 2){
+//        miniProgramType = WXMiniProgramTypePreview;
+//    }
 
-    ext.miniProgramType = miniProgramType;
+    ext.miniProgramType = programType;
 
     WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ? nil : title
                                                    Description:(description == (id) [NSNull null]) ? nil : description
@@ -245,7 +245,7 @@
                                  type:(WXMiniProgramType)miniProgramType {
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     launchMiniProgramReq.userName = userName;
-    launchMiniProgramReq.path = path;
+    launchMiniProgramReq.path = (path == (id) [NSNull null]) ? nil : path;
     launchMiniProgramReq.miniProgramType = miniProgramType;
 
     return [WXApi sendReq:launchMiniProgramReq];

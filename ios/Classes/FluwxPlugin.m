@@ -85,16 +85,18 @@ FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
         return;
     }
 
+    if([@"launchMiniProgram" isEqualToString :call.method]){
+        [_fluwxLaunchMiniProgramHandler handleLaunchMiniProgram:call result:result];
+        return;
+    }
+    
     if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
         return;
     } else {
         result(FlutterMethodNotImplemented);
     }
-    if([@"launchMiniProgram" isEqualToString :call.method]){
-//        [_fluwxLaunchMiniProgramHandler handlerLaunchMiniProgram:call result:result];
-        return;
-    }
+
 
 }
 

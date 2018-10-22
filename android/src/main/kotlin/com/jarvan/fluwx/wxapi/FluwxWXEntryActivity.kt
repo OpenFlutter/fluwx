@@ -24,6 +24,7 @@ import com.jarvan.fluwx.handler.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
+import java.lang.Exception
 
 
 open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
@@ -35,15 +36,26 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         super.onCreate(savedInstanceState)
 
 
+        try {
+            WXAPiHandler.wxApi?.handleIntent(intent, this)
+        }catch (e:Exception){
+            e.printStackTrace()
+            finish()
+        }
 
-        WXAPiHandler.wxApi?.handleIntent(intent, this)
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
 
         setIntent(intent)
-        WXAPiHandler.wxApi?.handleIntent(intent, this)
+
+        try {
+            WXAPiHandler.wxApi?.handleIntent(intent, this)
+        }catch (e:Exception){
+            e.printStackTrace()
+            finish()
+        }
     }
 
 
@@ -53,7 +65,6 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
     // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
     override fun onResp(resp: BaseResp) {
-
         FluwxResponseHandler.handleResponse(resp)
         finish()
     }

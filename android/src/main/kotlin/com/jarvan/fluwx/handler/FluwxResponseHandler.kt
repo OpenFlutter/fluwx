@@ -15,6 +15,7 @@
  */
 package com.jarvan.fluwx.handler
 
+import android.util.Log
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -39,6 +40,8 @@ object FluwxResponseHandler {
 
 
     fun handleResponse(response: BaseResp) {
+        Log.e("tag","heeeeee")
+
         when (response) {
             is SendAuth.Resp -> handleAuthResponse(response)
             is SendMessageToWX.Resp -> handleSendMessageResp(response)
@@ -56,6 +59,8 @@ object FluwxResponseHandler {
                 openId to response.openId,
                 WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID
         )
+
+
 
         response.extMsg?.let {
 //            "extMsg" to response.extMsg,

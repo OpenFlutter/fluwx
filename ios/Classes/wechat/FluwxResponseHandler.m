@@ -134,7 +134,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         if(miniProgramResp.extMsg != nil){
             result[@"extMsg"] = miniProgramResp.extMsg;
         }
-        
+
 
 //        @"extMsg":miniProgramResp.extMsg == nil?@"":miniProgramResp.extMsg
 

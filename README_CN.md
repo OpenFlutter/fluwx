@@ -1,3 +1,5 @@
+## FLuwx  ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+
 ![logo](./arts/fluwx_logo.png)
 
 适用于Flutter的微信SDK，方便快捷。
@@ -39,13 +41,6 @@ QQ群：892398530。
    
    
    
-
-## 引入
-在`pubspec.yaml`文件中添加如下代码：
-```yaml
-dependencies:
-  fluwx: ^0.4.1
-```
 
 
 ## 初始化

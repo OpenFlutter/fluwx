@@ -1,3 +1,5 @@
+## Fluwx ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+
 ![logo](./arts/fluwx_logo.png)
 
 [中文请移步此处](./README_CN.md)
@@ -37,12 +39,6 @@
    Engine • revision 58a1894a1c<br>
    Tools • Dart 2.1.0-dev.3.1.flutter-760a9690c2<br>
 
-## Import
-add the following in your `pubspec.yaml` file:
-```yaml
-dependencies:
-  fluwx: ^0.4.1
-```
 
 
 ## Register WeChatSDK via Fluwx

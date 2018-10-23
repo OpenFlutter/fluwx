@@ -86,7 +86,7 @@
 ```dart
  var model =new WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,
-      miniProgramType: WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
+      miniProgramType: fluwx.WXMiniProgramType.RELEASE,
       userName: _userName,
       title: _title,
       description: _description,
@@ -94,7 +94,3 @@
     );
     fluwx.share(model);
 ```
-`miniProgramType`仅支持三种:
-* MINI_PROGRAM_TYPE_RELEASE
-* MINI_PROGRAM_TYPE_TEST
-* MINI_PROGRAM_TYPE_PREVIEW

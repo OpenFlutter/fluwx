@@ -18,8 +18,9 @@
 * Share MiniProgram.
 * Send Auth(Login).
 * Pay.
+* Launch Mini-Program.
 
-## Tech Used In Fluwx
+## Libraries Used In Fluwx
   For Android,`kotlin-1.2.71` is included:
    ```gradle
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

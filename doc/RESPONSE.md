@@ -1,5 +1,5 @@
 ### Response From WeChat
-There's some work we have to do on the particular plaform(if you don't need this,just ignore).
+There's some work we have to do on the particular platform(if you don't need this,just ignore).
 
 ### Android
 Fluwx will create `WXEntryActivity`or`WXPayEntryActivity` by itself since *0.4.0*. So the following
@@ -29,7 +29,7 @@ code isn't necessary.
       }
 ```
 ~~You can also directly inherit `FluwxWXEntryActivity`,and then you can do nothing.
-For the rule of creating `WXEntryActivity`and`WXPayEntryActivity`,please read [example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )~~
+For the rule of creating `WXEntryActivity` and `WXPayEntryActivity`,please read [example wxapi](https://github.com/OpenFlutter/fluwx/tree/master/example/android/app/src/main/kotlin/net/sourceforge/simcpux/wxapi )~~
 ~~，never forget to register your Activity in `AndroidManifest.mxl`:~~
 ```xml
      <activity

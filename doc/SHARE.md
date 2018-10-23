@@ -35,6 +35,7 @@ More support will be considered in the future.
      }
 ```
 
+
 ### Share Text
 ```dart
   fluwx.share(WeChatShareTextModel(
@@ -67,6 +68,7 @@ More support will be considered in the future.
     fluwx.share(model);
 ```
 Two kind of music：`musicUrl`和`musicLowBandUrl`.They are not coexisting，if both are assigned, only`musicUrl` will be used.
+
 ### Share Video
 ```dart
    var model = new WeChatShareVideoModel(
@@ -80,11 +82,12 @@ Two kind of music：`musicUrl`和`musicLowBandUrl`.They are not coexisting，if 
    fluwx.share(model);
 ```
 Two kind of video:`videoUrl`和`videoLowBandUrl`.They are not coexisting，if both are assigned, only `videoUrl` will be used.
+
 ### Share Mini Program
 ```dart
  var model =new WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,
-      miniProgramType: WeChatShareMiniProgramModel.MINI_PROGRAM_TYPE_RELEASE,
+      miniProgramType:fluwx.WXMiniProgramType.RELEASE,
       userName: _userName,
       title: _title,
       description: _description,
@@ -92,7 +95,4 @@ Two kind of video:`videoUrl`和`videoLowBandUrl`.They are not coexisting，if bo
     );
     fluwx.share(model);
 ```
-`miniProgramType` only suports the following values:
-* MINI_PROGRAM_TYPE_RELEASE
-* MINI_PROGRAM_TYPE_TEST
-* MINI_PROGRAM_TYPE_PREVIEW
+

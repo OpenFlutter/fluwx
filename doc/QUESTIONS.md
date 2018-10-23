@@ -12,3 +12,6 @@ code to your *info.plist*:
 <true/>
 </dict>
 ```
+
+## Can't Launch WeChat on Android?
+Check your signature please.

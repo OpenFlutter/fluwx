@@ -15,3 +15,6 @@ iOS 9系统策略更新，限制了http协议的访问，此外应用需要在�
 
 ## Android上无法拉起微信
 请检查签名。
+
+## Failed to notify project evalution listener
+[Failed to notify project evalution listener](https://www.jianshu.com/p/f74fed94be96)

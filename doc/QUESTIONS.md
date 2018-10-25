@@ -15,3 +15,7 @@ code to your *info.plist*:
 
 ## Can't Launch WeChat on Android?
 Check your signature please.
+
+
+## Failed to notify project evalution listener
+[Failed to notify project evalution listener](https://www.jianshu.com/p/f74fed94be96)

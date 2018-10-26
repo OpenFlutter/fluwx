@@ -76,7 +76,6 @@ class WeChatAuthResponse {
         androidTransaction = map["transaction"];
 }
 
-
 class WeChatLaunchMiniProgramResponse {
   final String errStr;
   final int type;
@@ -95,7 +94,6 @@ class WeChatLaunchMiniProgramResponse {
         androidTransaction = map["transaction"],
         extMsg = map["extMsg"];
 }
-
 
 class WeChatPaymentResponse {
   final String errStr;

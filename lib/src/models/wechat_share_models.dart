@@ -17,6 +17,7 @@ import 'package:flutter/foundation.dart';
 
 import '../wechat_type.dart';
 import '../utils/utils.dart';
+
 const String _scene = "scene";
 const String _transaction = "transaction";
 const String _thumbnail = "thumbnail";
@@ -80,8 +81,6 @@ class WeChatShareTextModel extends WeChatShareModel {
 /// [hdImagePath] only works with iOS
 ///
 class WeChatShareMiniProgramModel extends WeChatShareModel {
-
-
   final String webPageUrl;
   final WXMiniProgramType miniProgramType;
   final String userName;

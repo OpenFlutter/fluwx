@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 ///[WXMiniProgramType.RELEASE]正式版
 ///[WXMiniProgramType.TEST]测试版
 ///[WXMiniProgramType.PREVIEW]预览版

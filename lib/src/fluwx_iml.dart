@@ -23,7 +23,6 @@ import 'wechat_type.dart';
 import 'package:flutter/foundation.dart';
 import 'utils/utils.dart';
 
-
 StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();
 
@@ -42,10 +41,11 @@ StreamController<WeChatPaymentResponse> _responsePaymentController =
 Stream<WeChatPaymentResponse> get responseFromPayment =>
     _responsePaymentController.stream;
 
-Stream<WeChatLaunchMiniProgramResponse> get responseFromLaunchMiniProgram => _responseLaunchMiniProgramController.stream;
+Stream<WeChatLaunchMiniProgramResponse> get responseFromLaunchMiniProgram =>
+    _responseLaunchMiniProgramController.stream;
 
-StreamController<WeChatLaunchMiniProgramResponse> _responseLaunchMiniProgramController =
-    new StreamController.broadcast();
+StreamController<WeChatLaunchMiniProgramResponse>
+    _responseLaunchMiniProgramController = new StreamController.broadcast();
 
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
@@ -94,7 +94,11 @@ Future register(
 }
 
 ///we don't need the response any longer if params are true.
-void dispose({shareResponse: true, authResponse: true, paymentResponse: true,launchMiniProgramResponse:true}) {
+void dispose(
+    {shareResponse: true,
+    authResponse: true,
+    paymentResponse: true,
+    launchMiniProgramResponse: true}) {
   if (shareResponse) {
     _responseShareController.close();
   }
@@ -130,18 +134,25 @@ Future share(WeChatShareModel model) async {
   }
 }
 
-Future sendAuth({ String openId,@required String scope,String state}) async {
+Future sendAuth({String openId, @required String scope, String state}) async {
   // "scope": scope, "state": state, "openId": openId
 
   assert(scope != null && scope.trim().isNotEmpty);
-  return await _channel.invokeMethod("sendAuth", {"scope": scope, "state": state, "openId": openId});
+  return await _channel.invokeMethod(
+      "sendAuth", {"scope": scope, "state": state, "openId": openId});
 }
 
-Future launchMiniProgram({@required String username, String path,  WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
+Future launchMiniProgram(
+    {@required String username,
+    String path,
+    WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
   assert(username != null && username.trim().isNotEmpty);
-  return await _channel.invokeMethod("launchMiniProgram", {"userName": username, "path": path, "miniProgramType": miniProgramTypeToInt(miniProgramType)});
+  return await _channel.invokeMethod("launchMiniProgram", {
+    "userName": username,
+    "path": path,
+    "miniProgramType": miniProgramTypeToInt(miniProgramType)
+  });
 }
-
 
 Future isWeChatInstalled() async {
   return await _channel.invokeMethod("isWeChatInstalled");
@@ -169,5 +180,3 @@ Future pay(
     "extData": extData,
   });
 }
-
-

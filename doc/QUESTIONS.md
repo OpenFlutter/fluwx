@@ -1,5 +1,5 @@
 ## WeChat Not Installed on iOS?
-if you have installed WeChat on your iPhone but you still catch an exception that "wechat not installed",just add the following
+if you have installed WeChat on your iPhone but you still catch an exception called "wechat not installed",just add the following
 code to your *info.plist*:
 ```xml
 <key>LSApplicationQueriesSchemes</key>

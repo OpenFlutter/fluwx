@@ -22,25 +22,23 @@ QQ群：892398530。
 * 拉起小程序。
 
 ## 技术参数
-   Android部分使用到了`kotlin-1.2.71`。以下是Android部分所涉及到的技术:
-   ```gradle
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.30.2'
-    implementation 'top.zibin:Luban:1.1.8'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+   Android部分使用到了`kotlin-1.3.0`。以下是Android部分所涉及到的技术:
+     ```gradle
+      api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
+      implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
+      implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
+      implementation 'top.zibin:Luban:1.1.8'
+      implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+     ```
 
-   ```
 
-   Flutter版本信息<br>
-   Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git<br>
-   Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700<br>
-   Engine • revision 58a1894a1c<br>
-   Tools • Dart 2.1.0-dev.3.1.flutter-760a9690c2<br>
+      Flutter 0.9.4 • channel beta • https://github.com/flutter/flutter.git<br>
+      Framework • revision f37c235c32 (5 weeks ago) • 2018-09-25 17:45:40 -0400<br>
+      Engine • revision 74625aed32<br>
+      Tools • Dart 2.1.0-dev.5.0.flutter-a2eb050044<br>
    
    
-   
+   在iOS上使用了*wechat-sdk-1.8.3*(包含支付)。
 
 
 ## 初始化

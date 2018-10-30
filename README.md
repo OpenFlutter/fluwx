@@ -5,7 +5,7 @@
 [中文请移步此处](./README_CN.md)
 
 `Fluwx` makes easier using WeChatSDK on Flutter.
-
+QQ Group：892398530。
 
 ## Before
  Before using`Fluwx`,I highly recommond you read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
@@ -23,7 +23,6 @@
 * Launch Mini-Program.
 
 ## Libraries Used In Fluwx
-Libraries listed here
   For Android,`kotlin-1.3.0` is included:
    ```gradle
     api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
@@ -34,13 +33,13 @@ Libraries listed here
    ```
 
 
-   For Flutter：<br>
-   Flutter 0.8.2 • channel beta • https://github.com/flutter/flutter.git<br>
-   Framework • revision 5ab9e70727 (11 days ago) • 2018-09-07 12:33:05 -0700<br>
-   Engine • revision 58a1894a1c<br>
-   Tools • Dart 2.1.0-dev.3.1.flutter-760a9690c2<br>
+    Flutter 0.9.4 • channel beta • https://github.com/flutter/flutter.git<br>
+    Framework • revision f37c235c32 (5 weeks ago) • 2018-09-25 17:45:40 -0400<br>
+    Engine • revision 74625aed32<br>
+    Tools • Dart 2.1.0-dev.5.0.flutter-a2eb050044<br>
 
 
+  For iOS,*wechat-sdk-1.8.3*(WeChatPay included) is included.
 
 ## Register WeChatSDK via Fluwx
 Before using`Fluwx`,you should init `FLuwx`：

@@ -61,8 +61,9 @@ Before using`Fluwx`,you should init `FLuwx`：
 ### Other
 * [Using Swift?](./doc/USING_SWIFT.md)
 * [Having Questions?](./doc/QUESTIONS.md)
-### Waiting 
-
+### Waiting
+### Donate
+![WeChatPay](./arts/wx.jpeg =300 * 300) ![AliPay](./arts/ali.jpeg)
 ## LICENSE
 
 

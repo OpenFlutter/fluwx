@@ -63,7 +63,8 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Having Questions?](./doc/QUESTIONS.md)
 ### Waiting
 ### Donate
-![WeChatPay](./arts/wx.jpeg =300 * 300) ![AliPay](./arts/ali.jpeg)
+<img src="./arts/wx.jpeg" height="200">  <img src="./arts/ali.jpeg" height="200">
+
 ## LICENSE
 
 

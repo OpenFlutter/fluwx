@@ -63,6 +63,9 @@ QQ群：892398530。
 
 ### 更多功能敬请请期待
 
+### 捐助
+<img src="./arts/wx.jpeg" height="200">  <img src="./arts/ali.jpeg" height="200">
+
 ## LICENSE
 
 

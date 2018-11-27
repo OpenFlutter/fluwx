@@ -63,6 +63,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Having Questions?](./doc/QUESTIONS.md)
 ### Waiting
 ### Donate
+Buy the writer a cup of coffee。
 <img src="./arts/wx.jpeg" height="300">  <img src="./arts/ali.jpeg" height="300">
 
 ## LICENSE

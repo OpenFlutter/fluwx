@@ -1,3 +1,8 @@
+## 0.5.2
+* 修复ios上sendAuth无返回的问题。
+* kotlin升级至1.3.10
+* android WeChatSDK升级到5.1.6
+
 ## 0.5.1
 * Kotlin升级到了1.3.0
 * 代码格化

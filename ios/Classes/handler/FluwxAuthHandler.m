@@ -24,8 +24,9 @@
 - (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *openId = call.arguments[@"openId"];
 
-    [WXApiRequestHandler sendAuthRequestScope:call.arguments[@"scope"]
+   BOOL done = [WXApiRequestHandler sendAuthRequestScope:call.arguments[@"scope"]
                                         State:call.arguments[@"state"]
                                        OpenID:(openId == (id) [NSNull null]) ? nil : openId];
+    result(@(done));
 }
 @end

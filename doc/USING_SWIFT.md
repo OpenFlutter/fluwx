@@ -1,5 +1,5 @@
 ## Using Swift?
-`fluwx` supports `swift` since 2.0.0.
+`fluwx` supports `swift` since *0.2.0*.
 
 
 ## Response

@@ -1,5 +1,5 @@
 ## 使用Swift?
-`fluwx` 从*2.0.0*开始支持 `swift`。
+`fluwx` 从*0.2.0*开始支持 `swift`。
 
 
 

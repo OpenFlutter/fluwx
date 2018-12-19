@@ -38,6 +38,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
 }
 
 #pragma mark - WXApiDelegate
+
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
         if (_delegate
@@ -51,15 +52,13 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         SendMessageToWXResp *messageResp = (SendMessageToWXResp *) resp;
 
 
-
-
         NSDictionary *result = @{
-                description: messageResp.description == nil ?@"":messageResp.description,
-                errStr: messageResp.errStr == nil ? @"":messageResp.errStr,
+                description: messageResp.description == nil ? @"" : messageResp.description,
+                errStr: messageResp.errStr == nil ? @"" : messageResp.errStr,
                 errCode: @(messageResp.errCode),
-                type: messageResp.type == nil ? @2 :@(messageResp.type),
-                country: messageResp.country== nil ? @"":messageResp.country,
-                lang: messageResp.lang  == nil ? @"":messageResp.lang,
+                type: messageResp.type == nil ? @2 : @(messageResp.type),
+                country: messageResp.country == nil ? @"" : messageResp.country,
+                lang: messageResp.lang == nil ? @"" : messageResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS
         };
         [fluwxMethodChannel invokeMethod:@"onShareResponse" arguments:result];
@@ -76,14 +75,14 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
 
         SendAuthResp *authResp = (SendAuthResp *) resp;
         NSDictionary *result = @{
-                description: authResp.description == nil ?@"":authResp.description,
-                errStr: authResp.errStr == nil ?@"":authResp.errStr,
+                description: authResp.description == nil ? @"" : authResp.description,
+                errStr: authResp.errStr == nil ? @"" : authResp.errStr,
                 errCode: @(authResp.errCode),
-                type: authResp.type == nil ?@1:@(authResp.type),
-                country: authResp.country == nil? @"":authResp.country,
-                lang: authResp.lang == nil?@"":authResp.lang,
+                type: authResp.type == nil ? @1 : @(authResp.type),
+                country: authResp.country == nil ? @"" : authResp.country,
+                lang: authResp.lang == nil ? @"" : authResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS,
-                @"code":[StringUtil nilToEmpty:authResp.code],
+                @"code": [StringUtil nilToEmpty:authResp.code],
                 @"state": [StringUtil nilToEmpty:authResp.state]
 
         };
@@ -111,27 +110,37 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         if ([_delegate respondsToSelector:@selector(managerDidRecvSubscribeMsgResponse:)]) {
             [_delegate managerDidRecvSubscribeMsgResponse:(WXSubscribeMsgResp *) resp];
         }
+
+        WXSubscribeMsgResp *subscribeMsgResp = (WXSubscribeMsgResp *) resp;
+        NSDictionary *subMsgResult = @{
+                @"openid": subscribeMsgResp.openId,
+                @"templateId": subscribeMsgResp.templateId,
+                @"action": subscribeMsgResp.action,
+                @"reserved": subscribeMsgResp.reserved,
+                @"scene": @(subscribeMsgResp.scene),
+        };
+
+        [fluwxMethodChannel invokeMethod:@"onSubscribeMsgResp" arguments:subMsgResult];
     } else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]]) {
         if ([_delegate respondsToSelector:@selector(managerDidRecvLaunchMiniProgram:)]) {
             [_delegate managerDidRecvLaunchMiniProgram:(WXLaunchMiniProgramResp *) resp];
         }
 
 
-
         WXLaunchMiniProgramResp *miniProgramResp = (WXLaunchMiniProgramResp *) resp;
 
 
         NSDictionary *commonResult = @{
-                description: miniProgramResp.description == nil ?@"":miniProgramResp.description,
-                errStr: miniProgramResp.errStr == nil ?@"":miniProgramResp.errStr,
+                description: miniProgramResp.description == nil ? @"" : miniProgramResp.description,
+                errStr: miniProgramResp.errStr == nil ? @"" : miniProgramResp.errStr,
                 errCode: @(miniProgramResp.errCode),
-                type: miniProgramResp.type == nil ?@1:@(miniProgramResp.type),
+                type: miniProgramResp.type == nil ? @1 : @(miniProgramResp.type),
                 fluwxKeyPlatform: fluwxKeyIOS,
 
         };
 
         NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:commonResult];
-        if(miniProgramResp.extMsg != nil){
+        if (miniProgramResp.extMsg != nil) {
             result[@"extMsg"] = miniProgramResp.extMsg;
         }
 
@@ -153,21 +162,20 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         if ([_delegate respondsToSelector:@selector(managerDidRecvPayInsuranceResponse:)]) {
             [_delegate managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *) resp];
         }
-    }else if ([resp isKindOfClass:[PayResp class]]) {
+    } else if ([resp isKindOfClass:[PayResp class]]) {
         if ([_delegate respondsToSelector:@selector(managerDidRecvPaymentResponse)]) {
             [_delegate managerDidRecvPaymentResponse:(PayResp *) resp];
         }
 
 
-
         PayResp *payResp = (PayResp *) resp;
 
         NSDictionary *result = @{
-                description:[StringUtil nilToEmpty:payResp.description] ,
+                description: [StringUtil nilToEmpty:payResp.description],
                 errStr: [StringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
-                type: payResp.type == nil ?@5:@(payResp.type),
-                @"returnKey":payResp.returnKey== nil?@"":payResp.returnKey,
+                type: payResp.type == nil ? @5 : @(payResp.type),
+                @"returnKey": payResp.returnKey == nil ? @"" : payResp.returnKey,
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
         [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];

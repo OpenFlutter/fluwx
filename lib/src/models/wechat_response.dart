@@ -115,3 +115,18 @@ class WeChatPaymentResponse {
         extData = map["extData"],
         androidTransaction = map["transaction"];
 }
+
+class WeChatSubscribeMsgResp {
+  final String openid;
+  final String templateId;
+  final String action;
+  final String reserved;
+  final int scene;
+
+  WeChatSubscribeMsgResp.fromMap(Map map)
+      : openid = map["openid"],
+        templateId = map["templateId"],
+        action = map["action"],
+        reserved = map["reserved"],
+        scene = map["scene"];
+}

@@ -47,6 +47,12 @@ Stream<WeChatLaunchMiniProgramResponse> get responseFromLaunchMiniProgram =>
 StreamController<WeChatLaunchMiniProgramResponse>
     _responseLaunchMiniProgramController = new StreamController.broadcast();
 
+StreamController<WeChatSubscribeMsgResp> _responseFromSubscribeMsg =
+    new StreamController.broadcast();
+
+Stream<WeChatSubscribeMsgResp> get responseFromSubscribeMsg =>
+    _responseFromSubscribeMsg.stream;
+
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
 
@@ -63,6 +69,9 @@ Future<dynamic> _handler(MethodCall methodCall) {
   } else if ("onPayResponse" == methodCall.method) {
     _responsePaymentController
         .add(WeChatPaymentResponse.fromMap(methodCall.arguments));
+  } else if ("onSubscribeMsgResp" == methodCall.method) {
+    _responseFromSubscribeMsg
+        .add(WeChatSubscribeMsgResp.fromMap(methodCall.arguments));
   }
 
   return Future.value(true);
@@ -179,4 +188,21 @@ Future pay(
     "signType": signType,
     "extData": extData,
   });
+}
+
+Future subscribeMsg({
+  @required String appId,
+  @required int scene,
+  @required String templateId,
+  String reserved,
+}) async {
+  return await _channel.invokeMethod(
+    "subscribeMsg",
+    {
+      "appId": appId,
+      "scene": scene,
+      "templateId": templateId,
+      "reserved": reserved,
+    },
+  );
 }

@@ -1,6 +1,7 @@
 package com.jarvan.fluwx.handler
 
 import android.util.Log
+import com.jarvan.fluwx.constant.WechatPluginKeys
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
@@ -19,6 +20,10 @@ internal class FluwxLaunchMiniProgramHandler {
             2-> WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
             else-> WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
         }// 可选打开 开发版，体验版和正式版
-        result.success(WXAPiHandler.wxApi?.sendReq(req))
+        val done = WXAPiHandler.wxApi?.sendReq(req)
+        result.success(mapOf(
+                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                WechatPluginKeys.RESULT to done
+        ))
     }
 }

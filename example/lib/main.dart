@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx_example/subscribe_message_page.dart';
 
 import 'pay_page.dart';
 import 'send_auth.dart';
@@ -12,6 +13,7 @@ import 'share_text_image.dart';
 import 'share_video_page.dart';
 import 'share_web_page.dart';
 import 'package:fluwx_example/launch_mini_program_page.dart';
+
 void main() => runApp(new MyApp());
 
 class MyApp extends StatefulWidget {
@@ -23,13 +25,11 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    fluwx.register(appId:"wxd930ea5d5a258f4f",doOnAndroid: true,doOnIOS: true,enableMTA: false);
+    fluwx.register(appId: "wxd930ea5d5a258f4f", doOnAndroid: true, doOnIOS: true, enableMTA: false);
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-
-  }
+  Future<void> initPlatformState() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +43,15 @@ class _MyAppState extends State<MyApp> {
         "sendAuth": (context) => SendAuthPage(),
         "shareMiniProgram": (context) => ShareMiniProgramPage(),
         "pay": (context) => PayPage(),
-        "launchMiniProgram": (context)  => LaunchMiniProgramPage()
+        "launchMiniProgram": (context) => LaunchMiniProgramPage(),
+        "subscribeMessage": (ctx) => SubscribeMessagePage(),
       },
       home: new Scaffold(
           appBar: new AppBar(
             title: const Text('Plugin example app'),
           ),
           body: ShareSelectorPage()),
-    )
-    ;
+    );
   }
 }
 
@@ -132,6 +132,14 @@ class ShareSelectorPage extends StatelessWidget {
                   Navigator.of(context).pushNamed("launchMiniProgram");
                 },
                 child: const Text("Launch MiniProgram")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("subscribeMessage");
+                },
+                child: const Text("SubscribeMessage")),
           ),
         ],
       ),

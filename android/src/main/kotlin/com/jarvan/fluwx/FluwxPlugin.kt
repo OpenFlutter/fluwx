@@ -39,6 +39,7 @@ class FluwxPlugin(private val registrar: Registrar, private val channel: MethodC
     private val fluwxAuthHandler = FluwxAuthHandler()
     private val fluwxPayHandler = FluwxPayHandler()
     private val fluwxLaunchMiniProgramHandler = FluwxLaunchMiniProgramHandler()
+    private val fluwxSubscribeMsgHandler = FluwxSubscribeMsgHandler()
 
     init {
         fluwxShareHandler.setRegistrar(registrar)
@@ -73,8 +74,13 @@ class FluwxPlugin(private val registrar: Registrar, private val channel: MethodC
             return
         }
 
-        if (call.method ==  WeChatPluginMethods.LAUNCH_MINI_PROGRAM){
-            fluwxLaunchMiniProgramHandler.launchMiniProgram(call,result)
+        if (call.method == WeChatPluginMethods.LAUNCH_MINI_PROGRAM) {
+            fluwxLaunchMiniProgramHandler.launchMiniProgram(call, result)
+            return
+        }
+
+        if (WeChatPluginMethods.SUBSCRIBE_MSG == call.method) {
+            fluwxSubscribeMsgHandler.subScribeMsg(call, result)
             return
         }
 

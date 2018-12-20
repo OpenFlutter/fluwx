@@ -19,26 +19,9 @@ QQ群：892398530。
 * 小程序分享。
 * 发送Auth认证（登录）。
 * 支付。
-* 拉起小程序。
+* 打开小程序。
+* 一次性订阅消息。
 
-## 技术参数
-   Android部分使用到了`kotlin-1.3.0`。以下是Android部分所涉及到的技术:
-     ```gradle
-      api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-      implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
-      implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
-      implementation 'top.zibin:Luban:1.1.8'
-      implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-     ```
-
-
-      Flutter 0.9.4 • channel beta • https://github.com/flutter/flutter.git<br>
-      Framework • revision f37c235c32 (5 weeks ago) • 2018-09-25 17:45:40 -0400<br>
-      Engine • revision 74625aed32<br>
-      Tools • Dart 2.1.0-dev.5.0.flutter-a2eb050044<br>
-   
-   
-   在iOS上使用了*wechat-sdk-1.8.3*(包含支付)。
 
 
 ## 初始化
@@ -56,6 +39,8 @@ QQ群：892398530。
 * [Auth](./doc/SEND_AUTH_CN.md)。
 * [支付](./doc/WXPay_CN.md)。
 * [回调](./doc/RESPONSE_CN.md)。
+* [打开小程序](./doc/LAUNCH_MINI_PROGRAM_CN.md)。
+* [一次性订阅消息](./doc/SUBSCRIBE_MESSAGE_CN.md)。
 
 ### 其他
 * [使用Swift?](./doc/USING_SWIFT_CN.md)

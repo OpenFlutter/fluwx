@@ -8,8 +8,8 @@
 QQ Group：892398530。
 
 ## Before
- Before using`Fluwx`,I highly recommond you read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
- this'll help you。
+ Before using`Fluwx`,read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.
+
 
 ### What does Fluwx support?
 * Share Text.
@@ -21,25 +21,8 @@ QQ Group：892398530。
 * Send Auth(Login).
 * Pay.
 * Launch Mini-Program.
+* Subscribe Message.
 
-## Libraries Used In Fluwx
-  For Android,`kotlin-1.3.0` is included:
-   ```gradle
-    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
-    implementation 'top.zibin:Luban:1.1.8'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-   ```
-
-
-    Flutter 0.9.4 • channel beta • https://github.com/flutter/flutter.git<br>
-    Framework • revision f37c235c32 (5 weeks ago) • 2018-09-25 17:45:40 -0400<br>
-    Engine • revision 74625aed32<br>
-    Tools • Dart 2.1.0-dev.5.0.flutter-a2eb050044<br>
-
-
-  For iOS,*wechat-sdk-1.8.3*(WeChatPay included) is included.
 
 ## Register WeChatSDK via Fluwx
 Before using`Fluwx`,you should init `FLuwx`：
@@ -53,10 +36,12 @@ Before using`Fluwx`,you should init `FLuwx`：
 > NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add a URLSchema for iOS.
 
 ### More
-* [Share](./doc/SHARE.md)。
-* [Auth](./doc/SEND_AUTH.md)。
-* [Payment](./doc/WXPay.md)。
-* [Response](./doc/RESPONSE.md)。
+* [Share](./doc/SHARE.md)
+* [Auth](./doc/SEND_AUTH.md)
+* [Payment](./doc/WXPay.md)
+* [Response](./doc/RESPONSE.md)
+* [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
+* [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
 
 ### Other
 * [Using Swift?](./doc/USING_SWIFT.md)

@@ -9,7 +9,7 @@
 #import "FluwxWXApiHandler.h"
 #import "FluwxShareHandler.h"
 #import "FluwxLaunchMiniProgramHandler.h"
-
+#import "FluwxSubscribeMsgHandler.h"
 
 @implementation FluwxPlugin
 
@@ -22,6 +22,7 @@ FluwxAuthHandler *_fluwxAuthHandler;
 FluwxWXApiHandler *_fluwxWXApiHandler;
 FluwxPaymentHandler *_fluwxPaymentHandler;
 FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
+FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
 
 - (void)dealloc
 {
@@ -52,7 +53,7 @@ FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
         _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
         _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
         _fluwxLaunchMiniProgramHandler = [[FluwxLaunchMiniProgramHandler alloc] initWithRegistrar:registrar];
-
+        _fluwxSubscribeMsgHandler = [[FluwxSubscribeMsgHandler alloc] initWithRegistrar:registrar];
     }
 
     return self;
@@ -87,6 +88,11 @@ FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
 
     if([@"launchMiniProgram" isEqualToString :call.method]){
         [_fluwxLaunchMiniProgramHandler handleLaunchMiniProgram:call result:result];
+        return;
+    }
+    
+    if([@"subscribeMsg" isEqualToString: call.method]){
+        [_fluwxSubscribeMsgHandler handleSubscribeWithCall:call result:result];
         return;
     }
 

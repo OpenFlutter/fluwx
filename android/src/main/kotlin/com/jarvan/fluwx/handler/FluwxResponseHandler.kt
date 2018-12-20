@@ -19,6 +19,7 @@ import android.util.Log
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelbase.BaseResp
+import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
@@ -40,14 +41,27 @@ object FluwxResponseHandler {
 
 
     fun handleResponse(response: BaseResp) {
-        Log.e("tag","heeeeee")
+        Log.e("tag", "heeeeee")
 
         when (response) {
             is SendAuth.Resp -> handleAuthResponse(response)
             is SendMessageToWX.Resp -> handleSendMessageResp(response)
             is PayResp -> handlePayResp(response)
             is WXLaunchMiniProgram.Resp -> handleLaunchMiniProgramResponse(response)
+            is SubscribeMessage.Resp -> handleSubscribeMessage(response)
         }
+    }
+
+    private fun handleSubscribeMessage(response: SubscribeMessage.Resp) {
+        val result = mapOf(
+                "openid" to response.openId,
+                "templateId" to response.templateID,
+                "action" to response.action,
+                "reserved" to response.reserved,
+                "scene" to response.scene
+        )
+
+        channel?.invokeMethod(WeChatPluginMethods.ON_SUBSCRIBE_MSG_RESP, result)
     }
 
     private fun handleLaunchMiniProgramResponse(response: WXLaunchMiniProgram.Resp) {

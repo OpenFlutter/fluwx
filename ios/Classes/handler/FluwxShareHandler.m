@@ -351,8 +351,8 @@ NSObject <FlutterPluginRegistrar> *_registrar;
             BOOL done = [WXApiRequestHandler sendMiniProgramWebpageUrl:call.arguments[@"webPageUrl"]
                                                               userName:call.arguments[@"userName"]
                                                                   path:call.arguments[@"path"]
-                                                                 title:fluwxKeyTitle
-                                                           Description:fluwxKeyDescription
+                                                                 title:call.arguments[fluwxKeyTitle]
+                                                           Description:call.arguments[fluwxKeyDescription]
                                                             ThumbImage:thumbnailImage
                                                            hdImageData:hdImageData
                                                        withShareTicket:[call.arguments[@"withShareTicket"] boolValue]

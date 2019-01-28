@@ -41,8 +41,6 @@ object FluwxResponseHandler {
 
 
     fun handleResponse(response: BaseResp) {
-        Log.e("tag", "heeeeee")
-
         when (response) {
             is SendAuth.Resp -> handleAuthResponse(response)
             is SendMessageToWX.Resp -> handleSendMessageResp(response)

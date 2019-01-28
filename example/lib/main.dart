@@ -25,7 +25,13 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    fluwx.register(appId: "wxd930ea5d5a258f4f", doOnAndroid: true, doOnIOS: true, enableMTA: false);
+    _initFluwx();
+  }
+
+  _initFluwx() async{
+    await fluwx.register(appId: "wxd930ea5d5a258f4f", doOnAndroid: true, doOnIOS: true, enableMTA: false);
+    var result = await fluwx.isWeChatInstalled();
+    print("is installed $result");
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.

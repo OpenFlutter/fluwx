@@ -143,6 +143,9 @@ Future share(WeChatShareModel model) async {
   }
 }
 
+/// in order to get code from WeChat.
+/// for more information please visit：
+/// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
 Future sendAuth({String openId, @required String scope, String state}) async {
   // "scope": scope, "state": state, "openId": openId
 
@@ -163,10 +166,26 @@ Future launchMiniProgram(
   });
 }
 
+
+/// true if WeChat is installed,otherwise false.
+/// However,the following key-value must be added into your info.plist since iOS 9:
+/// <key>LSApplicationQueriesSchemes</key>
+///<array>
+///<string>weixin</string>
+///</array>
+///<key>NSAppTransportSecurity</key>
+///<dict>
+///<key>NSAllowsArbitraryLoads</key>
+///<true/>
+///</dict>
+///
 Future isWeChatInstalled() async {
   return await _channel.invokeMethod("isWeChatInstalled");
 }
 
+
+
+/// params are from server
 Future pay(
     {@required String appId,
     @required String partnerId,
@@ -190,6 +209,8 @@ Future pay(
   });
 }
 
+
+/// subscribe message
 Future subscribeMsg({
   @required String appId,
   @required int scene,

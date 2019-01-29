@@ -154,6 +154,9 @@ Future sendAuth({String openId, @required String scope, String state}) async {
       "sendAuth", {"scope": scope, "state": state, "openId": openId});
 }
 
+
+/// open mini-program
+/// see [WXMiniProgramType]
 Future launchMiniProgram(
     {@required String username,
     String path,

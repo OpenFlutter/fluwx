@@ -27,6 +27,7 @@ const String _messageExt = "messageExt";
 const String _mediaTagName = "mediaTagName ";
 const String _messageAction = "messageAction";
 
+///Base Class for Sharing
 abstract class WeChatShareModel {
   final String messageExt;
   final String messageAction;
@@ -42,10 +43,15 @@ abstract class WeChatShareModel {
   Map toMap();
 }
 
+///
+/// [WeChatScene] is not supported here due to WeChat's limits.
+/// the default value is [MINI_PROGRAM_TYPE_RELEASE]
+///
 class WeChatShareTextModel extends WeChatShareModel {
   final String text;
   final String transaction;
 
+  ///transaction only works on  Android.
   WeChatShareTextModel(
       {String text,
       String transaction,

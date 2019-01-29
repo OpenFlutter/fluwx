@@ -1,5 +1,6 @@
 import '../wechat_type.dart';
 
+///convert [WXMiniProgramType] to int
 int miniProgramTypeToInt(WXMiniProgramType type) {
   switch (type) {
     case WXMiniProgramType.PREVIEW:

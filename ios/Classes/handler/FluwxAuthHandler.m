@@ -25,7 +25,7 @@
     NSString *openId = call.arguments[@"openId"];
 
    BOOL done = [WXApiRequestHandler sendAuthRequestScope:call.arguments[@"scope"]
-                                        State:call.arguments[@"state"]
+                                                   State:(call.arguments[@"state"]== (id) [NSNull null])?nil:call.arguments[@"state"]
                                        OpenID:(openId == (id) [NSNull null]) ? nil : openId];
     result(@(done));
 }

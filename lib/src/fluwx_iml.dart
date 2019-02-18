@@ -154,7 +154,6 @@ Future sendAuth({String openId, @required String scope, String state}) async {
       "sendAuth", {"scope": scope, "state": state, "openId": openId});
 }
 
-
 /// open mini-program
 /// see [WXMiniProgramType]
 Future launchMiniProgram(
@@ -168,7 +167,6 @@ Future launchMiniProgram(
     "miniProgramType": miniProgramTypeToInt(miniProgramType)
   });
 }
-
 
 /// true if WeChat is installed,otherwise false.
 /// However,the following key-value must be added into your info.plist since iOS 9:
@@ -185,8 +183,6 @@ Future launchMiniProgram(
 Future isWeChatInstalled() async {
   return await _channel.invokeMethod("isWeChatInstalled");
 }
-
-
 
 /// params are from server
 Future pay(
@@ -211,7 +207,6 @@ Future pay(
     "extData": extData,
   });
 }
-
 
 /// subscribe message
 Future subscribeMsg({

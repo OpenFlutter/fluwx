@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 enum  AuthErrCode {
     WechatAuth_Err_Ok = 0,  //Auth成功
     WechatAuth_Err_NormalErr = -1,  //普通错误
@@ -23,7 +25,7 @@ enum  AuthErrCode {
 
 - (void)onAuthGotQrcode:(UIImage *)image;  //得到二维码
 - (void)onQrcodeScanned;    //二维码被扫描
-- (void)onAuthFinish:(int)errCode AuthCode:(NSString *)authCode;    //成功登录
+- (void)onAuthFinish:(int)errCode AuthCode:(nullable NSString *)authCode;    //成功登录
 
 @end
 
@@ -32,7 +34,7 @@ enum  AuthErrCode {
     __weak id<WechatAuthAPIDelegate> _delegate;
 }
 
-@property(nonatomic, weak) id<WechatAuthAPIDelegate> delegate;
+@property(nonatomic, weak, nullable) id<WechatAuthAPIDelegate> delegate;
 @property(nonatomic, readonly) NSString *sdkVersion;   //authSDK版本号
 
 /*! @brief 发送登录请求，等待WechatAuthAPIDelegate回调
@@ -49,10 +51,10 @@ enum  AuthErrCode {
 
 - (BOOL)Auth:(NSString *)appId
     nonceStr:(NSString *)nonceStr
-   timeStamp:(NSString*)timeStamp
+   timeStamp:(NSString *)timeStamp
        scope:(NSString *)scope
    signature:(NSString *)signature
-  schemeData:(NSString *)schemeData;
+  schemeData:(nullable NSString *)schemeData;
 
 
 /*! @brief 暂停登录请求
@@ -62,3 +64,5 @@ enum  AuthErrCode {
 - (BOOL)StopAuth;
 
 @end
+
+NS_ASSUME_NONNULL_END

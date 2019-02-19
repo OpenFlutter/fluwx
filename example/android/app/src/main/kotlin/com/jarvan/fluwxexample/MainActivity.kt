@@ -1,6 +1,7 @@
 package com.jarvan.fluwxexample
 
 import android.os.Bundle
+import com.jarvan.fluwx.handler.WXAPiHandler
 
 
 import io.flutter.app.FlutterActivity

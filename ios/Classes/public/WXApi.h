@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "WXApiObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - WXApiDelegate
 /*! @brief 接收并处理来自微信终端程序的事件消息
@@ -25,7 +26,7 @@
  * 可能收到的请求有GetMessageFromWXReq、ShowMessageFromWXReq等。
  * @param req 具体请求内容，是自动释放的
  */
--(void) onReq:(BaseReq*)req;
+- (void)onReq:(BaseReq*)req;
 
 
 
@@ -35,7 +36,7 @@
  * 可能收到的处理结果有SendMessageToWXResp、SendAuthResp等。
  * @param resp具体的回应内容，是自动释放的
  */
--(void) onResp:(BaseResp*)resp;
+- (void)onResp:(BaseResp*)resp;
 
 @end
 
@@ -43,7 +44,7 @@
 
 @protocol WXApiLogDelegate <NSObject>
 
--(void) onLog:(NSString*)log logLevel:(WXLogLevel)level;
+- (void)onLog:(NSString*)log logLevel:(WXLogLevel)level;
 
 @end
 
@@ -64,7 +65,7 @@
  * @param typeFlag 应用支持打开的文件类型
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) registerApp:(NSString *)appid;
++ (BOOL)registerApp:(NSString *)appid;
 
 /*! @brief WXApi的成员函数，向微信终端程序注册第三方应用。
  *
@@ -75,7 +76,7 @@
  * @param isEnableMTA 是否支持MTA数据上报
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) registerApp:(NSString *)appid enableMTA:(BOOL)isEnableMTA;
++ (BOOL)registerApp:(NSString *)appid enableMTA:(BOOL)isEnableMTA;
 
 
 /*! @brief WXApi的成员函数，向微信终端程序注册应用支持打开的文件类型。
@@ -84,7 +85,7 @@
  * @see registerApp
  * @param typeFlag 应用支持打开的数据类型, enAppSupportContentFlag枚举类型 “|” 操作后结果
  */
-+(void) registerAppSupportContentFlag:(UInt64)typeFlag;
++ (void)registerAppSupportContentFlag:(UInt64)typeFlag;
 
 
 
@@ -95,7 +96,7 @@
  * @param delegate  WXApiDelegate对象，用来接收微信触发的消息。
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) handleOpenURL:(NSURL *) url delegate:(id<WXApiDelegate>) delegate;
++ (BOOL)handleOpenURL:(NSURL *)url delegate:(nullable id<WXApiDelegate>)delegate;
 
 
 
@@ -103,7 +104,7 @@
  *
  * @return 微信已安装返回YES，未安装返回NO。
  */
-+(BOOL) isWXAppInstalled;
++ (BOOL)isWXAppInstalled;
 
 
 
@@ -111,7 +112,7 @@
  *
  * @return 支持返回YES，不支持返回NO。
  */
-+(BOOL) isWXAppSupportApi;
++ (BOOL)isWXAppSupportApi;
 
 
 
@@ -119,7 +120,7 @@
  *
  * @return 微信的安装地址字符串。
  */
-+(NSString *) getWXAppInstallUrl;
++ (NSString *)getWXAppInstallUrl;
 
 
 
@@ -127,7 +128,7 @@
  *
  * @return 返回当前微信SDK的版本号
  */
-+(NSString *) getApiVersion;
++ (NSString *)getApiVersion;
 
 
 
@@ -135,7 +136,7 @@
  *
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) openWXApp;
++ (BOOL)openWXApp;
 
 
 
@@ -146,7 +147,7 @@
  * @param req 具体的发送请求，在调用函数后，请自己释放。
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) sendReq:(BaseReq*)req;
++ (BOOL)sendReq:(BaseReq*)req;
 
 /*! @brief 发送Auth请求到微信，支持用户没安装微信，等待微信返回onResp
  *
@@ -156,7 +157,7 @@
  * @param delegate  WXApiDelegate对象，用来接收微信触发的消息。
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) sendAuthReq:(SendAuthReq*)req viewController:(UIViewController*)viewController delegate:(id<WXApiDelegate>)delegate;
++ (BOOL)sendAuthReq:(SendAuthReq*)req viewController:(UIViewController*)viewController delegate:(nullable id<WXApiDelegate>)delegate;
 
 
 /*! @brief 收到微信onReq的请求，发送对应的应答给微信，并切换到微信界面
@@ -166,7 +167,7 @@
  * @param resp 具体的应答内容，调用函数后，请自己释放
  * @return 成功返回YES，失败返回NO。
  */
-+(BOOL) sendResp:(BaseResp*)resp;
++ (BOOL)sendResp:(BaseResp*)resp;
 
 
 /*! @brief WXApi的成员函数，接受微信的log信息。byBlock
@@ -176,7 +177,7 @@
  *  @param level 打印log的级别
  *  @param logBlock 打印log的回调block
  */
-+(void) startLogByLevel:(WXLogLevel)level logBlock:(WXLogBolock)logBlock;
++ (void)startLogByLevel:(WXLogLevel)level logBlock:(WXLogBolock)logBlock;
 
 /*! @brief WXApi的成员函数，接受微信的log信息。byDelegate 
     注意1:sdk会弱引用这个delegate，这里可加任意对象为代理，不需要与WXApiDelegate同一个对象
@@ -191,3 +192,5 @@
  */
 + (void)stopLog;
 @end
+
+NS_ASSUME_NONNULL_END

@@ -53,6 +53,8 @@ QQ群：892398530。
 
 <img src="./arts/wx.jpeg" height="300">  <img src="./arts/ali.jpeg" height="300">
 
+### 欢迎关注公众号
+![subscribe](./arts/wx_subscription.png)
 ## LICENSE
 
 

@@ -38,9 +38,9 @@ QQ群：892398530。
 * [分享](./doc/SHARE_CN.md)。
 * [Auth](./doc/SEND_AUTH_CN.md)。
 * [支付](./doc/WXPay_CN.md)。
-* [回调](./doc/RESPONSE_CN.md)。
 * [打开小程序](./doc/LAUNCH_MINI_PROGRAM_CN.md)。
 * [一次性订阅消息](./doc/SUBSCRIBE_MESSAGE_CN.md)。
+* [微信回调](./doc/RESPONSE_CN.md)。
 
 ### 其他
 * [使用Swift?](./doc/USING_SWIFT_CN.md)

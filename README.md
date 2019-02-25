@@ -39,9 +39,9 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Share](./doc/SHARE.md)
 * [Auth](./doc/SEND_AUTH.md)
 * [Payment](./doc/WXPay.md)
-* [Response](./doc/RESPONSE.md)
 * [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
 * [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
+* [Response](./doc/RESPONSE.md)
 
 ### Other
 * [Using Swift?](./doc/USING_SWIFT.md)

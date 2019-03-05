@@ -5,11 +5,3 @@
    fluwx.sendAuth(
          scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")；
 ```
-### 返回值处理
- `fluwx.share(model)`返回的是一个`Map`：
-```dart
-    {
-       "platform":"Android",//或者iOS
-       result:true //或者false，取决于WXApi.sendRequest()的结果
-     }
-```

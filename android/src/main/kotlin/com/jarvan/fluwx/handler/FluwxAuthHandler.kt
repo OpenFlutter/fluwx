@@ -72,7 +72,8 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         val signature = call.argument("signature") ?: ""
 //        val schemeData = call.argument("schemeData")?:""
 
-        qrCodeAuth.auth(appId, scope, nonceStr, timeStamp, signature, qrCodeAuthListener)
+       result.success(qrCodeAuth.auth(appId, scope, nonceStr, timeStamp, signature, qrCodeAuthListener))
+
     }
 
     fun stopAuthByQRCode(result: MethodChannel.Result) {

@@ -71,10 +71,12 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
 
         if ("authByQRCode" == call.method) {
             fluwxAuthHandler.authByQRCode(call, result)
+            return
         }
 
         if ("stopAuthByQRCode" == call.method) {
             fluwxAuthHandler.stopAuthByQRCode(result)
+            return
         }
 
         if (call.method == WeChatPluginMethods.PAY) {

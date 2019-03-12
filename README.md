@@ -24,15 +24,18 @@ QQ Group：892398530。
 * Subscribe Message.
 
 ## Dependencies
+
 Add the following dependencies in your `pubspec.yaml` file:
-```
+
+```yaml
 dependencies:
   fluwx: ^${latestVersion}
 ```
-> current version is ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+> Latest version is ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+
 For using the snapshot:
 
-```
+```yaml
 dependencies:
   fluwx:
     git:

@@ -24,15 +24,16 @@ QQ群：892398530。
 
 ## 引入
 在你的 `pubspec.yaml` 文件中添加如下依赖:
-```
+```yaml
 dependencies:
   fluwx: ^${latestVersion}
 ```
-> 当前版本为 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+
+> 最新版本为 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
 如果想用github上最新版本:
 
-```
+```yaml
 dependencies:
   fluwx:
     git:

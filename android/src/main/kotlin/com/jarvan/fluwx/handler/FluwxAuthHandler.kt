@@ -16,6 +16,7 @@
 package com.jarvan.fluwx.handler
 
 
+import android.util.Log
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory
 import com.tencent.mm.opensdk.diffdev.OAuthErrCode
 import com.tencent.mm.opensdk.diffdev.OAuthListener

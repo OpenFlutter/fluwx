@@ -302,9 +302,9 @@ Future subscribeMsg({
 }
 
 _handleOnAuthByQRCodeFinished(MethodCall methodCall) {
-  int errCode = methodCall.arguments("errCode");
+  int errCode = methodCall.arguments["errCode"];
   _authByQRCodeFinishedController.add(AuthByQRCodeResult(
-      methodCall.arguments("authCode"),
+      methodCall.arguments["authCode"],
       _authByQRCodeErrorCodes[errCode] ?? AuthByQRCodeErrorCode.UNKNOWN));
 }
 

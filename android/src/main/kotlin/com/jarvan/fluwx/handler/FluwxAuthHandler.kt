@@ -32,10 +32,10 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
     private val qrCodeAuthListener by lazy {
         object : OAuthListener {
             override fun onAuthFinish(p0: OAuthErrCode, authCode: String?) {
-                methodChannel.invokeMethod("onAuthByQRCodeFinished", {
-                    "errCode" to p0.code
+                methodChannel.invokeMethod("onAuthByQRCodeFinished", mapOf(
+                    "errCode" to p0.code,
                     "authCode" to authCode
-                })
+                ))
             }
 
             override fun onAuthGotQrcode(p0: String?, p1: ByteArray) {

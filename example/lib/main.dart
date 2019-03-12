@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx_example/launch_mini_program_page.dart';
 import 'package:fluwx_example/subscribe_message_page.dart';
 
+import 'auth_by_qr_code_page.dart';
 import 'pay_page.dart';
 import 'send_auth.dart';
 import 'share_image_page.dart';
@@ -12,7 +14,6 @@ import 'share_music.dart';
 import 'share_text_image.dart';
 import 'share_video_page.dart';
 import 'share_web_page.dart';
-import 'package:fluwx_example/launch_mini_program_page.dart';
 
 void main() => runApp(new MyApp());
 
@@ -28,8 +29,12 @@ class _MyAppState extends State<MyApp> {
     _initFluwx();
   }
 
-  _initFluwx() async{
-    await fluwx.register(appId: "wxd930ea5d5a258f4f", doOnAndroid: true, doOnIOS: true, enableMTA: false);
+  _initFluwx() async {
+    await fluwx.register(
+        appId: "wxd930ea5d5a258f4f",
+        doOnAndroid: true,
+        doOnIOS: true,
+        enableMTA: false);
     var result = await fluwx.isWeChatInstalled();
     print("is installed $result");
   }
@@ -51,6 +56,7 @@ class _MyAppState extends State<MyApp> {
         "pay": (context) => PayPage(),
         "launchMiniProgram": (context) => LaunchMiniProgramPage(),
         "subscribeMessage": (ctx) => SubscribeMessagePage(),
+        "AuthByQRCode": (ctx) => AuthByQRCodePage()
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -146,6 +152,14 @@ class ShareSelectorPage extends StatelessWidget {
                   Navigator.of(context).pushNamed("subscribeMessage");
                 },
                 child: const Text("SubscribeMessage")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("AuthByQRCode");
+                },
+                child: const Text("AuthByQRCode")),
           ),
         ],
       ),

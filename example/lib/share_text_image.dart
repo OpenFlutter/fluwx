@@ -7,7 +7,6 @@ class ShareTextPage extends StatefulWidget {
 }
 
 class _ShareTextPageState extends State<ShareTextPage> {
-
   String _text = "share text from fluwx";
   fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
 

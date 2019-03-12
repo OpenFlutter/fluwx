@@ -15,8 +15,8 @@
  */
 import 'package:flutter/foundation.dart';
 
-import '../wechat_type.dart';
 import '../utils/utils.dart';
+import '../wechat_type.dart';
 
 const String _scene = "scene";
 const String _transaction = "transaction";

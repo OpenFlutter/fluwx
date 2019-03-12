@@ -8,9 +8,11 @@ class SubscribeMessagePage extends StatefulWidget {
 
 /// see wechat [document](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1500434436_aWfqW&token=&lang=zh_CN)
 class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
-  TextEditingController appId = TextEditingController(text: "wx316f9c82e99ac105");
+  TextEditingController appId =
+      TextEditingController(text: "wx316f9c82e99ac105");
   TextEditingController scene = TextEditingController(text: "1");
-  TextEditingController templateId = TextEditingController(text: "cm_vM2k3IjHcYbkGUeAfL6Fja_7Pgv4Hx_q4tA253Ss");
+  TextEditingController templateId = TextEditingController(
+      text: "cm_vM2k3IjHcYbkGUeAfL6Fja_7Pgv4Hx_q4tA253Ss");
   TextEditingController reserved = TextEditingController(text: "123");
 
   @override
@@ -41,7 +43,8 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
           children: <Widget>[
             _buildTextField(title: "appId", textEditController: appId),
             _buildTextField(title: "scene", textEditController: scene),
-            _buildTextField(title: "templateId", textEditController: templateId),
+            _buildTextField(
+                title: "templateId", textEditController: templateId),
             _buildTextField(title: "reserved", textEditController: reserved),
             FlatButton(
               child: Text('request once subscribe message'),

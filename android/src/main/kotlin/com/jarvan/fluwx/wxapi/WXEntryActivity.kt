@@ -16,5 +16,4 @@
 package com.jarvan.fluwx.wxapi
 
 
-
-open class WXEntryActivity :FluwxWXEntryActivity()
+open class WXEntryActivity : FluwxWXEntryActivity()

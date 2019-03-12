@@ -24,7 +24,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry.Registrar
 
-class FluwxPlugin(private val registrar: Registrar, private val channel: MethodChannel) : MethodCallHandler {
+class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : MethodCallHandler {
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
@@ -36,7 +36,7 @@ class FluwxPlugin(private val registrar: Registrar, private val channel: MethodC
     }
 
     private val fluwxShareHandler = FluwxShareHandler()
-    private val fluwxAuthHandler = FluwxAuthHandler()
+    private val fluwxAuthHandler = FluwxAuthHandler(channel)
     private val fluwxPayHandler = FluwxPayHandler()
     private val fluwxLaunchMiniProgramHandler = FluwxLaunchMiniProgramHandler()
     private val fluwxSubscribeMsgHandler = FluwxSubscribeMsgHandler()
@@ -67,6 +67,14 @@ class FluwxPlugin(private val registrar: Registrar, private val channel: MethodC
         if ("sendAuth" == call.method) {
             fluwxAuthHandler.sendAuth(call, result)
             return
+        }
+
+        if ("authByQRCode" == call.method) {
+            fluwxAuthHandler.authByQRCode(call, result)
+        }
+
+        if ("stopAuthByQRCode" == call.method) {
+            fluwxAuthHandler.stopAuthByQRCode(result)
         }
 
         if (call.method == WeChatPluginMethods.PAY) {

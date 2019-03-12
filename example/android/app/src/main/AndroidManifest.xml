@@ -38,35 +38,35 @@
             </intent-filter>
         </activity>
         <!--<activity android:name=".wxapi.WXEntryActivity"-->
-            <!--android:theme="@style/DisablePreviewTheme"-->
-            <!--/>-->
+        <!--android:theme="@style/DisablePreviewTheme"-->
+        <!--/>-->
         <!--<activity android:name=".wxapi.WXPayEntryActivity"-->
-            <!--android:theme="@style/DisablePreviewTheme"/>-->
+        <!--android:theme="@style/DisablePreviewTheme"/>-->
         <!--<activity-alias-->
-            <!--android:name="${applicationId}.wxapi.WXEntryActivity"-->
-            <!--android:exported="true"-->
-            <!--tools:replace="android:targetActivity"-->
-            <!--android:targetActivity=".wxapi.WXEntryActivity"-->
-            <!--android:launchMode="singleTop">-->
+        <!--android:name="${applicationId}.wxapi.WXEntryActivity"-->
+        <!--android:exported="true"-->
+        <!--tools:replace="android:targetActivity"-->
+        <!--android:targetActivity=".wxapi.WXEntryActivity"-->
+        <!--android:launchMode="singleTop">-->
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<data android:scheme="sdksample" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.VIEW" />-->
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--<data android:scheme="sdksample" />-->
+        <!--</intent-filter>-->
         <!--</activity-alias>-->
         <!--<activity-alias-->
-            <!--tools:replace="android:targetActivity"-->
-            <!--android:name="${applicationId}.wxapi.WXPayEntryActivity"-->
-            <!--android:exported="true"-->
-            <!--android:targetActivity=".wxapi.WXPayEntryActivity"-->
-            <!--android:launchMode="singleTop">-->
+        <!--tools:replace="android:targetActivity"-->
+        <!--android:name="${applicationId}.wxapi.WXPayEntryActivity"-->
+        <!--android:exported="true"-->
+        <!--android:targetActivity=".wxapi.WXPayEntryActivity"-->
+        <!--android:launchMode="singleTop">-->
 
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.VIEW" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-                <!--<data android:scheme="sdksample" />-->
-            <!--</intent-filter>-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.VIEW" />-->
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--<data android:scheme="sdksample" />-->
+        <!--</intent-filter>-->
         <!--</activity-alias>-->
     </application>
 </manifest>

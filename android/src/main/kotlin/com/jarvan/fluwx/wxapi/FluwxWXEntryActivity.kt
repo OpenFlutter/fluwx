@@ -18,13 +18,11 @@ package com.jarvan.fluwx.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import com.jarvan.fluwx.handler.FluwxResponseHandler
 import com.jarvan.fluwx.handler.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
-import java.lang.Exception
 
 
 open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
@@ -38,7 +36,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
         try {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             finish()
         }
@@ -52,7 +50,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
         try {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             finish()
         }

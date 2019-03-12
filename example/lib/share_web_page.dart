@@ -9,7 +9,6 @@ class ShareWebPagePage extends StatefulWidget {
 }
 
 class ShareWebPagePageState extends State<ShareWebPagePage> {
-
   String _url = "share text from fluwx";
   String _title = "Fluwx";
   String _thumnail = "assets://images/logo.png";
@@ -18,7 +17,6 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

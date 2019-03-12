@@ -22,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.util.Log;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;

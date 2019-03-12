@@ -61,13 +61,13 @@ public class ShareImageUtil {
 
         } else if (path.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
             String pathWithoutUri = path.substring("file://".length());
-            result = fileToByteArray(registrar,pathWithoutUri);
-        } else if(path.startsWith(WeChatPluginImageSchema.SCHEMA_CONTENT)){
-            File file = getFileFromContentProvider(registrar,path);
+            result = fileToByteArray(registrar, pathWithoutUri);
+        } else if (path.startsWith(WeChatPluginImageSchema.SCHEMA_CONTENT)) {
+            File file = getFileFromContentProvider(registrar, path);
             if (file != null) {
-                result = fileToByteArray(registrar,file.getAbsolutePath());
+                result = fileToByteArray(registrar, file.getAbsolutePath());
             }
-        }else {
+        } else {
 //            result = handleNetworkImage(registrar, path);
             result = Util.inputStreamToByte(openStream(path));
         }
@@ -88,16 +88,16 @@ public class ShareImageUtil {
         return Util.bmpToByteArray(bmp, true);
     }
 
-    private static  byte[] fileToByteArray(PluginRegistry.Registrar registrar, String pathWithoutUri){
+    private static byte[] fileToByteArray(PluginRegistry.Registrar registrar, String pathWithoutUri) {
 
-        byte[] result =  null;
+        byte[] result = null;
         Bitmap bmp = null;
         bmp = BitmapFactory.decodeFile(pathWithoutUri);
 
         int byteCount;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)  {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             byteCount = bmp.getAllocationByteCount();
-        }else {
+        } else {
             byteCount = bmp.getByteCount();
         }
         if (byteCount >= WX_MAX_IMAGE_BYTE_SIZE) {
@@ -181,7 +181,7 @@ public class ShareImageUtil {
 
     }
 
-    private static File getFileFromContentProvider(PluginRegistry.Registrar registrar,String path) {
+    private static File getFileFromContentProvider(PluginRegistry.Registrar registrar, String path) {
         Source source = null;
         BufferedSink sink = null;
 
@@ -211,7 +211,7 @@ public class ShareImageUtil {
             source.close();
             sink.close();
         } catch (IOException e) {
-            Log.i("fluwx","reading image failed:\n" + e.getMessage());
+            Log.i("fluwx", "reading image failed:\n" + e.getMessage());
         }
 
         return file;

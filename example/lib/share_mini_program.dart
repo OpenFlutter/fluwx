@@ -19,7 +19,6 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

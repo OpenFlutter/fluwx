@@ -7,7 +7,6 @@ class SendAuthPage extends StatefulWidget {
 }
 
 class _SendAuthPageState extends State<SendAuthPage> {
- 
   String _result = "无";
 
   @override
@@ -18,14 +17,12 @@ class _SendAuthPageState extends State<SendAuthPage> {
         _result = "${data.errCode}";
       });
     });
-
   }
 
   @override
   void dispose() {
     super.dispose();
     _result = null;
-
   }
 
   @override
@@ -38,11 +35,10 @@ class _SendAuthPageState extends State<SendAuthPage> {
         children: <Widget>[
           OutlineButton(
             onPressed: () {
-              fluwx.sendAuth(
+              fluwx
+                  .sendAuth(
                       scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
-                  .then((data) {
-
-              });
+                  .then((data) {});
             },
             child: const Text("send auth"),
           ),

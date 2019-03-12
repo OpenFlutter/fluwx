@@ -45,7 +45,8 @@ class _PayPageState extends State<PayPage> {
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
               print(result["timestamp"]);
-              fluwx.pay(
+              fluwx
+                  .pay(
                 appId: result['appid'].toString(),
                 partnerId: result['partnerid'].toString(),
                 prepayId: result['prepayid'].toString(),

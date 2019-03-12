@@ -7,7 +7,6 @@ class ShareVideoPage extends StatefulWidget {
 }
 
 class _ShareMusicPageState extends State<ShareVideoPage> {
-
   String _videoUrl = "http://www.qq.com";
   String _videoLowBandUrl = "http://www.qq.com";
   String _title = "Beyond";

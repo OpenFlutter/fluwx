@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'models/wechat_auth_by_qr_code.dart';
 import 'models/wechat_response.dart';
 import 'models/wechat_share_models.dart';
-import 'wechat_type.dart';
-import 'package:flutter/foundation.dart';
 import 'utils/utils.dart';
+import 'wechat_type.dart';
 
 StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();
@@ -58,6 +60,24 @@ StreamController<WeChatSubscribeMsgResp> _responseFromSubscribeMsg =
 Stream<WeChatSubscribeMsgResp> get responseFromSubscribeMsg =>
     _responseFromSubscribeMsg.stream;
 
+StreamController<AuthByQRCodeResult> _authByQRCodeFinishedController =
+    new StreamController.broadcast();
+
+///invoked when [authByQRCode] finished
+Stream<AuthByQRCodeResult> get onAuthByQRCodeFinished =>
+    _authByQRCodeFinishedController.stream;
+
+StreamController<Uint8List> _onAuthGotQRCodeController =
+    new StreamController.broadcast();
+
+///when QRCode received
+Stream<Uint8List> get onAuthGotQRCode => _onAuthGotQRCodeController.stream;
+
+StreamController _onQRCodeScannedController = new StreamController();
+
+///after uer scanned the QRCode you just received
+Stream get onQRCodeScanned => _onQRCodeScannedController.stream;
+
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
 
@@ -77,19 +97,16 @@ Future<dynamic> _handler(MethodCall methodCall) {
   } else if ("onSubscribeMsgResp" == methodCall.method) {
     _responseFromSubscribeMsg
         .add(WeChatSubscribeMsgResp.fromMap(methodCall.arguments));
+  } else if ("onAuthByQRCodeFinished" == methodCall.method) {
+    _handleOnAuthByQRCodeFinished(methodCall);
+  } else if ("onAuthGotQRCode" == methodCall.method) {
+    _onAuthGotQRCodeController.add(methodCall.arguments);
+  } else if ("onQRCodeScanned" == methodCall.method) {
+    _onQRCodeScannedController.add(null);
   }
 
   return Future.value(true);
 }
-
-const Map<Type, String> _shareModelMethodMapper = {
-  WeChatShareTextModel: "shareText",
-  WeChatShareImageModel: "shareImage",
-  WeChatShareMusicModel: "shareMusic",
-  WeChatShareVideoModel: "shareVideo",
-  WeChatShareWebPageModel: "shareWebPage",
-  WeChatShareMiniProgramModel: "shareMiniProgram"
-};
 
 ///[appId] is not necessary.
 ///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
@@ -108,11 +125,15 @@ Future register(
 }
 
 ///we don't need the response any longer if params are true.
-void dispose(
-    {shareResponse: true,
-    authResponse: true,
-    paymentResponse: true,
-    launchMiniProgramResponse: true}) {
+void dispose({
+  shareResponse: true,
+  authResponse: true,
+  paymentResponse: true,
+  launchMiniProgramResponse: true,
+  onAuthByQRCodeFinished: true,
+  onAuthGotQRCode: true,
+  onQRCodeScanned: true,
+}) {
   if (shareResponse) {
     _responseShareController.close();
   }
@@ -126,6 +147,18 @@ void dispose(
 
   if (paymentResponse) {
     _responseAuthController.close();
+  }
+
+  if (onAuthByQRCodeFinished) {
+    _authByQRCodeFinishedController.close();
+  }
+
+  if (onAuthGotQRCode) {
+    _onAuthGotQRCodeController.close();
+  }
+
+  if (onQRCodeScanned) {
+    _onQRCodeScannedController.close();
   }
 }
 
@@ -148,8 +181,12 @@ Future share(WeChatShareModel model) async {
   }
 }
 
-/// in order to get code from WeChat.
-/// for more information please visit：
+/// The WeChat-Login is under Auth-2.0
+/// This method login with native WeChat app.
+/// For users without WeChat app, please use [authByQRCode] instead
+/// This method only supports getting AuthCode,this is first step to login with WeChat
+/// Once AuthCode got, you need to request Access_Token
+/// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
 Future sendAuth({String openId, @required String scope, String state}) async {
   // "scope": scope, "state": state, "openId": openId
@@ -157,6 +194,39 @@ Future sendAuth({String openId, @required String scope, String state}) async {
   assert(scope != null && scope.trim().isNotEmpty);
   return await _channel.invokeMethod(
       "sendAuth", {"scope": scope, "state": state, "openId": openId});
+}
+
+/// Sometimes WeChat  is not installed on users's devices.However we can
+/// request a QRCode so that we can get AuthCode by scanning the QRCode
+/// All required params must not be null or empty
+/// [schemeData] only works on iOS
+/// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
+Future authByQRCode(
+    {@required String appId,
+    @required String scope,
+    @required String nonceStr,
+    @required String timeStamp,
+    @required String signature,
+    String schemeData}) async {
+  assert(appId != null && appId.isNotEmpty);
+  assert(scope != null && scope.isNotEmpty);
+  assert(nonceStr != null && nonceStr.isNotEmpty);
+  assert(timeStamp != null && timeStamp.isNotEmpty);
+  assert(signature != null && signature.isNotEmpty);
+
+  return await _channel.invokeMethod("authByQRCode", {
+    "appId": appId,
+    "scope": scope,
+    "nonceStr": nonceStr,
+    "timeStamp": timeStamp,
+    "signature": signature,
+    "schemeData": schemeData
+  });
+}
+
+/// stop auth
+Future stopAuthByQRCode() async {
+  return await _channel.invokeMethod("stopAuthByQRCode");
 }
 
 /// open mini-program
@@ -230,3 +300,28 @@ Future subscribeMsg({
     },
   );
 }
+
+_handleOnAuthByQRCodeFinished(MethodCall methodCall) {
+  int errCode = methodCall.arguments("errCode");
+  _authByQRCodeFinishedController.add(AuthByQRCodeResult(
+      methodCall.arguments("authCode"),
+      _authByQRCodeErrorCodes[errCode] ?? AuthByQRCodeErrorCode.UNKNOWN));
+}
+
+const Map<Type, String> _shareModelMethodMapper = {
+  WeChatShareTextModel: "shareText",
+  WeChatShareImageModel: "shareImage",
+  WeChatShareMusicModel: "shareMusic",
+  WeChatShareVideoModel: "shareVideo",
+  WeChatShareWebPageModel: "shareWebPage",
+  WeChatShareMiniProgramModel: "shareMiniProgram"
+};
+
+const Map<int, AuthByQRCodeErrorCode> _authByQRCodeErrorCodes = {
+  0: AuthByQRCodeErrorCode.OK,
+  -1: AuthByQRCodeErrorCode.NORMAL_ERR,
+  -2: AuthByQRCodeErrorCode.NETWORK_ERR,
+  -3: AuthByQRCodeErrorCode.JSON_DECODE_ERR,
+  -4: AuthByQRCodeErrorCode.CANCEL,
+  -5: AuthByQRCodeErrorCode.AUTH_STOPPED
+};

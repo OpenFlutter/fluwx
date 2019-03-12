@@ -7,7 +7,6 @@ class ShareMusicPage extends StatefulWidget {
 }
 
 class _ShareMusicPageState extends State<ShareMusicPage> {
-
   String _musicUrl =
       "http://staff2.ustc.edu.cn/~wdw/softdown/index.asp/0042515_05.ANDY.mp3";
   String _musicLowBandUrl = "http://www.qq.com";
@@ -19,7 +18,6 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

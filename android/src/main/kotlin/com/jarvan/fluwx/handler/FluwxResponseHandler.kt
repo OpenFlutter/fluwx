@@ -15,7 +15,6 @@
  */
 package com.jarvan.fluwx.handler
 
-import android.util.Log
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelbase.BaseResp
@@ -75,7 +74,7 @@ object FluwxResponseHandler {
 
 
         response.extMsg?.let {
-//            "extMsg" to response.extMsg,
+            //            "extMsg" to response.extMsg,
             result["extMsg"] = response.extMsg
         }
 

@@ -7,8 +7,6 @@ class LaunchMiniProgramPage extends StatefulWidget {
 }
 
 class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
-
-
   String _result = "无";
 
   @override
@@ -19,14 +17,12 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
         _result = "${data.extMsg}";
       });
     });
-
   }
 
   @override
   void dispose() {
     super.dispose();
     _result = null;
-
   }
 
   @override
@@ -39,9 +35,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
         children: <Widget>[
           OutlineButton(
             onPressed: () {
-              fluwx.launchMiniProgram(
-                username: "gh_d43f693ca31f"
-              ).then((data) {
+              fluwx.launchMiniProgram(username: "gh_d43f693ca31f").then((data) {
                 print(data);
               });
             },

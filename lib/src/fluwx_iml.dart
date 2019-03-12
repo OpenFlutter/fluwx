@@ -26,30 +26,35 @@ import 'utils/utils.dart';
 StreamController<WeChatShareResponse> _responseShareController =
     new StreamController.broadcast();
 
+/// Response from share
 Stream<WeChatShareResponse> get responseFromShare =>
     _responseShareController.stream;
 
 StreamController<WeChatAuthResponse> _responseAuthController =
     new StreamController.broadcast();
 
+/// Response from auth
 Stream<WeChatAuthResponse> get responseFromAuth =>
     _responseAuthController.stream;
 
 StreamController<WeChatPaymentResponse> _responsePaymentController =
     new StreamController.broadcast();
 
+///Response from payment
 Stream<WeChatPaymentResponse> get responseFromPayment =>
     _responsePaymentController.stream;
 
 Stream<WeChatLaunchMiniProgramResponse> get responseFromLaunchMiniProgram =>
     _responseLaunchMiniProgramController.stream;
 
+///Response from launching mini-program
 StreamController<WeChatLaunchMiniProgramResponse>
     _responseLaunchMiniProgramController = new StreamController.broadcast();
 
 StreamController<WeChatSubscribeMsgResp> _responseFromSubscribeMsg =
     new StreamController.broadcast();
 
+///Response from subscribing micro-message
 Stream<WeChatSubscribeMsgResp> get responseFromSubscribeMsg =>
     _responseFromSubscribeMsg.stream;
 

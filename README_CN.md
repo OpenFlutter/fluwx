@@ -22,7 +22,22 @@ QQ群：892398530。
 * 打开小程序。
 * 一次性订阅消息。
 
+## 引入
+在你的 `pubspec.yaml` 文件中添加如下依赖:
+```
+dependencies:
+  fluwx: ^${latestVersion}
+```
+> 当前版本为 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
+如果想用github上最新版本:
+
+```
+dependencies:
+  fluwx:
+    git:
+      url: https://github.com/OpenFlutter/fluwx
+```
 
 ## 初始化
 使用`Fluwx`前，需要进行初始化操作：

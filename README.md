@@ -23,6 +23,21 @@ QQ Group：892398530。
 * Launch Mini-Program.
 * Subscribe Message.
 
+## Dependencies
+Add the following dependencies in your `pubspec.yaml` file:
+```
+dependencies:
+  fluwx: ^${latestVersion}
+```
+> current version is ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+For using the snapshot:
+
+```
+dependencies:
+  fluwx:
+    git:
+      url: https://github.com/OpenFlutter/fluwx
+```
 
 ## Register WeChatSDK via Fluwx
 Before using`Fluwx`,you should init `FLuwx`：

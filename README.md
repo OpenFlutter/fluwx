@@ -23,6 +23,9 @@ QQ Group：892398530。
 * Launch Mini-Program.
 * Subscribe Message.
 
+## Sample
+[See sample here](./example)
+
 ## Dependencies
 
 Add the following dependencies in your `pubspec.yaml` file:

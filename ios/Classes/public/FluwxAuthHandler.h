@@ -7,9 +7,13 @@
 #import "FluwxPlugin.h"
 #import "WXApi.h"
 #import "WXApiRequestHandler.h"
+#import "WechatAuthSDK.h"
+
 @class StringUtil;
 
-@interface FluwxAuthHandler : NSObject
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
+@interface FluwxAuthHandler : NSObject <WechatAuthAPIDelegate>
+-(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar  methodChannel:(FlutterMethodChannel *)flutterMethodChannel;
 - (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result;
+- (void)authByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
+-(void) stopAuthByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end

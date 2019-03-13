@@ -34,14 +34,14 @@ FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
             methodChannelWithName:@"com.jarvanmo/fluwx"
                   binaryMessenger:[registrar messenger]];
 
-    FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar];
+    FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar methodChannel:channel];
     [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
 
 
 }
 
-- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar  methodChannel:(FlutterMethodChannel *)flutterMethodChannel {
     self = [super init];
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //                                             selector:@selector(handleOpenURL:)
@@ -49,7 +49,7 @@ FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
 //                                               object:nil];
     if (self) {
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
-        _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar];
+        _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar methodChannel:flutterMethodChannel] ;
         _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
         _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
         _fluwxLaunchMiniProgramHandler = [[FluwxLaunchMiniProgramHandler alloc] initWithRegistrar:registrar];
@@ -93,6 +93,16 @@ FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
     
     if([@"subscribeMsg" isEqualToString: call.method]){
         [_fluwxSubscribeMsgHandler handleSubscribeWithCall:call result:result];
+        return;
+    }
+
+    if([@"authByQRCode" isEqualToString:call.method]){
+        [_fluwxAuthHandler authByQRCode:call result:result];
+        return;
+    }
+
+    if([@"stopAuthByQRCode" isEqualToString:call.method]){
+        [_fluwxAuthHandler stopAuthByQRCode:call result:result];
         return;
     }
 

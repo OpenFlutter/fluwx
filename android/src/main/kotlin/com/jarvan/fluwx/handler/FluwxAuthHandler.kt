@@ -81,4 +81,8 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         result.success(qrCodeAuth.stopAuth())
     }
 
+    fun removeAllListeners(){
+        qrCodeAuth.removeAllListeners()
+    }
+
 }

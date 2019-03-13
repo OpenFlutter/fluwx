@@ -44,6 +44,10 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
     init {
         fluwxShareHandler.setRegistrar(registrar)
         fluwxShareHandler.setMethodChannel(channel)
+        registrar.addViewDestroyListener {
+            fluwxAuthHandler.removeAllListeners()
+            false
+        }
     }
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
@@ -102,4 +106,5 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
 
 
     }
+
 }

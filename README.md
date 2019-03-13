@@ -64,6 +64,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
 * [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
 * [Response](./doc/RESPONSE.md)
+* [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
 
 ### Other
 * [Using Swift?](./doc/USING_SWIFT.md)

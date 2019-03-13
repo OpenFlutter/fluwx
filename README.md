@@ -22,6 +22,7 @@ QQ Group：892398530。
 * Pay.
 * Launch Mini-Program.
 * Subscribe Message.
+* Auth By QRCode
 
 ## Sample
 [See sample here](./example)

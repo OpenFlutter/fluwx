@@ -17,7 +17,6 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
     super.initState();
 
     fluwx.onAuthByQRCodeFinished.listen((data){
-        print("----finished");
           setState(() {
             _status =
                 "errorCode=>${data.errorCode}\nauthCode=>${data.authCode}";

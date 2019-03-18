@@ -1,12 +1,30 @@
-### Summary
+## Summary
+
 `Fluwx` doesn't support all kind of sharing.Only text, image, web page,
 music, video and mini program are supported.We'll consider the more.
 More support will be considered in the future.
 .
 
+> NOTE：Images or thumbnails used for sharing only support `png`and`jpg`
 
- >  NOTE：Images or thumbnails used for sharing only support `png`and`jpg`.Network or assets images are OK.<br>
- >  However,using images from `assets`,you have to add a schema `assets://`。<br>
+### What kind of images are supported
+
+- Network images
+  
+- Assets Images
+
+- Local Images
+  
+However, developers must care about the following points:
+
+- Provide  schema `assets://` when using assets images.Query `?package=package_name` is neccessary when load images from particular package. Here's a full exmaple:`assets://path/to/your/image.png?package=fromPackage`
+- Provide  schema `file://` or `content://` when using local images, but `content://` only works on Android due to `FileProvider`.For example, `content://media/external/file`
+- Otherwise, network images by default.
+- `Fluwx` will create thumbnail from main image if no thumbnail is provided. 
+- Due to the limits of WeChat，the thumbnail must be smaller than 32k(mini-program's is 120k),  `Fluwx` will compress images before sharing if thumbnail is larger than that. But the result of compression is unpredictable.
+    
+ .Network or assets images are OK.<br>
+ >  However,using images from `assets`,you have to add a schema `assets://path/to/your/image.png?package=fromPackage`。<br>
  >  For assets image from  a particular package,you have to add a query param:`?package=package_name`<br>
  >  If you want to use local image,`file://` must be provided.For example, a local image path should be "file://path/to/your/image.jpg". <br>
  >  If no schema or wrong schema provided,`Fluwx` will load it as network image.Be careful<br>
@@ -14,7 +32,8 @@ More support will be considered in the future.
  >  a qualified thumbnail.Otherwise, `Fluwx` will compress it for you. The result of compression is unpredictable.<br>
  >  Considering that we may obtain a path such as *content://media/external/file* on Android, `fluwx` also support reading image or thumbnail from `content://`.<br>
  >  `content://` only works on Android.
-### The Destination
+
+## The Destination
     The destination of sharing can be SESSION(default),TIMELINE or FAVORITE.However,mini-program only support SESSION.
 ```dart
     ///[WeChatScene.SESSION]会话
@@ -26,17 +45,10 @@ More support will be considered in the future.
       FAVORITE
       }
 ```
-### Return
- the return value of `fluwx.share(model)` is `Map`：
-```dart
-    {
-       "platform":"Android",//or iOS
-       result:true //or false，depends on WXApi.sendRequest()
-     }
-```
 
 
-### Share Text
+
+## Share Text
 ```dart
   fluwx.share(WeChatShareTextModel(
       text: "text from fluwx",
@@ -44,7 +56,7 @@ More support will be considered in the future.
       scene: scene
     ));
 ```
-### Share Image
+## Share Image
 ```dart
  fluwx.share(WeChatShareImageModel(
         image: _imagePath,
@@ -55,7 +67,7 @@ More support will be considered in the future.
 ```
 >  NOTE：`Fluwx` will create thumbnail from `image` if thumbnail isn't provided.
 
-### Share Music
+## Share Music
 ```dart
   var model = WeChatShareMusicModel(
       title: _title,
@@ -69,7 +81,7 @@ More support will be considered in the future.
 ```
 Two kind of music：`musicUrl`和`musicLowBandUrl`.They are not coexisting，if both are assigned, only`musicUrl` will be used.
 
-### Share Video
+## Share Video
 ```dart
    var model = new WeChatShareVideoModel(
      videoUrl: _videoUrl,
@@ -83,7 +95,7 @@ Two kind of music：`musicUrl`和`musicLowBandUrl`.They are not coexisting，if 
 ```
 Two kind of video:`videoUrl`和`videoLowBandUrl`.They are not coexisting，if both are assigned, only `videoUrl` will be used.
 
-### Share Mini Program
+## Share Mini Program
 ```dart
  var model =new WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,

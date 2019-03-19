@@ -27,6 +27,8 @@ QQ群：892398530。
 ## 示例
 [点此查看示例](./example)
 
+[收费视频教程点这里](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
+
 
 ## 引入
 在你的 `pubspec.yaml` 文件中添加如下依赖:

@@ -25,7 +25,9 @@ QQ Group：892398530。
 * Auth By QRCode
 
 ## Sample
+
 [See sample here](./example)
+
 [watch charged video here](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
 
 ## Dependencies
@@ -36,6 +38,7 @@ Add the following dependencies in your `pubspec.yaml` file:
 dependencies:
   fluwx: ^${latestVersion}
 ```
+
 > Latest version is ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
 For using the snapshot:
@@ -48,7 +51,9 @@ dependencies:
 ```
 
 ## Register WeChatSDK via Fluwx
+
 Before using`Fluwx`,you should init `FLuwx`：
+
  ```dart
     import 'package:fluwx/fluwx.dart' as fluwx;
     fluwx.register(appId:"wxd930ea5d5a258f4f");
@@ -70,7 +75,9 @@ Before using`Fluwx`,you should init `FLuwx`：
 ### Other
 * [Using Swift?](./doc/USING_SWIFT.md)
 * [Having Questions?](./doc/QUESTIONS.md)
+
 ### Waiting
+
 ### Donate
 Buy the writer a cup of coffee。
 

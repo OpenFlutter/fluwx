@@ -71,9 +71,11 @@ dependencies:
 * [二维码登录](./doc/AUTH_BY_QR_CODE_CN.md)。
 
 
-### 其他
+### Q&A
+请先看文档，再看Q&A，再查看issue，自我排查错误，方便你我他。依然无法解决的问题可以加群提问。
 * [使用Swift?](./doc/USING_SWIFT_CN.md)
-* [有问题?](./doc/QUESTIONS_CN.md)
+* [常见问题Q&A](./doc/QUESTIONS_CN.md)
+
 
 ### 更多功能敬请请期待
 

@@ -50,5 +50,6 @@
     [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
     
     return mutStr;
+}
 
 @end

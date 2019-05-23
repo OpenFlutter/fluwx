@@ -172,6 +172,14 @@ class ShareSelectorPage extends StatelessWidget {
                 },
                 child: const Text("SignAuto-deduct")),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  fluwx.openWeChatApp();
+                },
+                child: const Text("Open WeChat App")),
+          ),
         ],
       ),
     );

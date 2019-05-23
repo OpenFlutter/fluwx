@@ -311,6 +311,8 @@ Future subscribeMsg({
   );
 }
 
+
+/// please read official docs.
 Future autoDeDuct({
   @required String appId,
   @required String mchId,
@@ -339,6 +341,10 @@ Future autoDeDuct({
     'return_app': returnApp,
     "businessType" : businessType
   });
+}
+
+Future<bool> openWeChatApp() async{
+  return await _channel.invokeMethod("openWXApp");
 }
 
 _handleOnAuthByQRCodeFinished(MethodCall methodCall) {

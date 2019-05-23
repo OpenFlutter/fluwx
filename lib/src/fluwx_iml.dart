@@ -78,9 +78,8 @@ StreamController _onQRCodeScannedController = new StreamController();
 ///after uer scanned the QRCode you just received
 Stream get onQRCodeScanned => _onQRCodeScannedController.stream;
 
-
 StreamController<WeChatAutoDeductResponse> _responseAutoDeductController =
-new StreamController.broadcast();
+    new StreamController.broadcast();
 
 /// Response from AutoDeduct
 Stream<WeChatAutoDeductResponse> get responseFromAutoDeduct =>
@@ -111,8 +110,9 @@ Future<dynamic> _handler(MethodCall methodCall) {
     _onAuthGotQRCodeController.add(methodCall.arguments);
   } else if ("onQRCodeScanned" == methodCall.method) {
     _onQRCodeScannedController.add(null);
-  } else if("onAutoDeductResponse" == methodCall.method){
-    _responseAutoDeductController.add(WeChatAutoDeductResponse.fromMap(methodCall.arguments));
+  } else if ("onAutoDeductResponse" == methodCall.method) {
+    _responseAutoDeductController
+        .add(WeChatAutoDeductResponse.fromMap(methodCall.arguments));
   }
 
   return Future.value(true);
@@ -311,22 +311,20 @@ Future subscribeMsg({
   );
 }
 
-
 /// please read official docs.
-Future autoDeDuct({
-  @required String appId,
-  @required String mchId,
-  @required String planId,
-  @required String contractCode,
-  @required String requestSerial,
-  @required String contractDisplayAccount,
-  @required String notifyUrl,
-  @required String version,
-  @required String sign,
-  @required String timestamp,
-  String returnApp = '3',
-  int businessType = 12
-}) async {
+Future autoDeDuct(
+    {@required String appId,
+    @required String mchId,
+    @required String planId,
+    @required String contractCode,
+    @required String requestSerial,
+    @required String contractDisplayAccount,
+    @required String notifyUrl,
+    @required String version,
+    @required String sign,
+    @required String timestamp,
+    String returnApp = '3',
+    int businessType = 12}) async {
   return await _channel.invokeMethod("autoDeduct", {
     'appid': appId,
     'mch_id': mchId,
@@ -339,11 +337,11 @@ Future autoDeDuct({
     'sign': sign,
     'timestamp': timestamp,
     'return_app': returnApp,
-    "businessType" : businessType
+    "businessType": businessType
   });
 }
 
-Future<bool> openWeChatApp() async{
+Future<bool> openWeChatApp() async {
   return await _channel.invokeMethod("openWXApp");
 }
 

@@ -22,8 +22,9 @@ QQ Group：892398530。
 * Pay.
 * Launch Mini-Program.
 * Subscribe Message.
-* Auth By QRCode
-* Sign Auto-Deduct
+* Auth By QRCode.
+* Sign Auto-Deduct.
+* Open WeChat App.
 
 ## Sample
 

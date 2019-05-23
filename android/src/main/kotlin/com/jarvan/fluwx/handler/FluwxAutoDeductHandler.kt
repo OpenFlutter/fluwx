@@ -22,17 +22,17 @@ class FluwxAutoDeductHandler {
         val returnApp = call.argument<String>("return_app") ?: ""
 
         val map = HashMap<String,String>()
-        map.put("appid",appId)
-        map.put("mch_id",mchId)
-        map.put("plan_id",planId)
-        map.put("contract_code",contractCode)
-        map.put("request_serial",requestSerial)
-        map.put("contract_display_account",contractDisplayAccount)
-        map.put("notify_url",notifyUrl)
-        map.put("version",version)
-        map.put("sign",sign)
-        map.put("timestamp",timestamp)
-        map.put("return_app",returnApp)
+        map["appid"] = appId
+        map["mch_id"] = mchId
+        map["plan_id"] = planId
+        map["contract_code"] = contractCode
+        map["request_serial"] = requestSerial
+        map["contract_display_account"] = contractDisplayAccount
+        map["notify_url"] = notifyUrl
+        map["version"] = version
+        map["sign"] = sign
+        map["timestamp"] = timestamp
+        map["return_app"] = returnApp
 
 
         val req = WXOpenBusinessWebview.Req()

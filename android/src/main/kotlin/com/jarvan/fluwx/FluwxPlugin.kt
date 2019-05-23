@@ -104,6 +104,12 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
             return
         }
 
+        if ("openWXApp" == call.method){
+            val isSent = WXAPiHandler.wxApi?.openWXApp()?:false
+            result.success(isSent)
+            return
+        }
+
         if (call.method.startsWith("share")) {
             fluwxShareHandler.handle(call, result)
         } else {

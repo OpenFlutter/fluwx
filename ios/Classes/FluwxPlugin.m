@@ -113,6 +113,11 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
         return;
     }
 
+
+    if([@"openWXApp" isEqualToString:call.method]){
+        result(@([WXApi openWXApp]));
+        return;
+    }
     if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
         return;

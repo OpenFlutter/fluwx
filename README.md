@@ -23,6 +23,7 @@ QQ Group：892398530。
 * Launch Mini-Program.
 * Subscribe Message.
 * Auth By QRCode
+* Sign Auto-Deduct
 
 ## Sample
 
@@ -71,7 +72,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
 * [Response](./doc/RESPONSE.md)
 * [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
-
+* [Sign Auto-Deduct](./doc/AUTO_DEDUCT.md)
 ### Other
 * [Using Swift?](./doc/USING_SWIFT.md)
 * [Having Questions?](./doc/QUESTIONS.md)

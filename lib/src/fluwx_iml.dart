@@ -301,6 +301,34 @@ Future subscribeMsg({
   );
 }
 
+Future autoDeDuct({
+  @required String appId,
+  @required String mchId,
+  @required String planId,
+  @required String contractCode,
+  @required String requestSerial,
+  @required String contractDisplayAccount,
+  @required String notifyUrl,
+  @required String version,
+  @required String sign,
+  @required String timestamp,
+  String returnApp = '3',
+}) async {
+  return await _channel.invokeMethod("autoDeduct", {
+    'appid': appId,
+    'mch_id': mchId,
+    'plan_id': planId,
+    'contract_code': contractCode,
+    'request_serial': requestSerial,
+    'contract_display_account': contractDisplayAccount,
+    'notify_url': notifyUrl,
+    'version': version,
+    'sign': sign,
+    'timestamp': timestamp,
+    'return_app': returnApp,
+  });
+}
+
 _handleOnAuthByQRCodeFinished(MethodCall methodCall) {
   int errCode = methodCall.arguments["errCode"];
   _authByQRCodeFinishedController.add(AuthByQRCodeResult(

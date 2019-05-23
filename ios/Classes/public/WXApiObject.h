@@ -404,7 +404,7 @@ typedef void(^WXLogBolock)(NSString *log);
  *
  *
  */
-@interface WXOpenBusinessWebViewReq : BaseReq
+@interface WXOpenBusinessWebViewReq : BaseReq   
 
 /** 网页业务类型
  * @attention

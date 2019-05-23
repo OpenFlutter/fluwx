@@ -10,6 +10,7 @@
 #import "FluwxShareHandler.h"
 #import "FluwxLaunchMiniProgramHandler.h"
 #import "FluwxSubscribeMsgHandler.h"
+#import "FluwxAutoDeductHandler.h"
 
 @implementation FluwxPlugin
 
@@ -23,6 +24,7 @@ FluwxWXApiHandler *_fluwxWXApiHandler;
 FluwxPaymentHandler *_fluwxPaymentHandler;
 FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
 FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
+FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
 
 - (void)dealloc
 {
@@ -54,6 +56,7 @@ FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
         _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
         _fluwxLaunchMiniProgramHandler = [[FluwxLaunchMiniProgramHandler alloc] initWithRegistrar:registrar];
         _fluwxSubscribeMsgHandler = [[FluwxSubscribeMsgHandler alloc] initWithRegistrar:registrar];
+        _fluwxAutoDeductHandler =[[FluwxAutoDeductHandler alloc] initWithRegistrar:registrar];
     }
 
     return self;
@@ -103,6 +106,10 @@ FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
 
     if([@"stopAuthByQRCode" isEqualToString:call.method]){
         [_fluwxAuthHandler stopAuthByQRCode:call result:result];
+        return;
+    }
+    if([@"autoDeduct" isEqualToString:call.method]){
+        [_fluwxAutoDeductHandler handleAutoDeductWithCall:call result:result];
         return;
     }
 

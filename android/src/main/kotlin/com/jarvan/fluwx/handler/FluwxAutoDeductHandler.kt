@@ -20,6 +20,7 @@ class FluwxAutoDeductHandler {
         val sign = call.argument<String>("sign") ?: ""
         val timestamp = call.argument<String>("timestamp") ?: ""
         val returnApp = call.argument<String>("return_app") ?: ""
+        val businessType = call.argument<Int>("businessType")?:12
 
         val map = HashMap<String,String>()
         map["appid"] = appId
@@ -36,7 +37,7 @@ class FluwxAutoDeductHandler {
 
 
         val req = WXOpenBusinessWebview.Req()
-        req.businessType = 12
+        req.businessType = businessType
         req.queryInfo = map
         val b = WXAPiHandler.wxApi?.sendReq(req)
         result.success(b)

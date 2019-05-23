@@ -21,9 +21,12 @@
 
 -(void)handleAutoDeductWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *params = call.arguments;
+    NSMutableDictionary *paramsFromDart = [NSMutableDictionary dictionaryWithDictionary:call.arguments];
+    [paramsFromDart removeObjectForKey:@"businessType"];
     WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
-    req.businessType = 12;
-    req.queryInfoDic = params;
+    NSNumber * businessType =  call.arguments[@"businessType"];
+    req.businessType = [businessType unsignedIntValue];
+    req.queryInfoDic = paramsFromDart;
     BOOL b = [WXApi sendReq:req];
     
     result(@(b));

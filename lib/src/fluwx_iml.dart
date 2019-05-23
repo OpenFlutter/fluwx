@@ -78,6 +78,14 @@ StreamController _onQRCodeScannedController = new StreamController();
 ///after uer scanned the QRCode you just received
 Stream get onQRCodeScanned => _onQRCodeScannedController.stream;
 
+
+StreamController<WeChatAutoDeductResponse> _responseAutoDeductController =
+new StreamController.broadcast();
+
+/// Response from AutoDeduct
+Stream<WeChatAutoDeductResponse> get responseFromAutoDeduct =>
+    _responseAutoDeductController.stream;
+
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
 
@@ -103,6 +111,8 @@ Future<dynamic> _handler(MethodCall methodCall) {
     _onAuthGotQRCodeController.add(methodCall.arguments);
   } else if ("onQRCodeScanned" == methodCall.method) {
     _onQRCodeScannedController.add(null);
+  } else if("onAutoDeductResponse" == methodCall.method){
+    _responseAutoDeductController.add(WeChatAutoDeductResponse.fromMap(methodCall.arguments));
   }
 
   return Future.value(true);
@@ -313,6 +323,7 @@ Future autoDeDuct({
   @required String sign,
   @required String timestamp,
   String returnApp = '3',
+  int businessType = 12
 }) async {
   return await _channel.invokeMethod("autoDeduct", {
     'appid': appId,
@@ -326,6 +337,7 @@ Future autoDeDuct({
     'sign': sign,
     'timestamp': timestamp,
     'return_app': returnApp,
+    "businessType" : businessType
   });
 }
 

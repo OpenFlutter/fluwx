@@ -156,7 +156,7 @@ void dispose({
   }
 
   if (paymentResponse) {
-    _responseAuthController.close();
+    _responsePaymentController.close();
   }
 
   if (onAuthByQRCodeFinished) {

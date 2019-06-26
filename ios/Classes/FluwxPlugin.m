@@ -39,7 +39,7 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar methodChannel:channel];
     [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
-
+    [registrar addApplicationDelegate:instance];
 
 }
 
@@ -126,6 +126,16 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
     }
 
 
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+// NOTE: 9.0以后使用新API接口
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+
+    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
 

@@ -55,11 +55,11 @@ internal class FluwxShareHandler {
             result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
             return
         }
-
-        if (!WXAPiHandler.wxApi!!.isWXAppInstalled) {
-            result.error(CallResult.RESULT_WE_CHAT_NOT_INSTALLED, CallResult.RESULT_WE_CHAT_NOT_INSTALLED, null)
-            return
-        }
+//
+//        if (!WXAPiHandler.wxApi!!.isWXAppInstalled) {
+//            result.error(CallResult.RESULT_WE_CHAT_NOT_INSTALLED, CallResult.RESULT_WE_CHAT_NOT_INSTALLED, null)
+//            return
+//        }
 
         when (call.method) {
             WeChatPluginMethods.SHARE_TEXT -> shareText(call, result)

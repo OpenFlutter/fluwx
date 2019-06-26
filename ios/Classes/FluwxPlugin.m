@@ -136,7 +136,7 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
 
-    [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]]
+    [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
     return NO;
 }
 

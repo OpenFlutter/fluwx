@@ -37,11 +37,11 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         result([FlutterError errorWithCode:resultErrorNeedWeChat message:resultMessageNeedWeChat details:nil]);
         return;
     }
-
-    if (![WXApi isWXAppInstalled]) {
-        result([FlutterError errorWithCode:@"wechat not installed" message:@"wechat not installed" details:nil]);
-        return;
-    }
+//
+//    if (![WXApi isWXAppInstalled]) {
+//        result([FlutterError errorWithCode:@"wechat not installed" message:@"wechat not installed" details:nil]);
+//        return;
+//    }
 
     if ([shareText isEqualToString:call.method]) {
         [self shareText:call result:result];

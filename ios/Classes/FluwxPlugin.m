@@ -126,8 +126,7 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
-    return NO;
+    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
 // NOTE: 9.0以后使用新API接口

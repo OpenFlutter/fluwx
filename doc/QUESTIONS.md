@@ -26,7 +26,7 @@ Check your signature please.
 There's no need to override `AppDelegate` since `fluwx 1.0.0`. If you have did thad before, please remove 
 the following code in your `AppDelegate`:
 
-```
+```objective-c
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
@@ -38,7 +38,7 @@ the following code in your `AppDelegate`:
 ```
 
 If you have to override these two functions,make sure you have called the `super`:
-```
+```objective-c
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     

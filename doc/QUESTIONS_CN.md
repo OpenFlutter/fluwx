@@ -43,7 +43,7 @@ iOS 9系统策略更新，限制了http协议的访问，此外应用需要在�
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
@@ -56,7 +56,7 @@ iOS 9系统策略更新，限制了http协议的访问，此外应用需要在�
     
   return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
     
   return [super application:app openURL:url options:options];

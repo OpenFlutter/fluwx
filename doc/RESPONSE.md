@@ -84,7 +84,8 @@ can inherit `FluwxWXEntryActivity` for convenience.Then register `WXEntryActivit
 
  ```
 ### iOS
-override the following function in`AppDelegate`:
+don't override this since 1.0.0:
+~~override the following function in`AppDelegate`:~~
 ```objective-c
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];

@@ -83,7 +83,8 @@
 
 ```
 ### iOS
-在你的`AppDelegate`中重写下面方法：
+从1.0.0开始以下作废
+~~在你的`AppDelegate`中重写下面方法~~：
 ```objective-c
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
   return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];

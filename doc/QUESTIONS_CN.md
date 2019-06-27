@@ -59,7 +59,7 @@ iOS 9系统策略更新，限制了http协议的访问，此外应用需要在�
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
 {
     
-  return [super application:app openURL:url options:options];
+  return [super application:application openURL:url options:options];
 }
 ```
 

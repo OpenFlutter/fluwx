@@ -32,6 +32,8 @@ QQ Group：892398530。
 
 [watch charged video here](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
 
+[upgrade to 1.0.0 or above](./doc/QUESTIONS.md)
+
 ## Dependencies
 
 Add the following dependencies in your `pubspec.yaml` file:
@@ -71,11 +73,10 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Payment](./doc/WXPay.md)
 * [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
 * [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
-* [Response](./doc/RESPONSE.md)
 * [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
 * [Sign Auto-Deduct](./doc/AUTO_DEDUCT.md)
+
 ### Other
-* [Using Swift?](./doc/USING_SWIFT.md)
 * [Having Questions?](./doc/QUESTIONS.md)
 
 ### Waiting

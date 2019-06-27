@@ -1,3 +1,5 @@
+
+
 **！！！！请先看[文档](https://github.com/OpenFlutter/fluwx/blob/master/README_CN.md)，再看常见Q&A，再查看issue，自我排查错误，方便你我他。依然无法解决的问题可以加群提问， QQ Group：892398530。！！！！**
 
 ## 常见Q&A
@@ -10,7 +12,7 @@
 ```
 buildscript {
 	······
-	ext.kotlin_version = '1.3.11'
+	ext.kotlin_version = '1.3.31'
 	······
 }
 ```
@@ -30,6 +32,35 @@ iOS 9系统策略更新，限制了http协议的访问，此外应用需要在�
 <key>NSAllowsArbitraryLoads</key>
 <true/>
 </dict>
+```
+
+## iOS上升级到1.0.0 后无法接收回调
+
+从`fluwx 1.0.0`开始开发者不必重写`AppDelegate`了。如果你以前重写了这个方法,请在 `AppDelegate`中删除相应的代码:
+
+```
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+```
+
+如果一定要重写这2个方法,请确保你调用了 `super`:
+```
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+  return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    
+  return [super application:app openURL:url options:options];
+}
 ```
 
 #### 如果没有安装微信，微信登录不了，导致iOS审核失败

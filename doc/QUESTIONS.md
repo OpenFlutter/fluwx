@@ -21,6 +21,36 @@ Check your signature please.
 [Failed to notify project evalution listener](https://www.jianshu.com/p/f74fed94be96)
 
 
+## Can't receive response  after upgrading to 1.0.0 on iOS
+
+There's no need to override `AppDelegate` since `fluwx 1.0.0`. If you have did thad before, please remove 
+the following code in your `AppDelegate`:
+
+```
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+}
+```
+
+If you have to override these two functions,make sure you have called the `super`:
+```
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+  return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    
+  return [super application:app openURL:url options:options];
+}
+```
+
 **！！！！请先看[文档](https://github.com/OpenFlutter/fluwx/blob/master/README_CN.md)，再看常见Q&A，再查看issue，自我排查错误，方便你我他。依然无法解决的问题可以加群提问， QQ Group：892398530。！！！！**
 
 ## 常见Q&A

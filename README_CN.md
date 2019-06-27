@@ -31,6 +31,7 @@ QQ群：892398530。
 
 [收费视频教程点这里](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
 
+[升级到1.0.0或者更高](./doc/QUESTIONS_CN.md)
 
 ## 引入
 
@@ -67,14 +68,12 @@ dependencies:
 * [Auth](./doc/SEND_AUTH_CN.md)。
 * [支付](./doc/WXPay_CN.md)。
 * [打开小程序](./doc/LAUNCH_MINI_PROGRAM_CN.md)。
-* [一次性订阅消息](./doc/SUBSCRIBE_MESSAGE_CN.md)。
-* [微信回调](./doc/RESPONSE_CN.md)。
+* [一次性订阅消息](./doc/SUBSCRIBE_MESSAGE_CN.md)。。
 * [二维码登录](./doc/AUTH_BY_QR_CODE_CN.md)。
 * [签约免密支付](./doc/AUTO_DEDUCT_CN.md)。
 
 ### Q&A
 请先看文档，再看Q&A，再查看issue，自我排查错误，方便你我他。依然无法解决的问题可以加群提问。
-* [使用Swift?](./doc/USING_SWIFT_CN.md)
 * [常见问题Q&A](./doc/QUESTIONS_CN.md)
 
 
@@ -87,6 +86,8 @@ dependencies:
 
 ### 欢迎关注公众号
 ![subscribe](./arts/wx_subscription.png)
+
+
 ## LICENSE
 
 

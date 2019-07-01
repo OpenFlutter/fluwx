@@ -83,7 +83,7 @@ Two kind of music：`musicUrl`和`musicLowBandUrl`.They are not coexisting，if 
 
 ## Share Video
 ```dart
-   var model = new WeChatShareVideoModel(
+   var model = fluwx.WeChatShareVideoModel(
      videoUrl: _videoUrl,
      transaction: "video",
      videoLowBandUrl: _videoLowBandUrl,
@@ -97,7 +97,7 @@ Two kind of video:`videoUrl`和`videoLowBandUrl`.They are not coexisting，if bo
 
 ## Share Mini Program
 ```dart
- var model =new WeChatShareMiniProgramModel(
+ var model = fluwx.WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,
       miniProgramType:fluwx.WXMiniProgramType.RELEASE,
       userName: _userName,

@@ -37,7 +37,7 @@
 ## 分享文本
 
 ```dart
-  fluwx.share(WeChatShareTextModel(
+  fluwx.share(fluwx.WeChatShareTextModel(
       text: "text from fluwx",
       transaction: "transaction}",//仅在android上有效，下同。
       scene: scene
@@ -47,7 +47,7 @@
 ## 分享图片
 
 ```dart
- fluwx.share(WeChatShareImageModel(
+ fluwx.share(fluwx.WeChatShareImageModel(
         image: _imagePath,
         thumbnail: _thumbnail,
         transaction: _imagePath,
@@ -60,7 +60,7 @@
 ## 分享音乐
 
 ```dart
-  var model = WeChatShareMusicModel(
+  var model = fluwx.WeChatShareMusicModel(
       title: _title,
       description: _description,
       transaction: "music",
@@ -77,7 +77,7 @@
 ## 分享视频
 
 ```dart
-   var model = new WeChatShareVideoModel(
+   var model = fluwx.WeChatShareVideoModel(
      videoUrl: _videoUrl,
      transaction: "video",
      videoLowBandUrl: _videoLowBandUrl,
@@ -94,7 +94,7 @@
 ### 分享小程序
 
 ```dart
- var model =new WeChatShareMiniProgramModel(
+ var model = fluwx.WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,
       miniProgramType: fluwx.WXMiniProgramType.RELEASE,
       userName: _userName,

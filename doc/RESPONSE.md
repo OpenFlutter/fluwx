@@ -25,8 +25,6 @@ enum WeChatResponseType {
     AUTH,
     PAYMENT }
 ```
-`result` is the real response from WeChat，it's a `Map`, read the WeChat documents for more details.
-Howver,there an addtional param  `platform`，the value of `platform` is `android`or`iOS`.
 
 
 

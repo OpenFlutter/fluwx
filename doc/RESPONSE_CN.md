@@ -1,6 +1,24 @@
 ### 微信调回
 微信的回调也要根据平台的不同进行差异化处理(如果你不需要回调，请忽略)。
 
+
+### Flutter
+```dart
+        fluwx.responseFromShare.listen((response){
+          //do something
+        });
+        fluwx.responseFromAuth.listen((response){
+          //do something
+        });
+        fluwx.responseFromPayment.listen((response){
+          //do something
+        });
+```
+
+> 注意：如果一个字段以*android*或者*iOS*开头，那么意味这个字段只存在于*android*或者*iOS*。
+
+
+
 ### Android
 从*0.4.0*开始，开发者不必手动添加`WXEntryActivity`和`WXPayEntryActivity`了，所以下面的不是必需要的了：
 ~~由于机制问题，`Android`端需要在`WXEntryActivity`或`WXPayEntryActivity`中添加如下代码：~~
@@ -97,18 +115,3 @@
 
 ```
 > 注意：为了能够返回你的app，请不要忘记添加URL Schema。
-
-### Flutter
-```dart
-        fluwx.responseFromShare.listen((response){
-          //do something
-        });
-        fluwx.responseFromAuth.listen((response){
-          //do something
-        });
-        fluwx.responseFromPayment.listen((response){
-          //do something
-        });
-```
-
-> 注意：如果一个字段以*android*或者*iOS*开头，那么意味这个字段只存在于*android*或者*iOS*。

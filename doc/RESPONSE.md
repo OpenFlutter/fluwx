@@ -1,6 +1,37 @@
 ### Response From WeChat
 There's some work we have to do on the particular platform(if you don't need this,just ignore).
 
+
+
+### Flutter
+We can get the reponse from WeChat after sharing and etc:
+```dart
+       fluwx.responseFromShare.listen((response){
+         //do something
+       });
+       fluwx.responseFromAuth.listen((response){
+         //do something
+       });
+       fluwx.responseFromPayment.listen((response){
+         //do something
+       });
+```
+> NOTE:If the field starts with "android" or "iOS", it means that only android or iOS has the field.
+
+The type of return value is `WeChatResponse`，and  `type` is an enum:
+```dart
+enum WeChatResponseType {
+    SHARE,
+    AUTH,
+    PAYMENT }
+```
+`result` is the real response from WeChat，it's a `Map`, read the WeChat documents for more details.
+Howver,there an addtional param  `platform`，the value of `platform` is `android`or`iOS`.
+
+
+
+
+
 ### Android
 Fluwx will create `WXEntryActivity`or`WXPayEntryActivity` by itself since *0.4.0*. So the following
 code isn't necessary.
@@ -100,27 +131,4 @@ don't override this since 1.0.0:
 
 > NOTE:Don't forget to add URL Schema in order to go back to  your app.
 
-### Flutter
-We can get the reponse from WeChat after sharing and etc:
-```dart
-       fluwx.responseFromShare.listen((response){
-         //do something
-       });
-       fluwx.responseFromAuth.listen((response){
-         //do something
-       });
-       fluwx.responseFromPayment.listen((response){
-         //do something
-       });
-```
-> NOTE:If the field starts with "android" or "iOS", it means that only android or iOS has the field.
 
-The type of return value is `WeChatResponse`，and  `type` is an enum:
-```dart
-enum WeChatResponseType {
-    SHARE,
-    AUTH,
-    PAYMENT }
-```
-`result` is the real response from WeChat，it's a `Map`, read the WeChat documents for more details.
-Howver,there an addtional param  `platform`，the value of `platform` is `android`or`iOS`.

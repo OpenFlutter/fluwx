@@ -26,10 +26,7 @@
         return;
     }
 
-    if (![WXApi isWXAppInstalled]) {
-        result([FlutterError errorWithCode:@"wechat not installed" message:@"wechat not installed" details:nil]);
-        return;
-    }
+
 
     NSNumber * timestamp =  call.arguments[@"timeStamp"];
 

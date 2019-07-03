@@ -15,6 +15,7 @@
  */
 package com.jarvan.fluwx.handler
 
+import android.util.Log
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
@@ -25,6 +26,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
+import java.io.ByteArrayInputStream
 
 
 /***
@@ -170,11 +172,31 @@ internal class FluwxShareHandler {
             val byteArray: ByteArray? = if (imagePath.isNullOrBlank()) {
                 byteArrayOf()
             } else {
-                getImageByteArrayCommon(registrar, imagePath!!)
+                getImageByteArrayCommon(registrar, imagePath)
             }
 
+
+
+
             val imgObj = if (byteArray != null && byteArray.isNotEmpty()) {
-                WXImageObject(byteArray)
+
+                if (byteArray.size > 512 * 1024){
+                    val input = ByteArrayInputStream(byteArray)
+
+                    val suffix  = when {
+                        imagePath.isNullOrBlank() -> ".jpeg"
+                        imagePath.lastIndexOf(".") == -1 -> ".jpeg"
+                        else -> imagePath.substring(imagePath.lastIndexOf("."))
+                    }
+
+                    val file = ShareImageUtil.inputStreamToFile(input,suffix,registrar!!.context())
+                    WXImageObject().apply {
+                        setImagePath(file.absolutePath)
+                    }
+                }else{
+                    WXImageObject(byteArray)
+                }
+
             } else {
                 null
             }

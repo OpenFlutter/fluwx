@@ -17,16 +17,16 @@
 //  return  [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 //}
 //
-//
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
-}
-// NOTE: 9.0以后使用新API接口
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
-{
 
-  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
-}
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//    [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+//  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+//}
+//- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+//{
+//    [super application:app openURL:url options:options];
+//  return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+//}
 
 
 

@@ -20,6 +20,7 @@ import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
+import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelpay.PayResp
@@ -46,6 +47,7 @@ object FluwxResponseHandler {
             is PayResp -> handlePayResp(response)
             is WXLaunchMiniProgram.Resp -> handleLaunchMiniProgramResponse(response)
             is SubscribeMessage.Resp -> handleSubscribeMessage(response)
+            is WXOpenBusinessWebview.Resp -> handlerWXOpenBusinessWebviewResponse(response)
         }
     }
 
@@ -130,5 +132,21 @@ object FluwxResponseHandler {
         channel?.invokeMethod("onAuthResponse", result)
     }
 
+
+    private fun handlerWXOpenBusinessWebviewResponse(response:WXOpenBusinessWebview.Resp){
+        val result = mapOf(
+                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                errCode to response.errCode,
+                "businessType" to response.businessType,
+                "resultInfo" to response.resultInfo,
+                errStr to response.errStr,
+                openId to response.openId,
+                type to response.type,
+                WechatPluginKeys.TRANSACTION to response.transaction
+        )
+
+        channel?.invokeMethod("onAutoDeductResponse", result)
+
+    }
 
 }

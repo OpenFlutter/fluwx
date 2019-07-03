@@ -59,7 +59,9 @@ xml
 </dict>
 ```
 
-### iOS上升级到1.0.0 后无法接收回调
+
+#### iOS上升级到1.0.0 后无法接收回调
+
 
 从`fluwx 1.0.0`开始开发者不必重写`AppDelegate`了。如果你以前重写了这个方法,请在 `AppDelegate`中删除相应的代码:
 
@@ -88,7 +90,9 @@ xml
 }
 ```
 
-### 没有安装微信，微信登录不了，导致iOS审核失败
+
+#### 如果没有安装微信，微信登录不了，导致iOS审核失败
+
 fluwx提供了检查用户是否安装微信的方法：```isWeChatInstalled()```，iOS使用微信相关功能前，务必先检查微信是否安装。
 
 ### Failed to notify project evalution listener

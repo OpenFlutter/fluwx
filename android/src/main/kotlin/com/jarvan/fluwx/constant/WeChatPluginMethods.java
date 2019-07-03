@@ -26,4 +26,6 @@ public class WeChatPluginMethods {
     public static final String WE_CHAT_PAY_RESPONSE = "onPayResponse";
 
     public static final String SUBSCRIBE_MSG = "subscribeMsg";
+
+    public static final String AUTO_DEDUCT = "autoDeduct";
 }

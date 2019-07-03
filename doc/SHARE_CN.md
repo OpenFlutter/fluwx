@@ -37,7 +37,7 @@
 ## 分享文本
 
 ```dart
-  fluwx.share(WeChatShareTextModel(
+  fluwx.share(fluwx.WeChatShareTextModel(
       text: "text from fluwx",
       transaction: "transaction}",//仅在android上有效，下同。
       scene: scene
@@ -47,7 +47,7 @@
 ## 分享图片
 
 ```dart
- fluwx.share(WeChatShareImageModel(
+ fluwx.share(fluwx.WeChatShareImageModel(
         image: _imagePath,
         thumbnail: _thumbnail,
         transaction: _imagePath,
@@ -57,10 +57,24 @@
 
 > 注意：如果不指定 `thumbnail`，那么`Fluwx`将尝试从`image`中获取缩略图。
 
+
+好吧，让我们谈谈在Android上分享大图，如果说你要分享的图片小于512k（实际上是因为`Intent`传值是不能超过512k的），一切都可以正常工作。
+但是如果你要分享的图片大于512k,那么请保证你的app有以下的权限：
+
+```xml
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+```
+如果`Fluwx`没有以上的权限，那么是无法完成分享的，因为要分享的图片将会被存储在以下位置:
+
+```kotlin
+ context.getExternalCacheDir()
+```
+为什么? 因为`Intent`有限制. 如果有人知道更好的解决方案,请直接PR或者告诉我。
+
 ## 分享音乐
 
 ```dart
-  var model = WeChatShareMusicModel(
+  var model = fluwx.WeChatShareMusicModel(
       title: _title,
       description: _description,
       transaction: "music",
@@ -77,7 +91,7 @@
 ## 分享视频
 
 ```dart
-   var model = new WeChatShareVideoModel(
+   var model = fluwx.WeChatShareVideoModel(
      videoUrl: _videoUrl,
      transaction: "video",
      videoLowBandUrl: _videoLowBandUrl,
@@ -94,7 +108,7 @@
 ### 分享小程序
 
 ```dart
- var model =new WeChatShareMiniProgramModel(
+ var model = fluwx.WeChatShareMiniProgramModel(
       webPageUrl: _webPageUrl,
       miniProgramType: fluwx.WXMiniProgramType.RELEASE,
       userName: _userName,

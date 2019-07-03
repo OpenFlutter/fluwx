@@ -130,3 +130,24 @@ class WeChatSubscribeMsgResp {
         reserved = map["reserved"],
         scene = map["scene"];
 }
+
+class WeChatAutoDeductResponse {
+  final String errStr;
+  final int type;
+  final String platform;
+  final int errCode;
+  final int businessType;
+  final String resultInfo;
+  final String androidTransaction;
+  final String androidOpenId;
+
+  WeChatAutoDeductResponse.fromMap(Map map)
+      : platform = map["platform"],
+        errStr = map["errStr"],
+        androidTransaction = map["transaction"],
+        type = map["type"],
+        errCode = map["errCode"],
+        androidOpenId = map["openId"],
+        businessType = map["businessType"],
+        resultInfo = map["resultInfo"];
+}

@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
-import 'package:fluwx_example/launch_mini_program_page.dart';
-import 'package:fluwx_example/subscribe_message_page.dart';
+
+import 'launch_mini_program_page.dart';
+import 'subscribe_message_page.dart';
 
 import 'auth_by_qr_code_page.dart';
 import 'pay_page.dart';
@@ -14,6 +15,7 @@ import 'share_music.dart';
 import 'share_text_image.dart';
 import 'share_video_page.dart';
 import 'share_web_page.dart';
+import 'sign_auto_deduct_page.dart';
 
 void main() => runApp(new MyApp());
 
@@ -56,7 +58,8 @@ class _MyAppState extends State<MyApp> {
         "pay": (context) => PayPage(),
         "launchMiniProgram": (context) => LaunchMiniProgramPage(),
         "subscribeMessage": (ctx) => SubscribeMessagePage(),
-        "AuthByQRCode": (ctx) => AuthByQRCodePage()
+        "AuthByQRCode": (ctx) => AuthByQRCodePage(),
+        'AutoDeduct': (ctx) => SignAutoDeductPage(),
       },
       home: new Scaffold(
           appBar: new AppBar(
@@ -160,6 +163,22 @@ class ShareSelectorPage extends StatelessWidget {
                   Navigator.of(context).pushNamed("AuthByQRCode");
                 },
                 child: const Text("AuthByQRCode")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed("AutoDeduct");
+                },
+                child: const Text("SignAuto-deduct")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
+                onPressed: () {
+                  fluwx.openWeChatApp();
+                },
+                child: const Text("Open WeChat App")),
           ),
         ],
       ),

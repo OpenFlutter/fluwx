@@ -26,5 +26,5 @@ The return value of `fluwx.share(model)` is a `Map`：
        result:true //or false，depends on WXApi.sendRequest()
      }
 ```
-For the response from WeChat,read [RESPONSE](./doc/RESPONSE.md) please.
+For the response from WeChat,read [RESPONSE](./RESPONSE.md) please.
   

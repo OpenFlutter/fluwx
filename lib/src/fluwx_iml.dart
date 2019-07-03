@@ -78,6 +78,13 @@ StreamController _onQRCodeScannedController = new StreamController();
 ///after uer scanned the QRCode you just received
 Stream get onQRCodeScanned => _onQRCodeScannedController.stream;
 
+StreamController<WeChatAutoDeductResponse> _responseAutoDeductController =
+    new StreamController.broadcast();
+
+/// Response from AutoDeduct
+Stream<WeChatAutoDeductResponse> get responseFromAutoDeduct =>
+    _responseAutoDeductController.stream;
+
 final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_handler);
 
@@ -103,6 +110,9 @@ Future<dynamic> _handler(MethodCall methodCall) {
     _onAuthGotQRCodeController.add(methodCall.arguments);
   } else if ("onQRCodeScanned" == methodCall.method) {
     _onQRCodeScannedController.add(null);
+  } else if ("onAutoDeductResponse" == methodCall.method) {
+    _responseAutoDeductController
+        .add(WeChatAutoDeductResponse.fromMap(methodCall.arguments));
   }
 
   return Future.value(true);
@@ -146,7 +156,7 @@ void dispose({
   }
 
   if (paymentResponse) {
-    _responseAuthController.close();
+    _responsePaymentController.close();
   }
 
   if (onAuthByQRCodeFinished) {
@@ -299,6 +309,40 @@ Future subscribeMsg({
       "reserved": reserved,
     },
   );
+}
+
+/// please read official docs.
+Future autoDeDuct(
+    {@required String appId,
+    @required String mchId,
+    @required String planId,
+    @required String contractCode,
+    @required String requestSerial,
+    @required String contractDisplayAccount,
+    @required String notifyUrl,
+    @required String version,
+    @required String sign,
+    @required String timestamp,
+    String returnApp = '3',
+    int businessType = 12}) async {
+  return await _channel.invokeMethod("autoDeduct", {
+    'appid': appId,
+    'mch_id': mchId,
+    'plan_id': planId,
+    'contract_code': contractCode,
+    'request_serial': requestSerial,
+    'contract_display_account': contractDisplayAccount,
+    'notify_url': notifyUrl,
+    'version': version,
+    'sign': sign,
+    'timestamp': timestamp,
+    'return_app': returnApp,
+    "businessType": businessType
+  });
+}
+
+Future<bool> openWeChatApp() async {
+  return await _channel.invokeMethod("openWXApp");
 }
 
 _handleOnAuthByQRCodeFinished(MethodCall methodCall) {

@@ -224,6 +224,11 @@ public class WeChatThumbnailUtil {
     }
 
     private static File downloadImage(String url) {
+
+        if(!url.startsWith("https") && !url.startsWith("http")){
+            url = "http://"+url;
+        }
+
         File result = null;
         OkHttpClient okHttpClient = new OkHttpClient.Builder().build();
         Request request = new Request.Builder().url(url).get().build();

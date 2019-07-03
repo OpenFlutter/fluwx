@@ -57,6 +57,7 @@ However, developers must care about the following points:
     ));
 ```
 ## Share Image
+
 ```dart
  fluwx.share(WeChatShareImageModel(
         image: _imagePath,
@@ -66,6 +67,19 @@ However, developers must care about the following points:
         description: "image"));
 ```
 >  NOTE：`Fluwx` will create thumbnail from `image` if thumbnail isn't provided.
+
+Well,let's talk about sharing big images on Android,if the image you want to share is smaller than 512k (the truth is the data passed through
+`Intent`  must be smaller than 512k), everything works well.However, if it's bigger than
+512k, take care the following permission:
+```xml
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+```
+`Fluwx` can't share big images without  the permission above because these images will stored in:
+
+```kotlin
+ context.getExternalCacheDir()
+```
+Why? Because the limit of `Intent`. If someone knows a better solution,just PR or tell me.
 
 ## Share Music
 ```dart

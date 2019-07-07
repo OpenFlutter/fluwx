@@ -42,7 +42,7 @@ class _PayPageState extends State<PayPage> {
               };
               var request = await h.getUrl(Uri.parse(_url));
               var response = await request.close();
-              var data = await response.transform(Utf8Decoder()).join();
+              var data = await Utf8Decoder().bind(response).join();
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
               print(result["timestamp"]);

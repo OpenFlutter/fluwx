@@ -68,17 +68,17 @@ Before using`Fluwx`,you should init `FLuwx`：
 > NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add a URLSchema for iOS.
 
 ### More
-* [Share](./doc/SHARE.md)
-* [Auth](./doc/SEND_AUTH.md)
-* [Payment](./doc/WXPay.md)
-* [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
-* [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
-* [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
-* [Sign Auto-Deduct](./doc/AUTO_DEDUCT.md)
-* [Obtain Response From WeChat](./doc/RESPONSE.md)
+* [Share](doc/SHARE.md)
+* [Auth](doc/SEND_AUTH.md)
+* [Payment](doc/WXPay.md)
+* [Launch Mini-Program](doc/LAUNCH_MINI_PROGRAM.md)
+* [Subscribe Message](doc/SUBSCRIBE_MESSAGE.md)
+* [Auth By QRCode](doc/AUTH_BY_QR_CODE.md)
+* [Sign Auto-Deduct](doc/AUTO_DEDUCT.md)
+* [Obtain Response From WeChat](doc/RESPONSE.md)
 
 ### Other
-* [Having Questions?](./doc/QUESTIONS.md)
+* [Having Questions?](doc/QUESTIONS.md)
 * Use fluwx_pay_only if you want WeChat Pay only.
 
 ### Waiting

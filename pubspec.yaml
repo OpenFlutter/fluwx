@@ -1,5 +1,5 @@
 name: fluwx_pay_only
-description: This package is a branch of Fluwx and it only supports WeChatPay.
+description: This package is a branch of Fluwx and it only supports WeChatPay. See Fluwx for more details.
 version: 1.0.0
 author: JarvanMo <jarvan.mo@gmail.com>
 homepage: https://github.com/JarvanMo/fluwx

@@ -5,6 +5,86 @@
 [中文请移步此处](./README_CN.md)
 
 
+`Fluwx` makes easier using WeChatSDK on Flutter.
+QQ Group：892398530。
+
+## Before
+ Before using`Fluwx`,read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.
+
+
+### What does Fluwx support?
+* Share Text.
+* Share WebPage.
+* Share Image.
+* Share Music.
+* Share Video.
+* Share MiniProgram.
+* Send Auth(Login).
+* Pay.
+* Launch Mini-Program.
+* Subscribe Message.
+* Auth By QRCode.
+* Sign Auto-Deduct.
+* Open WeChat App.
+
+## Sample
+
+[See sample here](./example)
+
+[watch charged video here](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
+
+[upgrade to 1.0.0 or above](./doc/QUESTIONS.md)
+
+## Dependencies
+
+Add the following dependencies in your `pubspec.yaml` file:
+
+```yaml
+dependencies:
+  fluwx: ^${latestVersion}
+```
+
+> Latest version is ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+
+For using the snapshot:
+
+```yaml
+dependencies:
+  fluwx:
+    git:
+      url: https://github.com/OpenFlutter/fluwx
+```
+
+## Register WeChatSDK via Fluwx
+
+Before using`Fluwx`,you should init `FLuwx`：
+
+ ```dart
+    import 'package:fluwx/fluwx.dart' as fluwx;
+    fluwx.register(appId:"wxd930ea5d5a258f4f");
+ ```
+
+
+
+> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add a URLSchema for iOS.
+
+### More
+* [Share](./doc/SHARE.md)
+* [Auth](./doc/SEND_AUTH.md)
+* [Payment](./doc/WXPay.md)
+* [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
+* [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
+* [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
+* [Sign Auto-Deduct](./doc/AUTO_DEDUCT.md)
+* [Obtain Response From WeChat](./doc/RESPONSE.md)
+
+### Other
+* [Having Questions?](./doc/QUESTIONS.md)
+* Use fluwx_pay_only if you want WeChat Pay only.
+
+### Waiting
+
+
 ### Donate
 Buy the writer a cup of coffee。
 

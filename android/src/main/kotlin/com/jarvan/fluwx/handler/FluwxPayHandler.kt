@@ -15,7 +15,6 @@
  */
 package com.jarvan.fluwx.handler
 
-import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.modelpay.PayReq
 import io.flutter.plugin.common.MethodCall
@@ -27,7 +26,7 @@ class FluwxPayHandler {
     fun pay(call: MethodCall, result: MethodChannel.Result) {
 
         if (WXAPiHandler.wxApi == null) {
-            result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
+            result.error("wxApi is null !!!!", "please config  wxapi first", null)
             return
         } else {
 

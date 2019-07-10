@@ -28,72 +28,7 @@
 //  }
 //}
 
-class WeChatShareResponse {
-  final String errStr;
-  final String androidTransaction;
-  final int type;
-  final int errCode;
-  final String androidOpenId;
-  final String iOSDescription;
-  final String iOSCountry;
-  final String iOSLang;
 
-  WeChatShareResponse.fromMap(Map map)
-      : errStr = map["errStr"],
-        androidTransaction = map["transaction"],
-        type = map["type"],
-        errCode = map["errCode"],
-        androidOpenId = map["openId"],
-        iOSDescription = map["description"],
-        iOSCountry = map["country"],
-        iOSLang = map["lang"];
-}
-
-class WeChatAuthResponse {
-  final String errStr;
-  final int type;
-  final int errCode;
-  final String androidOpenId;
-  final String iOSDescription;
-  final String country;
-  final String lang;
-  final String code;
-  final String androidUrl;
-  final String state;
-  final String androidTransaction;
-
-  WeChatAuthResponse.fromMap(Map map)
-      : errStr = map["errStr"],
-        type = map["type"],
-        errCode = map["errCode"],
-        androidOpenId = map["openId"],
-        iOSDescription = map["description"],
-        country = map["country"],
-        lang = map["lang"],
-        code = map["code"],
-        androidUrl = map["url"],
-        state = map["state"],
-        androidTransaction = map["transaction"];
-}
-
-class WeChatLaunchMiniProgramResponse {
-  final String errStr;
-  final int type;
-  final int errCode;
-  final String androidOpenId;
-  final String iOSDescription;
-  final String androidTransaction;
-  final String extMsg;
-
-  WeChatLaunchMiniProgramResponse.fromMap(Map map)
-      : errStr = map["errStr"],
-        type = map["type"],
-        errCode = map["errCode"],
-        androidOpenId = map["openId"],
-        iOSDescription = map["description"],
-        androidTransaction = map["transaction"],
-        extMsg = map["extMsg"];
-}
 
 class WeChatPaymentResponse {
   final String errStr;
@@ -114,40 +49,4 @@ class WeChatPaymentResponse {
         androidPrepayId = map["prepayId"],
         extData = map["extData"],
         androidTransaction = map["transaction"];
-}
-
-class WeChatSubscribeMsgResp {
-  final String openid;
-  final String templateId;
-  final String action;
-  final String reserved;
-  final int scene;
-
-  WeChatSubscribeMsgResp.fromMap(Map map)
-      : openid = map["openid"],
-        templateId = map["templateId"],
-        action = map["action"],
-        reserved = map["reserved"],
-        scene = map["scene"];
-}
-
-class WeChatAutoDeductResponse {
-  final String errStr;
-  final int type;
-  final String platform;
-  final int errCode;
-  final int businessType;
-  final String resultInfo;
-  final String androidTransaction;
-  final String androidOpenId;
-
-  WeChatAutoDeductResponse.fromMap(Map map)
-      : platform = map["platform"],
-        errStr = map["errStr"],
-        androidTransaction = map["transaction"],
-        type = map["type"],
-        errCode = map["errCode"],
-        androidOpenId = map["openId"],
-        businessType = map["businessType"],
-        resultInfo = map["resultInfo"];
 }

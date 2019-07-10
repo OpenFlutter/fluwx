@@ -42,46 +42,11 @@ object FluwxResponseHandler {
 
     fun handleResponse(response: BaseResp) {
         when (response) {
-            is SendAuth.Resp -> handleAuthResponse(response)
-            is SendMessageToWX.Resp -> handleSendMessageResp(response)
             is PayResp -> handlePayResp(response)
-            is WXLaunchMiniProgram.Resp -> handleLaunchMiniProgramResponse(response)
-            is SubscribeMessage.Resp -> handleSubscribeMessage(response)
-            is WXOpenBusinessWebview.Resp -> handlerWXOpenBusinessWebviewResponse(response)
         }
     }
 
-    private fun handleSubscribeMessage(response: SubscribeMessage.Resp) {
-        val result = mapOf(
-                "openid" to response.openId,
-                "templateId" to response.templateID,
-                "action" to response.action,
-                "reserved" to response.reserved,
-                "scene" to response.scene
-        )
 
-        channel?.invokeMethod(WeChatPluginMethods.ON_SUBSCRIBE_MSG_RESP, result)
-    }
-
-    private fun handleLaunchMiniProgramResponse(response: WXLaunchMiniProgram.Resp) {
-        val result = mutableMapOf(
-                errStr to response.errStr,
-                WechatPluginKeys.TRANSACTION to response.transaction,
-                type to response.type,
-                errCode to response.errCode,
-                openId to response.openId,
-                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID
-        )
-
-
-
-        response.extMsg?.let {
-            //            "extMsg" to response.extMsg,
-            result["extMsg"] = response.extMsg
-        }
-
-        channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_LAUNCHMINIPROGRAM_RESPONSE, result)
-    }
 
     private fun handlePayResp(response: PayResp) {
 
@@ -100,53 +65,6 @@ object FluwxResponseHandler {
         channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_PAY_RESPONSE, result)
     }
 
-    private fun handleSendMessageResp(response: SendMessageToWX.Resp) {
-        val result = mapOf(
-                errStr to response.errStr,
-                WechatPluginKeys.TRANSACTION to response.transaction,
-                type to response.type,
-                errCode to response.errCode,
-                openId to response.openId,
-                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID
-        )
 
-        channel?.invokeMethod(WeChatPluginMethods.WE_CHAT_SHARE_RESPONSE, result)
-
-    }
-
-    private fun handleAuthResponse(response: SendAuth.Resp) {
-        val result = mapOf(
-                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
-                errCode to response.errCode,
-                "code" to response.code,
-                "state" to response.state,
-                "lang" to response.lang,
-                "country" to response.country,
-                errStr to response.errStr,
-                openId to response.openId,
-                "url" to response.url,
-                type to response.type,
-                WechatPluginKeys.TRANSACTION to response.transaction
-        )
-
-        channel?.invokeMethod("onAuthResponse", result)
-    }
-
-
-    private fun handlerWXOpenBusinessWebviewResponse(response:WXOpenBusinessWebview.Resp){
-        val result = mapOf(
-                WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
-                errCode to response.errCode,
-                "businessType" to response.businessType,
-                "resultInfo" to response.resultInfo,
-                errStr to response.errStr,
-                openId to response.openId,
-                type to response.type,
-                WechatPluginKeys.TRANSACTION to response.transaction
-        )
-
-        channel?.invokeMethod("onAutoDeductResponse", result)
-
-    }
 
 }

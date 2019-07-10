@@ -15,7 +15,6 @@
  */
 package com.jarvan.fluwx.handler
 
-import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
@@ -66,7 +65,7 @@ object WXAPiHandler {
 
     fun checkWeChatInstallation(result: MethodChannel.Result) {
         if (wxApi == null) {
-            result.error(CallResult.RESULT_API_NULL, "please config  wxapi first", null)
+            result.error("wxApi is null !!!!", "please config  wxapi first", null)
             return
         } else {
             result.success(wxApi!!.isWXAppInstalled)

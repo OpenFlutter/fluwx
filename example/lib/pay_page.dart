@@ -55,8 +55,7 @@ class _PayPageState extends State<PayPage> {
                 nonceStr: result['noncestr'].toString(),
                 timeStamp: result['timestamp'],
                 sign: result['sign'].toString(),
-              )
-                  .then((data) {
+              ).then((data) {
                 print("---》$data");
               });
             },

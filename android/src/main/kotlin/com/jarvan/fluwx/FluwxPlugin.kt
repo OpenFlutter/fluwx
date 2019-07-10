@@ -28,28 +28,18 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
     companion object {
         @JvmStatic
         fun registerWith(registrar: Registrar): Unit {
-            val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
+            val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx_pay_only")
             WXAPiHandler.setRegistrar(registrar)
             FluwxResponseHandler.setMethodChannel(channel)
             channel.setMethodCallHandler(FluwxPlugin(registrar, channel))
         }
     }
 
-    private val fluwxShareHandler = FluwxShareHandler()
-    private val fluwxAuthHandler = FluwxAuthHandler(channel)
-    private val fluwxPayHandler = FluwxPayHandler()
-    private val fluwxLaunchMiniProgramHandler = FluwxLaunchMiniProgramHandler()
-    private val fluwxSubscribeMsgHandler = FluwxSubscribeMsgHandler()
-    private val fluwxAutodeducthandler = FluwxAutoDeductHandler()
 
-    init {
-        fluwxShareHandler.setRegistrar(registrar)
-        fluwxShareHandler.setMethodChannel(channel)
-        registrar.addViewDestroyListener {
-            fluwxAuthHandler.removeAllListeners()
-            false
-        }
-    }
+    private val fluwxPayHandler = FluwxPayHandler()
+
+
+
 
     override fun onMethodCall(call: MethodCall, result: Result): Unit {
         if (call.method == WeChatPluginMethods.REGISTER_APP) {
@@ -69,40 +59,14 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
             return
         }
 
-        if ("sendAuth" == call.method) {
-            fluwxAuthHandler.sendAuth(call, result)
-            return
-        }
 
-        if ("authByQRCode" == call.method) {
-            fluwxAuthHandler.authByQRCode(call, result)
-            return
-        }
-
-        if ("stopAuthByQRCode" == call.method) {
-            fluwxAuthHandler.stopAuthByQRCode(result)
-            return
-        }
 
         if (call.method == WeChatPluginMethods.PAY) {
             fluwxPayHandler.pay(call, result)
             return
         }
 
-        if (call.method == WeChatPluginMethods.LAUNCH_MINI_PROGRAM) {
-            fluwxLaunchMiniProgramHandler.launchMiniProgram(call, result)
-            return
-        }
 
-        if (WeChatPluginMethods.SUBSCRIBE_MSG == call.method) {
-            fluwxSubscribeMsgHandler.subScribeMsg(call, result)
-            return
-        }
-
-        if (WeChatPluginMethods.AUTO_DEDUCT == call.method) {
-            fluwxAutodeducthandler.signAutoDeduct(call, result)
-            return
-        }
 
         if ("openWXApp" == call.method){
             val isSent = WXAPiHandler.wxApi?.openWXApp()?:false
@@ -110,11 +74,8 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
             return
         }
 
-        if (call.method.startsWith("share")) {
-            fluwxShareHandler.handle(call, result)
-        } else {
-            result.notImplemented()
-        }
+        result.notImplemented()
+
 
 
     }

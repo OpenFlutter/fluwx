@@ -28,8 +28,6 @@
 //  }
 //}
 
-
-
 class WeChatPaymentResponse {
   final String errStr;
   final int type;

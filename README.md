@@ -79,6 +79,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 
 ### Other
 * [Having Questions?](./doc/QUESTIONS.md)
+* Use fluwx_pay_only if you want WeChat Pay only.
 
 ### Waiting
 

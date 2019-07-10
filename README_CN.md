@@ -73,10 +73,11 @@ dependencies:
 * [签约免密支付](./doc/AUTO_DEDUCT_CN.md)。
 * [接收微信响应](./doc/RESPONSE_CN.md)。
 
-### Q&A
+### 其他
 请先看文档，再看Q&A，再查看issue，自我排查错误，方便你我他。依然无法解决的问题可以加群提问。
 * [常见问题Q&A](./doc/QUESTIONS_CN.md)
 
+* 如果你只想使用微信支付功能，可以使用fluwx_pay_only。
 
 ### 更多功能敬请请期待
 

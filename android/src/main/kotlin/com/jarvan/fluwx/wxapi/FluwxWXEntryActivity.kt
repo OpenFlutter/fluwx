@@ -18,6 +18,7 @@ package com.jarvan.fluwx.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import com.jarvan.fluwx.handler.FluwxRequestHandler
 import com.jarvan.fluwx.handler.FluwxResponseHandler
 import com.jarvan.fluwx.handler.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
@@ -60,7 +61,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
     override fun onReq(baseReq: BaseReq) {
         // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
-        val activity = FluwxRequestHandler.getRegistrar()?.activity();
+        val activity = FluwxRequestHandler.getRegistrar()?.activity()
         if (baseReq.type == 4 && activity is Activity){  
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
             startActivity(Intent(this, activity::class.java))

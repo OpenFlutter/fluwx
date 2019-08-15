@@ -21,11 +21,11 @@
 [ShareSDK(分享插件)和Fluwx(微信支付插件)存在冲突](#sharesdk分享插件和fluwx微信支付插件存在冲突)  
 [图片加载失败？](#图片加载失败)  
 [Unhandled Exception:PlatformException(wxapi not configured,please config wxapi first,null)](#unhandled-exceptionplatformexceptionwxapi-not-configuredplease-config-wxapi-firstnull)  
-[分享后，打开微信出现未审核应用](#分享后打开微信出现未审核应用)
-[分享怎样知道是成功分享了还是取消了没有分享](#分享怎样知道是成功分享了还是取消了没有分享)
-[运行时报错kotlinx相关](#运行时报错kotlinx相关)
-[android手机在拉起微信前会弹出选择微信分身页面](#android手机在拉起微信前会弹出选择微信分身页面)
-[android代码混淆](#android代码混淆)
+[分享后，打开微信出现未审核应用](#分享后打开微信出现未审核应用)  
+[分享怎样知道是成功分享了还是取消了没有分享](#分享怎样知道是成功分享了还是取消了没有分享)  
+[运行时报错kotlinx相关](#运行时报错kotlinx相关)  
+[android手机在拉起微信前会弹出选择微信分身页面](#android手机在拉起微信前会弹出选择微信分身页面)  
+[android代码混淆](#android代码混淆)  
 
 ### fluwx安卓端调起失败？
 请检查APPID、包名、以及App签名是否一致。debug 和release的签名默认不一样，请注意。注意签名规则：https://github.com/OpenFlutter/fluwx/issues/89#issuecomment-515948671 ，keystore工具生成的MD5需要去除横杆并且全部转换为小写，然后配置到build.gradle。

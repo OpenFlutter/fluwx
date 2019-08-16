@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 
 import '../utils/utils.dart';
@@ -176,6 +178,29 @@ class WeChatShareImageModel extends WeChatShareModel {
             messageAction: messageAction,
             messageExt: messageExt,
             scene: scene);
+
+
+  WeChatShareImageModel.fromFile(
+      File imageFile,
+      {String transaction,
+        this.description,
+        String thumbnail,
+        WeChatScene scene,
+        String messageExt,
+        String messageAction,
+        String mediaTagName,
+        this.title})
+      : this.image = "file://${imageFile.path}",
+        this.transaction = transaction ?? "text",
+        this.thumbnail = thumbnail ?? "",
+        assert(image != null),
+        super(
+          mediaTagName: mediaTagName,
+          messageAction: messageAction,
+          messageExt: messageExt,
+          scene: scene);
+
+
 
   @override
   Map toMap() {

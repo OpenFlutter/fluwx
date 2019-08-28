@@ -55,6 +55,8 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         [self shareVideo:call result:result];
     } else if([shareMiniProgram isEqualToString:call.method]){
         [self shareMiniProgram:call result:result];
+    } else if([shareFile isEqualToString:call.method]){
+        [self shareFile:call result:result];
     }
 
 
@@ -304,6 +306,28 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
     });
 
+}
+
+- (void)shareFile:(FlutterMethodCall *)call result:(FlutterResult)result {
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
+    dispatch_async(globalQueue, ^{
+        NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
+
+        NSString *filePath = call.arguments[@"filePath"];
+        NSData *data = [NSData dataWithContentsOfFile:filePath];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *scene = call.arguments[fluwxKeyScene];
+            BOOL done = [WXApiRequestHandler sendFileData:data
+                                            fileExtension:@"pdf"
+                                                    Title:call.arguments[fluwxKeyTitle]
+                                              Description:call.arguments[fluwxKeyDescription]
+                                               ThumbImage:thumbnailImage          
+                                                  InScene:[StringToWeChatScene toScene:scene]];                          
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+        });
+    });
 }
 
 - (void)shareMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {

@@ -193,7 +193,6 @@ class WeChatShareImageModel extends WeChatShareModel {
       : this.image = "file://${imageFile.path}",
         this.transaction = transaction ?? "text",
         this.thumbnail = thumbnail ?? "",
-        assert(image != null),
         super(
           mediaTagName: mediaTagName,
           messageAction: messageAction,

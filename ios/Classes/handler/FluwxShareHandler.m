@@ -67,10 +67,12 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 }
 
-
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *imagePath = call.arguments[fluwxKeyImage];
-    if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
+    if ([StringUtil isBlank:imagePath]) {
+        NSData *imageData = ((FlutterStandardTypedData)call.arguments[fluwxKeyImageData]).data;
+        [self shareMemoryImage:call result:result imageData:imageData];
+    } else if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
         [self shareAssetImage:call result:result imagePath:imagePath];
     } else if ([imagePath hasPrefix:SCHEMA_FILE]) {
         [self shareLocalImage:call result:result imagePath:imagePath];
@@ -78,6 +80,45 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         [self shareNetworkImage:call result:result imagePath:imagePath];
     }
 
+
+}
+
+- (void)shareMemoryImage:(FlutterMethodCall *)call result:(FlutterResult)result imageData:(NSData *)imageData {
+
+
+    NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
+
+    if ([StringUtil isBlank:thumbnail]) {
+        thumbnail = imagePath;
+    }
+
+
+    dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
+    dispatch_async(globalQueue, ^{
+
+        NSURL *imageURL = [NSURL URLWithString:imagePath];
+        
+        
+        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
+
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+            NSString *scene = call.arguments[fluwxKeyScene];
+            BOOL done = [WXApiRequestHandler sendImageData:imageData
+                                                   TagName:call.arguments[fluwxKeyMediaTagName]
+                                                MessageExt:call.arguments[fluwxKeyMessageExt]
+                                                    Action:call.arguments[fluwxKeyMessageAction]
+                                                ThumbImage:thumbnailImage
+                                                   InScene:[StringToWeChatScene toScene:scene]
+                                                    title:call.arguments[fluwxKeyTitle]
+                                               description:call.arguments[fluwxKeyDescription]
+                                                ];
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+
+        });
+
+    });
 
 }
 

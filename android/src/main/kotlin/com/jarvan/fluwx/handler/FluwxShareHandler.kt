@@ -170,7 +170,7 @@ internal class FluwxShareHandler {
 
         GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
             val byteArray: ByteArray? = if (imagePath.isNullOrBlank()) {
-                byteArrayOf()
+                call.argument(WechatPluginKeys.IMAGE_DATA) ?: byteArrayOf()
             } else {
                 getImageByteArrayCommon(registrar, imagePath)
             }

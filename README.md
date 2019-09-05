@@ -8,7 +8,7 @@
 QQ Group：892398530。
 
 ## Before
- Before using`Fluwx`,read this [article](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.
+ Before using`Fluwx`,read [the official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.
 
 
 ### What does Fluwx support?

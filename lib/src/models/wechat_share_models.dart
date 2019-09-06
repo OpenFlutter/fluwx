@@ -198,6 +198,7 @@ class WeChatShareImageModel extends WeChatShareModel {
       _transaction: transaction,
       _scene: scene.toString(),
       "image": image,
+      "imageData": imageData,
       _thumbnail: thumbnail,
       _mediaTagName: mediaTagName,
       _messageAction: messageAction,

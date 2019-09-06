@@ -15,13 +15,13 @@
  */
 package com.jarvan.fluwx.handler
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.jarvan.fluwx.constant.CallResult
 import com.jarvan.fluwx.constant.WeChatPluginMethods
 import com.jarvan.fluwx.constant.WechatPluginKeys
 import com.jarvan.fluwx.utils.ShareImageUtil
 import com.jarvan.fluwx.utils.ThumbnailCompressUtil
-import com.jarvan.fluwx.utils.Util
 import com.jarvan.fluwx.utils.WeChatThumbnailUtil
 import com.tencent.mm.opensdk.modelmsg.*
 import io.flutter.plugin.common.MethodCall
@@ -173,7 +173,7 @@ internal class FluwxShareHandler {
             if (bmp == null) {
                 byteArrayOf()
             } else {
-                Util.bmpToByteArray(bmp, true)
+                ThumbnailCompressUtil.bmpToByteArray(bmp, Bitmap.CompressFormat.PNG, true)
             }
         }.await()
     }

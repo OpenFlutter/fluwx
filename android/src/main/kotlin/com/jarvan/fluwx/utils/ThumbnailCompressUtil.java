@@ -197,4 +197,21 @@ public class ThumbnailCompressUtil {
 
     }
 
+    public static byte[] bmpToByteArray(final Bitmap bmp, Bitmap.CompressFormat format, final boolean needRecycle) {
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        bmp.compress(format, 100, output);
+        if (needRecycle) {
+            bmp.recycle();
+        }
+
+        byte[] result = output.toByteArray();
+        try {
+            output.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 }

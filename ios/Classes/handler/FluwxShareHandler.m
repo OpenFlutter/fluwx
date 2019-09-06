@@ -87,19 +87,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
 
     NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
-
+    UIImage *thumbnailImage = nil;
     if ([StringUtil isBlank:thumbnail]) {
-        thumbnail = imagePath;
+        UIImage *tmp = [UIImage imageWithData:imageData];
+        thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:32 * 1024 isPNG:FALSE];
     }
 
 
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-
-        NSURL *imageURL = [NSURL URLWithString:imagePath];
         
-        
-        UIImage *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
+        if(thumbnailImage == nil)
+            *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
 
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -70,7 +70,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *imagePath = call.arguments[fluwxKeyImage];
     if ([StringUtil isBlank:imagePath]) {
-        NSData *imageData = ((FlutterStandardTypedData) call.arguments[fluwxKeyImageData]).data;
+        NSData *imageData = [FlutterStandardTypedData typedDataWithBytes:call.arguments[fluwxKeyImageData]].data;
         [self shareMemoryImage:call result:result imageData:imageData];
     } else if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
         [self shareAssetImage:call result:result imagePath:imagePath];
@@ -91,14 +91,21 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     if ([StringUtil isBlank:thumbnail]) {
         UIImage *tmp = [UIImage imageWithData:imageData];
         thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:32 * 1024 isPNG:FALSE];
+    } else {
+        thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
     }
 
 
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
 
-        if (thumbnailImage == nil)
-            *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
+//        if (thumbnailImage == nil) {
+//            NSString *thumbnailPathWithoutUri = [thumbnail substringFromIndex:startIndex];
+//            NSData *thumbnailData = [NSData dataWithContentsOfFile:thumbnailPathWithoutUri];
+//            UIImage *tmp = [UIImage imageWithData:thumbnailData];
+//            thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:32 * 1024 isPNG:FALSE];
+//        }
+//            *thumbnailImage = [self getThumbnail:thumbnail size:32 * 1024];
 
 
         dispatch_async(dispatch_get_main_queue(), ^{

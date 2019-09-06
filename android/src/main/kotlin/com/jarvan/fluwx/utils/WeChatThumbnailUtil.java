@@ -84,7 +84,9 @@ public class WeChatThumbnailUtil {
 
     public static byte[] thumbnailForCommon(String thumbnail, PluginRegistry.Registrar registrar) {
         File file;
-        if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)) {
+        if(thumbnail == null || thumbnail.isEmpty()) {
+            return null;
+        } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_ASSETS)) {
             file = getAssetFile(thumbnail, registrar);
         } else if (thumbnail.startsWith(WeChatPluginImageSchema.SCHEMA_FILE)) {
             String pathWithoutUri = thumbnail.substring(WeChatPluginImageSchema.SCHEMA_FILE.length());

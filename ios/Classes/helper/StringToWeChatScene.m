@@ -6,11 +6,11 @@
 
 
 @implementation StringToWeChatScene
-+ (enum WXScene) toScene:(NSString *)string {
++ (enum WXScene)toScene:(NSString *)string {
 
     if ([string isEqualToString:@"WeChatScene.TIMELINE"]) {
         return WXSceneTimeline;
-    }else if ([string isEqualToString:@"WeChatScene.FAVORITE"]) {
+    } else if ([string isEqualToString:@"WeChatScene.FAVORITE"]) {
         return WXSceneFavorite;
     } else {
         return WXSceneSession;

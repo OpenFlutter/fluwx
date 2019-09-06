@@ -6,5 +6,5 @@
 #import "WXApiObject.h"
 
 @interface StringToWeChatScene : NSObject
-+ (enum WXScene) toScene : (NSString *) string;
++ (enum WXScene)toScene:(NSString *)string;
 @end

@@ -168,8 +168,8 @@ internal class FluwxShareHandler {
 
     private suspend fun getThumbnailByteArray(imageData: ByteArray): ByteArray {
         return GlobalScope.async(Dispatchers.Default, CoroutineStart.DEFAULT) {
-            val bitmap = BitmapFactory.decodeByteArray(imageData,0,imageData.size)
-            val bmp = ThumbnailCompressUtil.createScaledBitmapWithRatio(bitmap,WeChatThumbnailUtil.SHARE_IMAGE_THUMB_LENGTH,false)
+            val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+            val bmp = ThumbnailCompressUtil.createScaledBitmapWithRatio(bitmap, WeChatThumbnailUtil.SHARE_IMAGE_THUMB_LENGTH, false)
             if (bmp == null) {
                 byteArrayOf()
             } else {
@@ -190,24 +190,22 @@ internal class FluwxShareHandler {
             }
 
 
-
-
             val imgObj = if (byteArray != null && byteArray.isNotEmpty()) {
 
-                if (byteArray.size > 512 * 1024){
+                if (byteArray.size > 512 * 1024) {
                     val input = ByteArrayInputStream(byteArray)
 
-                    val suffix  = when {
+                    val suffix = when {
                         imagePath.isNullOrBlank() -> ".jpeg"
                         imagePath.lastIndexOf(".") == -1 -> ".jpeg"
                         else -> imagePath.substring(imagePath.lastIndexOf("."))
                     }
 
-                    val file = ShareImageUtil.inputStreamToFile(input,suffix,registrar!!.context())
+                    val file = ShareImageUtil.inputStreamToFile(input, suffix, registrar!!.context())
                     WXImageObject().apply {
                         setImagePath(file.absolutePath)
                     }
-                }else{
+                } else {
                     WXImageObject(byteArray)
                 }
 

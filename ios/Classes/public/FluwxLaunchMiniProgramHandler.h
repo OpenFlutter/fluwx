@@ -6,6 +6,7 @@
 @class StringUtil;
 
 @interface FluwxLaunchMiniProgramHandler : NSObject
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar;
+
 - (void)handleLaunchMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end

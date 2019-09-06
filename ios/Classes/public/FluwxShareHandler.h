@@ -7,9 +7,11 @@
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"
 #import "WXApiRequestHandler.h"
+
 @class StringUtil;
 
 @interface FluwxShareHandler : NSObject
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar;
+
 - (void)handleShare:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end

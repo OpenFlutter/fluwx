@@ -11,8 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FluwxAutoDeductHandler : NSObject
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
--(void)handleAutoDeductWithCall:(FlutterMethodCall *)call result:(FlutterResult)result;
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar;
+
+- (void)handleAutoDeductWithCall:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end
 
 NS_ASSUME_NONNULL_END

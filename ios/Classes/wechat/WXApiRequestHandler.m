@@ -6,7 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
 #import "WXApi.h"
 #import "WXApiRequestHandler.h"
 #import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
@@ -95,10 +94,10 @@
 
     if ([StringUtil isBlank:musicURL]) {
         ext.musicLowBandUrl = musicLowBandUrl;
-        ext.musicLowBandDataUrl = (musicLowBandDataUrl == (id) [NSNull null]) ? nil : musicLowBandDataUrl ;
+        ext.musicLowBandDataUrl = (musicLowBandDataUrl == (id) [NSNull null]) ? nil : musicLowBandDataUrl;
     } else {
         ext.musicUrl = musicURL;
-        ext.musicDataUrl = (dataURL == (id) [NSNull null]) ? nil : dataURL ;
+        ext.musicDataUrl = (dataURL == (id) [NSNull null]) ? nil : dataURL;
     }
 
 
@@ -207,7 +206,7 @@
                           InScene:(enum WXScene)scene {
     WXMiniProgramObject *ext = [WXMiniProgramObject object];
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
-    ext.userName =(userName == (id) [NSNull null]) ? nil : userName ;
+    ext.userName = (userName == (id) [NSNull null]) ? nil : userName;
     ext.path = (path == (id) [NSNull null]) ? nil : path;
     ext.hdImageData = (hdImageData == (id) [NSNull null]) ? nil : hdImageData;
     ext.withShareTicket = withShareTicket;
@@ -389,7 +388,6 @@
 }
 
 
-
 + (BOOL)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign {
 
     PayReq *req = [[PayReq alloc] init];
@@ -400,8 +398,6 @@
     req.timeStamp = timestamp;
     req.package = package;
     req.sign = sign;
-    
-
 
 
     return [WXApi sendReq:req];

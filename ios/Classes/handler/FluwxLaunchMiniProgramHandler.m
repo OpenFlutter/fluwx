@@ -20,15 +20,15 @@
 
     NSNumber *typeInt = call.arguments[@"miniProgramType"];
     WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
-    if([typeInt isEqualToNumber:@1]){
-        miniProgramType =WXMiniProgramTypeTest;
-    } else if([typeInt isEqualToNumber:@2]){
+    if ([typeInt isEqualToNumber:@1]) {
+        miniProgramType = WXMiniProgramTypeTest;
+    } else if ([typeInt isEqualToNumber:@2]) {
         miniProgramType = WXMiniProgramTypePreview;
     }
 
-    BOOL done =  [WXApiRequestHandler launchMiniProgramWithUserName:userName
-                                        path:path
-                                        type:miniProgramType];
+    BOOL done = [WXApiRequestHandler launchMiniProgramWithUserName:userName
+                                                              path:path
+                                                              type:miniProgramType];
     result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 }
 @end

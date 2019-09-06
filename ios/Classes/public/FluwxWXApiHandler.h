@@ -6,8 +6,8 @@
 #import <Flutter/Flutter.h>
 
 
-
 @interface FluwxWXApiHandler : NSObject
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result;
+
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end

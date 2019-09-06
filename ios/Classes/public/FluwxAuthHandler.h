@@ -12,8 +12,11 @@
 @class StringUtil;
 
 @interface FluwxAuthHandler : NSObject <WechatAuthAPIDelegate>
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar  methodChannel:(FlutterMethodChannel *)flutterMethodChannel;
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar methodChannel:(FlutterMethodChannel *)flutterMethodChannel;
+
 - (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result;
+
 - (void)authByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
--(void) stopAuthByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
+
+- (void)stopAuthByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end

@@ -105,8 +105,8 @@ class FluwxPlugin(private val registrar: Registrar, channel: MethodChannel) : Me
             return
         }
 
-        if ("openWXApp" == call.method){
-            val isSent = WXAPiHandler.wxApi?.openWXApp()?:false
+        if ("openWXApp" == call.method) {
+            val isSent = WXAPiHandler.wxApi?.openWXApp() ?: false
             result.success(isSent)
             return
         }

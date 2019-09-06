@@ -25,7 +25,7 @@ object FluwxRequestHandler {
         registrar = reg
     }
 
-    fun getRegistrar():PluginRegistry.Registrar?{
+    fun getRegistrar(): PluginRegistry.Registrar? {
         return registrar;
     }
 

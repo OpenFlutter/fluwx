@@ -179,7 +179,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
         [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];
-    } else if([resp isKindOfClass:[WXOpenBusinessWebViewResp class]]){
+    } else if ([resp isKindOfClass:[WXOpenBusinessWebViewResp class]]) {
         WXOpenBusinessWebViewResp *businessResp = (WXOpenBusinessWebViewResp *) resp;
 
         NSDictionary *result = @{
@@ -188,7 +188,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 errCode: @(businessResp.errCode),
                 type: businessResp.type == nil ? @5 : @(businessResp.type),
                 @"resultInfo": businessResp.result,
-                @"businessType":@(businessResp.businessType),
+                @"businessType": @(businessResp.businessType),
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
 

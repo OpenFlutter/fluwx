@@ -3,13 +3,13 @@ package com.jarvan.fluwx.handler
 import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.util.HashMap
+import java.util.*
 
 class FluwxAutoDeductHandler {
     fun signAutoDeduct(call: MethodCall, result: MethodChannel.Result) {
 
 
-        val appId:String = call.argument<String>("appid") ?: ""
+        val appId: String = call.argument<String>("appid") ?: ""
         val mchId = call.argument<String>("mch_id") ?: ""
         val planId = call.argument<String>("plan_id") ?: ""
         val contractCode = call.argument<String>("contract_code") ?: ""
@@ -20,9 +20,9 @@ class FluwxAutoDeductHandler {
         val sign = call.argument<String>("sign") ?: ""
         val timestamp = call.argument<String>("timestamp") ?: ""
         val returnApp = call.argument<String>("return_app") ?: ""
-        val businessType = call.argument<Int>("businessType")?:12
+        val businessType = call.argument<Int>("businessType") ?: 12
 
-        val map = HashMap<String,String>()
+        val map = HashMap<String, String>()
         map["appid"] = appId
         map["mch_id"] = mchId
         map["plan_id"] = planId

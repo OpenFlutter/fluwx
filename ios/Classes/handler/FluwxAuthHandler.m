@@ -11,7 +11,7 @@ WechatAuthSDK *_qrauth;
 FlutterMethodChannel *_fluwxMethodChannel = nil;
 
 
-- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar methodChannel:(FlutterMethodChannel *)flutterMethodChannel  {
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar methodChannel:(FlutterMethodChannel *)flutterMethodChannel {
     self = [super init];
     if (self) {
         _qrauth = [[WechatAuthSDK alloc] init];
@@ -39,7 +39,7 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
     NSString *signature = call.arguments[@"signature"];
     NSString *schemeData = (call.arguments[@"schemeData"] == (id) [NSNull null]) ? nil : call.arguments[@"schemeData"];
 
-    BOOL done =  [_qrauth Auth:appId nonceStr:nonceStr timeStamp:timeStamp scope:scope signature:signature schemeData:schemeData];
+    BOOL done = [_qrauth Auth:appId nonceStr:nonceStr timeStamp:timeStamp scope:scope signature:signature schemeData:schemeData];
     result(@(done));
 }
 
@@ -53,7 +53,7 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
 }
 
 - (void)onAuthGotQrcode:(UIImage *)image {
-    NSData * imageData = UIImagePNGRepresentation(image);
+    NSData *imageData = UIImagePNGRepresentation(image);
 //    if (imageData == nil) {
 //        imageData = UIImageJPEGRepresentation(image, 1);
 //    }
@@ -62,9 +62,9 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
 }
 
 - (void)onAuthFinish:(int)errCode AuthCode:(nullable NSString *)authCode {
-    NSDictionary *errorCode = @{@"errCode":@(errCode)};
+    NSDictionary *errorCode = @{@"errCode": @(errCode)};
     NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:errorCode];
-    if(authCode != nil){
+    if (authCode != nil) {
         result[@"authCode"] = authCode;
     }
     [_fluwxMethodChannel invokeMethod:@"onAuthByQRCodeFinished" arguments:result];

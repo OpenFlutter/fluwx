@@ -16,7 +16,6 @@
 package com.jarvan.fluwx.handler
 
 
-import android.util.Log
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory
 import com.tencent.mm.opensdk.diffdev.OAuthErrCode
 import com.tencent.mm.opensdk.diffdev.OAuthListener
@@ -34,8 +33,8 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         object : OAuthListener {
             override fun onAuthFinish(p0: OAuthErrCode, authCode: String?) {
                 methodChannel.invokeMethod("onAuthByQRCodeFinished", mapOf(
-                    "errCode" to p0.code,
-                    "authCode" to authCode
+                        "errCode" to p0.code,
+                        "authCode" to authCode
                 ))
             }
 
@@ -73,7 +72,7 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         val signature = call.argument("signature") ?: ""
 //        val schemeData = call.argument("schemeData")?:""
 
-       result.success(qrCodeAuth.auth(appId, scope, nonceStr, timeStamp, signature, qrCodeAuthListener))
+        result.success(qrCodeAuth.auth(appId, scope, nonceStr, timeStamp, signature, qrCodeAuthListener))
 
     }
 
@@ -81,7 +80,7 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         result.success(qrCodeAuth.stopAuth())
     }
 
-    fun removeAllListeners(){
+    fun removeAllListeners() {
         qrCodeAuth.removeAllListeners()
     }
 

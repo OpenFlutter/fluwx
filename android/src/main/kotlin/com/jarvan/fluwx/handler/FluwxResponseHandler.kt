@@ -133,7 +133,7 @@ object FluwxResponseHandler {
     }
 
 
-    private fun handlerWXOpenBusinessWebviewResponse(response:WXOpenBusinessWebview.Resp){
+    private fun handlerWXOpenBusinessWebviewResponse(response: WXOpenBusinessWebview.Resp) {
         val result = mapOf(
                 WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
                 errCode to response.errCode,

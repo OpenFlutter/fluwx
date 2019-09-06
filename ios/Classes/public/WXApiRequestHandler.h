@@ -131,11 +131,11 @@
             timestamp:(UInt32)timestamp;
 
 
-+ (BOOL) sendPayment:(NSString *)appId
-           PartnerId:(NSString *)partnerId
-            PrepayId:(NSString *)prepayId
-            NonceStr:(NSString *)nonceStr
-           Timestamp:(UInt32)timestamp
-             Package:(NSString *)package
-                Sign:(NSString *)sign;
++ (BOOL)sendPayment:(NSString *)appId
+          PartnerId:(NSString *)partnerId
+           PrepayId:(NSString *)prepayId
+           NonceStr:(NSString *)nonceStr
+          Timestamp:(UInt32)timestamp
+            Package:(NSString *)package
+               Sign:(NSString *)sign;
 @end

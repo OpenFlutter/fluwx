@@ -11,8 +11,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FluwxSubscribeMsgHandler : NSObject
--(instancetype) initWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar;
--(void)handleSubscribeWithCall:(FlutterMethodCall *)call result:(FlutterResult)result;
+- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar;
+
+- (void)handleSubscribeWithCall:(FlutterMethodCall *)call result:(FlutterResult)result;
 @end
 
 NS_ASSUME_NONNULL_END

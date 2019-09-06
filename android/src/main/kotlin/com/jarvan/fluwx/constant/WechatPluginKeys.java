@@ -22,6 +22,7 @@ public class WechatPluginKeys {
 
     public static final String TITLE = "title";
     public static final String IMAGE = "image";
+    public static final String IMAGE_DATA = "imageData";
     public static final String THUMBNAIL = "thumbnail";
     public static final String DESCRIPTION = "description";
 

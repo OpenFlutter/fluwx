@@ -13,6 +13,7 @@ NSString *const fluwxKeyText = @"text";
 
 NSString *const fluwxKeyTitle = @"title";
 NSString *const fluwxKeyImage = @ "image";
+NSString *const fluwxKeyImageData = @ "imageData";
 NSString *const fluwxKeyThumbnail = @"thumbnail";
 NSString *const fluwxKeyDescription = @"description";
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 
@@ -36,11 +37,7 @@ abstract class WeChatShareModel {
   final String mediaTagName;
   final WeChatScene scene;
 
-  WeChatShareModel(
-      {this.messageExt,
-      this.messageAction,
-      this.mediaTagName,
-      this.scene: WeChatScene.SESSION});
+  WeChatShareModel({this.messageExt, this.messageAction, this.mediaTagName, this.scene: WeChatScene.SESSION});
 
   Map toMap();
 }
@@ -54,20 +51,10 @@ class WeChatShareTextModel extends WeChatShareModel {
   final String transaction;
 
   ///transaction only works on  Android.
-  WeChatShareTextModel(
-      {String text,
-      String transaction,
-      WeChatScene scene,
-      String messageExt,
-      String messageAction,
-      String mediaTagName})
+  WeChatShareTextModel({String text, String transaction, WeChatScene scene, String messageExt, String messageAction, String mediaTagName})
       : this.text = text ?? "",
         this.transaction = transaction ?? "text",
-        super(
-            mediaTagName: mediaTagName,
-            messageAction: messageAction,
-            messageExt: messageExt,
-            scene: scene);
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   @override
   Map toMap() {
@@ -127,11 +114,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
         assert(path != null && path.isNotEmpty),
-        super(
-            mediaTagName: mediaTagName,
-            messageAction: messageAction,
-            messageExt: messageExt,
-            scene: scene);
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   @override
   Map toMap() {
@@ -159,47 +142,55 @@ class WeChatShareImageModel extends WeChatShareModel {
   final String thumbnail;
   final String title;
   final String description;
+  final Uint8List imageData;
 
-  WeChatShareImageModel(
-      {String transaction,
-      @required this.image,
-      this.description,
-      String thumbnail,
-      WeChatScene scene,
-      String messageExt,
-      String messageAction,
-      String mediaTagName,
-      this.title})
-      : this.transaction = transaction ?? "text",
+  WeChatShareImageModel({
+    String transaction,
+    @required this.image,
+    this.description,
+    String thumbnail,
+    WeChatScene scene,
+    String messageExt,
+    String messageAction,
+    String mediaTagName,
+    this.title,
+  })  : this.transaction = transaction ?? "text",
         this.thumbnail = thumbnail ?? "",
         assert(image != null),
-        super(
-            mediaTagName: mediaTagName,
-            messageAction: messageAction,
-            messageExt: messageExt,
-            scene: scene);
-
+        this.imageData = null,
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   WeChatShareImageModel.fromFile(
-      File imageFile,
-      {String transaction,
-        this.description,
-        String thumbnail,
-        WeChatScene scene,
-        String messageExt,
-        String messageAction,
-        String mediaTagName,
-        this.title})
-      : this.image = "file://${imageFile.path}",
+    File imageFile, {
+    String transaction,
+    this.description,
+    String thumbnail,
+    WeChatScene scene,
+    String messageExt,
+    String messageAction,
+    String mediaTagName,
+    this.title,
+  })  : this.image = "file://${imageFile.path}",
         this.transaction = transaction ?? "text",
         this.thumbnail = thumbnail ?? "",
-        super(
-          mediaTagName: mediaTagName,
-          messageAction: messageAction,
-          messageExt: messageExt,
-          scene: scene);
+        this.imageData = null,
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
-
+  WeChatShareImageModel.fromUint8List({
+    @required this.imageData,
+    String transaction,
+    this.description,
+    String thumbnail,
+    WeChatScene scene,
+    String messageExt,
+    String messageAction,
+    String mediaTagName,
+    this.title,
+  })  : this.transaction = transaction ?? "text",
+        this.thumbnail = thumbnail ?? "",
+        this.image = "",
+        assert(imageData != null),
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   @override
   Map toMap() {
@@ -207,6 +198,7 @@ class WeChatShareImageModel extends WeChatShareModel {
       _transaction: transaction,
       _scene: scene.toString(),
       "image": image,
+      "imageData": imageData,
       _thumbnail: thumbnail,
       _mediaTagName: mediaTagName,
       _messageAction: messageAction,
@@ -245,11 +237,7 @@ class WeChatShareMusicModel extends WeChatShareModel {
   })  : this.transaction = transaction ?? "text",
         this.thumbnail = thumbnail ?? "",
         assert(musicUrl != null || musicLowBandUrl != null),
-        super(
-            mediaTagName: mediaTagName,
-            messageAction: messageAction,
-            messageExt: messageExt,
-            scene: scene);
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   @override
   Map toMap() {
@@ -299,11 +287,7 @@ class WeChatShareVideoModel extends WeChatShareModel {
         this.thumbnail = thumbnail ?? "",
         assert(videoUrl != null || videoLowBandUrl != null),
         assert(thumbnail != null),
-        super(
-            mediaTagName: mediaTagName,
-            messageAction: messageAction,
-            messageExt: messageExt,
-            scene: scene);
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   @override
   Map toMap() {
@@ -342,11 +326,7 @@ class WeChatShareWebPageModel extends WeChatShareModel {
   })  : this.transaction = transaction ?? "text",
         assert(webPage != null),
         assert(thumbnail != null),
-        super(
-            mediaTagName: mediaTagName,
-            messageAction: messageAction,
-            messageExt: messageExt,
-            scene: scene);
+        super(mediaTagName: mediaTagName, messageAction: messageAction, messageExt: messageExt, scene: scene);
 
   @override
   Map toMap() {

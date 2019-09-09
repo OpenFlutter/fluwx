@@ -14,6 +14,8 @@ More support will be considered in the future.
 - Assets Images
 
 - Local Images
+
+- Uint8List
   
 However, developers must care about the following points:
 

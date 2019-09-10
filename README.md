@@ -75,7 +75,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 * [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
 * [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
 * [Sign Auto-Deduct](./doc/AUTO_DEDUCT.md)
-* [Obtain Response From WeChat](./doc/RESPONSE.md)
+* [Receive Response Or Callback From WeChat](./doc/RESPONSE.md)
 
 ### Other
 * [Having Questions?](./doc/QUESTIONS.md)

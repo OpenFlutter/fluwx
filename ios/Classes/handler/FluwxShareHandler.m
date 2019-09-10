@@ -70,8 +70,8 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *imagePath = call.arguments[fluwxKeyImage];
     if ([StringUtil isBlank:imagePath]) {
-        NSData *imageData = [FlutterStandardTypedData typedDataWithBytes:call.arguments[fluwxKeyImageData]].data;
-        [self shareMemoryImage:call result:result imageData:imageData];
+        FlutterStandardTypedData *imageData = call.arguments[fluwxKeyImageData];
+        [self shareMemoryImage:call result:result imageData:imageData.data];
     } else if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
         [self shareAssetImage:call result:result imagePath:imagePath];
     } else if ([imagePath hasPrefix:SCHEMA_FILE]) {

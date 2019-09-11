@@ -6,3 +6,12 @@ We'll get a `code` by sending auth:
          scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")；
 ```
 Getting `access_token` is not supported in `fluwx`. For `access_token`, please visity the official documents.
+
+
+## Receive SendAuth Result
+
+```dart
+fluwx.responseFromAuth.listen((data) {
+     //do something.
+    });
+```

@@ -5,4 +5,4 @@ We'll get a `code` by sending auth:
    fluwx.sendAuth(
          scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")；
 ```
-Getting `access_token` is not supported by `fluwx`.
+Getting `access_token` is not supported in `fluwx`. For `access_token`, please visity the official documents.

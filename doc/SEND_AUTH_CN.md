@@ -5,3 +5,11 @@
    fluwx.sendAuth(
          scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")；
 ```
+
+## 获取结果
+
+```dart
+fluwx.responseFromAuth.listen((data) {
+     //do something.
+    });
+```

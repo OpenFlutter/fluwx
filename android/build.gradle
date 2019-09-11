@@ -32,6 +32,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 16
+        consumerProguardFiles 'consumer-proguard-rules.txt'    
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     lintOptions {

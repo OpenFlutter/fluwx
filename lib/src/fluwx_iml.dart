@@ -127,13 +127,12 @@ Future register(
     bool doOnIOS: true,
     bool doOnAndroid: true,
     bool enableMTA: false,
-    String universalLink
-    }) async {
+    String universalLink}) async {
   return await _channel.invokeMethod("registerApp", {
     "appId": appId,
     "iOS": doOnIOS,
     "android": doOnAndroid,
-    "universalLink":universalLink
+    "universalLink": universalLink
   });
 }
 

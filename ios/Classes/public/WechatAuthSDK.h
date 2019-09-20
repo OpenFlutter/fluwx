@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-enum AuthErrCode {
+enum  AuthErrCode {
     WechatAuth_Err_Ok = 0,  //Auth成功
     WechatAuth_Err_NormalErr = -1,  //普通错误
     WechatAuth_Err_NetworkErr = -2, //网络错误
@@ -20,7 +20,7 @@ enum AuthErrCode {
     WechatAuth_Err_Timeout = -5,    //超时
 };
 
-@protocol WechatAuthAPIDelegate <NSObject>
+@protocol WechatAuthAPIDelegate<NSObject>
 @optional
 
 - (void)onAuthGotQrcode:(UIImage *)image;  //得到二维码
@@ -29,12 +29,12 @@ enum AuthErrCode {
 
 @end
 
-@interface WechatAuthSDK : NSObject {
+@interface WechatAuthSDK : NSObject{
     NSString *_sdkVersion;
-    __weak id <WechatAuthAPIDelegate> _delegate;
+    __weak id<WechatAuthAPIDelegate> _delegate;
 }
 
-@property(nonatomic, weak, nullable) id <WechatAuthAPIDelegate> delegate;
+@property(nonatomic, weak, nullable) id<WechatAuthAPIDelegate> delegate;
 @property(nonatomic, readonly) NSString *sdkVersion;   //authSDK版本号
 
 /*! @brief 发送登录请求，等待WechatAuthAPIDelegate回调

@@ -63,8 +63,10 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 - (void)shareText:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *text = call.arguments[fluwxKeyText];
     NSString *scene = call.arguments[fluwxKeyScene];
-    BOOL done = [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene]];
-    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+    [WXApiRequestHandler sendText:text InScene:[StringToWeChatScene toScene:scene] completion:^(BOOL done) {
+        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+    }];
+
 }
 
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -111,16 +113,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSString *scene = call.arguments[fluwxKeyScene];
-            BOOL done = [WXApiRequestHandler sendImageData:imageData
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:call.arguments[fluwxKeyMessageExt]
-                                                    Action:call.arguments[fluwxKeyMessageAction]
-                                                ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]
-                                                     title:call.arguments[fluwxKeyTitle]
-                                               description:call.arguments[fluwxKeyDescription]
+            [WXApiRequestHandler sendImageData:imageData
+                                       TagName:call.arguments[fluwxKeyMediaTagName]
+                                    MessageExt:call.arguments[fluwxKeyMessageExt]
+                                        Action:call.arguments[fluwxKeyMessageAction]
+                                    ThumbImage:thumbnailImage
+                                       InScene:[StringToWeChatScene toScene:scene]
+                                         title:call.arguments[fluwxKeyTitle]
+                                   description:call.arguments[fluwxKeyDescription]
+                                    completion:^(BOOL done) {
+                                        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                    }
             ];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
 
@@ -153,16 +157,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSString *scene = call.arguments[fluwxKeyScene];
-            BOOL done = [WXApiRequestHandler sendImageData:imageData
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:call.arguments[fluwxKeyMessageExt]
-                                                    Action:call.arguments[fluwxKeyMessageAction]
-                                                ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]
-                                                     title:call.arguments[fluwxKeyTitle]
-                                               description:call.arguments[fluwxKeyDescription]
+            [WXApiRequestHandler sendImageData:imageData
+                                       TagName:call.arguments[fluwxKeyMediaTagName]
+                                    MessageExt:call.arguments[fluwxKeyMessageExt]
+                                        Action:call.arguments[fluwxKeyMessageAction]
+                                    ThumbImage:thumbnailImage
+                                       InScene:[StringToWeChatScene toScene:scene]
+                                         title:call.arguments[fluwxKeyTitle]
+                                   description:call.arguments[fluwxKeyDescription]
+                                    completion:^(BOOL done) {
+                                        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                    }
             ];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
 
@@ -198,16 +204,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSString *scene = call.arguments[fluwxKeyScene];
-            BOOL done = [WXApiRequestHandler sendImageData:imageData
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:call.arguments[fluwxKeyMessageExt]
-                                                    Action:call.arguments[fluwxKeyMessageAction]
-                                                ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]
-                                                     title:call.arguments[fluwxKeyTitle]
-                                               description:call.arguments[fluwxKeyDescription]
+            [WXApiRequestHandler sendImageData:imageData
+                                       TagName:call.arguments[fluwxKeyMediaTagName]
+                                    MessageExt:call.arguments[fluwxKeyMessageExt]
+                                        Action:call.arguments[fluwxKeyMessageAction]
+                                    ThumbImage:thumbnailImage
+                                       InScene:[StringToWeChatScene toScene:scene]
+                                         title:call.arguments[fluwxKeyTitle]
+                                   description:call.arguments[fluwxKeyDescription]
+                                    completion:^(BOOL done) {
+                                        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                    }
             ];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
 
         });
 
@@ -242,15 +250,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 //                                                    Action:fluwxKeyMessageAction
 //                                                ThumbImage:thumbnailImage
 //                                                   InScene:[StringToWeChatScene toScene:scene]];
-            BOOL done = [WXApiRequestHandler sendImageData:imageData
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                MessageExt:call.arguments[fluwxKeyMessageExt]
-                                                    Action:call.arguments[fluwxKeyMessageAction]
-                                                ThumbImage:thumbnailImage
-                                                   InScene:[StringToWeChatScene toScene:scene]
-                                                     title:call.arguments[fluwxKeyTitle]
-                                               description:call.arguments[fluwxKeyDescription]];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            [WXApiRequestHandler sendImageData:imageData
+                                       TagName:call.arguments[fluwxKeyMediaTagName]
+                                    MessageExt:call.arguments[fluwxKeyMessageExt]
+                                        Action:call.arguments[fluwxKeyMessageAction]
+                                    ThumbImage:thumbnailImage
+                                       InScene:[StringToWeChatScene toScene:scene]
+                                         title:call.arguments[fluwxKeyTitle]
+                                   description:call.arguments[fluwxKeyDescription]
+                                    completion:^(BOOL done) {
+                                        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                    }
+            ];
 
         });
 
@@ -273,15 +284,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
             NSString *webPageUrl = call.arguments[@"webPage"];
             NSString *scene = call.arguments[fluwxKeyScene];
 
-            BOOL done = [WXApiRequestHandler sendLinkURL:webPageUrl
-                                                 TagName:call.arguments[fluwxKeyMediaTagName]
-                                                   Title:call.arguments[fluwxKeyTitle]
-                                             Description:call.arguments[fluwxKeyDescription]
-                                              ThumbImage:thumbnailImage
-                                              MessageExt:call.arguments[fluwxKeyMessageExt]
-                                           MessageAction:call.arguments[fluwxKeyMessageAction]
-                                                 InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            [WXApiRequestHandler sendLinkURL:webPageUrl
+                                     TagName:call.arguments[fluwxKeyMediaTagName]
+                                       Title:call.arguments[fluwxKeyTitle]
+                                 Description:call.arguments[fluwxKeyDescription]
+                                  ThumbImage:thumbnailImage
+                                  MessageExt:call.arguments[fluwxKeyMessageExt]
+                               MessageAction:call.arguments[fluwxKeyMessageAction]
+                                     InScene:[StringToWeChatScene toScene:scene]
+
+                                  completion:^(BOOL done) {
+                                      result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                  }];
 
         });
 
@@ -303,18 +317,21 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
             NSString *scene = call.arguments[fluwxKeyScene];
 
-            BOOL done = [WXApiRequestHandler sendMusicURL:call.arguments[@"musicUrl"]
-                                                  dataURL:call.arguments[@"musicDataUrl"]
-                                          MusicLowBandUrl:call.arguments[@"musicLowBandUrl"]
-                                      MusicLowBandDataUrl:call.arguments[@"musicLowBandDataUrl"]
-                                                    Title:call.arguments[fluwxKeyTitle]
-                                              Description:call.arguments[fluwxKeyDescription]
-                                               ThumbImage:thumbnailImage
-                                               MessageExt:call.arguments[fluwxKeyMessageExt]
-                                            MessageAction:call.arguments[fluwxKeyMessageAction]
-                                                  TagName:call.arguments[fluwxKeyMediaTagName]
-                                                  InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            [WXApiRequestHandler sendMusicURL:call.arguments[@"musicUrl"]
+                                      dataURL:call.arguments[@"musicDataUrl"]
+                              MusicLowBandUrl:call.arguments[@"musicLowBandUrl"]
+                          MusicLowBandDataUrl:call.arguments[@"musicLowBandDataUrl"]
+                                        Title:call.arguments[fluwxKeyTitle]
+                                  Description:call.arguments[fluwxKeyDescription]
+                                   ThumbImage:thumbnailImage
+                                   MessageExt:call.arguments[fluwxKeyMessageExt]
+                                MessageAction:call.arguments[fluwxKeyMessageAction]
+                                      TagName:call.arguments[fluwxKeyMediaTagName]
+                                      InScene:[StringToWeChatScene toScene:scene]
+                                   completion:^(BOOL done) {
+                                       result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                   }
+            ];
 
         });
 
@@ -335,16 +352,18 @@ NSObject <FlutterPluginRegistrar> *_registrar;
 
             NSString *scene = call.arguments[fluwxKeyScene];
 
-            BOOL done = [WXApiRequestHandler sendVideoURL:call.arguments[@"videoUrl"]
-                                          VideoLowBandUrl:call.arguments[@"videoLowBandUrl"]
-                                                    Title:call.arguments[fluwxKeyTitle]
-                                              Description:call.arguments[fluwxKeyDescription]
-                                               ThumbImage:thumbnailImage
-                                               MessageExt:call.arguments[fluwxKeyMessageExt]
-                                            MessageAction:call.arguments[fluwxKeyMessageAction]
-                                                  TagName:call.arguments[fluwxKeyMediaTagName]
-                                                  InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            [WXApiRequestHandler sendVideoURL:call.arguments[@"videoUrl"]
+                              VideoLowBandUrl:call.arguments[@"videoLowBandUrl"]
+                                        Title:call.arguments[fluwxKeyTitle]
+                                  Description:call.arguments[fluwxKeyDescription]
+                                   ThumbImage:thumbnailImage
+                                   MessageExt:call.arguments[fluwxKeyMessageExt]
+                                MessageAction:call.arguments[fluwxKeyMessageAction]
+                                      TagName:call.arguments[fluwxKeyMediaTagName]
+                                      InScene:[StringToWeChatScene toScene:scene]
+                                   completion:^(BOOL done) {
+                                       result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                   }];
 
         });
 
@@ -394,20 +413,23 @@ NSObject <FlutterPluginRegistrar> *_registrar;
                 miniProgramType = WXMiniProgramTypePreview;
             }
 
-            BOOL done = [WXApiRequestHandler sendMiniProgramWebpageUrl:call.arguments[@"webPageUrl"]
-                                                              userName:call.arguments[@"userName"]
-                                                                  path:call.arguments[@"path"]
-                                                                 title:call.arguments[fluwxKeyTitle]
-                                                           Description:call.arguments[fluwxKeyDescription]
-                                                            ThumbImage:thumbnailImage
-                                                           hdImageData:hdImageData
-                                                       withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
-                                                       miniProgramType:miniProgramType
-                                                            MessageExt:call.arguments[fluwxKeyMessageExt]
-                                                         MessageAction:call.arguments[fluwxKeyMessageAction]
-                                                               TagName:call.arguments[fluwxKeyMediaTagName]
-                                                               InScene:[StringToWeChatScene toScene:scene]];
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            [WXApiRequestHandler sendMiniProgramWebpageUrl:call.arguments[@"webPageUrl"]
+                                                  userName:call.arguments[@"userName"]
+                                                      path:call.arguments[@"path"]
+                                                     title:call.arguments[fluwxKeyTitle]
+                                               Description:call.arguments[fluwxKeyDescription]
+                                                ThumbImage:thumbnailImage
+                                               hdImageData:hdImageData
+                                           withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
+                                           miniProgramType:miniProgramType
+                                                MessageExt:call.arguments[fluwxKeyMessageExt]
+                                             MessageAction:call.arguments[fluwxKeyMessageAction]
+                                                   TagName:call.arguments[fluwxKeyMediaTagName]
+                                                   InScene:[StringToWeChatScene toScene:scene]
+                                                completion:^(BOOL done) {
+                                                    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+                                                }
+            ];
 
         });
 

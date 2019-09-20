@@ -16,23 +16,26 @@
 
 #pragma mark - Public Methods
 
-+ (BOOL)sendText:(NSString *)text
-         InScene:(enum WXScene)scene {
++ (void)sendText:(NSString *)text
+         InScene:(enum WXScene)scene
+      completion:(void (^ __nullable)(BOOL success))completion {
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:text
                                                    OrMediaMessage:nil
                                                             bText:YES
-                                                          InScene:scene];
-    return [WXApi sendReq:req];
+                                                            InScene:scene];
+
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendImageData:(NSData *)imageData
++ (void)sendImageData:(NSData *)imageData
               TagName:(NSString *)tagName
            MessageExt:(NSString *)messageExt
                Action:(NSString *)action
            ThumbImage:(UIImage *)thumbImage
               InScene:(enum WXScene)scene
                 title:(NSString *)title
-          description:(NSString *)description {
+          description:(NSString *)description
+           completion:(void (^ __nullable)(BOOL success))completion {
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
 
@@ -50,17 +53,18 @@
                                                             bText:NO
                                                           InScene:scene];
 
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendLinkURL:(NSString *)urlString
++ (void)sendLinkURL:(NSString *)urlString
             TagName:(NSString *)tagName
               Title:(NSString *)title
         Description:(NSString *)description
          ThumbImage:(UIImage *)thumbImage
          MessageExt:(NSString *)messageExt
       MessageAction:(NSString *)messageAction
-            InScene:(enum WXScene)scene {
+            InScene:(enum WXScene)scene
+         completion:(void (^ __nullable)(BOOL success))completion {
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = urlString;
 
@@ -76,10 +80,10 @@
                                                    OrMediaMessage:message
                                                             bText:NO
                                                           InScene:scene];
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendMusicURL:(NSString *)musicURL
++ (void)sendMusicURL:(NSString *)musicURL
              dataURL:(NSString *)dataURL
      MusicLowBandUrl:(NSString *)musicLowBandUrl
  MusicLowBandDataUrl:(NSString *)musicLowBandDataUrl
@@ -89,7 +93,8 @@
           MessageExt:(NSString *)messageExt
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
-             InScene:(enum WXScene)scene {
+             InScene:(enum WXScene)scene
+          completion:(void (^ __nullable)(BOOL success))completion {
     WXMusicObject *ext = [WXMusicObject object];
 
     if ([StringUtil isBlank:musicURL]) {
@@ -114,10 +119,10 @@
                                                             bText:NO
                                                           InScene:scene];
 
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendVideoURL:(NSString *)videoURL
++ (void)sendVideoURL:(NSString *)videoURL
      VideoLowBandUrl:(NSString *)videoLowBandUrl
                Title:(NSString *)title
          Description:(NSString *)description
@@ -125,7 +130,8 @@
           MessageExt:(NSString *)messageExt
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
-             InScene:(enum WXScene)scene {
+             InScene:(enum WXScene)scene
+          completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = (title == (id) [NSNull null]) ? nil : title;
     message.description = (description == (id) [NSNull null]) ? nil : description;
@@ -146,12 +152,13 @@
                                                    OrMediaMessage:message
                                                             bText:NO
                                                           InScene:scene];
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendEmotionData:(NSData *)emotionData
++ (void)sendEmotionData:(NSData *)emotionData
              ThumbImage:(UIImage *)thumbImage
-                InScene:(enum WXScene)scene {
+                InScene:(enum WXScene)scene
+             completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     [message setThumbImage:thumbImage];
 
@@ -164,15 +171,16 @@
                                                    OrMediaMessage:message
                                                             bText:NO
                                                           InScene:scene];
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendFileData:(NSData *)fileData
++ (void)sendFileData:(NSData *)fileData
        fileExtension:(NSString *)extension
                Title:(NSString *)title
          Description:(NSString *)description
           ThumbImage:(UIImage *)thumbImage
-             InScene:(enum WXScene)scene {
+             InScene:(enum WXScene)scene
+          completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
     message.description = description;
@@ -188,10 +196,10 @@
                                                    OrMediaMessage:message
                                                             bText:NO
                                                           InScene:scene];
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)sendMiniProgramWebpageUrl:(NSString *)webpageUrl
++ (void)sendMiniProgramWebpageUrl:(NSString *)webpageUrl
                          userName:(NSString *)userName
                              path:(NSString *)path
                             title:(NSString *)title
@@ -203,7 +211,8 @@
                        MessageExt:(NSString *)messageExt
                     MessageAction:(NSString *)messageAction
                           TagName:(NSString *)tagName
-                          InScene:(enum WXScene)scene {
+                          InScene:(enum WXScene)scene
+                       completion:(void (^ __nullable)(BOOL success))completion {
     WXMiniProgramObject *ext = [WXMiniProgramObject object];
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
     ext.userName = (userName == (id) [NSNull null]) ? nil : userName;
@@ -236,22 +245,23 @@
                                                             bText:NO
                                                           InScene:scene];
 
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)launchMiniProgramWithUserName:(NSString *)userName
++ (void)launchMiniProgramWithUserName:(NSString *)userName
                                  path:(NSString *)path
-                                 type:(WXMiniProgramType)miniProgramType {
+                                 type:(WXMiniProgramType)miniProgramType
+                           completion:(void (^ __nullable)(BOOL success))completion {
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     launchMiniProgramReq.userName = userName;
     launchMiniProgramReq.path = (path == (id) [NSNull null]) ? nil : path;
     launchMiniProgramReq.miniProgramType = miniProgramType;
 
-    return [WXApi sendReq:launchMiniProgramReq];
+    [WXApi sendReq:launchMiniProgramReq completion:completion];
 }
 
 
-+ (BOOL)sendAppContentData:(NSData *)data
++ (void)sendAppContentData:(NSData *)data
                    ExtInfo:(NSString *)info
                     ExtURL:(NSString *)url
                      Title:(NSString *)title
@@ -259,7 +269,8 @@
                 MessageExt:(NSString *)messageExt
              MessageAction:(NSString *)action
                 ThumbImage:(UIImage *)thumbImage
-                   InScene:(enum WXScene)scene {
+                   InScene:(enum WXScene)scene
+                completion:(void (^ __nullable)(BOOL success))completion {
     WXAppExtendObject *ext = [WXAppExtendObject object];
     ext.extInfo = info;
     ext.url = url;
@@ -277,11 +288,12 @@
                                                    OrMediaMessage:message
                                                             bText:NO
                                                           InScene:scene];
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 
 }
 
-+ (BOOL)addCardsToCardPackage:(NSArray *)cardIds cardExts:(NSArray *)cardExts {
++ (void)addCardsToCardPackage:(NSArray *)cardIds cardExts:(NSArray *)cardExts
+                   completion:(void (^ __nullable)(BOOL success))completion {
     NSMutableArray *cardItems = [NSMutableArray array];
     for (NSString *cardId in cardIds) {
         WXCardItem *item = [[WXCardItem alloc] init];
@@ -298,84 +310,71 @@
 
     AddCardToWXCardPackageReq *req = [[AddCardToWXCardPackageReq alloc] init];
     req.cardAry = cardItems;
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)chooseCard:(NSString *)appid
++ (void)chooseCard:(NSString *)appid
           cardSign:(NSString *)cardSign
           nonceStr:(NSString *)nonceStr
           signType:(NSString *)signType
-         timestamp:(UInt32)timestamp {
+         timestamp:(UInt32)timestamp
+        completion:(void (^ __nullable)(BOOL success))completion {
     WXChooseCardReq *chooseCardReq = [[WXChooseCardReq alloc] init];
     chooseCardReq.appID = appid;
     chooseCardReq.cardSign = cardSign;
     chooseCardReq.nonceStr = nonceStr;
     chooseCardReq.signType = signType;
     chooseCardReq.timeStamp = timestamp;
-    return [WXApi sendReq:chooseCardReq];
+    [WXApi sendReq:chooseCardReq completion:completion];
 
 }
 
-+ (BOOL)sendAuthRequestScope:(NSString *)scope
++ (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
                       OpenID:(NSString *)openID
-            InViewController:(UIViewController *)viewController {
+            InViewController:(UIViewController *)viewController
+                  completion:(void (^ __nullable)(BOOL success))completion {
     SendAuthReq *req = [[SendAuthReq alloc] init];
     req.scope = scope; // @"post_timeline,sns"
     req.state = state;
     req.openID = openID;
+
 
     return [WXApi sendAuthReq:req
                viewController:viewController
-                     delegate:[FluwxResponseHandler defaultManager]];
+                     delegate:[FluwxResponseHandler defaultManager]
+                   completion:completion];
 }
 
-+ (BOOL)sendAuthRequestScope:(NSString *)scope
++ (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
-                      OpenID:(NSString *)openID {
+                      OpenID:(NSString *)openID
+                  completion:(void (^ __nullable)(BOOL success))completion {
     SendAuthReq *req = [[SendAuthReq alloc] init];
     req.scope = scope; // @"post_timeline,sns"
     req.state = state;
     req.openID = openID;
 
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)openProfileWithAppID:(NSString *)appID
-                 Description:(NSString *)description
-                    UserName:(NSString *)userName
-                      ExtMsg:(NSString *)extMessage {
-    [WXApi registerApp:appID];
-    JumpToBizProfileReq *req = [[JumpToBizProfileReq alloc] init];
-    req.profileType = WXBizProfileType_Device;
-    req.username = userName;
-    req.extMsg = extMessage;
-    return [WXApi sendReq:req];
-}
 
-+ (BOOL)jumpToBizWebviewWithAppID:(NSString *)appID
-                      Description:(NSString *)description
-                        tousrname:(NSString *)tousrname
-                           ExtMsg:(NSString *)extMsg {
-    [WXApi registerApp:appID];
-    JumpToBizWebviewReq *req = [[JumpToBizWebviewReq alloc] init];
-    req.tousrname = tousrname;
-    req.extMsg = extMsg;
-    req.webType = WXMPWebviewType_Ad;
-    return [WXApi sendReq:req];
-}
 
-+ (BOOL)openUrl:(NSString *)url {
+
+
++ (void)openUrl:(NSString *)url
+     completion:(void (^ __nullable)(BOOL success))completion {
     OpenWebviewReq *req = [[OpenWebviewReq alloc] init];
     req.url = url;
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
-+ (BOOL)chooseInvoice:(NSString *)appid
++ (void)chooseInvoice:(NSString *)appid
              cardSign:(NSString *)cardSign
              nonceStr:(NSString *)nonceStr
              signType:(NSString *)signType
-            timestamp:(UInt32)timestamp {
+            timestamp:(UInt32)timestamp
+           completion:(void (^ __nullable)(BOOL success))completion {
     WXChooseInvoiceReq *chooseInvoiceReq = [[WXChooseInvoiceReq alloc] init];
     chooseInvoiceReq.appID = appid;
     chooseInvoiceReq.cardSign = cardSign;
@@ -384,11 +383,12 @@
 //    chooseCardReq.cardType = @"INVOICE";
     chooseInvoiceReq.timeStamp = timestamp;
 //    chooseCardReq.canMultiSelect = 1;
-    return [WXApi sendReq:chooseInvoiceReq];
+    [WXApi sendReq:chooseInvoiceReq completion:completion];
 }
 
 
-+ (BOOL)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign {
++ (void)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign
+         completion:(void (^ __nullable)(BOOL success))completion {
 
     PayReq *req = [[PayReq alloc] init];
     req.openID = (appId == (id) [NSNull null]) ? nil : appId;
@@ -400,7 +400,7 @@
     req.sign = sign;
 
 
-    return [WXApi sendReq:req];
+    [WXApi sendReq:req completion:completion];
 }
 
 @end

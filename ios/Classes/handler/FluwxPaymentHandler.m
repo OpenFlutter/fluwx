@@ -31,13 +31,14 @@
     NSString *nonceStr = call.arguments[@"nonceStr"];
     UInt32 timeStamp = [timestamp unsignedIntValue];
     NSString *sign = call.arguments[@"sign"];
-    BOOL done = [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
-                                       PartnerId:partnerId
-                                        PrepayId:prepayId
-                                        NonceStr:nonceStr
-                                       Timestamp:timeStamp
-                                         Package:packageValue
-                                            Sign:sign];
-    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+    [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
+                           PartnerId:partnerId
+                            PrepayId:prepayId
+                            NonceStr:nonceStr
+                           Timestamp:timeStamp
+                             Package:packageValue
+                                Sign:sign completion:^(BOOL done) {
+                result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            }];
 }
 @end

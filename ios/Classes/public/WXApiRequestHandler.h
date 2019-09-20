@@ -12,28 +12,31 @@
 
 @interface WXApiRequestHandler : NSObject
 
-+ (BOOL)sendText:(NSString *)text
-         InScene:(enum WXScene)scene;
++ (void)sendText:(NSString *)text
+         InScene:(enum WXScene)scene
+      completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendImageData:(NSData *)imageData
++ (void)sendImageData:(NSData *)imageData
               TagName:(NSString *)tagName
            MessageExt:(NSString *)messageExt
                Action:(NSString *)action
            ThumbImage:(UIImage *)thumbImage
               InScene:(enum WXScene)scene
                 title:(NSString *)title
-          description:(NSString *)description;
+          description:(NSString *)description
+           completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendLinkURL:(NSString *)urlString
++ (void)sendLinkURL:(NSString *)urlString
             TagName:(NSString *)tagName
               Title:(NSString *)title
         Description:(NSString *)description
          ThumbImage:(UIImage *)thumbImage
          MessageExt:(NSString *)messageExt
       MessageAction:(NSString *)messageAction
-            InScene:(enum WXScene)scene;
+            InScene:(enum WXScene)scene
+         completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendMusicURL:(NSString *)musicURL
++ (void)sendMusicURL:(NSString *)musicURL
              dataURL:(NSString *)dataURL
      MusicLowBandUrl:(NSString *)musicLowBandUrl
  MusicLowBandDataUrl:(NSString *)musicLowBandDataUrl
@@ -43,9 +46,10 @@
           MessageExt:(NSString *)messageExt
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
-             InScene:(enum WXScene)scene;
+             InScene:(enum WXScene)scene
+          completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendVideoURL:(NSString *)videoURL
++ (void)sendVideoURL:(NSString *)videoURL
      VideoLowBandUrl:(NSString *)videoLowBandUrl
                Title:(NSString *)title
          Description:(NSString *)description
@@ -53,20 +57,22 @@
           MessageExt:(NSString *)messageExt
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
-             InScene:(enum WXScene)scene;
+             InScene:(enum WXScene)scene
+          completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendEmotionData:(NSData *)emotionData
++ (void)sendEmotionData:(NSData *)emotionData
              ThumbImage:(UIImage *)thumbImage
                 InScene:(enum WXScene)scene;
 
-+ (BOOL)sendFileData:(NSData *)fileData
++ (void)sendFileData:(NSData *)fileData
        fileExtension:(NSString *)extension
                Title:(NSString *)title
          Description:(NSString *)description
           ThumbImage:(UIImage *)thumbImage
-             InScene:(enum WXScene)scene;
+             InScene:(enum WXScene)scene
+          completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendMiniProgramWebpageUrl:(NSString *)webpageUrl
++ (void)sendMiniProgramWebpageUrl:(NSString *)webpageUrl
                          userName:(NSString *)userName
                              path:(NSString *)path
                             title:(NSString *)title
@@ -78,13 +84,15 @@
                        MessageExt:(NSString *)messageExt
                     MessageAction:(NSString *)messageAction
                           TagName:(NSString *)tagName
-                          InScene:(enum WXScene)scene;
+                          InScene:(enum WXScene)scene
+                       completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)launchMiniProgramWithUserName:(NSString *)userName
++ (void)launchMiniProgramWithUserName:(NSString *)userName
                                  path:(NSString *)path
-                                 type:(WXMiniProgramType)miniProgramType;
+                                 type:(WXMiniProgramType)miniProgramType
+                           completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendAppContentData:(NSData *)data
++ (void)sendAppContentData:(NSData *)data
                    ExtInfo:(NSString *)info
                     ExtURL:(NSString *)url
                      Title:(NSString *)title
@@ -92,50 +100,49 @@
                 MessageExt:(NSString *)messageExt
              MessageAction:(NSString *)action
                 ThumbImage:(UIImage *)thumbImage
-                   InScene:(enum WXScene)scene;
+                   InScene:(enum WXScene)scene
+                completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)addCardsToCardPackage:(NSArray *)cardIds cardExts:(NSArray *)cardExts;
++ (void)addCardsToCardPackage:(NSArray *)cardIds cardExts:(NSArray *)cardExts
+                   completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendAuthRequestScope:(NSString *)scope
++ (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
                       OpenID:(NSString *)openID
-            InViewController:(UIViewController *)viewController;
+            InViewController:(UIViewController *)viewController
+                  completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)sendAuthRequestScope:(NSString *)scope
++ (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
-                      OpenID:(NSString *)openID;
+                      OpenID:(NSString *)openID
+                  completion:(void (^ __nullable)(BOOL success))completion;
 
 
-+ (BOOL)openProfileWithAppID:(NSString *)appID
-                 Description:(NSString *)description
-                    UserName:(NSString *)userName
-                      ExtMsg:(NSString *)extMessage;
 
-+ (BOOL)jumpToBizWebviewWithAppID:(NSString *)appID
-                      Description:(NSString *)description
-                        tousrname:(NSString *)tousrname
-                           ExtMsg:(NSString *)extMsg;
-
-+ (BOOL)chooseCard:(NSString *)appid
++ (void)chooseCard:(NSString *)appid
           cardSign:(NSString *)cardSign
           nonceStr:(NSString *)nonceStr
           signType:(NSString *)signType
-         timestamp:(UInt32)timestamp;
+         timestamp:(UInt32)timestamp
+        completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)openUrl:(NSString *)url;
++ (void)openUrl:(NSString *)url
+     completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (BOOL)chooseInvoice:(NSString *)appid
++ (void)chooseInvoice:(NSString *)appid
              cardSign:(NSString *)cardSign
              nonceStr:(NSString *)nonceStr
              signType:(NSString *)signType
-            timestamp:(UInt32)timestamp;
+            timestamp:(UInt32)timestamp
+           completion:(void (^ __nullable)(BOOL success))completion;
 
 
-+ (BOOL)sendPayment:(NSString *)appId
++ (void)sendPayment:(NSString *)appId
           PartnerId:(NSString *)partnerId
            PrepayId:(NSString *)prepayId
            NonceStr:(NSString *)nonceStr
           Timestamp:(UInt32)timestamp
             Package:(NSString *)package
-               Sign:(NSString *)sign;
+               Sign:(NSString *)sign
+         completion:(void (^ __nullable)(BOOL success))completion;
 @end

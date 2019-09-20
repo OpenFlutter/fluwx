@@ -25,10 +25,9 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
 - (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *openId = call.arguments[@"openId"];
 
-    BOOL done = [WXApiRequestHandler sendAuthRequestScope:call.arguments[@"scope"]
-                                                    State:(call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"]
-                                                   OpenID:(openId == (id) [NSNull null]) ? nil : openId];
-    result(@(done));
+    [WXApiRequestHandler sendAuthRequestScope:call.arguments[@"scope"]
+                                        State:(call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"]
+                                       OpenID:(openId == (id) [NSNull null]) ? nil : openId completion:^(BOOL done) {result(@(done));}];
 }
 
 - (void)authByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result {

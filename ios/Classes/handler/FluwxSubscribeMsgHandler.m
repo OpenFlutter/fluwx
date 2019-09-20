@@ -32,9 +32,9 @@
     req.reserved = reserved;
     req.openID = appId;
 
-    BOOL b = [WXApi sendReq:req];
+    [WXApi sendReq:req completion:^(BOOL done) {result(@(done));}];
 
-    result(@(b));
+   
 }
 
 

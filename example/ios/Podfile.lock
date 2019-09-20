@@ -14,8 +14,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/fluwx/ios"
 
 SPEC CHECKSUMS:
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
-  fluwx: 19524c5e4c9c539a646407259139c9c1e4eaf9e5
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  fluwx: 765c6052398eaf6fe13c73409488b0d0b9d00fd6
 
 PODFILE CHECKSUM: 348e15598a1c6ea25d3ed63919d5ffb9bd1c2ba6
 

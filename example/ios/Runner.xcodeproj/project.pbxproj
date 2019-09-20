@@ -451,7 +451,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jarvanmo.fluwxexample1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jarvanmo.fluwxexample2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../..\"/** \"${PROJECT_DIR}/../..\"/**";
@@ -479,7 +479,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.jarvanmo.fluwxexample1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jarvanmo.fluwxexample2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "\"${PROJECT_DIR}/../..\"/** \"${PROJECT_DIR}/../..\"/**";

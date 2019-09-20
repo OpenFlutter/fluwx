@@ -26,9 +26,10 @@
         miniProgramType = WXMiniProgramTypePreview;
     }
 
-    BOOL done = [WXApiRequestHandler launchMiniProgramWithUserName:userName
-                                                              path:path
-                                                              type:miniProgramType];
-    result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+    [WXApiRequestHandler launchMiniProgramWithUserName:userName
+                                                  path:path
+                                                  type:miniProgramType completion:^(BOOL done) {
+                result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            }];
 }
 @end

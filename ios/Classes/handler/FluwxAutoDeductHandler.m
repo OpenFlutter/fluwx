@@ -27,9 +27,11 @@
     NSNumber *businessType = call.arguments[@"businessType"];
     req.businessType = [businessType unsignedIntValue];
     req.queryInfoDic = paramsFromDart;
-    BOOL b = [WXApi sendReq:req];
+    [WXApi sendReq:req completion:^(BOOL done) {
+        result(@(done));
+    }];
 
-    result(@(b));
+
 }
 
 - (NSString *)convertToJsonData:(NSDictionary *)dict {

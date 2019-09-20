@@ -8,7 +8,9 @@
 QQ Group：892398530。
 
 ## Before
- Before using`Fluwx`,read [the official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.
+ Before using`Fluwx`,read [the official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.  
+ This is very important because some configurations or details are not listed here.
+
 
 
 ### What does Fluwx support?
@@ -60,12 +62,14 @@ Before using`Fluwx`,you should init `FLuwx`：
 
  ```dart
     import 'package:fluwx/fluwx.dart' as fluwx;
-    fluwx.register(appId:"wxd930ea5d5a258f4f");
+    fluwx.register(appId:"wxd930ea5d5a258f4f",universalLink:"");
+    
  ```
+Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore.
 
 
-
-> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add a URLSchema for iOS.
+> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  URLSchema or universal link for iOS. 
+for detail, please read the official documents
 
 ### More
 * [Share](./doc/SHARE.md)

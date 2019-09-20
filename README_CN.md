@@ -9,6 +9,7 @@ QQ群：892398530。
 ## 使用需知
  使用`Fluwx`之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
  这有助于你使用`Fluwx`。
+ 这很重要，因为有一些概念以及配置不会体现在本文档中。
 
 ### 目前功能
 * 文本分享。
@@ -59,9 +60,10 @@ dependencies:
      import 'package:fluwx/fluwx.dart' as fluwx;
      fluwx.register(appId:"wxd930ea5d5a258f4f");
  ```
+如果你想通过fluwx注册微信，请务必提供 `universalLink` ，否则无视这句话.
 
 
-> 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema等。
+> 注意：尽管可以通过Fluwx完成微信注册，但一些操作依然需要在对应平台进行设置，如配置iOS的URLSchema,universal link等。
 
 ### 传送门
 * [分享](./doc/SHARE_CN.md)。

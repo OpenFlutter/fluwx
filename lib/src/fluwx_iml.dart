@@ -133,7 +133,6 @@ Future register(
     "appId": appId,
     "iOS": doOnIOS,
     "android": doOnAndroid,
-    "enableMTA": enableMTA,
     "universalLink":universalLink
   });
 }

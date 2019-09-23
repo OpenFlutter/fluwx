@@ -69,7 +69,7 @@ Developers must provide `universalLink` if you want register WeChat via fluwx, o
 
 
 > NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  URLSchema or universal link for iOS. 
-for detail, please read the official documents
+Please read the official documents for details.
 
 ### More
 * [Share](./doc/SHARE.md)

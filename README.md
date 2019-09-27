@@ -68,7 +68,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore.
 
 
-> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  _URLSchema, LSApplicationQueriesSchemes or universal link_ for iOS. 
+> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  *URLSchema, LSApplicationQueriesSchemes or universal link* for iOS. 
 Please read the official documents for details.
 
 ### More

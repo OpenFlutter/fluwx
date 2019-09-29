@@ -3,7 +3,7 @@
 * iOS SDK升级至1.8.6.1，本版本开始支持universal link。
 * Android SDK更换至without-mat:5.4.3
 * Android配置升级
-* 移队MTA选项
+* 移除MTA选项
 
 
 ## 1.0.6

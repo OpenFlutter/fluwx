@@ -90,28 +90,28 @@ final MethodChannel _channel = const MethodChannel('com.jarvanmo/fluwx')
 
 Future<dynamic> _handler(MethodCall methodCall) {
   if ("onShareResponse" == methodCall.method) {
-    _responseShareController
+    _responseShareController.sink
         .add(WeChatShareResponse.fromMap(methodCall.arguments));
   } else if ("onAuthResponse" == methodCall.method) {
-    _responseAuthController
+    _responseAuthController.sink
         .add(WeChatAuthResponse.fromMap(methodCall.arguments));
   } else if ("onLaunchMiniProgramResponse" == methodCall.method) {
-    _responseLaunchMiniProgramController
+    _responseLaunchMiniProgramController.sink
         .add(WeChatLaunchMiniProgramResponse.fromMap(methodCall.arguments));
   } else if ("onPayResponse" == methodCall.method) {
-    _responsePaymentController
+    _responsePaymentController.sink
         .add(WeChatPaymentResponse.fromMap(methodCall.arguments));
   } else if ("onSubscribeMsgResp" == methodCall.method) {
-    _responseFromSubscribeMsg
+    _responseFromSubscribeMsg.sink
         .add(WeChatSubscribeMsgResp.fromMap(methodCall.arguments));
   } else if ("onAuthByQRCodeFinished" == methodCall.method) {
     _handleOnAuthByQRCodeFinished(methodCall);
   } else if ("onAuthGotQRCode" == methodCall.method) {
-    _onAuthGotQRCodeController.add(methodCall.arguments);
+    _onAuthGotQRCodeController.sink.add(methodCall.arguments);
   } else if ("onQRCodeScanned" == methodCall.method) {
-    _onQRCodeScannedController.add(null);
+    _onQRCodeScannedController.sink.add(null);
   } else if ("onAutoDeductResponse" == methodCall.method) {
-    _responseAutoDeductController
+    _responseAutoDeductController.sink
         .add(WeChatAutoDeductResponse.fromMap(methodCall.arguments));
   }
 
@@ -348,7 +348,7 @@ Future<bool> openWeChatApp() async {
 
 _handleOnAuthByQRCodeFinished(MethodCall methodCall) {
   int errCode = methodCall.arguments["errCode"];
-  _authByQRCodeFinishedController.add(AuthByQRCodeResult(
+  _authByQRCodeFinishedController.sink.add(AuthByQRCodeResult(
       methodCall.arguments["authCode"],
       _authByQRCodeErrorCodes[errCode] ?? AuthByQRCodeErrorCode.UNKNOWN));
 }

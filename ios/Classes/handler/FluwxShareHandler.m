@@ -18,13 +18,13 @@
 
 CGFloat thumbnailWidth;
 
-NSObject <FlutterPluginRegistrar> *_registrar;
+NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 
 - (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     self = [super init];
     if (self) {
-        _registrar = registrar;
+        _fluwxRegistrar = registrar;
         thumbnailWidth = 150;
     }
 
@@ -478,9 +478,9 @@ NSObject <FlutterPluginRegistrar> *_registrar;
     NSArray *array = [self formatAssets:imagePath];
     NSString *key;
     if ([StringUtil isBlank:array[1]]) {
-        key = [_registrar lookupKeyForAsset:array[0]];
+        key = [_fluwxRegistrar lookupKeyForAsset:array[0]];
     } else {
-        key = [_registrar lookupKeyForAsset:array[0] fromPackage:array[1]];
+        key = [_fluwxRegistrar lookupKeyForAsset:array[0] fromPackage:array[1]];
     }
 
     return [[NSBundle mainBundle] pathForResource:key ofType:nil];

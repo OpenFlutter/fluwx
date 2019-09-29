@@ -6,7 +6,7 @@
 
 NSString *const resultDone = @"done";
 NSString *const resultErrorNeedWeChat = @"wxapi not configured";
-NSString *const resultMessageNeedWeChat = @"please config  wxapi first";
+NSString *const resultMessageNeedWeChat = @"WxApi Not Registered";
 
 @implementation CallResults {
 

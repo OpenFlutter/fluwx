@@ -47,7 +47,7 @@
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {
     if (!isWeChatRegistered) {
-        result([FlutterError errorWithCode:resultErrorNeedWeChat message:@"please config  wxapi first" details:nil]);
+        result([FlutterError errorWithCode:resultErrorNeedWeChat message:@"Did you register your WxApi correctly? Or is your universal link correct?" details:nil]);
         return;
     } else {
         result(@([WXApi isWXAppInstalled]));

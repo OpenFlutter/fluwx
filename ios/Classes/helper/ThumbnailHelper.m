@@ -7,7 +7,7 @@
 
 @implementation ThumbnailHelper
 
-+ (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength isPNG:(BOOL) isPNG{
++ (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength isPNG:(BOOL)isPNG {
     // Compress by quality
     CGFloat compression = 1;
     NSData *data = UIImageJPEGRepresentation(image, compression);
@@ -27,8 +27,8 @@
         }
     }
 
-    UIImage *resultImage ;
-    if(isPNG){
+    UIImage *resultImage;
+    if (isPNG) {
         NSData *tmp = UIImagePNGRepresentation([UIImage imageWithData:data]);
         resultImage = [UIImage imageWithData:tmp];
     } else {
@@ -42,9 +42,9 @@
     NSUInteger lastDataLength = 0;
     while (data.length > maxLength && data.length != lastDataLength) {
         lastDataLength = data.length;
-        CGFloat ratio = (CGFloat)maxLength / data.length;
-        CGSize size = CGSizeMake((NSUInteger)(resultImage.size.width * sqrtf(ratio)),
-                (NSUInteger)(resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
+        CGFloat ratio = (CGFloat) maxLength / data.length;
+        CGSize size = CGSizeMake((NSUInteger) (resultImage.size.width * sqrtf(ratio)),
+                (NSUInteger) (resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
         UIGraphicsBeginImageContext(size);
         [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
         resultImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -56,34 +56,33 @@
 }
 
 
-- (UIImage*)scaleFromImage:(UIImage*)image width:(CGSize)newSize {
+- (UIImage *)scaleFromImage:(UIImage *)image width:(CGSize)newSize {
     CGSize imageSize = image.size;
     CGFloat width = imageSize.width;
     CGFloat height = imageSize.height;
 
-    if (width <= newSize.width && height <= newSize.height){
+    if (width <= newSize.width && height <= newSize.height) {
         return image;
     }
 
-    if (width == 0 || height == 0){
+    if (width == 0 || height == 0) {
         return image;
     }
 
     CGFloat widthFactor = newSize.width / width;
     CGFloat heightFactor = newSize.height / height;
-    CGFloat scaleFactor = (widthFactor<heightFactor?widthFactor:heightFactor);
+    CGFloat scaleFactor = (widthFactor < heightFactor ? widthFactor : heightFactor);
 
     CGFloat scaledWidth = width * scaleFactor;
     CGFloat scaledHeight = height * scaleFactor;
-    CGSize targetSize = CGSizeMake(scaledWidth,scaledHeight);
+    CGSize targetSize = CGSizeMake(scaledWidth, scaledHeight);
 
     UIGraphicsBeginImageContext(targetSize);
-    [image drawInRect:CGRectMake(0,0,scaledWidth,scaledHeight)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    [image drawInRect:CGRectMake(0, 0, scaledWidth, scaledHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
 }
-
 
 
 @end

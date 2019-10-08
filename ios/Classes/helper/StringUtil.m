@@ -7,7 +7,7 @@
 
 @implementation StringUtil
 
-+ (BOOL) isBlank:(NSString *)string {
++ (BOOL)isBlank:(NSString *)string {
 
     if (string == nil) {
 
@@ -26,6 +26,6 @@
 }
 
 + (NSString *)nilToEmpty:(NSString *)string {
-    return string == nil?@"":string;
+    return string == nil ? @"" : string;
 }
 @end

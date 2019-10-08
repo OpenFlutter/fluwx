@@ -7,5 +7,6 @@
 extern NSString *const resultDone;
 extern NSString *const resultErrorNeedWeChat;
 extern NSString *const resultMessageNeedWeChat;
+
 @interface CallResults : NSObject
 @end

@@ -54,7 +54,7 @@ object WXAPiHandler {
         }
 
 
-        val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId, call.argument<Boolean>("enableMTA")!!)
+        val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId)
         val registered = api.registerApp(appId)
         wxApi = api
         result.success(mapOf(

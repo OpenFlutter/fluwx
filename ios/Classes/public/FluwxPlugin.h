@@ -16,14 +16,11 @@
 #import <Flutter/Flutter.h>
 
 
-
-
 extern BOOL isWeChatRegistered;
 extern BOOL handleOpenURLByFluwx;
 
 
-@interface FluwxPlugin : NSObject<FlutterPlugin> {
-
+@interface FluwxPlugin : NSObject <FlutterPlugin> {
 
 
 }

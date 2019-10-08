@@ -14,6 +14,8 @@ extern NSString *const fluwxKeyText;
 extern NSString *const fluwxKeyTitle;
 extern NSString *const fluwxKeyImage;
 extern NSString *const fluwxKeyThumbnail;
+extern NSString *const fluwxKeyImageData;
+
 extern NSString *const fluwxKeyDescription;
 
 extern NSString *const fluwxKeyPackage;

@@ -20,7 +20,7 @@ A new Flutter plugin for Wechat SDK.
 
 # s.dependency 'OpenWeChatSDK','~> 1.8.3+10'
 #  s.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}" }
-  s.frameworks = ["SystemConfiguration", "CoreTelephony"]
+  s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
   s.libraries = ["z", "sqlite3.0", "c++"]
   s.preserve_paths = 'Lib/*.a'
   s.vendored_libraries = "**/*.a"

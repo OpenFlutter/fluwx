@@ -4,7 +4,6 @@
 
 #import "FluwxPaymentHandler.h"
 #import "FluwxMethods.h"
-#import "FluwxKeys.h"
 #import "FluwxWXApiHandler.h"
 
 
@@ -96,6 +95,12 @@ FluwxPaymentHandler *_fluwxPaymentHandler;
     }
 
     
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler
+{
+    [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
+    return NO;
 }
 
 

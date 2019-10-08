@@ -11,6 +11,7 @@
 
 #import "WXApiObject.h"
 #import "WXApi.h"
+
 @protocol WXApiManagerDelegate <NSObject>
 
 @optional
@@ -44,12 +45,12 @@
 - (void)managerDidRecvPaymentResponse:(PayResp *)response;
 @end
 
-@interface FluwxResponseHandler : NSObject<WXApiDelegate>
+@interface FluwxResponseHandler : NSObject <WXApiDelegate>
 
-@property (nonatomic, assign) id<WXApiManagerDelegate> delegate;
+@property(nonatomic, assign) id <WXApiManagerDelegate> delegate;
 
 + (instancetype)defaultManager;
 
-- (void) setMethodChannel:(FlutterMethodChannel *) flutterMethodChannel;
+- (void)setMethodChannel:(FlutterMethodChannel *)flutterMethodChannel;
 
 @end

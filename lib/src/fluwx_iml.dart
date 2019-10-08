@@ -122,11 +122,29 @@ Future<dynamic> _handler(MethodCall methodCall) {
 ///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
 ///if [doOnAndroid] is true, fluwx will register WXApi on Android.
 /// [universalLink] is required if you want to register on iOS.
+@Deprecated("repleace with registerWxApi")
 Future register(
     {String appId,
     bool doOnIOS: true,
     bool doOnAndroid: true,
     String universalLink}) async {
+  return await _channel.invokeMethod("registerApp", {
+    "appId": appId,
+    "iOS": doOnIOS,
+    "android": doOnAndroid,
+    "universalLink": universalLink
+  });
+}
+
+///[appId] is not necessary.
+///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
+///if [doOnAndroid] is true, fluwx will register WXApi on Android.
+/// [universalLink] is required if you want to register on iOS.
+Future registerWxApi(
+    {String appId,
+      bool doOnIOS: true,
+      bool doOnAndroid: true,
+      String universalLink}) async {
   return await _channel.invokeMethod("registerApp", {
     "appId": appId,
     "iOS": doOnIOS,

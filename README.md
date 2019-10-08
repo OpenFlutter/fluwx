@@ -62,14 +62,14 @@ Before using`Fluwx`,you should init `FLuwx`：
 
  ```dart
     import 'package:fluwx/fluwx.dart' as fluwx;
-    fluwx.register(appId:"wxd930ea5d5a258f4f",universalLink:"");
+    fluwx.register(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
     
  ```
 Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore.
 
 
-> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  URLSchema or universal link for iOS. 
-for detail, please read the official documents
+> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  *URLSchema, LSApplicationQueriesSchemes or universal link* for iOS. 
+Please read the official documents for details.
 
 ### More
 * [Share](./doc/SHARE.md)

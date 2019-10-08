@@ -62,7 +62,7 @@ Before using`Fluwx`,you should init `FLuwx`：
 
  ```dart
     import 'package:fluwx/fluwx.dart' as fluwx;
-    fluwx.register(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
+    fluwx.registerWxApi(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
     
  ```
 Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore.

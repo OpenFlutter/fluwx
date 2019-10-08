@@ -1,3 +1,7 @@
+### 1.1.1
+
+* registerWxApi
+
 ## 1.1.0
 
 * iOS SDK升级至1.8.6.1，本版本开始支持universal link。

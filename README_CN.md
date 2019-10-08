@@ -58,7 +58,7 @@ dependencies:
 使用`Fluwx`前，需要进行初始化操作：
  ```dart
      import 'package:fluwx/fluwx.dart' as fluwx;
-     fluwx.register(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
+     fluwx.registerWxApi(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
  ```
 如果你想通过fluwx在iOS端注册微信，请务必提供 `universalLink` ，否则无视这句话.
 

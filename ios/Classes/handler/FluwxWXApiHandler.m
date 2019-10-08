@@ -46,11 +46,11 @@
 }
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {
-    if (!isWeChatRegistered) {
-        result([FlutterError errorWithCode:resultErrorNeedWeChat message:@"Did you register your WxApi correctly? Or is your universal link correct?" details:nil]);
-        return;
-    } else {
+//     if (!isWeChatRegistered) {
+//         result([FlutterError errorWithCode:resultErrorNeedWeChat message:@"Did you register your WxApi correctly? Or is your universal link correct?" details:nil]);
+//         return;
+//     } else {
         result(@([WXApi isWXAppInstalled]));
-    }
+//     }
 }
 @end

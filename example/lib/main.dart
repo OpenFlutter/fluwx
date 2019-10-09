@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _initFluwx() async {
-    await fluwx.register(
+    await fluwx.registerWxApi(
         appId: "wxd930ea5d5a258f4f",
         doOnAndroid: true,
         doOnIOS: true,

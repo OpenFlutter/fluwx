@@ -8,11 +8,11 @@
     <application>
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/DisablePreviewTheme" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:theme="@style/DisablePreviewTheme" />
 
         <activity-alias

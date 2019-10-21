@@ -1,3 +1,7 @@
+### 1.1.2
+
+* Fix #122
+
 ### 1.1.1+1
 
 * Android CompileSDKVersion 提升到28

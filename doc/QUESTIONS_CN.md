@@ -164,7 +164,7 @@ _wxlogin = fluwx.responseFromAuth.listen((val) {})
 3、如果是使用的Asset图片，请不要将图片放在```assets```文件夹中，可能会读取不到。
 
 ### Unhandled Exception:PlatformException(wxapi not configured,please config wxapi first,null)
-检查初始化时APP ID是不是写对了。
+检查初始化时APP ID以及universal link是不是写对了。
 
 ### 分享后，打开微信出现未审核应用
 微信自己做的限制，非fluwx问题，建议找微信客服

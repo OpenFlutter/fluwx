@@ -3,7 +3,7 @@
 ### Pay
  
 ```dart
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx_no_pay/fluwx_no_pay.dart' as fluwx;
 fluwx.pay( appId: 'wxd930ea5d5a258f4f', 
                   partnerId: '1900000109',
                   prepayId: '1101000000140415649af9fc314aa427',

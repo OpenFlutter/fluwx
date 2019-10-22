@@ -61,7 +61,7 @@ dependencies:
 Before using`Fluwx`,you should init `FLuwx`：
 
  ```dart
-    import 'package:fluwx/fluwx.dart' as fluwx;
+    import 'package:fluwx_no_pay/fluwx_no_pay.dart' as fluwx;
     fluwx.registerWxApi(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
     
  ```

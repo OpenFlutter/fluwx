@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx_no_pay/fluwx_no_pay.dart' as fluwx;
 
 import 'launch_mini_program_page.dart';
 import 'subscribe_message_page.dart';

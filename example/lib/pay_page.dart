@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io' as H;
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx_no_pay/fluwx_no_pay.dart' as fluwx;
 
 class PayPage extends StatefulWidget {
   @override

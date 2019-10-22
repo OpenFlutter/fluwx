@@ -1,22 +1,22 @@
 PODS:
   - Flutter (1.0.0)
-  - fluwx (0.0.1):
+  - fluwx_pay_only (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
-  - fluwx (from `.symlinks/plugins/fluwx/ios`)
+  - fluwx_pay_only (from `.symlinks/plugins/fluwx_pay_only/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
-  fluwx:
-    :path: ".symlinks/plugins/fluwx/ios"
+  fluwx_pay_only:
+    :path: ".symlinks/plugins/fluwx_pay_only/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  fluwx: 765c6052398eaf6fe13c73409488b0d0b9d00fd6
+  fluwx_pay_only: 7afa418b0de9cf76f7f2b1bf537abf2a4ffae079
 
 PODFILE CHECKSUM: 348e15598a1c6ea25d3ed63919d5ffb9bd1c2ba6
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.8.4

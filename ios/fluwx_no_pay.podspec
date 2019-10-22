@@ -2,7 +2,7 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = 'fluwx'
+  s.name             = 'fluwx_no_pay'
   s.version          = '0.0.1'
   s.summary          = 'A new Flutter plugin for Wechat SDK.'
   s.description      = <<-DESC

@@ -1,4 +1,4 @@
-#import <fluwx/FluwxPlugin.h>
+#import <fluwx_pay_only/FluwxPlugin.h>
 
 
 

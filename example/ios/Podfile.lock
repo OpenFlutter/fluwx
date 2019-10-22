@@ -1,15 +1,21 @@
 PODS:
   - Flutter (1.0.0)
+  - fluwx_no_pay (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
+  - fluwx_no_pay (from `.symlinks/plugins/fluwx_no_pay/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
+  fluwx_no_pay:
+    :path: ".symlinks/plugins/fluwx_no_pay/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  fluwx_no_pay: 50ed1ec3cb01457042232905b851071dfb3b84a7
 
 PODFILE CHECKSUM: 348e15598a1c6ea25d3ed63919d5ffb9bd1c2ba6
 

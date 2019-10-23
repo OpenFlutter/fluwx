@@ -2,21 +2,28 @@ PODS:
   - Flutter (1.0.0)
   - fluwx (0.0.1):
     - Flutter
+    - WechatOpenSDK (~> 1.8.6)
+  - WechatOpenSDK (1.8.6)
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios`)
+  - Flutter (from `.symlinks/flutter/ios-release`)
   - fluwx (from `.symlinks/plugins/fluwx/ios`)
+
+SPEC REPOS:
+  trunk:
+    - WechatOpenSDK
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios"
+    :path: ".symlinks/flutter/ios-release"
   fluwx:
     :path: ".symlinks/plugins/fluwx/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  fluwx: 765c6052398eaf6fe13c73409488b0d0b9d00fd6
+  fluwx: 3e47721b51d4dcc3dde2deb788b044a556e2e113
+  WechatOpenSDK: 368ae03b72ee3ea1328c4f11326fbb5d2721d118
 
-PODFILE CHECKSUM: 348e15598a1c6ea25d3ed63919d5ffb9bd1c2ba6
+PODFILE CHECKSUM: 390a0cfb6ac347940e3fbec39243fdef0817f38b
 
-COCOAPODS: 1.8.0
+COCOAPODS: 1.8.3

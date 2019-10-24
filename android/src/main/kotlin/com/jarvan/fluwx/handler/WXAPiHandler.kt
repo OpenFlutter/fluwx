@@ -28,6 +28,7 @@ object WXAPiHandler {
     private var registrar: PluginRegistry.Registrar? = null
     var wxApi: IWXAPI? = null
 
+    var lastAppId: String? = null
 
     fun setRegistrar(registrar: PluginRegistry.Registrar) {
         WXAPiHandler.registrar = registrar
@@ -40,23 +41,28 @@ object WXAPiHandler {
             return
         }
 
-        if (wxApi != null) {
-            result.success(mapOf(
-                    WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
-                    WechatPluginKeys.RESULT to true
-            ))
-            return
-        }
-
         val appId: String? = call.argument(WechatPluginKeys.APP_ID)
         if (appId.isNullOrBlank()) {
             result.error("invalid app id", "are you sure your app id is correct ?", appId)
             return
         }
 
-
+        if (lastAppId == appId) {
+            if (wxApi != null) {
+                result.success(mapOf(
+                        WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                        WechatPluginKeys.RESULT to true
+                ))
+                return
+            }
+        } else {
+            if (wxApi != null) {
+                wxApi?.unregisterApp()
+            }
+        }
         val api = WXAPIFactory.createWXAPI(registrar!!.context().applicationContext, appId)
         val registered = api.registerApp(appId)
+        this.lastAppId = appId
         wxApi = api
         result.success(mapOf(
                 WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,

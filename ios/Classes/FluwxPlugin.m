@@ -16,6 +16,8 @@
 BOOL isWeChatRegistered = NO;
 BOOL handleOpenURLByFluwx = YES;
 
+NSString * lastAppId = @"";
+
 FluwxShareHandler *_fluwxShareHandler;
 
 FluwxAuthHandler *_fluwxAuthHandler;

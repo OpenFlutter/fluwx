@@ -17,15 +17,19 @@
         return;
     }
 
-    if (isWeChatRegistered) {
-        result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @YES});
-        return;
-    }
-
     NSString *appId = call.arguments[@"appId"];
     if ([StringUtil isBlank:appId]) {
         result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
         return;
+    }
+
+    if ([appId isEqualToString:lastAppId]) {
+        if (isWeChatRegistered) {
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @YES});
+            return;
+        }
+    }else{
+        isWeChatRegistered=false;
     }
 
     NSString *universalLink = call.arguments[@"universalLink"];
@@ -37,6 +41,8 @@
 //    isWeChatRegistered = [WXApi registerApp:appId enableMTA:[call.arguments[@"enableMTA"] boolValue]];
 
     isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
+
+    lastAppId=appId;
 
 //    UInt64 typeFlag = MMAPP_SUPPORT_TEXT | MMAPP_SUPPORT_PICTURE | MMAPP_SUPPORT_LOCATION | MMAPP_SUPPORT_VIDEO | MMAPP_SUPPORT_AUDIO | MMAPP_SUPPORT_WEBPAGE | MMAPP_SUPPORT_DOC | MMAPP_SUPPORT_DOCX | MMAPP_SUPPORT_PPT | MMAPP_SUPPORT_PPTX | MMAPP_SUPPORT_XLS | MMAPP_SUPPORT_XLSX | MMAPP_SUPPORT_PDF;
 //    [WXApi registerAppSupportContentFlag:typeFlag];

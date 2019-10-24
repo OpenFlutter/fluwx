@@ -18,7 +18,7 @@
 
 extern BOOL isWeChatRegistered;
 extern BOOL handleOpenURLByFluwx;
-
+extern NSString * lastAppId;
 
 @interface FluwxPlugin : NSObject <FlutterPlugin> {
 

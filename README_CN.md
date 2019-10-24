@@ -1,4 +1,7 @@
-## FLuwx  ![pub package](https://img.shields.io/pub/v/fluwx.svg)
+# Fluwx 
+![pub package](https://img.shields.io/pub/v/fluwx.svg)
+[![Build status](https://img.shields.io/cirrus/github/OpenFlutter/fluwx/master)](https://cirrus-ci.com/github/OpenFlutter/fluwx)
+======
 
 ![logo](./arts/fluwx_logo.png)
 

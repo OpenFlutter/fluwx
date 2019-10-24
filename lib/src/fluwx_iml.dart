@@ -154,7 +154,46 @@ Future registerWxApi(
 }
 
 ///we don't need the response any longer if params are true.
+@Deprecated("use closeFluwxStreams instead")
 void dispose({
+  shareResponse: true,
+  authResponse: true,
+  paymentResponse: true,
+  launchMiniProgramResponse: true,
+  onAuthByQRCodeFinished: true,
+  onAuthGotQRCode: true,
+  onQRCodeScanned: true,
+}) {
+  if (shareResponse) {
+    _responseShareController.close();
+  }
+
+  if (authResponse) {
+    _responseAuthController.close();
+  }
+  if (launchMiniProgramResponse) {
+    _responseLaunchMiniProgramController.close();
+  }
+
+  if (paymentResponse) {
+    _responsePaymentController.close();
+  }
+
+  if (onAuthByQRCodeFinished) {
+    _authByQRCodeFinishedController.close();
+  }
+
+  if (onAuthGotQRCode) {
+    _onAuthGotQRCodeController.close();
+  }
+
+  if (onQRCodeScanned) {
+    _onQRCodeScannedController.close();
+  }
+}
+
+///we don't need the response any longer if params are true.
+void closeFluwxStreams({
   shareResponse: true,
   authResponse: true,
   paymentResponse: true,
@@ -201,7 +240,23 @@ void dispose({
 ///[WeChatShareVideoModel]
 ///[WeChatShareMusicModel]
 ///[WeChatShareImageModel]
+@Deprecated("use shareToWeChat instead")
 Future share(WeChatShareModel model) async {
+  if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
+    return await _channel.invokeMethod(
+        _shareModelMethodMapper[model.runtimeType], model.toMap());
+  } else {
+    return Future.error("no method mapper found[${model.runtimeType}]");
+  }
+}
+
+///the [WeChatShareModel] can not be null
+///see [WeChatShareWebPageModel]
+/// [WeChatShareTextModel]
+///[WeChatShareVideoModel]
+///[WeChatShareMusicModel]
+///[WeChatShareImageModel]
+Future shareToWeChat(WeChatShareModel model) async {
   if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
     return await _channel.invokeMethod(
         _shareModelMethodMapper[model.runtimeType], model.toMap());
@@ -217,7 +272,23 @@ Future share(WeChatShareModel model) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
+@Deprecated("use sendWeChatAuth instead")
 Future sendAuth({String openId, @required String scope, String state}) async {
+  // "scope": scope, "state": state, "openId": openId
+
+  assert(scope != null && scope.trim().isNotEmpty);
+  return await _channel.invokeMethod(
+      "sendAuth", {"scope": scope, "state": state, "openId": openId});
+}
+
+/// The WeChat-Login is under Auth-2.0
+/// This method login with native WeChat app.
+/// For users without WeChat app, please use [authByQRCode] instead
+/// This method only supports getting AuthCode,this is first step to login with WeChat
+/// Once AuthCode got, you need to request Access_Token
+/// For more information please visit：
+/// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
+Future sendWeChatAuth({String openId, @required String scope, String state}) async {
   // "scope": scope, "state": state, "openId": openId
 
   assert(scope != null && scope.trim().isNotEmpty);
@@ -230,6 +301,7 @@ Future sendAuth({String openId, @required String scope, String state}) async {
 /// All required params must not be null or empty
 /// [schemeData] only works on iOS
 /// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
+@Deprecated("use authWeChatByQRCode instead")
 Future authByQRCode(
     {@required String appId,
     @required String scope,
@@ -253,13 +325,50 @@ Future authByQRCode(
   });
 }
 
+/// Sometimes WeChat  is not installed on users's devices.However we can
+/// request a QRCode so that we can get AuthCode by scanning the QRCode
+/// All required params must not be null or empty
+/// [schemeData] only works on iOS
+/// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
+Future authWeChatByQRCode(
+    {@required String appId,
+      @required String scope,
+      @required String nonceStr,
+      @required String timeStamp,
+      @required String signature,
+      String schemeData}) async {
+  assert(appId != null && appId.isNotEmpty);
+  assert(scope != null && scope.isNotEmpty);
+  assert(nonceStr != null && nonceStr.isNotEmpty);
+  assert(timeStamp != null && timeStamp.isNotEmpty);
+  assert(signature != null && signature.isNotEmpty);
+
+  return await _channel.invokeMethod("authByQRCode", {
+    "appId": appId,
+    "scope": scope,
+    "nonceStr": nonceStr,
+    "timeStamp": timeStamp,
+    "signature": signature,
+    "schemeData": schemeData
+  });
+}
+
 /// stop auth
+@Deprecated("use stopWeChatAuthByQRCode instead")
 Future stopAuthByQRCode() async {
   return await _channel.invokeMethod("stopAuthByQRCode");
 }
 
+
+/// stop auth
+Future stopWeChatAuthByQRCode() async {
+  return await _channel.invokeMethod("stopAuthByQRCode");
+}
+
+
 /// open mini-program
 /// see [WXMiniProgramType]
+@Deprecated("use launchWeChatMiniProgram instead")
 Future launchMiniProgram(
     {@required String username,
     String path,
@@ -271,6 +380,21 @@ Future launchMiniProgram(
     "miniProgramType": miniProgramTypeToInt(miniProgramType)
   });
 }
+
+/// open mini-program
+/// see [WXMiniProgramType]
+Future launchWeChatMiniProgram(
+    {@required String username,
+      String path,
+      WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
+  assert(username != null && username.trim().isNotEmpty);
+  return await _channel.invokeMethod("launchMiniProgram", {
+    "userName": username,
+    "path": path,
+    "miniProgramType": miniProgramTypeToInt(miniProgramType)
+  });
+}
+
 
 /// true if WeChat is installed,otherwise false.
 /// However,the following key-value must be added into your info.plist since iOS 9:
@@ -289,6 +413,7 @@ Future isWeChatInstalled() async {
 }
 
 /// params are from server
+@Deprecated("use payWithWeChat instead")
 Future pay(
     {@required String appId,
     @required String partnerId,
@@ -312,7 +437,35 @@ Future pay(
   });
 }
 
+
+
+/// params are from server
+Future payWithWeChat(
+    {@required String appId,
+      @required String partnerId,
+      @required String prepayId,
+      @required String packageValue,
+      @required String nonceStr,
+      @required int timeStamp,
+      @required String sign,
+      String signType,
+      String extData}) async {
+  return await _channel.invokeMethod("payWithFluwx", {
+    "appId": appId,
+    "partnerId": partnerId,
+    "prepayId": prepayId,
+    "packageValue": packageValue,
+    "nonceStr": nonceStr,
+    "timeStamp": timeStamp,
+    "sign": sign,
+    "signType": signType,
+    "extData": extData,
+  });
+}
+
+
 /// subscribe message
+@Deprecated("use subscribeWeChatMsg instead")
 Future subscribeMsg({
   @required String appId,
   @required int scene,
@@ -330,7 +483,26 @@ Future subscribeMsg({
   );
 }
 
+/// subscribe message
+Future subscribeWeChatMsg({
+  @required String appId,
+  @required int scene,
+  @required String templateId,
+  String reserved,
+}) async {
+  return await _channel.invokeMethod(
+    "subscribeMsg",
+    {
+      "appId": appId,
+      "scene": scene,
+      "templateId": templateId,
+      "reserved": reserved,
+    },
+  );
+}
+
 /// please read official docs.
+@Deprecated("use autoDeDuctWeChat instead")
 Future autoDeDuct(
     {@required String appId,
     @required String mchId,
@@ -344,6 +516,37 @@ Future autoDeDuct(
     @required String timestamp,
     String returnApp = '3',
     int businessType = 12}) async {
+  return await _channel.invokeMethod("autoDeduct", {
+    'appid': appId,
+    'mch_id': mchId,
+    'plan_id': planId,
+    'contract_code': contractCode,
+    'request_serial': requestSerial,
+    'contract_display_account': contractDisplayAccount,
+    'notify_url': notifyUrl,
+    'version': version,
+    'sign': sign,
+    'timestamp': timestamp,
+    'return_app': returnApp,
+    "businessType": businessType
+  });
+}
+
+
+/// please read official docs.
+Future autoDeDuctWeChat(
+    {@required String appId,
+      @required String mchId,
+      @required String planId,
+      @required String contractCode,
+      @required String requestSerial,
+      @required String contractDisplayAccount,
+      @required String notifyUrl,
+      @required String version,
+      @required String sign,
+      @required String timestamp,
+      String returnApp = '3',
+      int businessType = 12}) async {
   return await _channel.invokeMethod("autoDeduct", {
     'appid': appId,
     'mch_id': mchId,

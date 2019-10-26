@@ -5,8 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"
-#import "WXApiRequestHandler.h"
-#import "WXApi.h"
+
 
 @class StringUtil;
 

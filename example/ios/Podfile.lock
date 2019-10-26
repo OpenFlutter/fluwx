@@ -6,7 +6,7 @@ PODS:
   - WechatOpenSDK (1.8.6)
 
 DEPENDENCIES:
-  - Flutter (from `.symlinks/flutter/ios-release`)
+  - Flutter (from `.symlinks/flutter/ios`)
   - fluwx (from `.symlinks/plugins/fluwx/ios`)
 
 SPEC REPOS:
@@ -15,7 +15,7 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   Flutter:
-    :path: ".symlinks/flutter/ios-release"
+    :path: ".symlinks/flutter/ios"
   fluwx:
     :path: ".symlinks/plugins/fluwx/ios"
 
@@ -26,4 +26,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 390a0cfb6ac347940e3fbec39243fdef0817f38b
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4

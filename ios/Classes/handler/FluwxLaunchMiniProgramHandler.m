@@ -1,7 +1,7 @@
 #import "FluwxLaunchMiniProgramHandler.h"
 #import "WXApiRequestHandler.h"
 #import "FluwxKeys.h"
-
+#import "WXApi.h"
 @implementation FluwxLaunchMiniProgramHandler
 
 - (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {

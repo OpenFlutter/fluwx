@@ -9,7 +9,8 @@
 #import "FluwxResponseHandler.h"
 #import "FluwxKeys.h"
 #import "StringUtil.h"
-
+#import "WXApiObject.h"
+#import "WXApi.h"
 @implementation FluwxResponseHandler
 
 const NSString *errStr = @"errStr";

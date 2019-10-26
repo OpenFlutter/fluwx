@@ -6,7 +6,8 @@
 //
 
 #import "FluwxAutoDeductHandler.h"
-#import <WXApiRequestHandler.h>
+#import "WXApiRequestHandler.h"
+#import "WXApi.h"
 
 @implementation FluwxAutoDeductHandler {
     NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;

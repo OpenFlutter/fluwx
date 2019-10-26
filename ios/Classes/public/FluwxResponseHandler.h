@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
-
-#import "WXApiObject.h"
 #import "WXApi.h"
+#import "WXApiObject.h"
 
 @protocol WXApiManagerDelegate <NSObject>
 

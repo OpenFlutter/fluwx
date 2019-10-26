@@ -4,7 +4,8 @@
 
 #import "FluwxPaymentHandler.h"
 #import "CallResults.h"
-
+#import "WXApiRequestHandler.h"
+#import "WXApi.h"
 #import "FluwxKeys.h"
 
 @implementation FluwxPaymentHandler

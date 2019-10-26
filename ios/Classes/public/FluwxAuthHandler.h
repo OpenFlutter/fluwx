@@ -5,7 +5,6 @@
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"
-#import "WXApi.h"
 #import "WXApiRequestHandler.h"
 #import "WechatAuthSDK.h"
 

@@ -11,6 +11,7 @@
 #import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
 #import "WXMediaMessage+messageConstruct.h"
 #import "StringUtil.h"
+#import "WXApiObject.h"
 
 @implementation WXApiRequestHandler
 

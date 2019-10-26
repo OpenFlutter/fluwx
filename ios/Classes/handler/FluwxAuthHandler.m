@@ -3,7 +3,8 @@
 //
 
 #import "FluwxAuthHandler.h"
-
+#import "WXApi.h"
+#import "WechatAuthSDK.h"
 
 @implementation FluwxAuthHandler
 

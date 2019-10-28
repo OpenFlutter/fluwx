@@ -32,7 +32,7 @@
         <activity-alias
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:targetActivity="com.jarvan.fluwx.wxapi.WXPayEntryActivity"
             android:theme="@style/DisablePreviewTheme">
 

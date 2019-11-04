@@ -183,7 +183,7 @@ public class ThumbnailCompressUtil {
             }
             result = tmp;
 
-            if (result.getByteCount() < maxLength) {
+            if (result.getByteCount() <= maxLength) {
                 break;
             }
 

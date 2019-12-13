@@ -68,7 +68,7 @@ Before using`Fluwx`,you should init `FLuwx`：
     fluwx.registerWxApi(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
     
  ```
-Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore.
+Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore. Incorrect `universalLink` won't pass the register of SDK.
 
 
 > NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  *URLSchema, LSApplicationQueriesSchemes or universal link* for iOS. 

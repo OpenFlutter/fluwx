@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import 'dart:async';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
@@ -142,9 +143,16 @@ Future register(
 /// [universalLink] is required if you want to register on iOS.
 Future registerWxApi(
     {String appId,
-      bool doOnIOS: true,
-      bool doOnAndroid: true,
-      String universalLink}) async {
+    bool doOnIOS: true,
+    bool doOnAndroid: true,
+    String universalLink}) async {
+  if (doOnIOS && Platform.isIOS) {
+    if (universalLink.trim().isEmpty || !universalLink.startsWith("https")) {
+      throw ArgumentError.value(universalLink,
+          "your universal link is illegal, see https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html for detail");
+    }
+  }
+
   return await _channel.invokeMethod("registerApp", {
     "appId": appId,
     "iOS": doOnIOS,
@@ -288,7 +296,8 @@ Future sendAuth({String openId, @required String scope, String state}) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
-Future sendWeChatAuth({String openId, @required String scope, String state}) async {
+Future sendWeChatAuth(
+    {String openId, @required String scope, String state}) async {
   // "scope": scope, "state": state, "openId": openId
 
   assert(scope != null && scope.trim().isNotEmpty);
@@ -332,11 +341,11 @@ Future authByQRCode(
 /// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
 Future authWeChatByQRCode(
     {@required String appId,
-      @required String scope,
-      @required String nonceStr,
-      @required String timeStamp,
-      @required String signature,
-      String schemeData}) async {
+    @required String scope,
+    @required String nonceStr,
+    @required String timeStamp,
+    @required String signature,
+    String schemeData}) async {
   assert(appId != null && appId.isNotEmpty);
   assert(scope != null && scope.isNotEmpty);
   assert(nonceStr != null && nonceStr.isNotEmpty);
@@ -359,12 +368,10 @@ Future stopAuthByQRCode() async {
   return await _channel.invokeMethod("stopAuthByQRCode");
 }
 
-
 /// stop auth
 Future stopWeChatAuthByQRCode() async {
   return await _channel.invokeMethod("stopAuthByQRCode");
 }
-
 
 /// open mini-program
 /// see [WXMiniProgramType]
@@ -385,8 +392,8 @@ Future launchMiniProgram(
 /// see [WXMiniProgramType]
 Future launchWeChatMiniProgram(
     {@required String username,
-      String path,
-      WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
+    String path,
+    WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
   assert(username != null && username.trim().isNotEmpty);
   return await _channel.invokeMethod("launchMiniProgram", {
     "userName": username,
@@ -394,7 +401,6 @@ Future launchWeChatMiniProgram(
     "miniProgramType": miniProgramTypeToInt(miniProgramType)
   });
 }
-
 
 /// true if WeChat is installed,otherwise false.
 /// However,the following key-value must be added into your info.plist since iOS 9:
@@ -437,19 +443,17 @@ Future pay(
   });
 }
 
-
-
 /// params are from server
 Future payWithWeChat(
     {@required String appId,
-      @required String partnerId,
-      @required String prepayId,
-      @required String packageValue,
-      @required String nonceStr,
-      @required int timeStamp,
-      @required String sign,
-      String signType,
-      String extData}) async {
+    @required String partnerId,
+    @required String prepayId,
+    @required String packageValue,
+    @required String nonceStr,
+    @required int timeStamp,
+    @required String sign,
+    String signType,
+    String extData}) async {
   return await _channel.invokeMethod("payWithFluwx", {
     "appId": appId,
     "partnerId": partnerId,
@@ -462,7 +466,6 @@ Future payWithWeChat(
     "extData": extData,
   });
 }
-
 
 /// subscribe message
 @Deprecated("use subscribeWeChatMsg instead")
@@ -532,21 +535,20 @@ Future autoDeDuct(
   });
 }
 
-
 /// please read official docs.
 Future autoDeDuctWeChat(
     {@required String appId,
-      @required String mchId,
-      @required String planId,
-      @required String contractCode,
-      @required String requestSerial,
-      @required String contractDisplayAccount,
-      @required String notifyUrl,
-      @required String version,
-      @required String sign,
-      @required String timestamp,
-      String returnApp = '3',
-      int businessType = 12}) async {
+    @required String mchId,
+    @required String planId,
+    @required String contractCode,
+    @required String requestSerial,
+    @required String contractDisplayAccount,
+    @required String notifyUrl,
+    @required String version,
+    @required String sign,
+    @required String timestamp,
+    String returnApp = '3',
+    int businessType = 12}) async {
   return await _channel.invokeMethod("autoDeduct", {
     'appid': appId,
     'mch_id': mchId,

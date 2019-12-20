@@ -320,7 +320,7 @@ NSObject <FlutterPluginRegistrar> *_registrar;
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *scene = call.arguments[fluwxKeyScene];
             BOOL done = [WXApiRequestHandler sendFileData:data
-                                            fileExtension:@"pdf"
+                                            fileExtension:call.arguments[@"fileExtension"]
                                                     Title:call.arguments[fluwxKeyTitle]
                                               Description:call.arguments[fluwxKeyDescription]
                                                ThumbImage:thumbnailImage          

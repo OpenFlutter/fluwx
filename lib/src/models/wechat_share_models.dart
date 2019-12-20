@@ -343,6 +343,7 @@ class WeChatShareWebPageModel extends WeChatShareModel {
 class WeChatShareFileModel extends WeChatShareModel {
   final String transaction;
   final String filePath;
+  final String fileExtension;
   final String thumbnail;
   final String title;
   final String description;
@@ -350,6 +351,7 @@ class WeChatShareFileModel extends WeChatShareModel {
   WeChatShareFileModel({
     String transaction,
     this.filePath,
+    this.fileExtension:"pdf",
     this.title: "",
     this.description: "",
     String thumbnail,
@@ -372,6 +374,7 @@ class WeChatShareFileModel extends WeChatShareModel {
       _transaction: transaction,
       _scene: scene.toString(),
       "filePath": filePath,
+      "fileExtension": fileExtension,
       _thumbnail: thumbnail,
       _title: title,
       _description: description,

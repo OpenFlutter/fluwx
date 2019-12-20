@@ -1,3 +1,7 @@
+## 1.2.0
+* 分享文件
+* compileSdkVersion 29
+
 ## 1.1.4
 
 * 注册微信时会对universal link进行简单校验

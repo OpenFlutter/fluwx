@@ -72,6 +72,7 @@ internal class FluwxShareHandler {
             WeChatPluginMethods.SHARE_MUSIC -> shareMusic(call, result)
             WeChatPluginMethods.SHARE_VIDEO -> shareVideo(call, result)
             WeChatPluginMethods.SHARE_WEB_PAGE -> shareWebPage(call, result)
+            WeChatPluginMethods.SHARE_FILE -> shareFile(call,result)
             else -> {
                 result.notImplemented()
             }
@@ -357,6 +358,36 @@ internal class FluwxShareHandler {
                     )
             )
         }
+    }
+
+    private fun shareFile(call:MethodCall,result:MethodChannel.Result){
+        val file = WXFileObject()
+        val filePath:String? = call.argument("filePath")
+        file.filePath = filePath
+
+        val msg = WXMediaMessage()
+        msg.mediaObject = file
+        msg.title = call.argument("title")
+        msg.description = call.argument("description")
+        val thumbnail: String? = call.argument("thumbnail")
+
+        GlobalScope.launch(Dispatchers.Main, CoroutineStart.DEFAULT) {
+            if (thumbnail != null && thumbnail.isNotBlank()) {
+                msg.thumbData = getThumbnailByteArrayCommon(registrar, thumbnail)
+            }
+
+            val req = SendMessageToWX.Req()
+            setCommonArguments(call, req, msg)
+            req.message = msg
+            val done = WXAPiHandler.wxApi?.sendReq(req)
+            result.success(
+                    mapOf(
+                            WechatPluginKeys.PLATFORM to WechatPluginKeys.ANDROID,
+                            WechatPluginKeys.RESULT to done
+                    )
+            )
+        }
+
     }
 
     //    private fun createWxImageObject(imagePath:String):WXImageObject?{

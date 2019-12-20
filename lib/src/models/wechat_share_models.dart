@@ -385,3 +385,48 @@ class WeChatShareWebPageModel extends WeChatShareModel {
     };
   }
 }
+
+class WeChatShareFileModel extends WeChatShareModel {
+  final String transaction;
+  final String filePath;
+  final String fileExtension;
+  final String thumbnail;
+  final String title;
+  final String description;
+
+  WeChatShareFileModel({
+    String transaction,
+    this.filePath,
+    this.fileExtension:"pdf",
+    this.title: "",
+    this.description: "",
+    String thumbnail,
+    WeChatScene scene,
+    String messageExt,
+    String messageAction,
+    String mediaTagName,
+  })  : this.transaction = transaction ?? "text",
+        this.thumbnail = thumbnail ?? "",
+        assert(filePath != null),
+        super(
+          mediaTagName: mediaTagName,
+          messageAction: messageAction,
+          messageExt: messageExt,
+          scene: scene);
+
+  @override
+  Map toMap() {
+    return {
+      _transaction: transaction,
+      _scene: scene.toString(),
+      "filePath": filePath,
+      "fileExtension": fileExtension,
+      _thumbnail: thumbnail,
+      _title: title,
+      _description: description,
+      _mediaTagName: mediaTagName,
+      _messageAction: messageAction,
+      _messageExt: messageExt,
+    };
+  }
+}

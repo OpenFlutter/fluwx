@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 
-import 'launch_mini_program_page.dart';
-import 'subscribe_message_page.dart';
-
 import 'auth_by_qr_code_page.dart';
+import 'launch_mini_program_page.dart';
 import 'pay_page.dart';
 import 'send_auth.dart';
 import 'share_image_page.dart';
@@ -16,6 +14,7 @@ import 'share_text_image.dart';
 import 'share_video_page.dart';
 import 'share_web_page.dart';
 import 'sign_auto_deduct_page.dart';
+import 'subscribe_message_page.dart';
 
 void main() => runApp(new MyApp());
 

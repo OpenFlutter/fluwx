@@ -16,12 +16,11 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
   void initState() {
     super.initState();
 
-    fluwx.onAuthByQRCodeFinished.listen((data){
-          setState(() {
-            _status =
-                "errorCode=>${data.errorCode}\nauthCode=>${data.authCode}";
-          });
-        });
+    fluwx.onAuthByQRCodeFinished.listen((data) {
+      setState(() {
+        _status = "errorCode=>${data.errorCode}\nauthCode=>${data.authCode}";
+      });
+    });
     fluwx.onAuthGotQRCode.listen((image) {
       setState(() {
         _image = image;

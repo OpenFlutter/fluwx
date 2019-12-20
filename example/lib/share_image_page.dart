@@ -55,7 +55,8 @@ class _ShareImagePageState extends State<ShareImagePage> {
             ),
             TextField(
               decoration: InputDecoration(labelText: "缩略地址"),
-              controller: TextEditingController(text: "assets://images/logo.png"),
+              controller:
+                  TextEditingController(text: "assets://images/logo.png"),
               onChanged: (value) {
                 _thumbnail = value;
               },

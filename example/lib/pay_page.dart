@@ -18,7 +18,6 @@ class _PayPageState extends State<PayPage> {
   void initState() {
     super.initState();
 
-
     fluwx.responseFromPayment.listen((data) {
       setState(() {
         _result = "${data.errCode}";

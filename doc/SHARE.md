@@ -124,3 +124,16 @@ Two kind of video:`videoUrl`和`videoLowBandUrl`.They are not coexisting，if bo
     fluwx.share(model);
 ```
 
+### Share File
+
+```dart
+ var model = fluwx.WeChatShareFileModel(
+      filePath: _filePath,
+      scene: scene,
+      title: _title,
+      description: _description
+ );
+ fluwx.share(model);
+```
+File size is limited and cannot exceed 10M
+

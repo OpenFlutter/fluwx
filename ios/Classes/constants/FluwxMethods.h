@@ -12,6 +12,7 @@ extern NSString *const shareImage;
 extern NSString *const shareMusic;
 extern NSString *const shareVideo;
 extern NSString *const shareWebPage;
+extern NSString *const shareFile;
 extern NSString *const shareMiniProgram;
 extern NSString *const launchMiniProgram;
 

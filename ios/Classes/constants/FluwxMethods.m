@@ -11,6 +11,7 @@ NSString *const shareText = @"shareText";
 NSString *const shareImage = @"shareImage";
 NSString *const shareMusic = @"shareMusic";
 NSString *const shareVideo = @"shareVideo";
+NSString *const shareFile = @"shareFile";
 NSString *const shareWebPage = @"shareWebPage";
 NSString *const shareMiniProgram = @"shareMiniProgram";
 NSString *const LaunchMiniProgram = @"launchMiniProgram";

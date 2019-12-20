@@ -20,6 +20,7 @@ public class WeChatPluginMethods {
     public static final String SHARE_VIDEO = "shareVideo";
     public static final String SHARE_WEB_PAGE = "shareWebPage";
     public static final String SHARE_MINI_PROGRAM = "shareMiniProgram";
+    public static final String SHARE_FILE = "shareFile";
 
     public static final String LAUNCH_MINI_PROGRAM = "launchMiniProgram";
     public static final String PAY = "payWithFluwx";

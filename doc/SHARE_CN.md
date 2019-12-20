@@ -120,3 +120,16 @@
     );
     fluwx.share(model);
 ```
+
+### 分享文件
+
+```dart
+ var model = fluwx.WeChatShareFileModel(
+      filePath: _filePath,
+      scene: scene,
+      title: _title,
+      description: _description
+ );
+ fluwx.share(model);
+```
+文件有大小限制，不能超过10M；文件路径还要考虑权限

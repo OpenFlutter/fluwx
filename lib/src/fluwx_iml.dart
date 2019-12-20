@@ -582,7 +582,8 @@ const Map<Type, String> _shareModelMethodMapper = {
   WeChatShareMusicModel: "shareMusic",
   WeChatShareVideoModel: "shareVideo",
   WeChatShareWebPageModel: "shareWebPage",
-  WeChatShareMiniProgramModel: "shareMiniProgram"
+  WeChatShareMiniProgramModel: "shareMiniProgram",
+  WeChatShareFileModel:"shareFile",
 };
 
 const Map<int, AuthByQRCodeErrorCode> _authByQRCodeErrorCodes = {

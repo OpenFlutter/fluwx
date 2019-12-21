@@ -384,13 +384,16 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *scene = call.arguments[fluwxKeyScene];
-            BOOL done = [WXApiRequestHandler sendFileData:data
-                                            fileExtension:call.arguments[@"fileExtension"]
-                                                    Title:call.arguments[fluwxKeyTitle]
-                                              Description:call.arguments[fluwxKeyDescription]
-                                               ThumbImage:thumbnailImage          
-                                                  InScene:[StringToWeChatScene toScene:scene]];                          
-            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(done)});
+            [WXApiRequestHandler sendFileData:data
+                                fileExtension:call.arguments[@"fileExtension"]
+                                        Title:call.arguments[fluwxKeyTitle]
+                                  Description:call.arguments[fluwxKeyDescription]
+                                   ThumbImage:thumbnailImage
+                                      InScene:[StringToWeChatScene toScene:scene]
+        completion:^(BOOL success) {
+            result(@{fluwxKeyPlatform: fluwxKeyIOS, fluwxKeyResult: @(success)});
+            }];
+    
         });
     });
 }

@@ -188,7 +188,7 @@
     [message setThumbImage:thumbImage];
 
     WXFileObject *ext = [WXFileObject object];
-    ext.fileExtension = @"pdf";
+    ext.fileExtension = extension;
     ext.fileData = fileData;
 
     message.mediaObject = ext;

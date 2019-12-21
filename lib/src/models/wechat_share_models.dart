@@ -397,7 +397,7 @@ class WeChatShareFileModel extends WeChatShareModel {
   WeChatShareFileModel({
     String transaction,
     this.filePath,
-    this.fileExtension:"pdf",
+    this.fileExtension: "pdf",
     this.title: "",
     this.description: "",
     String thumbnail,
@@ -409,10 +409,10 @@ class WeChatShareFileModel extends WeChatShareModel {
         this.thumbnail = thumbnail ?? "",
         assert(filePath != null),
         super(
-          mediaTagName: mediaTagName,
-          messageAction: messageAction,
-          messageExt: messageExt,
-          scene: scene);
+            mediaTagName: mediaTagName,
+            messageAction: messageAction,
+            messageExt: messageExt,
+            scene: scene);
 
   @override
   Map toMap() {

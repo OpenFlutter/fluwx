@@ -1,6 +1,6 @@
 name: fluwx
 description: A Flutter plugin allowing developers to share or pay with natvie android & iOS Wechat SDKs.
-version: 1.2.0
+version: 1.2.1
 homepage: https://github.com/JarvanMo/fluwx
 
 environment:

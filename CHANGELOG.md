@@ -1,3 +1,6 @@
+## 1.2.1
+* Fix #175
+
 ## 1.2.0
 * 分享文件
 * compileSdkVersion 29

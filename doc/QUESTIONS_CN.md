@@ -20,7 +20,7 @@
 [ResponseType与Dio插件中的命名冲突](#responsetype与dio插件中的命名冲突)  
 [ShareSDK(分享插件)和Fluwx(微信支付插件)存在冲突](#sharesdk分享插件和fluwx微信支付插件存在冲突)  
 [图片加载失败？](#图片加载失败)  
-[Unhandled Exception:PlatformException(wxapi not configured,please config wxapi first,null)](#unhandled-exceptionplatformexceptionwxapi-not-configuredplease-config-wxapi-firstnull)  
+[iOS registerWxApi 返回-1](#iOS registerWxApi 返回-1)  
 [分享后，打开微信出现未审核应用](#分享后打开微信出现未审核应用)  
 [分享怎样知道是成功分享了还是取消了没有分享](#分享怎样知道是成功分享了还是取消了没有分享)  
 [运行时报错kotlinx相关](#运行时报错kotlinx相关)  
@@ -66,6 +66,7 @@ xml
 <key>LSApplicationQueriesSchemes</key>
 <array>
 <string>weixin</string>
+<string>weixinULAPI</string>
 </array>
 <key>NSAppTransportSecurity</key>
 <dict>
@@ -163,7 +164,7 @@ _wxlogin = fluwx.responseFromAuth.listen((val) {})
 2、检查图片路径是否是符合要求的scheme形式，具体规则请看：[都支持什么图片](https://github.com/yumi0629/fluwx/blob/master/doc/SHARE_CN.md#%E9%83%BD%E6%94%AF%E6%8C%81%E4%BB%80%E4%B9%88%E5%9B%BE%E7%89%87)  
 3、如果是使用的Asset图片，请不要将图片放在```assets```文件夹中，可能会读取不到。
 
-### Unhandled Exception:PlatformException(wxapi not configured,please config wxapi first,null)
+### iOS registerWxApi 返回 -1
 检查初始化时APP ID以及universal link是不是写对了。
 
 ### 分享后，打开微信出现未审核应用

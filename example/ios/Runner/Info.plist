@@ -38,6 +38,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
+		<string>weixinULAPI</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

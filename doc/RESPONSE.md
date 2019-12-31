@@ -127,6 +127,20 @@ don't override this since 1.0.0:
 
 ```
 
+If you have to override these two functions, please make sure you have called `super`:
+
+```
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+  return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    
+  return [super application:application openURL:url options:options];
+}
+```
+
 > NOTE:Don't forget to add URL Schema in order to go back to  your app.
 
 

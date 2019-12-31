@@ -114,4 +114,18 @@
 }
 
 ```
+
+如果你一定要重写这两个方法, 那么请确认你调用了`super`:
+
+```
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+  return [super application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
+}
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<NSString*, id> *)options
+{
+    
+  return [super application:application openURL:url options:options];
+}
+```
 > 注意：为了能够返回你的app，请不要忘记添加URL Schema。

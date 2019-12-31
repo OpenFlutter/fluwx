@@ -92,7 +92,7 @@ fluwx提供了检查用户是否安装微信的方法：```isWeChatInstalled()``
 [Failed to notify project evalution listener](https://www.jianshu.com/p/f74fed94be96)
 
 #### 微信登录不能触发fluwx.responseFromAuth.listen监听回调
-请先看文档：[微信调回](https://github.com/OpenFlutter/fluwx/blob/master/doc/RESPONSE_CN.md)  。Android端如果是混合开发，请注册```WXEntryActivity```and```WXPayEntryActivity```；iOS端请重写```AppDelegate```中的相关方法。
+请先看文档：[微信调回](https://github.com/OpenFlutter/fluwx/blob/master/doc/RESPONSE_CN.md)  。Android端如果是混合开发，请注册```WXEntryActivity```and```WXPayEntryActivity```；从1.0.0以后iOS端不需要重写```AppDelegate```中的相关方法，如果需要请务必调用相应super方法。
 
 #### isWeChatInstalled返回false
 请查看该 [issue](https://github.com/OpenFlutter/fluwx/issues/34)  ，检查```AppDelegate```中配置是否正确。

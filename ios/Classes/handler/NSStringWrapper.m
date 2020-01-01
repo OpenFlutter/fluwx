@@ -23,12 +23,12 @@
  * and a value greater than 0 if this string is lexicographically greater than the string argument.
  */
 - (int)compareTo:(NSString *)anotherString {
-    return [self compare:anotherString];
+    return (int)[self compare:anotherString];
 }
 
 /** Java-like method. Compares two strings lexicographically, ignoring case differences. */
 - (int)compareToIgnoreCase:(NSString *)str {
-    return [self compare:str options:NSCaseInsensitiveSearch];
+    return (int)[self compare:str options:NSCaseInsensitiveSearch];
 }
 
 /** Java-like method. Returns true if and only if this string contains the specified sequence of char values. */
@@ -58,7 +58,7 @@
 }
 
 - (int)indexOfChar:(unichar)ch fromIndex:(int)index {
-    int len = self.length;
+    int len = (int)self.length;
     for (int i = index; i < len; ++i) {
         if (ch == [self charAt:i]) {
             return i;
@@ -72,7 +72,7 @@
     if (range.location == NSNotFound) {
         return JavaNotFound;
     }
-    return range.location;
+    return (int)range.location;
 }
 
 - (int)indexOfString:(NSString *)str fromIndex:(int)index {
@@ -81,11 +81,11 @@
     if (range.location == NSNotFound) {
         return JavaNotFound;
     }
-    return range.location;
+    return (int)range.location;
 }
 
 - (int)lastIndexOfChar:(unichar)ch {
-    int len = self.length;
+    int len = (int)self.length;
     for (int i = len - 1; i >= 0; --i) {
         if ([self charAt:i] == ch) {
             return i;
@@ -95,7 +95,7 @@
 }
 
 - (int)lastIndexOfChar:(unichar)ch fromIndex:(int)index {
-    int len = self.length;
+    int len = (int)self.length;
     if (index >= len) {
         index = len - 1;
     }
@@ -112,7 +112,7 @@
     if (range.location == NSNotFound) {
         return JavaNotFound;
     }
-    return range.location;
+    return (int)range.location;
 }
 
 - (int)lastIndexOfString:(NSString *)str fromIndex:(int)index {
@@ -121,10 +121,11 @@
     if (range.location == NSNotFound) {
         return JavaNotFound;
     }
-    return range.location;
+    return (int)range.location;
 }
 
-- (NSString *)substringFromIndex:(int)beginIndex toIndex:(int)endIndex {
+- (NSString *)substringFromIndex:(NSInteger)beginIndex
+                         toIndex:(NSInteger)endIndex {
     if (endIndex <= beginIndex) {
         return @"";
     }

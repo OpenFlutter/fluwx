@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * 收到一个来自微信的处理结果。调用一次sendReq后会收到onResp。
  * 可能收到的处理结果有SendMessageToWXResp、SendAuthResp等。
- * @param resp具体的回应内容，是自动释放的
+ * @param resp 具体的回应内容，是自动释放的
  */
 - (void)onResp:(BaseResp*)resp;
 
@@ -175,7 +175,6 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)startLogByLevel:(WXLogLevel)level logDelegate:(id<WXApiLogDelegate>)logDelegate;
 
 /*! @brief 停止打印log，会清理block或者delegate为空，释放block
- *  @param 
  */
 + (void)stopLog;
 @end

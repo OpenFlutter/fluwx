@@ -10,6 +10,8 @@
 #import "WXApiObject.h"
 #import "FluwxResponseHandler.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface WXApiRequestHandler : NSObject
 
 + (void)sendText:(NSString *)text
@@ -62,7 +64,8 @@
 
 + (void)sendEmotionData:(NSData *)emotionData
              ThumbImage:(UIImage *)thumbImage
-                InScene:(enum WXScene)scene;
+                InScene:(enum WXScene)scene
+             completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendFileData:(NSData *)fileData
        fileExtension:(NSString *)extension
@@ -146,3 +149,5 @@
                Sign:(NSString *)sign
          completion:(void (^ __nullable)(BOOL success))completion;
 @end
+
+NS_ASSUME_NONNULL_END

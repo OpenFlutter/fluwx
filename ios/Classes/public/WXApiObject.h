@@ -382,12 +382,10 @@ typedef void(^WXLogBolock)(NSString *log);
 @interface WXOpenBusinessWebViewReq : BaseReq
 
 /** 网页业务类型
- * @attention
  */
 @property (nonatomic, assign) UInt32 businessType;
 
 /** 网页业务参数
- * @attention
  */
 @property (nonatomic, strong, nullable) NSDictionary *queryInfoDic;
 
@@ -405,7 +403,6 @@ typedef void(^WXLogBolock)(NSString *log);
 @property (nonatomic, copy) NSString *result;
 
 /** 网页业务类型
- * @attention
  */
 @property (nonatomic, assign) UInt32 businessType;
 
@@ -1006,7 +1003,6 @@ typedef void(^WXLogBolock)(NSString *log);
 @property (nonatomic, copy, nullable) NSString *extInfo;
 
 /** extData数据
- * @note
  */
 @property (nonatomic, strong, nullable) NSData *extData;
 @end

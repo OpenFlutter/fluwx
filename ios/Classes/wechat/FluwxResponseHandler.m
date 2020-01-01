@@ -57,7 +57,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 description: messageResp.description == nil ? @"" : messageResp.description,
                 errStr: messageResp.errStr == nil ? @"" : messageResp.errStr,
                 errCode: @(messageResp.errCode),
-                type: messageResp.type == nil ? @2 : @(messageResp.type),
+                type: messageResp == nil ? @2 : @(messageResp.type),
                 country: messageResp.country == nil ? @"" : messageResp.country,
                 lang: messageResp.lang == nil ? @"" : messageResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS
@@ -79,7 +79,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 description: authResp.description == nil ? @"" : authResp.description,
                 errStr: authResp.errStr == nil ? @"" : authResp.errStr,
                 errCode: @(authResp.errCode),
-                type: authResp.type == nil ? @1 : @(authResp.type),
+                type: authResp == nil ? @1 : @(authResp.type),
                 country: authResp.country == nil ? @"" : authResp.country,
                 lang: authResp.lang == nil ? @"" : authResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS,
@@ -135,7 +135,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 description: miniProgramResp.description == nil ? @"" : miniProgramResp.description,
                 errStr: miniProgramResp.errStr == nil ? @"" : miniProgramResp.errStr,
                 errCode: @(miniProgramResp.errCode),
-                type: miniProgramResp.type == nil ? @1 : @(miniProgramResp.type),
+                type: miniProgramResp == nil ? @1 : @(miniProgramResp.type),
                 fluwxKeyPlatform: fluwxKeyIOS,
 
         };
@@ -164,7 +164,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             [_delegate managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *) resp];
         }
     } else if ([resp isKindOfClass:[PayResp class]]) {
-        if ([_delegate respondsToSelector:@selector(managerDidRecvPaymentResponse)]) {
+        if ([_delegate respondsToSelector:@selector(managerDidRecvPaymentResponse:)]) {
             [_delegate managerDidRecvPaymentResponse:(PayResp *) resp];
         }
 
@@ -175,7 +175,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 description: [StringUtil nilToEmpty:payResp.description],
                 errStr: [StringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
-                type: payResp.type == nil ? @5 : @(payResp.type),
+                type: payResp == nil ? @5 : @(payResp.type),
                 @"returnKey": payResp.returnKey == nil ? @"" : payResp.returnKey,
                 fluwxKeyPlatform: fluwxKeyIOS,
         };
@@ -187,7 +187,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 description: [StringUtil nilToEmpty:businessResp.description],
                 errStr: [StringUtil nilToEmpty:resp.errStr],
                 errCode: @(businessResp.errCode),
-                type: businessResp.type == nil ? @5 : @(businessResp.type),
+                type: businessResp == nil ? @5 : @(businessResp.type),
                 @"resultInfo": businessResp.result,
                 @"businessType": @(businessResp.businessType),
                 fluwxKeyPlatform: fluwxKeyIOS,

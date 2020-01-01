@@ -525,7 +525,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     if (indexOfPackage != JavaNotFound) {
         path = [pathWithoutSchema substringFromIndex:0 toIndex:indexOfPackage];
-        int begin = indexOfPackage + [fluwxKeyPackage length];
+        NSInteger begin = indexOfPackage + [fluwxKeyPackage length];
         packageName = [pathWithoutSchema substringFromIndex:begin toIndex:[pathWithoutSchema length]];
     } else {
         path = pathWithoutSchema;

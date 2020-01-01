@@ -51,7 +51,8 @@
 
 - (int)lastIndexOfString:(NSString *)str fromIndex:(int)index;
 
-- (NSString *)substringFromIndex:(int)beginIndex toIndex:(int)endIndex;
+- (NSString *)substringFromIndex:(NSInteger)beginIndex
+                         toIndex:(NSInteger)endIndex;
 
 - (NSString *)toLowerCase;
 

@@ -132,7 +132,9 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void(^)(NSArray<id<UIUserActivityRestoring>> * __nullable restorableObjects))restorationHandler
+- (BOOL)application:(UIApplication *)application
+continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray*))restorationHandler
 {
     return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }

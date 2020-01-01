@@ -21,7 +21,6 @@
 }
 
 - (void)handleAutoDeductWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSDictionary *params = call.arguments;
     NSMutableDictionary *paramsFromDart = [NSMutableDictionary dictionaryWithDictionary:call.arguments];
     [paramsFromDart removeObjectForKey:@"businessType"];
     WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];

@@ -2,10 +2,10 @@
 // Created by mo on 2018/8/15.
 //
 
-#import "StringUtil.h"
+#import "FluwxStringUtil.h"
 
 
-@implementation StringUtil
+@implementation FluwxStringUtil
 
 + (BOOL)isBlank:(NSString *)string {
 

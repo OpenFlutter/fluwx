@@ -8,7 +8,7 @@
 
 #import "FluwxResponseHandler.h"
 #import "FluwxKeys.h"
-#import "StringUtil.h"
+#import "FluwxStringUtil.h"
 #import "WXApiObject.h"
 #import "WXApi.h"
 @implementation FluwxResponseHandler
@@ -83,8 +83,8 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 country: authResp.country == nil ? @"" : authResp.country,
                 lang: authResp.lang == nil ? @"" : authResp.lang,
                 fluwxKeyPlatform: fluwxKeyIOS,
-                @"code": [StringUtil nilToEmpty:authResp.code],
-                @"state": [StringUtil nilToEmpty:authResp.state]
+                @"code": [FluwxStringUtil nilToEmpty:authResp.code],
+                @"state": [FluwxStringUtil nilToEmpty:authResp.state]
 
         };
         [fluwxMethodChannel invokeMethod:@"onAuthResponse" arguments:result];
@@ -172,8 +172,8 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         PayResp *payResp = (PayResp *) resp;
 
         NSDictionary *result = @{
-                description: [StringUtil nilToEmpty:payResp.description],
-                errStr: [StringUtil nilToEmpty:resp.errStr],
+                description: [FluwxStringUtil nilToEmpty:payResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
                 type: payResp == nil ? @5 : @(payResp.type),
                 @"returnKey": payResp.returnKey == nil ? @"" : payResp.returnKey,
@@ -184,8 +184,8 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         WXOpenBusinessWebViewResp *businessResp = (WXOpenBusinessWebViewResp *) resp;
 
         NSDictionary *result = @{
-                description: [StringUtil nilToEmpty:businessResp.description],
-                errStr: [StringUtil nilToEmpty:resp.errStr],
+                description: [FluwxStringUtil nilToEmpty:businessResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(businessResp.errCode),
                 type: businessResp == nil ? @5 : @(businessResp.type),
                 @"resultInfo": businessResp.result,

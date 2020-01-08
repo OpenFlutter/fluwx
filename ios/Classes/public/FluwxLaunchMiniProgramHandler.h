@@ -3,7 +3,7 @@
 #import "FluwxPlugin.h"
 
 
-@class StringUtil;
+@class FluwxStringUtil;
 
 @interface FluwxLaunchMiniProgramHandler : NSObject
 - (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar;

@@ -5,7 +5,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface StringUtil : NSObject
+@interface FluwxStringUtil : NSObject
 + (BOOL)isBlank:(NSString *)string;
 
 + (NSString *)nilToEmpty:(NSString *)string;

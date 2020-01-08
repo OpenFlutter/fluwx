@@ -10,7 +10,7 @@
 #import "FluwxKeys.h"
 #import "StringToWeChatScene.h"
 #import "FluwxMethods.h"
-#import "StringUtil.h"
+#import "FluwxStringUtil.h"
 #import "ThumbnailHelper.h"
 #import "NSStringWrapper.h"
 
@@ -73,7 +73,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *imagePath = call.arguments[fluwxKeyImage];
-    if ([StringUtil isBlank:imagePath]) {
+    if ([FluwxStringUtil isBlank:imagePath]) {
         FlutterStandardTypedData *imageData = call.arguments[fluwxKeyImageData];
         [self shareMemoryImage:call result:result imageData:imageData.data];
     } else if ([imagePath hasPrefix:SCHEMA_ASSETS]) {
@@ -92,7 +92,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
     UIImage *thumbnailImage = nil;
-    if ([StringUtil isBlank:thumbnail]) {
+    if ([FluwxStringUtil isBlank:thumbnail]) {
         UIImage *tmp = [UIImage imageWithData:imageData];
         thumbnailImage = [ThumbnailHelper compressImage:tmp toByte:32 * 1024 isPNG:FALSE];
     } else {
@@ -140,7 +140,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
 
-    if ([StringUtil isBlank:thumbnail]) {
+    if ([FluwxStringUtil isBlank:thumbnail]) {
         thumbnail = imagePath;
     }
 
@@ -183,7 +183,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
 
-    if ([StringUtil isBlank:thumbnail]) {
+    if ([FluwxStringUtil isBlank:thumbnail]) {
         thumbnail = imagePath;
     }
 
@@ -231,7 +231,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     NSString *thumbnail = call.arguments[fluwxKeyThumbnail];
 
-    if ([StringUtil isBlank:thumbnail]) {
+    if ([FluwxStringUtil isBlank:thumbnail]) {
         thumbnail = imagePath;
     }
 
@@ -409,7 +409,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         NSData *hdImageData = nil;
 
         NSString *hdImagePath = call.arguments[@"hdImagePath"];
-        if (![StringUtil isBlank:hdImagePath]) {
+        if (![FluwxStringUtil isBlank:hdImagePath]) {
             if ([hdImagePath hasPrefix:SCHEMA_ASSETS]) {
                 hdImageData = [NSData dataWithContentsOfFile:[self readImageFromAssets:hdImagePath]];
 
@@ -469,7 +469,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     UIImage *thumbnailImage = nil;
 
-    if ([StringUtil isBlank:thumbnail]) {
+    if ([FluwxStringUtil isBlank:thumbnail]) {
         return nil;
     }
 
@@ -504,7 +504,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (NSString *)readImageFromAssets:(NSString *)imagePath {
     NSArray *array = [self formatAssets:imagePath];
     NSString *key;
-    if ([StringUtil isBlank:array[1]]) {
+    if ([FluwxStringUtil isBlank:array[1]]) {
         key = [_fluwxRegistrar lookupKeyForAsset:array[0]];
     } else {
         key = [_fluwxRegistrar lookupKeyForAsset:array[0] fromPackage:array[1]];

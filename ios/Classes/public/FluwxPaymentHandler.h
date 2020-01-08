@@ -7,7 +7,7 @@
 #import "FluwxPlugin.h"
 
 
-@class StringUtil;
+@class FluwxStringUtil;
 
 
 @interface FluwxPaymentHandler : NSObject

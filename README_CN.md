@@ -8,6 +8,7 @@
 适用于Flutter的微信SDK，方便快捷。
 QQ群：892398530。
 
+# V2.0 正在开发. 破坏性更新!!!
 
 ## 使用需知
  使用`Fluwx`之前，强烈建议先阅读[微信SDK官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1)，
@@ -45,6 +46,7 @@ QQ群：892398530。
 dependencies:
   fluwx: ^${latestVersion}
 ```
+切换到*no_pay*分支以使用没有支付sdk的fluwx.
 
 > 最新版本为 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 

@@ -10,6 +10,8 @@
 `Fluwx` makes easier using WeChatSDK on Flutter.
 QQ Group：892398530。
 
+# V2.0 is coming. Broken changes!!!
+
 ## Before
  Before using`Fluwx`,read [the official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.  
  This is very important because some configurations or details are not listed here.
@@ -58,6 +60,8 @@ dependencies:
     git:
       url: https://github.com/OpenFlutter/fluwx
 ```
+
+please check *no_pay* branch for no pay-sdk support.
 
 ## Register WeChatSDK via Fluwx
 

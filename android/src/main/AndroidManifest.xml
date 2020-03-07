@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jarvan.fluwx">
+  package="com.jarvan.fluwx">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -7,11 +7,7 @@
 
     <application>
         <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/DisablePreviewTheme" />
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
+            android:name=".wxapi.FluwxWXEntryActivity"
             android:launchMode="singleTask"
             android:theme="@style/DisablePreviewTheme" />
 
@@ -19,9 +15,8 @@
             android:name="${applicationId}.wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
-            android:targetActivity="com.jarvan.fluwx.wxapi.WXEntryActivity"
+            android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:theme="@style/DisablePreviewTheme">
-
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -33,7 +28,7 @@
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleInstance"
-            android:targetActivity="com.jarvan.fluwx.wxapi.WXPayEntryActivity"
+            android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:theme="@style/DisablePreviewTheme">
 
 

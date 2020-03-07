@@ -1,11 +1,11 @@
 /// Fluwx is a powerful plugin for WeChatSDK.
 /// easy to use.
 ///
-///  A open source project authorized by [OpenFlutter](https://github.com/OpenFlutter).
+///  A open sou;rce project authorized by [OpenFlutter](https://github.com/OpenFlutter).
 library fluwx;
 
-export 'src/fluwx_iml.dart';
-export 'src/models/wechat_auth_by_qr_code.dart';
-export 'src/models/wechat_response.dart';
-export 'src/models/wechat_share_models.dart';
-export 'src/wechat_type.dart';
+export 'package:fluwx/src/fluwx_iml.dart';
+export 'package:fluwx/src/response/wechat_response.dart';
+export 'package:fluwx/src/share/share_models.dart';
+export 'package:fluwx/src/wechat_enums.dart';
+export 'package:fluwx/src/wechat_image.dart' hide ImageSchema;

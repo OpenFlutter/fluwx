@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class SubscribeMessagePage extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   @override
   void initState() {
     super.initState();
-    fluwx.responseFromSubscribeMsg.listen((resp) {
+    weChatResponseEventHandler.listen((resp) {
       print("resp = $resp");
     });
   }
@@ -69,7 +69,7 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   }
 
   void _requestSubMsg() {
-    fluwx.subscribeMsg(
+    subscribeWeChatMsg(
       appId: appId.text,
       scene: int.tryParse(scene.text) ?? 1,
       templateId: templateId.text,

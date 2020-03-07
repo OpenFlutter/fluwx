@@ -16,22 +16,22 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
   void initState() {
     super.initState();
 
-    fluwx.onAuthByQRCodeFinished.listen((data) {
-      setState(() {
-        _status = "errorCode=>${data.errorCode}\nauthCode=>${data.authCode}";
-      });
-    });
-    fluwx.onAuthGotQRCode.listen((image) {
-      setState(() {
-        _image = image;
-      });
-    });
-
-    fluwx.onQRCodeScanned.listen((scanned) {
-      setState(() {
-        _status = "scanned";
-      });
-    });
+//    fluwx.onAuthByQRCodeFinished.listen((data) {
+//      setState(() {
+//        _status = "errorCode=>${data.errorCode}\nauthCode=>${data.authCode}";
+//      });
+//    });
+//    fluwx.onAuthGotQRCode.listen((image) {
+//      setState(() {
+//        _image = image;
+//      });
+//    });
+//
+//    fluwx.onQRCodeScanned.listen((scanned) {
+//      setState(() {
+//        _status = "scanned";
+//      });
+//    });
   }
 
   @override
@@ -44,12 +44,12 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
         children: <Widget>[
           RaisedButton(
             onPressed: () {
-              fluwx.authByQRCode(
-                  appId: "wxd930ea5d5a258f4f",
-                  scope: "noncestr",
-                  nonceStr: "nonceStr",
-                  timeStamp: "1417508194",
-                  signature: "429eaaa13fd71efbc3fd344d0a9a9126835e7303");
+//              fluwx.authByQRCode(
+//                  appId: "wxd930ea5d5a258f4f",
+//                  scope: "noncestr",
+//                  nonceStr: "nonceStr",
+//                  timeStamp: "1417508194",
+//                  signature: "429eaaa13fd71efbc3fd344d0a9a9126835e7303");
             },
             child: Text("AUTH NOW"),
           ),

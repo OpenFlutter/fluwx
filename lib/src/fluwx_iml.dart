@@ -108,7 +108,7 @@ Future<bool> sendWeChatAuth(
 
 /// open mini-program
 /// see [WXMiniProgramType]
-Future<bool> launchMiniProgram(
+Future<bool> launchWeChatMiniProgram(
     {@required String username,
     String path,
     WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {

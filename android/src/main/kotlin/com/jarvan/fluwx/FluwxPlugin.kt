@@ -1,6 +1,5 @@
 package com.jarvan.fluwx
 
-import android.util.Log
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.FluwxAuthHandler
 import com.jarvan.fluwx.handlers.FluwxShareHandler
@@ -16,9 +15,21 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.PluginRegistry
 
 /** FluwxPlugin */
 public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+
+    companion object {
+        @JvmStatic
+        fun registerWith(registrar: PluginRegistry.Registrar) {
+            val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
+            val authHandler = FluwxAuthHandler(channel)
+            channel.setMethodCallHandler(FluwxPlugin().apply {
+                this.authHandler = authHandler
+            })
+        }
+    }
 
     private var shareHandler: FluwxShareHandler? = null
 

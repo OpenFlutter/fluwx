@@ -95,7 +95,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
         title: _title,
         path: _path,
         description: _description,
-        thumbnail: WeChatImage.fromNetwork(_thumbnail)
+        thumbnail: WeChatImage.network(_thumbnail)
     );
     shareToWeChat(model);
   }

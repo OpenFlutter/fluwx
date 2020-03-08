@@ -102,7 +102,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
     var model = WeChatShareWebPageModel(
       _url,
       title: _title,
-      thumbnail: WeChatImage.fromNetwork(_thumnail),
+      thumbnail: WeChatImage.network(_thumnail),
       scene: scene,
     );
     shareToWeChat(model);

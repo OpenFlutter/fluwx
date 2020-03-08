@@ -118,7 +118,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
     var model = new WeChatShareVideoModel(
         videoUrl: _videoUrl,
         videoLowBandUrl: _videoLowBandUrl,
-        thumbnail: WeChatImage.fromNetwork(_thumnail),
+        thumbnail: WeChatImage.network(_thumnail),
         description: _description,
         scene: this.scene,
         title: _title);

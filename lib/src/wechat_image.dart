@@ -25,25 +25,25 @@ class WeChatImage {
   final ImageSchema schema;
   final String suffix;
 
-  WeChatImage.fromNetwork(String source, {String suffix})
+  WeChatImage.network(String source, {String suffix})
       : assert(source != null && source.startsWith("http")),
         this.source = source,
         this.schema = ImageSchema.NETWORK,
         this.suffix = source.readSuffix(suffix);
 
-  WeChatImage.fromAsset(String source, {String suffix})
+  WeChatImage.asset(String source, {String suffix})
       : assert(source != null && source.trim().isNotEmpty),
         this.source = source,
         this.schema = ImageSchema.ASSET,
         this.suffix = source.readSuffix(suffix);
 
-  WeChatImage.fromFile(File source, {String suffix = ".jpeg"})
+  WeChatImage.file(File source, {String suffix = ".jpeg"})
       : assert(source != null),
         this.source = source.path,
         this.schema = ImageSchema.FILE,
         this.suffix = source.path.readSuffix(suffix);
 
-  WeChatImage.fromBinary(Uint8List source, {String suffix = ".jpeg"})
+  WeChatImage.binary(Uint8List source, {String suffix = ".jpeg"})
       : assert(source != null),
         assert(suffix != null && suffix.trim().isNotEmpty),
         this.source = source,

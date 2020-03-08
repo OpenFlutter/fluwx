@@ -1,127 +1,166 @@
-#import <fluwx/FluwxPlugin.h>
-
-
+#import "FluwxPlugin.h"
+#import "FluwxResponseHandler.h"
+#import "FluwxStringUtil.h"
 #import "FluwxAuthHandler.h"
-#import "FluwxPaymentHandler.h"
-#import "FluwxMethods.h"
-#import "FluwxWXApiHandler.h"
 #import "FluwxShareHandler.h"
-#import "FluwxLaunchMiniProgramHandler.h"
-#import "FluwxSubscribeMsgHandler.h"
-#import "FluwxAutoDeductHandler.h"
 
 @implementation FluwxPlugin
-
-BOOL isWeChatRegistered = NO;
-BOOL handleOpenURLByFluwx = YES;
-
+FluwxAuthHandler *_fluwxAuthHandler;
 FluwxShareHandler *_fluwxShareHandler;
 
-FluwxAuthHandler *_fluwxAuthHandler;
-FluwxWXApiHandler *_fluwxWXApiHandler;
-FluwxPaymentHandler *_fluwxPaymentHandler;
-FluwxLaunchMiniProgramHandler *_fluwxLaunchMiniProgramHandler;
-FluwxSubscribeMsgHandler *_fluwxSubscribeMsgHandler;
-FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
-
-- (void)dealloc {
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
+BOOL handleOpenURLByFluwx = YES;
 
 + (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     FlutterMethodChannel *channel = [FlutterMethodChannel
             methodChannelWithName:@"com.jarvanmo/fluwx"
                   binaryMessenger:[registrar messenger]];
-
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar methodChannel:channel];
-    [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
     [registrar addMethodCallDelegate:instance channel:channel];
+    [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
     [registrar addApplicationDelegate:instance];
 
 }
 
 - (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar methodChannel:(FlutterMethodChannel *)flutterMethodChannel {
     self = [super init];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(handleOpenURL:)
-//                                                 name:@"WeChat"
-//                                               object:nil];
     if (self) {
-        _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar methodChannel:flutterMethodChannel];
-        _fluwxWXApiHandler = [[FluwxWXApiHandler alloc] init];
-        _fluwxPaymentHandler = [[FluwxPaymentHandler alloc] initWithRegistrar:registrar];
-        _fluwxLaunchMiniProgramHandler = [[FluwxLaunchMiniProgramHandler alloc] initWithRegistrar:registrar];
-        _fluwxSubscribeMsgHandler = [[FluwxSubscribeMsgHandler alloc] initWithRegistrar:registrar];
-        _fluwxAutoDeductHandler = [[FluwxAutoDeductHandler alloc] initWithRegistrar:registrar];
+        _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
     }
 
     return self;
 }
 
-
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-
-
-    if ([registerApp isEqualToString:call.method]) {
-        [_fluwxWXApiHandler registerApp:call result:result];
-        return;
-    }
-
-    if ([@"isWeChatInstalled" isEqualToString:call.method]) {
-        [_fluwxWXApiHandler checkWeChatInstallation:call result:result];
-        return;
-    }
-
-
-    if ([@"sendAuth" isEqualToString:call.method]) {
+    if ([@"registerApp" isEqualToString:call.method]) {
+        [self registerApp:call result:result];
+    } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
+        [self checkWeChatInstallation:call result:result];
+    } else if ([@"sendAuth" isEqualToString:call.method]) {
         [_fluwxAuthHandler handleAuth:call result:result];
-        return;
-    }
-
-    if ([@"payWithFluwx" isEqualToString:call.method]) {
-        [_fluwxPaymentHandler handlePayment:call result:result];
-        return;
-    }
-
-    if ([@"launchMiniProgram" isEqualToString:call.method]) {
-        [_fluwxLaunchMiniProgramHandler handleLaunchMiniProgram:call result:result];
-        return;
-    }
-
-    if ([@"subscribeMsg" isEqualToString:call.method]) {
-        [_fluwxSubscribeMsgHandler handleSubscribeWithCall:call result:result];
-        return;
-    }
-
-    if ([@"authByQRCode" isEqualToString:call.method]) {
+    } else if ([@"authByQRCode" isEqualToString:call.method]) {
         [_fluwxAuthHandler authByQRCode:call result:result];
-        return;
-    }
-
-    if ([@"stopAuthByQRCode" isEqualToString:call.method]) {
+    } else if ([@"stopAuthByQRCode" isEqualToString:call.method]) {
         [_fluwxAuthHandler stopAuthByQRCode:call result:result];
-        return;
-    }
-    if ([@"autoDeduct" isEqualToString:call.method]) {
-        [_fluwxAutoDeductHandler handleAutoDeductWithCall:call result:result];
-        return;
-    }
-
-
-    if ([@"openWXApp" isEqualToString:call.method]) {
+    } else if ([@"openWXApp" isEqualToString:call.method]) {
         result(@([WXApi openWXApp]));
-        return;
-    }
-    if ([call.method hasPrefix:@"share"]) {
+    } else if ([@"payWithFluwx" isEqualToString:call.method]) {
+        [self handlePayment:call result:result];
+    } else if ([@"launchMiniProgram" isEqualToString:call.method]) {
+        [self handleLaunchMiniProgram:call result:result];
+    } else if ([@"subscribeMsg" isEqualToString:call.method]) {
+        [self handleSubscribeWithCall:call result:result];
+    } else if ([@"autoDeduct" isEqualToString:call.method]) {
+        [self handleAutoDeductWithCall:call result:result];
+    } else if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
-        return;
     } else {
         result(FlutterMethodNotImplemented);
     }
-
-
 }
+
+- (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {
+    if (!call.arguments[@"iOS"]) {
+        result(@NO);
+        return;
+    }
+
+    NSString *appId = call.arguments[@"appId"];
+    if ([FluwxStringUtil isBlank:appId]) {
+        result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
+        return;
+    }
+
+    NSString *universalLink = call.arguments[@"universalLink"];
+
+    if ([FluwxStringUtil isBlank:universalLink]) {
+        result([FlutterError errorWithCode:@"invalid universal link" message:@"are you sure your universal link is correct ? " details:universalLink]);
+        return;
+    }
+
+    BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
+
+    result(@(isWeChatRegistered));
+}
+
+- (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {
+    result(@([WXApi isWXAppInstalled]));
+}
+
+- (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+
+    NSNumber *timestamp = call.arguments[@"timeStamp"];
+
+    NSString *partnerId = call.arguments[@"partnerId"];
+    NSString *prepayId = call.arguments[@"prepayId"];
+    NSString *packageValue = call.arguments[@"packageValue"];
+    NSString *nonceStr = call.arguments[@"nonceStr"];
+    UInt32 timeStamp = [timestamp unsignedIntValue];
+    NSString *sign = call.arguments[@"sign"];
+    [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
+                           PartnerId:partnerId
+                            PrepayId:prepayId
+                            NonceStr:nonceStr
+                           Timestamp:timeStamp
+                             Package:packageValue
+                                Sign:sign completion:^(BOOL done) {
+                result(@(done));
+            }];
+}
+
+- (void)handleLaunchMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *userName = call.arguments[@"userName"];
+    NSString *path = call.arguments[@"path"];
+//    WXMiniProgramType *miniProgramType = call.arguments[@"miniProgramType"];
+
+    NSNumber *typeInt = call.arguments[@"miniProgramType"];
+    WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
+    if ([typeInt isEqualToNumber:@1]) {
+        miniProgramType = WXMiniProgramTypeTest;
+    } else if ([typeInt isEqualToNumber:@2]) {
+        miniProgramType = WXMiniProgramTypePreview;
+    }
+
+    [WXApiRequestHandler launchMiniProgramWithUserName:userName
+                                                  path:path
+                                                  type:miniProgramType completion:^(BOOL done) {
+                result(@(done));
+            }];
+}
+
+
+- (void)handleSubscribeWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *params = call.arguments;
+    NSString *appId = [params valueForKey:@"appId"];
+    int scene = [[params valueForKey:@"scene"] intValue];
+    NSString *templateId = [params valueForKey:@"templateId"];
+    NSString *reserved = [params valueForKey:@"reserved"];
+
+    WXSubscribeMsgReq *req = [WXSubscribeMsgReq new];
+    req.scene = (UInt32) scene;
+    req.templateId = templateId;
+    req.reserved = reserved;
+    req.openID = appId;
+
+    [WXApi sendReq:req completion:^(BOOL done) {
+        result(@(done));
+    }];
+}
+
+
+- (void)handleAutoDeductWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSMutableDictionary *paramsFromDart = [NSMutableDictionary dictionaryWithDictionary:call.arguments];
+    [paramsFromDart removeObjectForKey:@"businessType"];
+    WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
+    NSNumber *businessType = call.arguments[@"businessType"];
+    req.businessType = [businessType unsignedIntValue];
+    req.queryInfoDic = paramsFromDart;
+    [WXApi sendReq:req completion:^(BOOL done) {
+        result(@(done));
+    }];
+}
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
@@ -132,16 +171,14 @@ FluwxAutoDeductHandler *_fluwxAutoDeductHandler;
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
 }
 
-- (BOOL)application:(UIApplication *)application
+- (BOOL) application:(UIApplication *)application
 continueUserActivity:(NSUserActivity *)userActivity
- restorationHandler:(void (^)(NSArray*))restorationHandler
-{
+  restorationHandler:(void (^)(NSArray *))restorationHandler {
     return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }
 
 
 - (BOOL)handleOpenURL:(NSNotification *)aNotification {
-
     if (handleOpenURLByFluwx) {
         NSString *aURLString = [aNotification userInfo][@"url"];
         NSURL *aURL = [NSURL URLWithString:aURLString];
@@ -149,14 +186,6 @@ continueUserActivity:(NSUserActivity *)userActivity
     } else {
         return NO;
     }
-
 }
-
-- (void)unregisterApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-
-    isWeChatRegistered = false;
-    result(@YES);
-}
-
 
 @end

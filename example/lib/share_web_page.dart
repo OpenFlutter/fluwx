@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class ShareWebPagePage extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
   String _url = "share text from fluwx";
   String _title = "Fluwx";
   String _thumnail = "assets://images/logo.png";
-  fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
+  WeChatScene scene = WeChatScene.SESSION;
 
   @override
   void initState() {
@@ -65,8 +65,8 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                 const Text("分享至"),
                 Row(
                   children: <Widget>[
-                    new Radio<fluwx.WeChatScene>(
-                        value: fluwx.WeChatScene.SESSION,
+                    new Radio<WeChatScene>(
+                        value: WeChatScene.SESSION,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("会话")
@@ -74,8 +74,8 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<fluwx.WeChatScene>(
-                        value: fluwx.WeChatScene.TIMELINE,
+                    new Radio<WeChatScene>(
+                        value: WeChatScene.TIMELINE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("朋友圈")
@@ -83,8 +83,8 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                 ),
                 Row(
                   children: <Widget>[
-                    new Radio<fluwx.WeChatScene>(
-                        value: fluwx.WeChatScene.FAVORITE,
+                    new Radio<WeChatScene>(
+                        value: WeChatScene.FAVORITE,
                         groupValue: scene,
                         onChanged: handleRadioValueChanged),
                     const Text("收藏")
@@ -99,16 +99,16 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
   }
 
   void _share() {
-    var model = fluwx.WeChatShareWebPageModel(
-        webPage: _url,
-        title: _title,
-        thumbnail: _thumnail,
-        scene: scene,
-        transaction: "hh");
-    fluwx.share(model);
+    var model = WeChatShareWebPageModel(
+      _url,
+      title: _title,
+      thumbnail: WeChatImage.network(_thumnail),
+      scene: scene,
+    );
+    shareToWeChat(model);
   }
 
-  void handleRadioValueChanged(fluwx.WeChatScene scene) {
+  void handleRadioValueChanged(WeChatScene scene) {
     setState(() {
       this.scene = scene;
     });

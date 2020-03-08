@@ -1,12 +1,9 @@
 //
-// Created by mo on 2018/8/16.
+// Created by mo on 2020/3/7.
 //
 
 #import <Foundation/Foundation.h>
-#import "WXApi.h"
 #import <Flutter/Flutter.h>
-#import "FluwxPlugin.h"
-#import "WXApiRequestHandler.h"
 
 @class FluwxStringUtil;
 

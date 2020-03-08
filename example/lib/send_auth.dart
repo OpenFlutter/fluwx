@@ -12,10 +12,12 @@ class _SendAuthPageState extends State<SendAuthPage> {
   @override
   void initState() {
     super.initState();
-    fluwx.responseFromAuth.listen((data) {
-      setState(() {
-        _result = "${data.errCode}";
-      });
+    fluwx.weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
+      if (res is fluwx.WeChatAuthResponse) {
+        setState(() {
+          _result = "state :${res.state} \n code:${res.code}";
+        });
+      }
     });
   }
 
@@ -36,7 +38,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
           OutlineButton(
             onPressed: () {
               fluwx
-                  .sendAuth(
+                  .sendWeChatAuth(
                       scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
                   .then((data) {});
             },

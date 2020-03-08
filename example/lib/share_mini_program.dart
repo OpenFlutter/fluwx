@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class ShareMiniProgramPage extends StatefulWidget {
   @override
@@ -7,7 +7,7 @@ class ShareMiniProgramPage extends StatefulWidget {
 }
 
 class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
-  fluwx.WeChatScene scene = fluwx.WeChatScene.SESSION;
+  WeChatScene scene = WeChatScene.SESSION;
   String _webPageUrl = "http://www.qq.com";
   String _thumbnail =
       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534614311230&di=b17a892b366b5d002f52abcce7c4eea0&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170516%2F51296b2673704ae2992d0a28c244274c_th.png";
@@ -76,7 +76,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
             ),
             new TextField(
               controller:
-                  TextEditingController(text: "assets://images/logo.png"),
+              TextEditingController(text: "assets://images/logo.png"),
               onChanged: (str) {
                 _thumbnail = str;
               },
@@ -89,15 +89,14 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
   }
 
   void _share() {
-    var model = new fluwx.WeChatShareMiniProgramModel(
+    var model = new WeChatShareMiniProgramModel(
         webPageUrl: _webPageUrl,
         userName: _userName,
         title: _title,
         path: _path,
         description: _description,
-        scene: fluwx.WeChatScene.SESSION,
-        hdImagePath: _thumbnail,
-        thumbnail: _thumbnail);
-    fluwx.share(model);
+        thumbnail: WeChatImage.network(_thumbnail)
+    );
+    shareToWeChat(model);
   }
 }

@@ -8,14 +8,14 @@ task:
   setup_script:
     - flutter channel stable
     - flutter upgrade
-  build_script: 
+  build_script:
     - cd example
     - flutter build apk
   #test_script: flutter test
 
 task:
   osx_instance:
-    image: mojave-flutter
+    image: mojave-xcode-11.3-flutter
   pub_cache:
     folder: ~/.pub-cache
   setup_script:
@@ -24,8 +24,8 @@ task:
     - flutter upgrade
   create_simulator_script:
     - xcrun simctl list
-    - xcrun simctl create Flutter-iPhone com.apple.CoreSimulator.SimDeviceType.iPhone-X com.apple.CoreSimulator.SimRuntime.iOS-13-2 | xargs xcrun simctl boot
-  build_script: 
+    - xcrun simctl create Flutter-iPhone com.apple.CoreSimulator.SimDeviceType.iPhone-X com.apple.CoreSimulator.SimRuntime.iOS-13-3 | xargs xcrun simctl boot
+  build_script:
     - cd example
     - flutter build ios --no-codesign
   #test_script: flutter test

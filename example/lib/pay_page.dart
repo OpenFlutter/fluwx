@@ -17,12 +17,18 @@ class _PayPageState extends State<PayPage> {
   @override
   void initState() {
     super.initState();
-
-    fluwx.responseFromPayment.listen((data) {
-      setState(() {
-        _result = "${data.errCode}";
-      });
+    fluwx.weChatResponseEventHandler.listen((res) {
+      if (res is fluwx.WeChatPaymentResponse) {
+        setState(() {
+          _result = "pay :${res.isSuccessful}";
+        });
+      }
     });
+//    fluwx.responseFromPayment.listen((data) {
+//      setState(() {
+//        _result = "${data.errCode}";
+//      });
+//    });
   }
 
   @override
@@ -45,8 +51,7 @@ class _PayPageState extends State<PayPage> {
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
               print(result["timestamp"]);
-              fluwx
-                  .pay(
+              fluwx.payWithWeChat(
                 appId: result['appid'].toString(),
                 partnerId: result['partnerid'].toString(),
                 prepayId: result['prepayid'].toString(),

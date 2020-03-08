@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class LaunchMiniProgramPage extends StatefulWidget {
   @override
@@ -12,10 +12,14 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
   @override
   void initState() {
     super.initState();
-    fluwx.responseFromLaunchMiniProgram.listen((data) {
-      setState(() {
-        _result = "${data.extMsg}";
-      });
+    weChatResponseEventHandler.listen((res) {
+      if (res is WeChatLaunchMiniProgramResponse) {
+        if (mounted) {
+          setState(() {
+            _result = "isSuccessful:${res.isSuccessful}";
+          });
+        }
+      }
     });
   }
 
@@ -35,9 +39,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
         children: <Widget>[
           OutlineButton(
             onPressed: () {
-              fluwx.launchMiniProgram(username: "gh_d43f693ca31f").then((data) {
-                print(data);
-              });
+              launchWeChatMiniProgram(username: "gh_d43f693ca31f");
             },
             child: const Text("Launch MiniProgrom"),
           ),

@@ -1,105 +1,87 @@
-# Fluwx 
+# Fluwx
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 [![Build status](https://img.shields.io/cirrus/github/OpenFlutter/fluwx/master)](https://cirrus-ci.com/github/OpenFlutter/fluwx)
 ======
 
-![logo](./arts/fluwx_logo.png)
+![logo](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/fluwx_logo.png)
 
 [中文请移步此处](./README_CN.md)
 
-`Fluwx` makes easier using WeChatSDK on Flutter.
-QQ Group：892398530。
+## What's Fluwx
+`Fluwx` is flutter plugin for [WeChatSDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) which allows developers to call  
+[WeChatSDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) native APIs.
 
-# V2.0 is coming. Broken changes!!!
+> Join QQ Group now: 892398530。
 
-## Before
- Before using`Fluwx`,read [the official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) first.  
- This is very important because some configurations or details are not listed here.
+## Capability
 
+- Share images, texts, music and so on to WeChat, including session, favorite and timeline.
+- Payment with WeChat.
+- Get auth code before you login in with WeChat.
+- Launch mini program in WeChat.
+- Subscribe Message.
+- Just open WeChat app.
 
+## Preparation
 
-### What does Fluwx support?
-* Share Text.
-* Share WebPage.
-* Share Image.
-* Share Music.
-* Share Video.
-* Share MiniProgram.
-* Send Auth(Login).
-* Pay.
-* Launch Mini-Program.
-* Subscribe Message.
-* Auth By QRCode.
-* Sign Auto-Deduct.
-* Open WeChat App.
+`Fluwx` is good but not God. You'd better read [official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) before
+integrating `Fluwx`. Then you'll understand how to generate Android signature, what's universal link for iOS, how to add URL schema for iOS and so on.
 
-## Sample
+[Watch Charged Video](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
 
-[See sample here](./example)
-
-[watch charged video here](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
-
-[upgrade to 1.0.0 or above](./doc/QUESTIONS.md)
-
-## Dependencies
+## Install
 
 Add the following dependencies in your `pubspec.yaml` file:
+
+`Fluwx` with pay:
 
 ```yaml
 dependencies:
   fluwx: ^${latestVersion}
 ```
+![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
-> Latest version is ![pub package](https://img.shields.io/pub/v/fluwx.svg)
-
-For using the snapshot:
+`Fluwx` without pay:
 
 ```yaml
 dependencies:
-  fluwx:
-    git:
-      url: https://github.com/OpenFlutter/fluwx
+  fluwx_no_pay: ^${latestVersion}
 ```
 
-please check *no_pay* branch for no pay-sdk support.
+![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)
 
-## Register WeChatSDK via Fluwx
+> NOTE: Never forget to replace ^${latestVersion} with actual version.
 
-Before using`Fluwx`,you should init `FLuwx`：
+## Register WxAPI
 
- ```dart
-    import 'package:fluwx/fluwx.dart' as fluwx;
-    fluwx.registerWxApi(appId:"wxd930ea5d5a258f4f",universalLink:"https://your.univeral.link.com/placeholder/");
-    
- ```
-Developers must provide `universalLink` if you want register WeChat via fluwx, otherwise, ignore. Incorrect `universalLink` won't pass the register of SDK.
+Register your app via `fluwx` if necessary.
 
+```dart
+registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
+```
 
-> NOTE：Although we can register WXApi via Fluwx,but there's still some work you have to do on the particular platform.For example, add  *URLSchema, LSApplicationQueriesSchemes or universal link* for iOS. 
-Please read the official documents for details.
+The param `universalLink` only works with iOS. You can read [this document](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) to learn
+how to create universalLink. You can also learn how to add URL schema, how to add `LSApplicationQueriesSchemes` in your iOS project. This is essential.
 
-### More
-* [Share](./doc/SHARE.md)
-* [Auth](./doc/SEND_AUTH.md)
-* [Payment](./doc/WXPay.md)
-* [Launch Mini-Program](./doc/LAUNCH_MINI_PROGRAM.md)
-* [Subscribe Message](./doc/SUBSCRIBE_MESSAGE.md)
-* [Auth By QRCode](./doc/AUTH_BY_QR_CODE.md)
-* [Sign Auto-Deduct](./doc/AUTO_DEDUCT.md)
-* [Receive Response Or Callback From WeChat](./doc/RESPONSE.md)
+For Android, you shall know to how generate signature for your app in [this page](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html).
+And you have to understand the difference between debug signature and release signature. Once the signature is incorrect, then you'll get `errCode = -1`.
 
-### Other
-* [Having Questions?](./doc/QUESTIONS.md)
+## Capability Document
 
-### Waiting
+- [Basic knowledge](./docs/BASIC_KNOWLEDGE.md)
+- [Share](./docs/SHARE.md)
+- [Payment](./dosc/PAYMENT.md)
+- [Auth](./docs/AUTH.md)
+
+For more capabilities, you can read the public functions of `fluwx`.
 
 ### Donate
 Buy the writer a cup of coffee。
 
-<img src="./arts/wx.jpeg" height="300">  <img src="./arts/ali.jpeg" height="300">
+<img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/wx.jpeg" height="300">  <img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/ali.jpeg" height="300">
 
 ### Subscribe Us On WeChat
-![subscribe](./arts/wx_subscription.png)
+![subscribe](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/wx_subscription.png)
 
 ## LICENSE
 
@@ -120,3 +102,8 @@ Buy the writer a cup of coffee。
     WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
     License for the specific language governing permissions and limitations under
     the License.
+
+
+
+
+

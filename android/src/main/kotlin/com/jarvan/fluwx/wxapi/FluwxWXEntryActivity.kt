@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The OpenFlutter Organization
+ * Copyright (C) 2020 The OpenFlutter Organization
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,8 @@ package com.jarvan.fluwx.wxapi
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import com.jarvan.fluwx.handler.FluwxRequestHandler
-import com.jarvan.fluwx.handler.FluwxResponseHandler
-import com.jarvan.fluwx.handler.WXAPiHandler
+import com.jarvan.fluwx.handlers.FluwxResponseHandler
+import com.jarvan.fluwx.handlers.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
@@ -28,20 +27,18 @@ import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 
 open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
-
     // IWXAPI 是第三方app和微信通信的openapi接口
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         try {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()
+            startSpecifiedActivity()
             finish()
         }
-
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -53,6 +50,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()
+            startSpecifiedActivity()
             finish()
         }
     }
@@ -61,11 +59,9 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
     override fun onReq(baseReq: BaseReq) {
         // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
-        val activity = FluwxRequestHandler.getRegistrar()?.activity()
-        if (baseReq.type == 4 && activity is Activity) {
+        if (baseReq.type == 4) {
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
-            startActivity(Intent(this, activity::class.java))
-            finish()
+            startSpecifiedActivity()
         }
     }
 
@@ -75,5 +71,10 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         finish()
     }
 
-
+    private fun startSpecifiedActivity() {
+        Intent("$packageName.FlutterActivity").run {
+            startActivity(this)
+        }
+        finish()
+    }
 }

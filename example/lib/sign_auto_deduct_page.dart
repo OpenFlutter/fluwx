@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class SignAutoDeductPage extends StatefulWidget {
   @override
@@ -26,8 +26,8 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   @override
   void initState() {
     super.initState();
-    fluwx.responseFromSubscribeMsg.listen((resp) {
-      print("resp = $resp");
+    weChatResponseEventHandler.listen((resp) {
+      print("resp = ${resp.isSuccessful}");
     });
   }
 
@@ -95,7 +95,7 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   }
 
   void _signAutoDeduct() {
-    fluwx.autoDeDuct(
+    autoDeDuctWeChat(
         appId: appId.text ?? "",
         mchId: mchId.text ?? "",
         planId: planId.text ?? "",

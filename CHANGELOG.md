@@ -4,6 +4,8 @@
 * 现在iOS对分享微信小程序的高清图也会压缩
 * 微信回调监听形式变更
 * Android增加新的Action以防微信打开小程序出错不会返回原app的问题
+* iOS改用Pod引用微信SDK
+* iOS隐藏一些header
 
 ## 1.2.1+2
 * iOS的StringUtil重命名了

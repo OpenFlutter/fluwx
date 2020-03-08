@@ -2,9 +2,7 @@ package com.jarvan.fluwx.io
 
 import android.content.Context
 import android.content.res.AssetFileDescriptor
-import android.net.Uri
 import android.util.Log
-import io.flutter.embedding.engine.plugins.FlutterPlugin
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -127,22 +125,22 @@ interface WeChatImage {
 //    ASSET,
 //    FILE,
 //    BINARY,
-        fun createWeChatImage(params: Map<String, Any>, flutterAssets: FlutterPlugin.FlutterAssets, context: Context): WeChatImage {
+        fun createWeChatImage(params: Map<String, Any>, assetFileDescriptor: AssetFileDescriptor, context: Context): WeChatImage {
 //          Map toMap() => {"source": source, "schema": schema.index, "suffix": suffix};
             val suffix = (params["suffix"] as String?) ?: ".jpeg"
             return when ((params["schema"] as? Int) ?: 0) {
                 0 -> WeChatNetworkImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)
                 1 -> {
-                    val source = (params["source"] as? String).orEmpty()
-                    val uri = Uri.parse(source)
-                    val packageName = uri.getQueryParameter("package")
-                    val subPath = if (packageName.isNullOrBlank()) {
-                        flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty())
-                    } else {
-                        flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty(), packageName)
-                    }
+//                    val source = (params["source"] as? String).orEmpty()
+//                    val uri = Uri.parse(source)
+//                    val packageName = uri.getQueryParameter("package")
+//                    val subPath = if (packageName.isNullOrBlank()) {
+//                        flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty())
+//                    } else {
+//                        flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty(), packageName)
+//                    }
 
-                    WeChatAssetImage(source = context.assets.openFd(subPath), suffix = suffix)
+                    WeChatAssetImage(source = assetFileDescriptor, suffix = suffix)
                 }
                 2 -> WeChatFileImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)
                 3 -> WeChatMemoryImage(source = (params["source"] as? ByteArray)

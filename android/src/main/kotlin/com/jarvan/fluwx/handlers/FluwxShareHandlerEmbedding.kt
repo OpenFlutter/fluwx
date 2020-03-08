@@ -3,6 +3,9 @@ package com.jarvan.fluwx.handlers
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.AssetFileDescriptor
+import android.net.Uri
+import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.jarvan.fluwx.io.ImagesIO
@@ -14,6 +17,7 @@ import com.tencent.mm.opensdk.modelmsg.*
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
 import java.util.*
 import kotlin.coroutines.CoroutineContext
@@ -23,7 +27,40 @@ import kotlin.coroutines.CoroutineContext
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
-internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.FlutterAssets, private val context: Context) : CoroutineScope {
+internal class FluwxShareHandlerEmbedding(private val flutterAssets: FlutterPlugin.FlutterAssets, override val context: Context) : FluwxShareHandler {
+
+    override val assetFileDescriptor: (String) -> AssetFileDescriptor = {
+        val uri = Uri.parse(it)
+        val packageName = uri.getQueryParameter("package")
+        val subPath = if (packageName.isNullOrBlank()) {
+            flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty())
+        } else {
+            flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty(), packageName)
+        }
+
+        context.assets.openFd(subPath)
+    }
+
+    override val job: Job = Job()
+}
+
+internal class FluwxShareHandlerCompat(private val registrar: PluginRegistry.Registrar) : FluwxShareHandler {
+    override val assetFileDescriptor: (String) -> AssetFileDescriptor = {
+        val uri = Uri.parse(it)
+        val packageName = uri.getQueryParameter("package")
+        val key = if (TextUtils.isEmpty(packageName)) {
+            registrar.lookupKeyForAsset(uri.path)
+        } else {
+            registrar.lookupKeyForAsset(uri.path, packageName)
+        }
+        context.assets.openFd(key)
+    }
+
+    override val context: Context = registrar.context().applicationContext
+    override val job: Job = Job()
+}
+
+internal interface FluwxShareHandler : CoroutineScope {
     companion object {
         const val SHARE_IMAGE_THUMB_LENGTH = 32 * 1024
         private const val keyTitle = "title"
@@ -61,6 +98,7 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
 
+
     private fun shareMiniProgram(call: MethodCall, result: MethodChannel.Result) {
         val miniProgramObj = WXMiniProgramObject()
         miniProgramObj.webpageUrl = call.argument("webPageUrl") // 兼容低版本的网页链接
@@ -84,8 +122,8 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
 
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
         launch {
-            val sourceImage = WeChatImage.createWeChatImage(call.argument("source")
-                    ?: mapOf(), flutterAssets, context)
+            val map: Map<String, Any> = call.argument("source") ?: mapOf()
+            val sourceImage = WeChatImage.createWeChatImage(map, assetFileDescriptor((map["source"] as? String).orEmpty()), context)
             val thumbData = readThumbnailByteArray(call)
 
             val sourceByteArray = sourceImage.readByteArray()
@@ -119,6 +157,7 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
             sendRequestInMain(result, req)
         }
     }
+
 
     private fun shareMusic(call: MethodCall, result: MethodChannel.Result) {
         val music = WXMusicObject()
@@ -210,7 +249,7 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
     private suspend fun readThumbnailByteArray(call: MethodCall): ByteArray? {
         val thumbnailMap: Map<String, Any>? = call.argument(keyThumbnail)
         return thumbnailMap?.run {
-            val thumbnailImage = WeChatImage.createWeChatImage(thumbnailMap, flutterAssets, context)
+            val thumbnailImage = WeChatImage.createWeChatImage(thumbnailMap, assetFileDescriptor((thumbnailMap["source"] as? String).orEmpty()), context)
             val thumbnailImageIO = ImagesIOIml(thumbnailImage)
             compressThumbnail(thumbnailImageIO)
         }
@@ -234,12 +273,17 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
         }
     }
 
+    val context: Context
+
+    val assetFileDescriptor: (String) -> AssetFileDescriptor
+
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    private val job = Job()
+    val job: Job
 
     fun onDestroy() {
         job.cancel()
     }
+
 }

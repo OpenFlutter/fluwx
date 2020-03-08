@@ -5,7 +5,6 @@
 //  Created by Jeason on 15/7/14.
 //
 //
-
 #import "WXApiObject.h"
 
 @interface WXMediaMessage (messageConstruct)

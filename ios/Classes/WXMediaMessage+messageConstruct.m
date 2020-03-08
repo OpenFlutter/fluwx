@@ -7,7 +7,6 @@
 //
 
 #import "WXMediaMessage+messageConstruct.h"
-
 @implementation WXMediaMessage (messageConstruct)
 
 + (WXMediaMessage *)messageWithTitle:(NSString *)title

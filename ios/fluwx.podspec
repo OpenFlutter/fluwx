@@ -14,7 +14,7 @@ A new Flutter plugin for Wechat SDK.
   s.author           = { 'JarvanMo' => 'jarvan.mo@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.public_header_files = 'Classes/public/*.h'
   s.static_framework = true
   s.dependency 'Flutter'
   s.dependency 'WechatOpenSDK', '1.8.6.2'

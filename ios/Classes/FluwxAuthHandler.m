@@ -6,7 +6,9 @@
 #import "FluwxAuthHandler.h"
 #import "WXApi.h"
 #import "WechatAuthSDK.h"
-
+#import "FluwxPlugin.h"
+#import "WXApiRequestHandler.h"
+#import "WechatAuthSDK.h"
 @implementation FluwxAuthHandler
 
 WechatAuthSDK *_qrauth;

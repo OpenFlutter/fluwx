@@ -26,6 +26,9 @@ const String _transaction = "transaction";
 const String _thumbnail = "thumbnail";
 const String _title = "title";
 const String _description = "description";
+const String _messageExt = "messageExt";
+const String _mediaTagName = "mediaTagName ";
+const String _messageAction = "messageAction";
 
 mixin WeChatShareBaseModel {
   Map toMap();
@@ -36,13 +39,26 @@ mixin WeChatShareBaseModel {
 class WeChatShareTextModel implements WeChatShareBaseModel {
   final String source;
   final WeChatScene scene;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
-  WeChatShareTextModel(this.source, {this.scene = WeChatScene.SESSION})
+  WeChatShareTextModel(this.source,
+      {this.scene = WeChatScene.SESSION,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt})
       : assert(scene != null);
 
   @override
   Map toMap() {
-    return {_scene: scene.index, _source: source};
+    return {
+      _scene: scene.index,
+      _source: source,
+      _messageExt: messageExt,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
+    };
   }
 }
 
@@ -56,12 +72,12 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
   final String path;
   final WeChatImage hdImagePath;
   final String title;
-
   final String description;
-
   final WeChatImage thumbnail;
-
   final bool withShareTicket;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
   WeChatShareMiniProgramModel(
       {@required this.webPageUrl,
@@ -72,8 +88,10 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       this.description,
       this.withShareTicket: false,
       this.thumbnail,
-      this.hdImagePath
-      })
+      this.hdImagePath,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt})
       : assert(miniProgramType != null),
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
@@ -90,7 +108,9 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       "description": description,
       "withShareTicket": withShareTicket,
       _thumbnail: thumbnail?.toMap(),
-      "hdImagePath":hdImagePath?.toMap()
+      "hdImagePath": hdImagePath?.toMap(),
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
     };
   }
 }
@@ -104,12 +124,18 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
   final String title;
   final WeChatScene scene;
   final String description;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
   WeChatShareImageModel(this.source,
       {WeChatImage thumbnail,
       this.title,
       this.scene = WeChatScene.SESSION,
-      this.description})
+      this.description,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt})
       : assert(source != null),
         assert(scene != null),
         this.thumbnail = thumbnail ?? source;
@@ -121,7 +147,9 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
       _source: source.toMap(),
       _thumbnail: thumbnail.toMap(),
       _title: title,
-      _description: description
+      _description: description,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
     };
   }
 }
@@ -137,6 +165,9 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
   final String title;
   final String description;
   final WeChatScene scene;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
   WeChatShareMusicModel(
       {this.musicUrl,
@@ -146,8 +177,11 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
       this.musicDataUrl,
       this.musicLowBandDataUrl,
       this.thumbnail,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt,
       this.scene = WeChatScene.SESSION})
-      :assert(musicUrl != null || musicLowBandUrl != null),
+      : assert(musicUrl != null || musicLowBandUrl != null),
         assert(scene != null);
 
   @override
@@ -160,7 +194,9 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
       "musicLowBandDataUrl": musicLowBandDataUrl,
       _thumbnail: thumbnail?.toMap(),
       _title: title,
-      _description: description
+      _description: description,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
     };
   }
 }
@@ -173,8 +209,10 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
   final WeChatImage thumbnail;
   final String title;
   final String description;
-
   final WeChatScene scene;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
   WeChatShareVideoModel(
       {this.scene = WeChatScene.SESSION,
@@ -182,7 +220,10 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
       this.videoLowBandUrl,
       this.title: "",
       this.description: "",
-      this.thumbnail})
+      this.thumbnail,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt})
       : assert(videoUrl != null || videoLowBandUrl != null),
         assert(thumbnail != null),
         assert(scene != null);
@@ -195,7 +236,9 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
       "videoLowBandUrl": videoLowBandUrl,
       _thumbnail: thumbnail?.toMap(),
       _title: title,
-      _description: description
+      _description: description,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
     };
   }
 }
@@ -208,12 +251,18 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
   final String title;
   final String description;
   final WeChatScene scene;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
   WeChatShareWebPageModel(this.webPage,
       {this.title: "",
       this.description: "",
       this.thumbnail,
-      this.scene = WeChatScene.SESSION})
+      this.scene = WeChatScene.SESSION,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt})
       : assert(webPage != null),
         assert(thumbnail != null),
         assert(scene != null);
@@ -224,7 +273,9 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
       _scene: scene.index,
       "webPage": webPage,
       _thumbnail: thumbnail?.toMap(),
-      _title: title
+      _title: title,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
     };
   }
 }
@@ -237,13 +288,19 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
   final String title;
   final String description;
   final WeChatScene scene;
+  final String messageExt;
+  final String messageAction;
+  final String mediaTagName;
 
   WeChatShareFileModel(this.filePath,
       {this.fileExtension: "pdf",
       this.title: "",
       this.description: "",
       this.thumbnail,
-      this.scene = WeChatScene.SESSION})
+      this.scene = WeChatScene.SESSION,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt})
       : assert(filePath != null),
         assert(scene != null);
 
@@ -255,7 +312,9 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
       "fileExtension": fileExtension,
       _thumbnail: thumbnail?.toMap(),
       _title: title,
-      _description: description
+      _description: description,
+      _messageAction: messageAction,
+      _mediaTagName: mediaTagName
     };
   }
 }

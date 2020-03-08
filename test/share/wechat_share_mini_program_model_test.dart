@@ -32,10 +32,12 @@ void main() {
           withShareTicket: true,
           thumbnail: thumbnail,
           userName: "userName",
-          path: "path");
+          path: "path",
+          hdImagePath: thumbnail);
       expect(model.webPageUrl, "http://openflutter.dev");
       expect(model.miniProgramType, WXMiniProgramType.PREVIEW);
       expect(model.thumbnail, thumbnail);
+      expect(model.hdImagePath, thumbnail);
       expect(model.path, "path");
       expect(model.userName, "userName");
     });

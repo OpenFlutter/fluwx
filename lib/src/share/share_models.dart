@@ -48,15 +48,13 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
 
 ///
 /// the default value is [MINI_PROGRAM_TYPE_RELEASE]
-///
-/// [thumbnail] is mapped to hdImagePath in iOS and in android is thumbnail
-///
+///[hdImagePath] only works on iOS, not sure the relationship between [thumbnail] and [hdImagePath].
 class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
   final String webPageUrl;
   final WXMiniProgramType miniProgramType;
   final String userName;
   final String path;
-
+  final WeChatImage hdImagePath;
   final String title;
 
   final String description;
@@ -73,7 +71,9 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       this.title,
       this.description,
       this.withShareTicket: false,
-      this.thumbnail})
+      this.thumbnail,
+      this.hdImagePath
+      })
       : assert(miniProgramType != null),
         assert(webPageUrl != null && webPageUrl.isNotEmpty),
         assert(userName != null && userName.isNotEmpty),
@@ -89,7 +89,8 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       "title": title,
       "description": description,
       "withShareTicket": withShareTicket,
-      _thumbnail: thumbnail?.toMap()
+      _thumbnail: thumbnail?.toMap(),
+      "hdImagePath":hdImagePath?.toMap()
     };
   }
 }

@@ -39,7 +39,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
         children: <Widget>[
           OutlineButton(
             onPressed: () {
-              launchMiniProgram(username: "gh_d43f693ca31f");
+              launchWeChatMiniProgram(username: "gh_d43f693ca31f");
             },
             child: const Text("Launch MiniProgrom"),
           ),

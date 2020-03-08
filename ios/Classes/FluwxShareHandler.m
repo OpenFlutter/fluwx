@@ -41,7 +41,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         _fluwxRegistrar = registrar;
         thumbnailWidth = 150;
     }
-
     return self;
 }
 
@@ -69,7 +68,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     [WXApiRequestHandler sendText:text InScene:[self intToWeChatScene:scene] completion:^(BOOL done) {
         result(@(done));
     }];
-
 }
 
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -124,12 +122,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                   completion:^(BOOL done) {
                                       result(@(done));
                                   }];
-
         });
 
     });
 }
-
 
 - (void)shareMusic:(FlutterMethodCall *)call result:(FlutterResult)result {
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
@@ -155,11 +151,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                        result(@(done));
                                    }
             ];
-
         });
-
     });
-
 }
 
 - (void)shareVideo:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -184,11 +177,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                    completion:^(BOOL done) {
                                        result(@(done));
                                    }];
-
         });
-
     });
-
 }
 
 - (void)shareFile:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -210,7 +200,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                    completion:^(BOOL success) {
                                        result(@(success));
                                    }];
-
         });
     });
 }
@@ -269,7 +258,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         });
 
     });
-
 }
 
 
@@ -293,18 +281,19 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 //}
 - (NSData *)getNsDataFromWeChatImage:(NSDictionary *)weChatImage {
     NSNumber *schema = weChatImage[@"schema"];
-    if (schema == @0) {
+
+    if ([schema isEqualToNumber:@0]) {
         NSString *source = weChatImage[keySource];
         NSURL *imageURL = [NSURL URLWithString:source];
         //下载图片
         return [NSData dataWithContentsOfURL:imageURL];
-    } else if (schema == @1) {
+    } else if ([schema isEqualToNumber:@1]) {
         NSString *source = weChatImage[keySource];
         return [NSData dataWithContentsOfFile:[self readImageFromAssets:source]];
-    } else if (schema == @2) {
+    } else if ([schema isEqualToNumber:@2]) {
         NSString *source = weChatImage[keySource];
         return [NSData dataWithContentsOfFile:source];
-    } else if (schema == @3) {
+    } else if ([schema isEqualToNumber:@3]) {
         FlutterStandardTypedData *imageData = weChatImage[@"source"];
         return imageData.data;
     } else {
@@ -316,7 +305,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     UIImage *uiImage = [UIImage imageWithData:data];
     return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
 }
-
 
 - (NSString *)readImageFromAssets:(NSString *)imagePath {
     NSArray *array = [self formatAssets:imagePath];

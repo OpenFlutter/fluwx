@@ -3,7 +3,6 @@ package com.jarvan.fluwx.handlers
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.jarvan.fluwx.io.ImagesIO
@@ -53,14 +52,12 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
     }
 
     private fun shareText(call: MethodCall, result: MethodChannel.Result) {
-        val textObj = WXTextObject()
-        textObj.text = call.argument("source")
+        val textObj = WXTextObject(call.argument<String?>("source"))
         val msg = WXMediaMessage()
         msg.mediaObject = textObj
         val req = SendMessageToWX.Req()
-        req.message = msg
-
         setCommonArguments(call, req, msg)
+        req.message = msg
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
 
@@ -113,7 +110,6 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
             msg.mediaObject = imageObject
             msg.thumbData = thumbData
 
-            msg.title = call.argument<String>(keyTitle)
             msg.description = call.argument<String>(keyDescription)
 
             val req = SendMessageToWX.Req()
@@ -137,7 +133,6 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
         }
         val msg = WXMediaMessage()
         msg.mediaObject = music
-        msg.title = call.argument(keyTitle)
         msg.description = call.argument(keyDescription)
 
         launch {
@@ -161,7 +156,6 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
         }
         val msg = WXMediaMessage()
         msg.mediaObject = video
-        msg.title = call.argument(keyTitle)
         msg.description = call.argument(keyDescription)
 
         launch {
@@ -180,7 +174,6 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
         val msg = WXMediaMessage()
 
         msg.mediaObject = webPage
-        msg.title = call.argument(keyTitle)
         msg.description = call.argument(keyDescription)
 
         launch {
@@ -199,7 +192,6 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
 
         val msg = WXMediaMessage()
         msg.mediaObject = file
-        msg.title = call.argument("title")
         msg.description = call.argument("description")
 
         launch {
@@ -230,6 +222,8 @@ internal class FluwxShareHandler(private val flutterAssets: FlutterPlugin.Flutte
         msg.messageAction = call.argument<String?>("messageAction")
         msg.messageExt = call.argument<String?>("messageExt")
         msg.mediaTagName = call.argument<String?>("mediaTagName")
+        msg.title = call.argument<String?>(keyTitle)
+        msg.description = call.argument<String?>(keyDescription)
         req.transaction = UUID.randomUUID().toString().replace("-", "")
         val sceneIndex = call.argument<Int?>("scene")
         req.scene = when (sceneIndex) {

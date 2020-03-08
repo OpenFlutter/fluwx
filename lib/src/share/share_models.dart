@@ -42,13 +42,19 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
   final String messageExt;
   final String messageAction;
   final String mediaTagName;
+  final String title;
+  final String description;
 
   WeChatShareTextModel(this.source,
       {this.scene = WeChatScene.SESSION,
       this.mediaTagName,
       this.messageAction,
-      this.messageExt})
-      : assert(scene != null);
+      this.messageExt,
+      String description,
+      String title})
+      : assert(scene != null),
+        this.title = title ?? source,
+        this.description = description ?? source;
 
   @override
   Map toMap() {
@@ -57,7 +63,9 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
       _source: source,
       _messageExt: messageExt,
       _messageAction: messageAction,
-      _mediaTagName: mediaTagName
+      _mediaTagName: mediaTagName,
+      _title: title,
+      _description: description
     };
   }
 }
@@ -105,7 +113,7 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       "userName": userName,
       "path": path,
       "title": title,
-      "description": description,
+      _description: description,
       "withShareTicket": withShareTicket,
       _thumbnail: thumbnail?.toMap(),
       "hdImagePath": hdImagePath?.toMap(),
@@ -257,15 +265,16 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
 
   WeChatShareWebPageModel(this.webPage,
       {this.title: "",
-      this.description: "",
+      String description,
       this.thumbnail,
       this.scene = WeChatScene.SESSION,
       this.mediaTagName,
       this.messageAction,
       this.messageExt})
-      : assert(webPage != null),
+      : assert(webPage != null && webPage.isNotEmpty),
         assert(thumbnail != null),
-        assert(scene != null);
+        assert(scene != null),
+        this.description = description ?? webPage;
 
   @override
   Map toMap() {
@@ -275,7 +284,8 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
       _thumbnail: thumbnail?.toMap(),
       _title: title,
       _messageAction: messageAction,
-      _mediaTagName: mediaTagName
+      _mediaTagName: mediaTagName,
+      _description: description
     };
   }
 }

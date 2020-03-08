@@ -25,12 +25,15 @@ class WeChatImage {
   final ImageSchema schema;
   final String suffix;
 
+  /// [source] must begin with http or https
   WeChatImage.network(String source, {String suffix})
       : assert(source != null && source.startsWith("http")),
         this.source = source,
         this.schema = ImageSchema.NETWORK,
         this.suffix = source.readSuffix(suffix);
 
+  ///[source] path of the image, like '/asset/image.jpeg?package=flutter',
+  ///the query param package in [source] only available when you want to specify the package of image
   WeChatImage.asset(String source, {String suffix})
       : assert(source != null && source.trim().isNotEmpty),
         this.source = source,
@@ -50,7 +53,8 @@ class WeChatImage {
         this.schema = ImageSchema.BINARY,
         this.suffix = suffix;
 
-  Map toMap() => {"source": source, "schema": schema.index, "suffix": suffix};
+  Map toMap() => {"source": source, "schema": schema.index, "suffix": suffix ??
+      ""};
 }
 
 ///Types of image, usually there are for types listed below.

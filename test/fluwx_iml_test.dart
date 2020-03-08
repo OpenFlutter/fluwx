@@ -50,7 +50,7 @@ void main() {
     test("shareImage", () async {
       expect(
           await fluwx.shareToWeChat(fluwx.WeChatShareImageModel(
-              fluwx.WeChatImage.fromNetwork("http://flutter.dev"))),
+              fluwx.WeChatImage.network("http://flutter.dev"))),
           true);
     });
   });

@@ -1,7 +1,7 @@
 name: fluwx
 description: The capability of implementing WeChat SDKs in flutter.
 version: 2.0.0
-homepage:
+homepage: https://github.com/JarvanMo/fluwx
 
 environment:
   sdk: ">=2.6.0 <3.0.0"

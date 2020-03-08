@@ -24,19 +24,19 @@ void main() {
 
   test("test  WeChatImage.fromNetwork", () {
     var withSuffixImage =
-        WeChatImage.fromNetwork("http://image.openflutter.dev/fluwx.png");
+        WeChatImage.network("http://image.openflutter.dev/fluwx.png");
     expect(withSuffixImage.source, "http://image.openflutter.dev/fluwx.png");
     expect(withSuffixImage.suffix, ".png");
     expect(ImageSchema.NETWORK, withSuffixImage.schema);
 
     var withNoSuffixNoUrlSuffixImage =
-        WeChatImage.fromNetwork("http://image.openflutter.dev/fluwx");
+        WeChatImage.network("http://image.openflutter.dev/fluwx");
     expect("http://image.openflutter.dev/fluwx",
         withNoSuffixNoUrlSuffixImage.source);
     expect(withNoSuffixNoUrlSuffixImage.suffix, ".jpeg");
     expect(ImageSchema.NETWORK, withSuffixImage.schema);
 
-    var withSpecifiedSuffixImage = WeChatImage.fromNetwork(
+    var withSpecifiedSuffixImage = WeChatImage.network(
         "http://image.openflutter.dev/fluwx.jpeg",
         suffix: ".png");
     expect(withSpecifiedSuffixImage.source, "http://image.openflutter.dev/fluwx.jpeg");

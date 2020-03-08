@@ -25,7 +25,7 @@ void main() {
   group("construct", () {
     test("non default values", () {
       var thumbnail =
-          WeChatImage.fromNetwork("http://openflutter.dev/fluwx.png");
+          WeChatImage.network("http://openflutter.dev/fluwx.png");
       var model = WeChatShareMiniProgramModel(
           webPageUrl: "http://openflutter.dev",
           miniProgramType: WXMiniProgramType.PREVIEW,
@@ -56,7 +56,7 @@ void main() {
   group("toMap", () {
     test("with thumbnail", () {
       var thumbnail =
-          WeChatImage.fromNetwork("http://openflutter.dev/fluwx.png");
+          WeChatImage.network("http://openflutter.dev/fluwx.png");
       var map = WeChatShareMiniProgramModel(
               webPageUrl: "http://openflutter.dev",
               miniProgramType: WXMiniProgramType.PREVIEW,

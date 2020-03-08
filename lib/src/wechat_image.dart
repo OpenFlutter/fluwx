@@ -53,8 +53,8 @@ class WeChatImage {
         this.schema = ImageSchema.BINARY,
         this.suffix = suffix;
 
-  Map toMap() => {"source": source, "schema": schema.index, "suffix": suffix ??
-      ""};
+  Map toMap() =>
+      {"source": source, "schema": schema.index, "suffix": suffix ?? ""};
 }
 
 ///Types of image, usually there are for types listed below.

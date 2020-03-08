@@ -102,8 +102,8 @@ Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
 Future<bool> sendWeChatAuth(
     {String openId, @required String scope, String state}) async {
   assert(scope != null && scope.trim().isNotEmpty);
-  return await _channel.invokeMethod(
-      "sendAuth", {"scope": scope, "state": state});
+  return await _channel
+      .invokeMethod("sendAuth", {"scope": scope, "state": state});
 }
 
 /// open mini-program

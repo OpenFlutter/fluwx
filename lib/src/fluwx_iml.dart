@@ -99,8 +99,7 @@ Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
-Future<bool> sendWeChatAuth(
-    {String openId, @required String scope, String state}) async {
+Future<bool> sendWeChatAuth({@required String scope, String state}) async {
   assert(scope != null && scope.trim().isNotEmpty);
   return await _channel
       .invokeMethod("sendAuth", {"scope": scope, "state": state});
@@ -201,11 +200,11 @@ Future<bool> autoDeDuctWeChat(
 /// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
 Future<bool> authWeChatByQRCode(
     {@required String appId,
-      @required String scope,
-      @required String nonceStr,
-      @required String timeStamp,
-      @required String signature,
-      String schemeData}) async {
+    @required String scope,
+    @required String nonceStr,
+    @required String timeStamp,
+    @required String signature,
+    String schemeData}) async {
   assert(appId != null && appId.isNotEmpty);
   assert(scope != null && scope.isNotEmpty);
   assert(nonceStr != null && nonceStr.isNotEmpty);
@@ -226,7 +225,6 @@ Future<bool> authWeChatByQRCode(
 Future stopWeChatAuthByQRCode() async {
   return await _channel.invokeMethod("stopAuthByQRCode");
 }
-
 
 Future _methodHandler(MethodCall methodCall) {
   var response =

@@ -66,16 +66,16 @@ registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerall
 
 ## 能力文档
 
-- [基础知识](./docs/BASIC_KNOWLEDGE_CN.md)
-- [分享](./docs/SHARE_CN.md)
-- [支付](./docs/PAYMENT_CN.md)
-- [登录](./docs/AUTH_CN.md)
+- [基础知识](./doc/BASIC_KNOWLEDGE_CN.md)
+- [分享](./doc/SHARE_CN.md)
+- [支付](./doc/PAYMENT_CN.md)
+- [登录](./doc/AUTH_CN.md)
 
 对于更多功能，可以查看源码。
 
 ## QA
 
-[这些问题可能对你有帮助](./docs/QA_CN.md)
+[这些问题可能对你有帮助](./doc/QA_CN.md)
 
 ## 捐助
 开源不易，请作者喝杯咖啡。

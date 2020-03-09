@@ -68,7 +68,7 @@ registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerall
 
 - [基础知识](./docs/BASIC_KNOWLEDGE_CN.md)
 - [分享](./docs/SHARE_CN.md)
-- [支付](./dosc/PAYMENT_CN.md)
+- [支付](./docs/PAYMENT_CN.md)
 - [登录](./docs/AUTH_CN.md)
 
 对于更多功能，可以查看源码。

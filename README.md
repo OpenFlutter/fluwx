@@ -70,7 +70,7 @@ And you have to understand the difference between debug signature and release si
 
 - [Basic knowledge](./docs/BASIC_KNOWLEDGE.md)
 - [Share](./docs/SHARE.md)
-- [Payment](./dosc/PAYMENT.md)
+- [Payment](./docs/PAYMENT.md)
 - [Auth](./docs/AUTH.md)
 
 For more capabilities, you can read the public functions of `fluwx`.

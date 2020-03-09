@@ -222,7 +222,7 @@ Future<bool> authWeChatByQRCode(
 }
 
 /// stop [authWeChatByQRCode]
-Future stopWeChatAuthByQRCode() async {
+Future<bool> stopWeChatAuthByQRCode() async {
   return await _channel.invokeMethod("stopAuthByQRCode");
 }
 

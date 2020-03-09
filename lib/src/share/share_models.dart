@@ -22,7 +22,6 @@ import 'package:fluwx/src/wechat_enums.dart';
 
 const String _scene = "scene";
 const String _source = "source";
-const String _transaction = "transaction";
 const String _thumbnail = "thumbnail";
 const String _title = "title";
 const String _description = "description";

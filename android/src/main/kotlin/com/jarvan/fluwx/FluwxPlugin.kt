@@ -2,10 +2,6 @@ package com.jarvan.fluwx
 
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
-import com.jarvan.fluwx.handlers.FluwxAuthHandler
-import com.jarvan.fluwx.handlers.FluwxShareHandler
-import com.jarvan.fluwx.handlers.FluwxShareHandlerCompat
-import com.jarvan.fluwx.handlers.FluwxShareHandlerEmbedding
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
@@ -28,6 +24,7 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
             val authHandler = FluwxAuthHandler(channel)
             FluwxResponseHandler.setMethodChannel(channel)
+            WXAPiHandler.setContext(registrar.activeContext())
             channel.setMethodCallHandler(FluwxPlugin().apply {
                 this.authHandler = authHandler
                 this.shareHandler = FluwxShareHandlerCompat(registrar)

@@ -1,6 +1,5 @@
 package com.jarvan.fluwx.io
 
-import android.content.Context
 import android.content.res.AssetFileDescriptor
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
@@ -125,23 +124,12 @@ interface WeChatImage {
 //    ASSET,
 //    FILE,
 //    BINARY,
-        fun createWeChatImage(params: Map<String, Any>, assetFileDescriptor: AssetFileDescriptor, context: Context): WeChatImage {
+        fun createWeChatImage(params: Map<String, Any>, assetFileDescriptor: (String) -> AssetFileDescriptor): WeChatImage {
 //          Map toMap() => {"source": source, "schema": schema.index, "suffix": suffix};
             val suffix = (params["suffix"] as String?) ?: ".jpeg"
             return when ((params["schema"] as? Int) ?: 0) {
                 0 -> WeChatNetworkImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)
-                1 -> {
-//                    val source = (params["source"] as? String).orEmpty()
-//                    val uri = Uri.parse(source)
-//                    val packageName = uri.getQueryParameter("package")
-//                    val subPath = if (packageName.isNullOrBlank()) {
-//                        flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty())
-//                    } else {
-//                        flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty(), packageName)
-//                    }
-
-                    WeChatAssetImage(source = assetFileDescriptor, suffix = suffix)
-                }
+                1 -> WeChatAssetImage(source = assetFileDescriptor(((params["source"] as? String).orEmpty())), suffix = suffix)
                 2 -> WeChatFileImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)
                 3 -> WeChatMemoryImage(source = (params["source"] as? ByteArray)
                         ?: byteArrayOf(), suffix = suffix)

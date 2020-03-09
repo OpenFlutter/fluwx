@@ -123,7 +123,7 @@ internal interface FluwxShareHandler : CoroutineScope {
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
         launch {
             val map: Map<String, Any> = call.argument("source") ?: mapOf()
-            val sourceImage = WeChatImage.createWeChatImage(map, assetFileDescriptor((map["source"] as? String).orEmpty()), context)
+            val sourceImage = WeChatImage.createWeChatImage(map, assetFileDescriptor)
             val thumbData = readThumbnailByteArray(call)
 
             val sourceByteArray = sourceImage.readByteArray()
@@ -249,13 +249,14 @@ internal interface FluwxShareHandler : CoroutineScope {
     private suspend fun readThumbnailByteArray(call: MethodCall): ByteArray? {
         val thumbnailMap: Map<String, Any>? = call.argument(keyThumbnail)
         return thumbnailMap?.run {
-            val thumbnailImage = WeChatImage.createWeChatImage(thumbnailMap, assetFileDescriptor((thumbnailMap["source"] as? String).orEmpty()), context)
+            val thumbnailImage = WeChatImage.createWeChatImage(thumbnailMap, assetFileDescriptor)
             val thumbnailImageIO = ImagesIOIml(thumbnailImage)
             compressThumbnail(thumbnailImageIO)
         }
     }
 
     private suspend fun compressThumbnail(ioIml: ImagesIO) = ioIml.compressedByteArray(context, SHARE_IMAGE_THUMB_LENGTH)
+
     //    SESSION, TIMELINE, FAVORITE
     private fun setCommonArguments(call: MethodCall, req: SendMessageToWX.Req, msg: WXMediaMessage) {
         msg.messageAction = call.argument<String?>("messageAction")

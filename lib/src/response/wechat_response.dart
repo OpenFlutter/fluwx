@@ -17,6 +17,8 @@
  * the License.
  */
 
+import 'dart:typed_data';
+
 const String _errCode = "errCode";
 const String _errStr = "errStr";
 
@@ -32,6 +34,12 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
       WeChatSubscribeMsgResponse.fromMap(argument),
   "onAutoDeductResponse": (Map argument) =>
       WeChatAutoDeductResponse.fromMap(argument),
+  "onAuthByQRCodeFinished": (Map argument) =>
+      WeChatAuthByQRCodeFinishedResponse.fromMap(argument),
+  "onAuthGotQRCode": (Map argument) =>
+      WeChatAuthGotQRCodeResponse.fromMap(argument),
+  "onQRCodeScanned": (Map argument) =>
+      WeChatQRCodeScannedResponse.fromMap(argument),
 };
 
 class BaseWeChatResponse {
@@ -139,3 +147,57 @@ class WeChatAutoDeductResponse extends BaseWeChatResponse {
         resultInfo = map["resultInfo"],
         super._(map[_errCode], map[_errStr]);
 }
+
+class WeChatAuthByQRCodeFinishedResponse extends BaseWeChatResponse {
+  final String authCode;
+  final AuthByQRCodeErrorCode qrCodeErrorCode;
+
+  WeChatAuthByQRCodeFinishedResponse.fromMap(Map map)
+      : authCode = map["authCode"],
+        qrCodeErrorCode = (_authByQRCodeErrorCodes[_errCode] ??
+            AuthByQRCodeErrorCode.UNKNOWN),
+        super._(map[_errCode], map[_errStr]);
+}
+
+///[qrCode] in memory.
+class WeChatAuthGotQRCodeResponse extends BaseWeChatResponse {
+  final Uint8List qrCode;
+
+  WeChatAuthGotQRCodeResponse.fromMap(Map map)
+      : qrCode = map["qrCode"],
+        super._(map[_errCode], map[_errStr]);
+}
+
+class WeChatQRCodeScannedResponse extends BaseWeChatResponse {
+  WeChatQRCodeScannedResponse.fromMap(Map map)
+      : super._(map[_errCode], map[_errStr]);
+}
+
+///WechatAuth_Err_OK(0),
+///WechatAuth_Err_NormalErr(-1),
+///WechatAuth_Err_NetworkErr(-2),
+///WechatAuth_Err_JsonDecodeErr(-3),
+///WechatAuth_Err_Cancel(-4),
+///WechatAuth_Err_Timeout(-5),
+///WechatAuth_Err_Auth_Stopped(-6);
+///[AuthByQRCodeErrorCode.JSON_DECODE_ERR] means WechatAuth_Err_GetQrcodeFailed when platform is iOS
+///only Android will get [AUTH_STOPPED]
+enum AuthByQRCodeErrorCode {
+  OK,
+  NORMAL_ERR,
+  NETWORK_ERR,
+  JSON_DECODE_ERR,
+  CANCEL,
+  TIMEOUT,
+  AUTH_STOPPED,
+  UNKNOWN
+}
+
+const Map<int, AuthByQRCodeErrorCode> _authByQRCodeErrorCodes = {
+  0: AuthByQRCodeErrorCode.OK,
+  -1: AuthByQRCodeErrorCode.NORMAL_ERR,
+  -2: AuthByQRCodeErrorCode.NETWORK_ERR,
+  -3: AuthByQRCodeErrorCode.JSON_DECODE_ERR,
+  -4: AuthByQRCodeErrorCode.CANCEL,
+  -5: AuthByQRCodeErrorCode.AUTH_STOPPED
+};

@@ -6,6 +6,7 @@
 * Android增加新的Action以防微信打开小程序出错不会返回原app的问题
 * iOS改用Pod引用微信SDK
 * iOS隐藏一些header
+* kotlin 1.3.70
 
 ## 1.2.1+2
 * iOS的StringUtil重命名了

@@ -75,12 +75,16 @@ And you have to understand the difference between debug signature and release si
 
 For more capabilities, you can read the public functions of `fluwx`.
 
-### Donate
+## QA
+
+[These questions maybe help](./docs/QA.md)
+
+## Donate
 Buy the writer a cup of coffee。
 
 <img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/wx.jpeg" height="300">  <img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/ali.jpeg" height="300">
 
-### Subscribe Us On WeChat
+## Subscribe Us On WeChat
 ![subscribe](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/wx_subscription.png)
 
 ## LICENSE

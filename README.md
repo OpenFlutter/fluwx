@@ -68,16 +68,16 @@ And you have to understand the difference between debug signature and release si
 
 ## Capability Document
 
-- [Basic knowledge](./docs/BASIC_KNOWLEDGE.md)
-- [Share](./docs/SHARE.md)
-- [Payment](./docs/PAYMENT.md)
-- [Auth](./docs/AUTH.md)
+- [Basic knowledge](./doc/BASIC_KNOWLEDGE.md)
+- [Share](./doc/SHARE.md)
+- [Payment](./doc/PAYMENT.md)
+- [Auth](./doc/AUTH.md)
 
 For more capabilities, you can read the public functions of `fluwx`.
 
 ## QA
 
-[These questions maybe help](./docs/QA.md)
+[These questions maybe help](./doc/QA.md)
 
 ## Donate
 Buy the writer a cup of coffee。

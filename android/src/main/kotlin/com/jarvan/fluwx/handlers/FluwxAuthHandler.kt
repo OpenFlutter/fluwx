@@ -15,7 +15,6 @@
  */
 package com.jarvan.fluwx.handlers
 
-
 import com.tencent.mm.opensdk.diffdev.DiffDevOAuthFactory
 import com.tencent.mm.opensdk.diffdev.OAuthErrCode
 import com.tencent.mm.opensdk.diffdev.OAuthListener
@@ -39,11 +38,11 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
             }
 
             override fun onAuthGotQrcode(p0: String?, p1: ByteArray) {
-                methodChannel.invokeMethod("onAuthGotQRCode", p1)
+                methodChannel.invokeMethod("onAuthGotQRCode", mapOf("errCode" to 0, "qrCode" to p1))
             }
 
             override fun onQrcodeScanned() {
-                methodChannel.invokeMethod("onQRCodeScanned", null)
+                methodChannel.invokeMethod("onQRCodeScanned", mapOf("errCode" to 0))
             }
 
         }
@@ -58,7 +57,6 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         if (!openId.isNullOrBlank()) {
             req.openId = call.argument("openId")
         }
-
 
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
@@ -82,5 +80,4 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
     fun removeAllListeners() {
         qrCodeAuth.removeAllListeners()
     }
-
 }

@@ -99,8 +99,7 @@ Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
-Future<bool> sendWeChatAuth(
-    {String openId, @required String scope, String state}) async {
+Future<bool> sendWeChatAuth({@required String scope, String state}) async {
   assert(scope != null && scope.trim().isNotEmpty);
   return await _channel
       .invokeMethod("sendAuth", {"scope": scope, "state": state});
@@ -192,6 +191,39 @@ Future<bool> autoDeDuctWeChat(
     'return_app': returnApp,
     "businessType": businessType
   });
+}
+
+/// Sometimes WeChat  is not installed on users's devices.However we can
+/// request a QRCode so that we can get AuthCode by scanning the QRCode
+/// All required params must not be null or empty
+/// [schemeData] only works on iOS
+/// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
+Future<bool> authWeChatByQRCode(
+    {@required String appId,
+    @required String scope,
+    @required String nonceStr,
+    @required String timeStamp,
+    @required String signature,
+    String schemeData}) async {
+  assert(appId != null && appId.isNotEmpty);
+  assert(scope != null && scope.isNotEmpty);
+  assert(nonceStr != null && nonceStr.isNotEmpty);
+  assert(timeStamp != null && timeStamp.isNotEmpty);
+  assert(signature != null && signature.isNotEmpty);
+
+  return await _channel.invokeMethod("authByQRCode", {
+    "appId": appId,
+    "scope": scope,
+    "nonceStr": nonceStr,
+    "timeStamp": timeStamp,
+    "signature": signature,
+    "schemeData": schemeData
+  });
+}
+
+/// stop [authWeChatByQRCode]
+Future<bool> stopWeChatAuthByQRCode() async {
+  return await _channel.invokeMethod("stopAuthByQRCode");
 }
 
 Future _methodHandler(MethodCall methodCall) {

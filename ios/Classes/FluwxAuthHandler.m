@@ -4,11 +4,7 @@
 
 
 #import "FluwxAuthHandler.h"
-#import "WXApi.h"
-#import "WechatAuthSDK.h"
-#import "FluwxPlugin.h"
-#import "WXApiRequestHandler.h"
-#import "WechatAuthSDK.h"
+
 @implementation FluwxAuthHandler
 
 WechatAuthSDK *_qrauth;
@@ -30,7 +26,9 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
 
     [WXApiRequestHandler sendAuthRequestScope:call.arguments[@"scope"]
                                         State:(call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"]
-                                       OpenID:(openId == (id) [NSNull null]) ? nil : openId completion:^(BOOL done) {result(@(done));}];
+                                       OpenID:(openId == (id) [NSNull null]) ? nil : openId completion:^(BOOL done) {
+                result(@(done));
+            }];
 }
 
 - (void)authByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -51,7 +49,7 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
 }
 
 - (void)onQrcodeScanned {
-    [_fluwxMethodChannel invokeMethod:@"onQRCodeScanned" arguments:nil];
+    [_fluwxMethodChannel invokeMethod:@"onQRCodeScanned" arguments:@{@"errCode": @0}];
 }
 
 - (void)onAuthGotQrcode:(UIImage *)image {
@@ -60,7 +58,7 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
 //        imageData = UIImageJPEGRepresentation(image, 1);
 //    }
 
-    [_fluwxMethodChannel invokeMethod:@"onAuthGotQRCode" arguments:imageData];
+    [_fluwxMethodChannel invokeMethod:@"onAuthGotQRCode" arguments:@{@"errCode": @0, @"qrCode": imageData}];
 }
 
 - (void)onAuthFinish:(int)errCode AuthCode:(nullable NSString *)authCode {

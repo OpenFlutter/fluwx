@@ -63,6 +63,7 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         shareHandler?.onDestroy()
+        authHandler?.removeAllListeners()
     }
 
     override fun onDetachedFromActivity() {

@@ -79,7 +79,7 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
 
-    fun pay(call: MethodCall, result: MethodChannel.Result) {
+    private fun pay(call: MethodCall, result: MethodChannel.Result) {
 
         if (WXAPiHandler.wxApi == null) {
             result.error("Unassigned WxApi", "please config  wxapi first", null)

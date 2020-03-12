@@ -213,7 +213,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         NSData *hdImageData = nil;
 
         NSDictionary *hdImagePath = call.arguments[@"hdImagePath"];
-        if (hdImagePath != nil && hdImageData != (id) [NSNull null]) {
+        if (hdImageData != nil && hdImagePath != (id) [NSNull null]) {
             NSData *imageData = [self getNsDataFromWeChatImage:hdImagePath];
             NSString *suffix = hdImagePath[@"suffix"];
             BOOL isPNG = [self isPNG:suffix];

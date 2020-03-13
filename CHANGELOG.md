@@ -1,3 +1,6 @@
+## 2.0.5
+* Fix:Android分享file文件时，会crash
+
 ## 2.0.4
 * Fix:hdImage为空时，ios会crash
 

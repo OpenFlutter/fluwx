@@ -130,7 +130,7 @@ interface WeChatImage {
             return when ((params["schema"] as? Int) ?: 0) {
                 0 -> WeChatNetworkImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)
                 1 -> WeChatAssetImage(source = assetFileDescriptor(((params["source"] as? String).orEmpty())), suffix = suffix)
-                2 -> WeChatFileImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)
+                2 -> WeChatFileImage(source = File((params["source"] as? String).orEmpty()), suffix = suffix)
                 3 -> WeChatMemoryImage(source = (params["source"] as? ByteArray)
                         ?: byteArrayOf(), suffix = suffix)
                 else -> WeChatNetworkImage(source = (params["source"] as? String).orEmpty(), suffix = suffix)

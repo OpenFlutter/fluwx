@@ -17,7 +17,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  fluwx:
+  fluwx_no_pay:
     path: ../
 
 # For information on the generic Dart part of this file, see the

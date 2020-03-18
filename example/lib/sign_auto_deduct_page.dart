@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_no_pay/fluwx_no_pay.dart';
 
 class SignAutoDeductPage extends StatefulWidget {
   @override

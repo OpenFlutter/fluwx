@@ -17,9 +17,9 @@
  * the License.
  */
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/share/share_models.dart';
-import 'package:fluwx/src/wechat_enums.dart';
+import 'package:fluwx_no_pay/src/share/share_models.dart';
+import 'package:fluwx_no_pay/src/wechat_enums.dart';
+import 'package:fluwx_no_pay/src/wechat_image.dart';
 
 void main() {
   group("construct", () {

@@ -22,8 +22,10 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/wechat_enums.dart';
+import 'package:fluwx_no_pay/src/wechat_enums.dart';
+
+import 'response/wechat_response.dart';
+import 'share/share_models.dart';
 
 const Map<Type, String> _shareModelMethodMapper = {
   WeChatShareTextModel: "shareText",
@@ -122,6 +124,7 @@ Future<bool> launchWeChatMiniProgram(
 /// request payment with WeChat.
 /// Read the official document for more detail.
 /// [timeStamp] is int because [timeStamp] will be mapped to Unit32.
+/// only works with android
 Future<bool> payWithWeChat(
     {@required String appId,
     @required String partnerId,

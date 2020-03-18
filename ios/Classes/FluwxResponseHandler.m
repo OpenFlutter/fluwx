@@ -143,30 +143,6 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         if ([_delegate respondsToSelector:@selector(managerDidRecvInvoiceAuthInsertResponse:)]) {
             [_delegate managerDidRecvInvoiceAuthInsertResponse:(WXInvoiceAuthInsertResp *) resp];
         }
-    } else if ([resp isKindOfClass:[WXNontaxPayResp class]]) {
-        if ([_delegate respondsToSelector:@selector(managerDidRecvNonTaxpayResponse:)]) {
-            [_delegate managerDidRecvNonTaxpayResponse:(WXNontaxPayResp *) resp];
-        }
-    } else if ([resp isKindOfClass:[WXPayInsuranceResp class]]) {
-        if ([_delegate respondsToSelector:@selector(managerDidRecvPayInsuranceResponse:)]) {
-            [_delegate managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *) resp];
-        }
-    } else if ([resp isKindOfClass:[PayResp class]]) {
-        if ([_delegate respondsToSelector:@selector(managerDidRecvPaymentResponse:)]) {
-            [_delegate managerDidRecvPaymentResponse:(PayResp *) resp];
-        }
-
-
-        PayResp *payResp = (PayResp *) resp;
-
-        NSDictionary *result = @{
-                description: [FluwxStringUtil nilToEmpty:payResp.description],
-                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
-                errCode: @(payResp.errCode),
-                type: @(payResp.type),
-                @"returnKey": payResp.returnKey == nil ? @"" : payResp.returnKey,
-        };
-        [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];
     } else if ([resp isKindOfClass:[WXOpenBusinessWebViewResp class]]) {
         WXOpenBusinessWebViewResp *businessResp = (WXOpenBusinessWebViewResp *) resp;
 

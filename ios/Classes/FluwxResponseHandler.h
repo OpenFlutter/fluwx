@@ -35,12 +35,6 @@
 - (void)managerDidRecvLaunchMiniProgram:(WXLaunchMiniProgramResp *)response;
 
 - (void)managerDidRecvInvoiceAuthInsertResponse:(WXInvoiceAuthInsertResp *)response;
-
-- (void)managerDidRecvNonTaxpayResponse:(WXNontaxPayResp *)response;
-
-- (void)managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *)response;
-
-- (void)managerDidRecvPaymentResponse:(PayResp *)response;
 @end
 
 @interface FluwxResponseHandler : NSObject <WXApiDelegate>

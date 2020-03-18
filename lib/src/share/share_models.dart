@@ -17,8 +17,9 @@
  * the License.
  */
 import 'package:flutter/foundation.dart';
-import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/wechat_enums.dart';
+import 'package:fluwx_no_pay/src/wechat_enums.dart';
+
+import '../wechat_image.dart';
 
 const String _scene = "scene";
 const String _source = "source";

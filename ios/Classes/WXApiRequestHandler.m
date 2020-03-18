@@ -384,20 +384,4 @@
 }
 
 
-+ (void)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign
-         completion:(void (^ __nullable)(BOOL success))completion {
-
-    PayReq *req = [[PayReq alloc] init];
-    req.openID = (appId == (id) [NSNull null]) ? nil : appId;
-    req.partnerId = partnerId;
-    req.prepayId = prepayId;
-    req.nonceStr = nonceStr;
-    req.timeStamp = timestamp;
-    req.package = package;
-    req.sign = sign;
-
-
-    [WXApi sendReq:req completion:completion];
-}
-
 @end

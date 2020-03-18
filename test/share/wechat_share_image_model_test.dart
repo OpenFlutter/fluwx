@@ -17,9 +17,9 @@
  * the License.
  */
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/share/share_models.dart';
-import 'package:fluwx/src/wechat_enums.dart';
+import 'package:fluwx_no_pay/fluwx_no_pay.dart';
+import 'package:fluwx_no_pay/src/share/share_models.dart';
+import 'package:fluwx_no_pay/src/wechat_enums.dart';
 
 void main() {
   test("test create WeChatShareImageModel with thumbnail", () {

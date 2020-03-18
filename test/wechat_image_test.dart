@@ -17,8 +17,8 @@
  * the License.
  */
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/wechat_image.dart';
+import 'package:fluwx_no_pay/fluwx_no_pay.dart';
+import 'package:fluwx_no_pay/src/wechat_image.dart';
 
 void main() {
 

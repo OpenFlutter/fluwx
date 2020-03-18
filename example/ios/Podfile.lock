@@ -1,28 +1,21 @@
 PODS:
   - Flutter (1.0.0)
-  - fluwx (0.0.1):
+  - fluwx_no_pay (0.0.1):
     - Flutter
-    - WechatOpenSDK (= 1.8.6.2)
-  - WechatOpenSDK (1.8.6.2)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - fluwx (from `.symlinks/plugins/fluwx/ios`)
-
-SPEC REPOS:
-  trunk:
-    - WechatOpenSDK
+  - fluwx_no_pay (from `.symlinks/plugins/fluwx_no_pay/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  fluwx:
-    :path: ".symlinks/plugins/fluwx/ios"
+  fluwx_no_pay:
+    :path: ".symlinks/plugins/fluwx_no_pay/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  fluwx: 03e098a7284c556d7b197e0b82984eb0b25183af
-  WechatOpenSDK: 8b3ba4239193d1112205c139c94e21934e8f369a
+  fluwx_no_pay: 3003d5187cfd3c98712838f465960f4742b05999
 
 PODFILE CHECKSUM: 3dbe063e9c90a5d7c9e4e76e70a821b9e2c1d271
 

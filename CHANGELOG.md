@@ -1,3 +1,6 @@
+## 2.0.5+1
+* 升级
+
 ## 2.0.5
 * Fix:Android分享file文件时，会crash
 

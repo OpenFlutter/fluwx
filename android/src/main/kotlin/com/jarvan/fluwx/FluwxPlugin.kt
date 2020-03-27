@@ -27,7 +27,9 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             WXAPiHandler.setContext(registrar.activeContext())
             channel.setMethodCallHandler(FluwxPlugin().apply {
                 this.authHandler = authHandler
-                this.shareHandler = FluwxShareHandlerCompat(registrar)
+                this.shareHandler = FluwxShareHandlerCompat(registrar).apply {
+                    permissionHandler = PermissionHandler(registrar.activity())
+                }
             })
         }
     }
@@ -66,13 +68,16 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     override fun onDetachedFromActivity() {
+        shareHandler?.permissionHandler = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         WXAPiHandler.setContext(binding.activity.applicationContext)
+        shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {

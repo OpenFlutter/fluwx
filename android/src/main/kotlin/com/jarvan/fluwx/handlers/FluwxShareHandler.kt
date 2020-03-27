@@ -7,7 +7,6 @@ import android.content.res.AssetFileDescriptor
 import android.net.Uri
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.jarvan.fluwx.io.ImagesIO
 import com.jarvan.fluwx.io.ImagesIOIml
 import com.jarvan.fluwx.io.WeChatImage
@@ -42,6 +41,8 @@ internal class FluwxShareHandlerEmbedding(private val flutterAssets: FlutterPlug
     }
 
     override val job: Job = Job()
+
+    override var permissionHandler: PermissionHandler? = null
 }
 
 internal class FluwxShareHandlerCompat(private val registrar: PluginRegistry.Registrar) : FluwxShareHandler {
@@ -58,6 +59,7 @@ internal class FluwxShareHandlerCompat(private val registrar: PluginRegistry.Reg
 
     override val context: Context = registrar.context().applicationContext
     override val job: Job = Job()
+    override var permissionHandler: PermissionHandler? = null
 }
 
 internal interface FluwxShareHandler : CoroutineScope {
@@ -89,7 +91,7 @@ internal interface FluwxShareHandler : CoroutineScope {
     }
 
     private fun shareText(call: MethodCall, result: MethodChannel.Result) {
-        val textObj = WXTextObject(call.argument<String?>("source"))
+        val textObj = WXTextObject(call.argument("source"))
         val msg = WXMediaMessage()
         msg.mediaObject = textObj
         val req = SendMessageToWX.Req()
@@ -136,7 +138,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                         if (ContextCompat.checkSelfPermission(context, Manifest.permission_group.STORAGE) == PackageManager.PERMISSION_GRANTED) {
                             setImagePath(sourceByteArray.toExternalCacheFile(context, sourceImage.suffix)?.absolutePath)
                         } else {
-                            Fragment().requestPermissions(arrayOf(Manifest.permission_group.STORAGE), 12121)
+                            permissionHandler?.requestStoragePermission()
                         }
                     }
                 }
@@ -283,8 +285,7 @@ internal interface FluwxShareHandler : CoroutineScope {
 
     val job: Job
 
-    fun onDestroy() {
-        job.cancel()
-    }
+    var permissionHandler: PermissionHandler?
 
+    fun onDestroy() = job.cancel()
 }

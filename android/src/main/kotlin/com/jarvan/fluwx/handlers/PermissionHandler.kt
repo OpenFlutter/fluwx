@@ -17,7 +17,7 @@ class PermissionHandler(private val activity: Activity?) {
     fun requestStoragePermission() {
         if (oldFragment != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                oldFragment?.requestPermissions(arrayOf(Manifest.permission_group.STORAGE), 12121)
+                oldFragment?.requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 12121)
             }
         } else {
             activity?.run {
@@ -29,7 +29,7 @@ class PermissionHandler(private val activity: Activity?) {
                     ft.commit()
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    fragment.requestPermissions(arrayOf(Manifest.permission_group.STORAGE), 12121)
+                    fragment.requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 12121)
                 }
             }
         }

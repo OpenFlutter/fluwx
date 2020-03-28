@@ -135,7 +135,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                 }
                 sourceByteArray.size > 512 * 1024 -> {
                     WXImageObject().apply {
-                        if (ContextCompat.checkSelfPermission(context, Manifest.permission_group.STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                             setImagePath(sourceByteArray.toExternalCacheFile(context, sourceImage.suffix)?.absolutePath)
                         } else {
                             permissionHandler?.requestStoragePermission()

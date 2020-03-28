@@ -15,17 +15,22 @@ class PermissionHandler(private val activity: Activity?) {
     private val fragment: Fragment = Fragment()
 
     fun requestStoragePermission() {
-        val currentFragment = oldFragment ?: fragment
-        activity?.run {
-            val ft = fragmentManager.beginTransaction()
-            ft.add(currentFragment, tag)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                ft.commitNow()
-            } else {
-                ft.commit()
-            }
+        if (oldFragment != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                currentFragment.requestPermissions(arrayOf(Manifest.permission_group.STORAGE), 12121)
+                oldFragment?.requestPermissions(arrayOf(Manifest.permission_group.STORAGE), 12121)
+            }
+        } else {
+            activity?.run {
+                val ft = fragmentManager.beginTransaction()
+                ft.add(fragment, tag)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    ft.commitNow()
+                } else {
+                    ft.commit()
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    fragment.requestPermissions(arrayOf(Manifest.permission_group.STORAGE), 12121)
+                }
             }
         }
     }

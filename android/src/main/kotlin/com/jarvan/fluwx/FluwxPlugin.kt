@@ -56,6 +56,7 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             call.method == "launchMiniProgram" -> launchMiniProgram(call, result)
             call.method == "subscribeMsg" -> subScribeMsg(call, result)
             call.method == "autoDeduct" -> signAutoDeduct(call, result)
+            call.method == "openWXApp" -> openWXApp(result)
             call.method.startsWith("share") -> shareHandler?.share(call, result)
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
             else -> result.notImplemented()
@@ -167,4 +168,6 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         val done = WXAPiHandler.wxApi?.sendReq(req)
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
+
+    private fun openWXApp(result: MethodChannel.Result) = result.success(WXAPiHandler.wxApi?.openWXApp())
 }

@@ -80,7 +80,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.0.6+2"
+    version: "2.0.7"
   image:
     dependency: transitive
     description:

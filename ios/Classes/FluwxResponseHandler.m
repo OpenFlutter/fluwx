@@ -105,13 +105,13 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         WXSubscribeMsgResp *subscribeMsgResp = (WXSubscribeMsgResp *) resp;
         NSMutableDictionary *result = [NSMutableDictionary dictionary];
         if(subscribeMsgResp.openId != nil){
-           result[@"openid"] = miniProgramResp.extMsg;
+           result[@"openid"] = subscribeMsgResp.extMsg;
         }
         if(subscribeMsgResp.openId != nil){
            result[@"templateId"] = subscribeMsgResp.templateId;
         }
         if(subscribeMsgResp.openId != nil){
-        result[@"action"] = subscribeMsgResp.action
+            result[@"action"] = subscribeMsgResp.action;
         }
         if(subscribeMsgResp.openId != nil){
           result[@"reserved"] = subscribeMsgResp.reserved;

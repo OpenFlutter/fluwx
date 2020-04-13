@@ -105,7 +105,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         WXSubscribeMsgResp *subscribeMsgResp = (WXSubscribeMsgResp *) resp;
         NSMutableDictionary *result = [NSMutableDictionary dictionary];
         if(subscribeMsgResp.openId != nil){
-           result[@"openid"] = subscribeMsgResp.extMsg;
+           result[@"openid"] = subscribeMsgResp.openId;
         }
         if(subscribeMsgResp.openId != nil){
            result[@"templateId"] = subscribeMsgResp.templateId;

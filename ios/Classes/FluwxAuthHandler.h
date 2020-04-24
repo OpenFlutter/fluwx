@@ -6,7 +6,7 @@
 #import <Flutter/Flutter.h>
 #import "FluwxPlugin.h"
 #import "WXApiRequestHandler.h"
-#import "WechatAuthSDK.h"
+#import <WechatOpenSDK/WechatAuthSDK.h>
 
 @class FluwxStringUtil;
 

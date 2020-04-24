@@ -4,7 +4,7 @@
 
 
 #import <Foundation/Foundation.h>
-#import "WXApiObject.h"
+#import <WechatOpenSDK/WXApiObject.h>
 #import "FluwxResponseHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN

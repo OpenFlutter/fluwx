@@ -5,7 +5,7 @@
 //  Created by Jeason on 15/7/14.
 //
 //
-#import <WechatOpenSDK/WXApiObject.h>
+#import "WXApiObject.h"
 
 @interface WXMediaMessage (messageConstruct)
 

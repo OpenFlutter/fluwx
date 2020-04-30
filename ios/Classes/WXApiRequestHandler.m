@@ -2,12 +2,12 @@
 // Created by mo on 2020/3/7.
 //
 
-#import <WechatOpenSDK/WXApi.h>
+#import "WXApi.h"
 #import "WXApiRequestHandler.h"
 #import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
 #import "WXMediaMessage+messageConstruct.h"
 #import "FluwxStringUtil.h"
-#import <WechatOpenSDK/WXApiObject.h>
+#import "WXApiObject.h"
 
 @implementation WXApiRequestHandler
 

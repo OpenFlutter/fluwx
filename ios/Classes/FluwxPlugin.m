@@ -177,6 +177,9 @@ continueUserActivity:(NSUserActivity *)userActivity
     return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }
 
+- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
+    [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
+}
 
 - (BOOL)handleOpenURL:(NSNotification *)aNotification {
     if (handleOpenURLByFluwx) {

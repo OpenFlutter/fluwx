@@ -1,3 +1,6 @@
+## 2.1.0
+* Specifying supported platforms
+
 ## 2.0.9
 * Android SDK 升级到6.6.4
 * iOS SDK升级到1.8.7.1

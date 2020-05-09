@@ -80,6 +80,55 @@ typedef NS_ENUM(NSInteger,WXLogLevel) {
  */
 typedef void(^WXLogBolock)(NSString *log);
 
+/*! @brief 微信Universal Link检查函数 (WXApi#checkUniversalLinkReady:)，检查步骤枚举值
+ *
+ * WXULCheckStepParams 参数检测
+ * WXULCheckStepSystemVersion 当前系统版本检测
+ * WXULCheckStepWechatVersion 微信客户端版本检测
+ * WXULCheckStepSDKInnerOperation 微信SDK内部操作检测
+ * WXULCheckStepLaunchWechat  App拉起微信检测
+ * WXULCheckStepBackToCurrentApp 由微信返回当前App检测
+ * WXULCheckStepFinal 最终结果
+ */
+typedef NS_ENUM(NSInteger, WXULCheckStep)
+{
+    WXULCheckStepParams,
+    WXULCheckStepSystemVersion,
+    WXULCheckStepWechatVersion,
+    WXULCheckStepSDKInnerOperation,
+    WXULCheckStepLaunchWechat,
+    WXULCheckStepBackToCurrentApp,
+    WXULCheckStepFinal,
+};
+
+
+#pragma mark - WXCheckULStepResult
+
+/*! @brief 该类为微信Universal Link检测函数结果类
+*
+*/
+@interface WXCheckULStepResult : NSObject
+
+/** 是否成功 */
+@property(nonatomic, assign) BOOL success;
+/** 当前错误信息 */
+@property(nonatomic, strong) NSString* errorInfo;
+/** 修正建议 */
+@property(nonatomic, strong) NSString* suggestion;
+
+- (instancetype)initWithCheckResult:(BOOL)success errorInfo:(nullable NSString*)errorInfo suggestion:(nullable NSString*)suggestion;
+
+@end
+
+
+/*! @brief 微信Universal Link检查函数 (WXApi#checkUniversalLinkReady:)，回调Block
+ *
+ * @param step 当前检测步骤
+ * @param result 检测结果
+ */
+typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* result);
+
+
 #pragma mark - BaseReq
 /*! @brief 该类为微信终端SDK所有请求类的基类
  *
@@ -113,6 +162,7 @@ typedef void(^WXLogBolock)(NSString *log);
 
 #pragma mark - WXMediaMessage
 @class WXMediaMessage;
+
 
 #pragma mark - SendAuthReq
 /*! @brief 第三方程序向微信终端请求认证的消息结构

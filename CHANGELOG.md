@@ -1,3 +1,6 @@
+# 2.1.0
+* WeChatSDK updates
+
 # 2.0.4
 * Fix #223
 

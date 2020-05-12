@@ -271,7 +271,6 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
       this.messageAction,
       this.messageExt})
       : assert(webPage != null && webPage.isNotEmpty),
-        assert(thumbnail != null),
         assert(scene != null),
         this.description = description ?? webPage;
 

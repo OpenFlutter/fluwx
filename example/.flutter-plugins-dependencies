@@ -1,1 +1,1 @@
-{"_info":"// This is a generated file; do not edit or check into version control.","dependencyGraph":[{"name":"fluwx","dependencies":[]}]}
+{"info":"This is a generated file; do not edit or check into version control.","plugins":{"ios":[{"name":"fluwx","path":"/Users/mo/Code/Other/fluwx/","dependencies":[]}],"android":[{"name":"fluwx","path":"/Users/mo/Code/Other/fluwx/","dependencies":[]}],"macos":[],"linux":[],"windows":[],"web":[]},"dependencyGraph":[{"name":"fluwx","dependencies":[]}],"date_created":"2020-05-12 17:06:39.777970","version":"1.17.0"}

@@ -11,7 +11,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
   String _imagePath =
 //  "http://img-download.pchome.net/download/1k1/3a/3e/ofskcd-s1a.jpg"
       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534614311230&di=b17a892b366b5d002f52abcce7c4eea0&imgtype=0&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170516%2F51296b2673704ae2992d0a28c244274c_th.png";
-  String _thumbnail = "assets://images/logo.png";
 
   String _response = "";
 

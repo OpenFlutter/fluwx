@@ -119,37 +119,3 @@ interface ImagesIO {
     suspend fun readByteArray(): ByteArray
     suspend fun compressedByteArray(context: Context, maxSize: Int): ByteArray
 }
-
-internal suspend fun ByteArray.toExternalCacheFile(context: Context, suffix: String): File? {
-    val byteArray = this
-    return withContext(Dispatchers.IO) {
-
-        var file: File? = null
-
-        var sink: BufferedSink? = null
-        var source: Source? = null
-        var outputStream: OutputStream? = null
-
-        try {
-
-            val externalFile = context.externalCacheDir ?: return@withContext file
-            file = File(externalFile.absolutePath + File.separator + UUID.randomUUID().toString() + suffix)
-
-            outputStream = FileOutputStream(file)
-            sink = outputStream.sink().buffer()
-            source = ByteArrayInputStream(byteArray).source()
-            sink.writeAll(source)
-            sink.flush()
-
-        } catch (e: IOException) {
-            Log.w("Fluwx", "failed to create external files")
-        } finally {
-            sink?.close()
-            source?.close()
-            outputStream?.close()
-        }
-
-        file
-    }
-
-}

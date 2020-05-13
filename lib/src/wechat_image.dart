@@ -19,7 +19,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-///[suffix] shall be started with .
 class WeChatImage {
   final dynamic source;
   final ImageSchema schema;
@@ -74,7 +73,13 @@ extension _ImageSuffix on String {
   /// If [suffix] is blank, then try to read from url
   /// if suffix in url not found, then return jpg as default.
   String readSuffix(String suffix) {
-    if (suffix != null && suffix.trim().isNotEmpty) return suffix;
+    if (suffix != null && suffix.trim().isNotEmpty) {
+      if (suffix.startsWith(".")) {
+        return suffix;
+      } else {
+        return ".$suffix";
+      }
+    }
 
     var path = Uri.parse(this).path;
     var index = path.lastIndexOf(".");

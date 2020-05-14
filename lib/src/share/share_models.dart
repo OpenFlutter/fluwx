@@ -288,10 +288,11 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
   }
 }
 
+/// [source] the file you want to share, [source.suffix] is necessary on iOS.
+/// [scene] can't be [WeChatScene.TIMELINE], otherwise, sharing nothing.
 /// send files to WeChat
 class WeChatShareFileModel implements WeChatShareBaseModel {
-  final String filePath;
-  final String fileExtension;
+  final WeChatFile source;
   final WeChatImage thumbnail;
   final String title;
   final String description;
@@ -300,24 +301,22 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
   final String messageAction;
   final String mediaTagName;
 
-  WeChatShareFileModel(this.filePath,
-      {this.fileExtension: "pdf",
-      this.title: "",
+  WeChatShareFileModel(this.source,
+      {this.title: "",
       this.description: "",
       this.thumbnail,
       this.scene = WeChatScene.SESSION,
       this.mediaTagName,
       this.messageAction,
       this.messageExt})
-      : assert(filePath != null),
+      : assert(source != null),
         assert(scene != null);
 
   @override
   Map toMap() {
     return {
       _scene: scene.index,
-      "filePath": filePath,
-      "fileExtension": fileExtension,
+      _source: source.toMap(),
       _thumbnail: thumbnail?.toMap(),
       _title: title,
       _description: description,

@@ -19,37 +19,54 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-class WeChatImage {
+const String defaultSuffixJpeg = ".jpeg";
+const String defaultSuffixTxt = ".txt";
+
+class WeChatImage extends WeChatFile {
+  WeChatImage.network(String source, {String suffix = defaultSuffixJpeg})
+      : super.network(source, suffix: suffix);
+
+  WeChatImage.asset(String source, {String suffix = defaultSuffixJpeg})
+      : super.asset(source, suffix: suffix);
+
+  WeChatImage.file(File source, {String suffix = defaultSuffixJpeg})
+      : super.file(source, suffix: suffix);
+
+  WeChatImage.binary(Uint8List source, {String suffix = defaultSuffixJpeg})
+      : super.binary(source, suffix: suffix);
+}
+
+class WeChatFile {
   final dynamic source;
-  final ImageSchema schema;
+  final FileSchema schema;
   final String suffix;
 
   /// [source] must begin with http or https
-  WeChatImage.network(String source, {String suffix})
+  WeChatFile.network(String source, {String suffix})
       : assert(source != null && source.startsWith("http")),
         this.source = source,
-        this.schema = ImageSchema.NETWORK,
-        this.suffix = source.readSuffix(suffix);
+        this.schema = FileSchema.NETWORK,
+        this.suffix = source.readSuffix(suffix, defaultSuffixTxt);
 
-  ///[source] path of the image, like '/asset/image.jpeg?package=flutter',
+  ///[source] path of the image, like '/asset/image.pdf?package=flutter',
   ///the query param package in [source] only available when you want to specify the package of image
-  WeChatImage.asset(String source, {String suffix})
+  WeChatFile.asset(String source, {String suffix})
       : assert(source != null && source.trim().isNotEmpty),
         this.source = source,
-        this.schema = ImageSchema.ASSET,
-        this.suffix = source.readSuffix(suffix);
+        this.schema = FileSchema.ASSET,
+        this.suffix = source.readSuffix(suffix, defaultSuffixTxt);
 
-  WeChatImage.file(File source, {String suffix = ".jpeg"})
+  WeChatFile.file(File source, {String suffix = defaultSuffixTxt})
       : assert(source != null),
         this.source = source.path,
-        this.schema = ImageSchema.FILE,
-        this.suffix = source.path.readSuffix(suffix);
+        this.schema = FileSchema.FILE,
+        this.suffix = source.path.readSuffix(suffix, defaultSuffixTxt);
 
-  WeChatImage.binary(Uint8List source, {String suffix = ".jpeg"})
+  WeChatFile.binary(Uint8List source, {String suffix = defaultSuffixTxt})
       : assert(source != null),
         assert(suffix != null && suffix.trim().isNotEmpty),
         this.source = source,
-        this.schema = ImageSchema.BINARY,
+        this.schema = FileSchema.BINARY,
         this.suffix = suffix;
 
   Map toMap() =>
@@ -57,22 +74,22 @@ class WeChatImage {
 }
 
 ///Types of image, usually there are for types listed below.
-///[ImageSchema.NETWORK] is online images.
-///[ImageSchema.ASSET] is flutter asset image.
-///[ImageSchema.BINARY] is binary image, shall be be [Uint8List]
-///[ImageSchema.FILE] is local file, usually not comes from flutter asset.
-enum ImageSchema {
+///[FileSchema.NETWORK] is online images.
+///[FileSchema.ASSET] is flutter asset image.
+///[FileSchema.BINARY] is binary image, shall be be [Uint8List]
+///[FileSchema.FILE] is local file, usually not comes from flutter asset.
+enum FileSchema {
   NETWORK,
   ASSET,
   FILE,
   BINARY,
 }
 
-extension _ImageSuffix on String {
+extension _FileSuffix on String {
   /// returns [suffix] if [suffix] not blank.
   /// If [suffix] is blank, then try to read from url
   /// if suffix in url not found, then return jpg as default.
-  String readSuffix(String suffix) {
+  String readSuffix(String suffix, String defaultSuffix) {
     if (suffix != null && suffix.trim().isNotEmpty) {
       if (suffix.startsWith(".")) {
         return suffix;
@@ -87,6 +104,6 @@ extension _ImageSuffix on String {
     if (index >= 0) {
       return path.substring(index);
     }
-    return ".jpeg";
+    return defaultSuffix;
   }
 }

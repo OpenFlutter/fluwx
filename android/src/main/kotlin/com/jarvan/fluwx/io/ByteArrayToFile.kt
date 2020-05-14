@@ -37,7 +37,6 @@ internal suspend fun ByteArray.toCacheFile(context: Context, suffix: String): Fi
         }
     }
     file = File(dir.absolutePath + File.separator + UUID.randomUUID().toString() + suffix)
-
     return saveToLocal(this, file)
 }
 

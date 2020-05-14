@@ -28,6 +28,7 @@ NSString *const fluwxKeySession = @"session";
 NSString *const fluwxKeyFavorite = @"favorite";
 
 NSString *const keySource = @"source";
+NSString *const keySuffix = @"suffix";
 
 CGFloat thumbnailWidth;
 
@@ -75,9 +76,17 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     dispatch_async(globalQueue, ^{
 
         NSDictionary *sourceImage = call.arguments[keySource];
-        NSData *sourceImageData = [self getNsDataFromWeChatImage:sourceImage];
+        NSData *sourceImageData = [self getNsDataFromWeChatFile:sourceImage];
 
         UIImage *thumbnailImage = [self getCommonThumbnail:call];
+        UIImage *realThumbnailImage;
+        if (thumbnailImage == nil) {
+            NSString *suffix = sourceImage[@"suffix"];
+            BOOL isPNG = [self isPNG:suffix];
+            realThumbnailImage = [self getThumbnailFromNSData:sourceImageData size:defaultThumbnailSize isPNG:isPNG];
+        } else {
+            realThumbnailImage = thumbnailImage;
+        }
 
         dispatch_async(dispatch_get_main_queue(), ^{
 
@@ -86,7 +95,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                        TagName:call.arguments[fluwxKeyMediaTagName]
                                     MessageExt:call.arguments[fluwxKeyMessageExt]
                                         Action:call.arguments[fluwxKeyMessageAction]
-                                    ThumbImage:thumbnailImage
+                                    ThumbImage:realThumbnailImage
                                        InScene:[self intToWeChatScene:scene]
                                          title:call.arguments[fluwxKeyTitle]
                                    description:call.arguments[fluwxKeyDescription]
@@ -184,15 +193,22 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)shareFile:(FlutterMethodCall *)call result:(FlutterResult)result {
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
+        NSDictionary *sourceFile = call.arguments[keySource];
         UIImage *thumbnailImage = [self getCommonThumbnail:call];
+        NSString *fileExtension;
+        NSString *suffix = sourceFile[keySuffix];
+        fileExtension = suffix;
+        if ([suffix hasPrefix:@"."]) {
+            NSRange range = NSMakeRange(0, 1);
+            fileExtension = [suffix stringByReplacingCharactersInRange:range withString:@""];
+        }
 
-        NSString *filePath = call.arguments[@"filePath"];
-        NSData *data = [NSData dataWithContentsOfFile:filePath];
+        NSData *data = [self getNsDataFromWeChatFile:sourceFile];
 
         dispatch_async(dispatch_get_main_queue(), ^{
             NSNumber *scene = call.arguments[fluwxKeyScene];
             [WXApiRequestHandler sendFileData:data
-                                fileExtension:call.arguments[@"fileExtension"]
+                                fileExtension:fileExtension
                                         Title:call.arguments[fluwxKeyTitle]
                                   Description:call.arguments[fluwxKeyDescription]
                                    ThumbImage:thumbnailImage
@@ -213,8 +229,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         NSData *hdImageData = nil;
 
         NSDictionary *hdImagePath = call.arguments[@"hdImagePath"];
-        if (hdImageData != nil && hdImagePath != (id) [NSNull null]) {
-            NSData *imageData = [self getNsDataFromWeChatImage:hdImagePath];
+        if (hdImagePath != (id) [NSNull null]) {
+            NSData *imageData = [self getNsDataFromWeChatFile:hdImagePath];
             NSString *suffix = hdImagePath[@"suffix"];
             BOOL isPNG = [self isPNG:suffix];
             UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG];
@@ -268,7 +284,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     NSString *suffix = thumbnail[@"suffix"];
-    NSData *thumbnailData = [self getNsDataFromWeChatImage:thumbnail];
+    NSData *thumbnailData = [self getNsDataFromWeChatFile:thumbnail];
     UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix]];
     return thumbnailImage;
 }
@@ -279,22 +295,22 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 //    FILE,
 //    BINARY,
 //}
-- (NSData *)getNsDataFromWeChatImage:(NSDictionary *)weChatImage {
-    NSNumber *schema = weChatImage[@"schema"];
+- (NSData *)getNsDataFromWeChatFile:(NSDictionary *)weChatFile {
+    NSNumber *schema = weChatFile[@"schema"];
 
     if ([schema isEqualToNumber:@0]) {
-        NSString *source = weChatImage[keySource];
+        NSString *source = weChatFile[keySource];
         NSURL *imageURL = [NSURL URLWithString:source];
         //下载图片
         return [NSData dataWithContentsOfURL:imageURL];
     } else if ([schema isEqualToNumber:@1]) {
-        NSString *source = weChatImage[keySource];
-        return [NSData dataWithContentsOfFile:[self readImageFromAssets:source]];
+        NSString *source = weChatFile[keySource];
+        return [NSData dataWithContentsOfFile:[self readFileFromAssets:source]];
     } else if ([schema isEqualToNumber:@2]) {
-        NSString *source = weChatImage[keySource];
+        NSString *source = weChatFile[keySource];
         return [NSData dataWithContentsOfFile:source];
     } else if ([schema isEqualToNumber:@3]) {
-        FlutterStandardTypedData *imageData = weChatImage[@"source"];
+        FlutterStandardTypedData *imageData = weChatFile[@"source"];
         return imageData.data;
     } else {
         return nil;
@@ -306,7 +322,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
 }
 
-- (NSString *)readImageFromAssets:(NSString *)imagePath {
+- (NSString *)readFileFromAssets:(NSString *)imagePath {
     NSArray *array = [self formatAssets:imagePath];
     NSString *key;
     if ([FluwxStringUtil isBlank:array[1]]) {

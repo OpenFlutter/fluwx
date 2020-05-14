@@ -11,7 +11,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
   String _videoLowBandUrl = "http://www.qq.com";
   String _title = "Beyond";
   String _description = "A Popular Rock Band From China";
-  String _thumnail = "assets://images/logo.png";
+  String _thumnail = "images/logo.png";
   WeChatScene scene = WeChatScene.SESSION;
 
   @override
@@ -70,7 +70,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
             ),
             new TextField(
               controller:
-                  TextEditingController(text: "assets://images/logo.png"),
+                  TextEditingController(text: "images/logo.png"),
               onChanged: (str) {
                 _thumnail = str;
               },

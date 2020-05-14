@@ -11,7 +11,7 @@ class ShareWebPagePage extends StatefulWidget {
 class ShareWebPagePageState extends State<ShareWebPagePage> {
   String _url = "share text from fluwx";
   String _title = "Fluwx";
-  String _thumnail = "assets://images/logo.png";
+  String _thumnail = "images/logo.png";
   WeChatScene scene = WeChatScene.SESSION;
 
   @override
@@ -54,7 +54,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
             ),
             new TextField(
               controller:
-                  TextEditingController(text: "assets://images/logo.png"),
+                  TextEditingController(text: "images/logo.png"),
               onChanged: (str) {
                 _thumnail = str;
               },

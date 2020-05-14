@@ -76,7 +76,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
             ),
             new TextField(
               controller:
-              TextEditingController(text: "assets://images/logo.png"),
+              TextEditingController(text: "images/logo.png"),
               onChanged: (str) {
                 _thumbnail = str;
               },

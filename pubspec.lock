@@ -179,3 +179,4 @@ packages:
     version: "3.6.1"
 sdks:
   dart: ">=2.6.0 <3.0.0"
+  flutter: ">=1.10.0 <2.0.0"

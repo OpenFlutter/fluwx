@@ -19,7 +19,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:fluwx_no_pay/src/wechat_enums.dart';
 
-import '../wechat_image.dart';
+import '../wechat_file.dart';
 
 const String _scene = "scene";
 const String _source = "source";

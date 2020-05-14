@@ -1,3 +1,8 @@
+## 2.1.0
+* Specifying supported platforms
+* Fix: Android分享小程序时，缩略图压缩过重的问题
+* 更改分享文件的实现形式
+
 ## 2.0.9
 * Android SDK 升级到6.6.4
 * iOS SDK升级到1.8.7.1

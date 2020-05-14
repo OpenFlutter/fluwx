@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.BitmapFactory
-import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okio.*
@@ -18,7 +17,7 @@ import kotlin.math.sqrt
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
-class ImagesIOIml(override val image: WeChatImage) : ImagesIO {
+class ImagesIOIml(override val image: WeChatFile) : ImagesIO {
 
     override suspend fun readByteArray(): ByteArray = image.readByteArray()
 
@@ -115,41 +114,7 @@ class ImagesIOIml(override val image: WeChatImage) : ImagesIO {
 }
 
 interface ImagesIO {
-    val image: WeChatImage
+    val image: WeChatFile
     suspend fun readByteArray(): ByteArray
     suspend fun compressedByteArray(context: Context, maxSize: Int): ByteArray
-}
-
-internal suspend fun ByteArray.toExternalCacheFile(context: Context, suffix: String): File? {
-    val byteArray = this
-    return withContext(Dispatchers.IO) {
-
-        var file: File? = null
-
-        var sink: BufferedSink? = null
-        var source: Source? = null
-        var outputStream: OutputStream? = null
-
-        try {
-
-            val externalFile = context.externalCacheDir ?: return@withContext file
-            file = File(externalFile.absolutePath + File.separator + UUID.randomUUID().toString() + suffix)
-
-            outputStream = FileOutputStream(file)
-            sink = outputStream.sink().buffer()
-            source = ByteArrayInputStream(byteArray).source()
-            sink.writeAll(source)
-            sink.flush()
-
-        } catch (e: IOException) {
-            Log.w("Fluwx", "failed to create external files")
-        } finally {
-            sink?.close()
-            source?.close()
-            outputStream?.close()
-        }
-
-        file
-    }
-
 }

@@ -8,4 +8,4 @@ export 'package:fluwx_no_pay/src/fluwx_iml.dart';
 export 'package:fluwx_no_pay/src/response/wechat_response.dart';
 export 'package:fluwx_no_pay/src/share/share_models.dart';
 export 'package:fluwx_no_pay/src/wechat_enums.dart';
-export 'package:fluwx_no_pay/src/wechat_image.dart' hide ImageSchema;
+export 'package:fluwx_no_pay/src/wechat_file.dart' hide FileSchema;

@@ -246,13 +246,16 @@ internal interface FluwxShareHandler : CoroutineScope {
             val sourceFile = WeChatFile.createWeChatFile(map, assetFileDescriptor)
 
             val sourceByteArray = sourceFile.readByteArray()
+//            if (supportFileProvider && targetHigherThanN) {
+//                wxFileObject.filePath = getFileContentUri(sourceByteArray.toCacheFile(context, sourceFile.suffix))
+//            } else {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    wxFileObject.filePath = sourceByteArray.toExternalCacheFile(context, sourceFile.suffix)?.absolutePath
+                } else {
+                    permissionHandler?.requestStoragePermission()
+                }
+//            }
 
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                wxFileObject.filePath = sourceByteArray.toExternalCacheFile(context, sourceFile.suffix)?.absolutePath
-            } else {
-                permissionHandler?.requestStoragePermission()
-            }
-            
             msg.thumbData = readThumbnailByteArray(call)
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)

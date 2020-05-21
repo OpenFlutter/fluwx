@@ -80,7 +80,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.0.9"
+    version: "2.1.0"
   image:
     dependency: transitive
     description:
@@ -193,3 +193,4 @@ packages:
     version: "3.6.1"
 sdks:
   dart: ">=2.6.0 <3.0.0"
+  flutter: ">=1.10.0 <2.0.0"

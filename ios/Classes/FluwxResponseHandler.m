@@ -188,7 +188,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 @"businessType": @(businessResp.businessType),
         };
 
-        [fluwxMethodChannel invokeMethod:@"onAutoDeductResponse" arguments:result];
+        [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
     }
 }
 

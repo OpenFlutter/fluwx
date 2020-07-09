@@ -105,8 +105,8 @@ void main() {
         "businessType": 2,
         "resultInfo": "resultInfo"
       });
-      expect(response is WeChatAutoDeductResponse, true);
-      var casted = response as WeChatAutoDeductResponse;
+      expect(response is WeChatOpenBusinessWebviewResponse, true);
+      var casted = response as WeChatOpenBusinessWebviewResponse;
       assert(casted.isSuccessful);
       expect(casted.type, 1);
       expect(casted.errCode, 0);

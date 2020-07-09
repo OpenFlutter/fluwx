@@ -145,6 +145,14 @@ Future<bool> payWithWeChat(
   });
 }
 
+/// request Hong Kong Wallet payment with WeChat.
+/// Read the official document for more detail.
+Future<bool> payWithWeChatHongKongWallet({@required String prepayId}) async {
+  return await _channel.invokeMethod("payWithHongKongWallet", {
+    "prepayId": prepayId,
+  });
+}
+
 /// subscribe WeChat message
 Future<bool> subscribeWeChatMsg({
   @required String appId,

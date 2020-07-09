@@ -134,20 +134,6 @@ class WeChatSubscribeMsgResponse extends BaseWeChatResponse {
         super._(map[_errCode], map[_errStr]);
 }
 
-class WeChatPayWithHongKongWalletResponse extends BaseWeChatResponse {
-  final int type;
-  final int errCode;
-  final int businessType;
-  final String resultInfo;
-
-  WeChatPayWithHongKongWalletResponse.fromMap(Map map)
-      : type = map["type"],
-        errCode = map[_errCode],
-        businessType = map["businessType"],
-        resultInfo = map["resultInfo"],
-        super._(map[_errCode], map[_errStr]);
-}
-
 class WeChatOpenBusinessWebviewResponse extends BaseWeChatResponse {
   final int type;
   final int errCode;

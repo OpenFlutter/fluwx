@@ -186,8 +186,8 @@ BOOL handleOpenURLByFluwx = YES;
 }
 
 - (BOOL) application:(UIApplication *)application
-continueUserActivity:(NSUserActivity *)userActivity
-  restorationHandler:(void (^)(NSArray *))restorationHandler {
+continueUserActivity:(nonnull NSUserActivity *)userActivity
+  restorationHandler:(nonnull void (^)(NSArray<id> * _Nullable))restorationHandler {
     return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }
 

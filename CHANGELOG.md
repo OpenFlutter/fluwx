@@ -1,3 +1,6 @@
+## 2.2.0
+* Merged #249
+
 ## 2.1.0
 * Specifying supported platforms
 * Fix: Android分享小程序时，缩略图压缩过重的问题

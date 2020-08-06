@@ -1,3 +1,7 @@
+## 2.2.0
+*兼容Flutter 1.20
+*一些依赖升级
+
 ## 2.1.1
 * Specifying supported platforms
 * Fix: Android分享小程序时，缩略图压缩过重的问题

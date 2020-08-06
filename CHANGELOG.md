@@ -1,3 +1,7 @@
+## 2.30
+* 适配Flutter 1.20
+* 升级Android的Gradle以及更库的版本
+
 ## 2.2.0
 * Merged #249
 

@@ -357,11 +357,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (enum WXScene)intToWeChatScene:(NSNumber *)value {
 //    enum WeChatScene { SESSION, TIMELINE, FAVORITE }
-    if (value == @0) {
+    if ([value isEqual: @0]) {
         return WXSceneSession;
-    } else if (value == @1) {
+    } else if ([value isEqual: @1]) {
         return WXSceneTimeline;
-    } else if (value == @2) {
+    } else if ([value isEqual: @2]) {
         return WXSceneFavorite;
     } else {
         return WXSceneSession;

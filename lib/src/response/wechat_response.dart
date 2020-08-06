@@ -32,8 +32,8 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
   "onPayResponse": (Map argument) => WeChatPaymentResponse.fromMap(argument),
   "onSubscribeMsgResp": (Map argument) =>
       WeChatSubscribeMsgResponse.fromMap(argument),
-  "onAutoDeductResponse": (Map argument) =>
-      WeChatAutoDeductResponse.fromMap(argument),
+  "onWXOpenBusinessWebviewResponse": (Map argument) =>
+      WeChatOpenBusinessWebviewResponse.fromMap(argument),
   "onAuthByQRCodeFinished": (Map argument) =>
       WeChatAuthByQRCodeFinishedResponse.fromMap(argument),
   "onAuthGotQRCode": (Map argument) =>
@@ -134,13 +134,13 @@ class WeChatSubscribeMsgResponse extends BaseWeChatResponse {
         super._(map[_errCode], map[_errStr]);
 }
 
-class WeChatAutoDeductResponse extends BaseWeChatResponse {
+class WeChatOpenBusinessWebviewResponse extends BaseWeChatResponse {
   final int type;
   final int errCode;
   final int businessType;
   final String resultInfo;
 
-  WeChatAutoDeductResponse.fromMap(Map map)
+  WeChatOpenBusinessWebviewResponse.fromMap(Map map)
       : type = map["type"],
         errCode = map[_errCode],
         businessType = map["businessType"],

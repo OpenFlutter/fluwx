@@ -73,6 +73,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
     private fun startSpecifiedActivity() {
         Intent("$packageName.FlutterActivity").run {
+            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
             startActivity(this)
         }
         finish()

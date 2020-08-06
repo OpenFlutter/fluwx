@@ -121,6 +121,6 @@ object FluwxResponseHandler {
                 openId to response.openId,
                 type to response.type)
 
-        channel?.invokeMethod("onAutoDeductResponse", result)
+        channel?.invokeMethod("onWXOpenBusinessWebviewResponse", result)
     }
 }

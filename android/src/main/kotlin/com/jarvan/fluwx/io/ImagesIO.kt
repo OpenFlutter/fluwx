@@ -9,6 +9,7 @@ import kotlinx.coroutines.withContext
 import okio.*
 import top.zibin.luban.Luban
 import java.io.*
+import java.io.IOException
 import java.util.*
 import kotlin.math.sqrt
 

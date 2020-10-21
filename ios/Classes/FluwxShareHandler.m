@@ -290,14 +290,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     NSString *suffix = thumbnail[@"suffix"];
-    BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
-    if(compress){
+    NSNumber* compress = call.arguments[fluwxKeyCompressThumbnail];
+    if([compress boolValue]){
         NSLog(@"compress yes");
     }else{
         NSLog(@"compress no");
     }
     NSData *thumbnailData = [self getNsDataFromWeChatFile:thumbnail];
-    UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix] compress:compress];
+    UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix] compress:[compress boolValue]];
     return thumbnailImage;
 }
 

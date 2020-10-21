@@ -27,6 +27,8 @@ NSString *const fluwxKeyTimeline = @"timeline";
 NSString *const fluwxKeySession = @"session";
 NSString *const fluwxKeyFavorite = @"favorite";
 
+NSString *const fluwxKeyCompressThumbnail = @"compressThumbnail";
+
 NSString *const keySource = @"source";
 NSString *const keySuffix = @"suffix";
 
@@ -83,7 +85,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         if (thumbnailImage == nil) {
             NSString *suffix = sourceImage[@"suffix"];
             BOOL isPNG = [self isPNG:suffix];
-            realThumbnailImage = [self getThumbnailFromNSData:sourceImageData size:defaultThumbnailSize isPNG:isPNG];
+            BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
+
+            realThumbnailImage = [self getThumbnailFromNSData:sourceImageData size:defaultThumbnailSize isPNG:isPNG compress:compress];
         } else {
             realThumbnailImage = thumbnailImage;
         }
@@ -233,7 +237,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             NSData *imageData = [self getNsDataFromWeChatFile:hdImagePath];
             NSString *suffix = hdImagePath[@"suffix"];
             BOOL isPNG = [self isPNG:suffix];
-            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG];
+            BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
+
+            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
             if (isPNG) {
                 hdImageData = UIImagePNGRepresentation(uiImage);
             } else {
@@ -284,8 +290,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     NSString *suffix = thumbnail[@"suffix"];
+    BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
+    if(compress){
+        NSLog(@"compress yes");
+    }else{
+        NSLog(@"compress no");
+    }
     NSData *thumbnailData = [self getNsDataFromWeChatFile:thumbnail];
-    UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix]];
+    UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix] compress:compress];
     return thumbnailImage;
 }
 
@@ -316,10 +328,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         return nil;
     }
 }
-
-- (UIImage *)getThumbnailFromNSData:(NSData *)data size:(NSUInteger)size isPNG:(BOOL)isPNG {
+- (UIImage *)getThumbnailFromNSData:(NSData *)data size:(NSUInteger)size isPNG:(BOOL)isPNG compress:(BOOL)compress{
     UIImage *uiImage = [UIImage imageWithData:data];
+    if(compress)
     return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
+    else
+        return uiImage;
 }
 
 - (NSString *)readFileFromAssets:(NSString *)imagePath {

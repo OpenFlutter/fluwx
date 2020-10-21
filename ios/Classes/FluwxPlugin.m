@@ -62,7 +62,9 @@ BOOL handleOpenURLByFluwx = YES;
 }
 
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-    if (!call.arguments[@"iOS"]) {
+    NSNumber* doOnIOS =call.arguments[@"iOS"];
+
+    if (![doOnIOS boolValue]) {
         result(@NO);
         return;
     }

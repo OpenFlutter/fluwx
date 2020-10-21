@@ -270,10 +270,15 @@ internal interface FluwxShareHandler : CoroutineScope {
 
     private suspend fun readThumbnailByteArray(call: MethodCall, length: Int = SHARE_IMAGE_THUMB_LENGTH): ByteArray? {
         val thumbnailMap: Map<String, Any>? = call.argument(keyThumbnail)
+        val compress:Boolean = call.argument("compressThumbnail")?:true
         return thumbnailMap?.run {
             val thumbnailImage = WeChatFile.createWeChatFile(thumbnailMap, assetFileDescriptor)
             val thumbnailImageIO = ImagesIOIml(thumbnailImage)
-            compressThumbnail(thumbnailImageIO, length)
+            if(compress){
+                compressThumbnail(thumbnailImageIO, length)
+            }else{
+                thumbnailImageIO.readByteArray()
+            }
         }
     }
 

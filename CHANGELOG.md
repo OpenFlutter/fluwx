@@ -1,3 +1,7 @@
+## 2.3.0
+支持compressThumbnail
+升级OkHttp
+
 ## 2.2.0
 *兼容Flutter 1.20
 *一些依赖升级

@@ -1,3 +1,7 @@
+## 2.4.0
+* 支持compressThumbnail
+* 升级OkHttp
+
 ## 2.3.0
 * 适配Flutter 1.20
 * 升级Android的Gradle以及更库的版本

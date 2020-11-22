@@ -240,3 +240,7 @@ Future _methodHandler(MethodCall methodCall) {
   _weChatResponseEventHandlerController.add(response);
   return Future.value();
 }
+
+Future<bool> authWechatByPhoneLogin() async{
+  return  await _channel.invokeMethod("authByPhoneLogin");
+}

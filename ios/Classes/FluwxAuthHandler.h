@@ -18,4 +18,6 @@
 - (void)authByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
 
 - (void)stopAuthByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result;
+
+- (void)handAuthByPhoneLogin:(FlutterMethodCall*)call result:(FlutterResult)result;
 @end

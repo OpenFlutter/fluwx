@@ -241,6 +241,9 @@ Future _methodHandler(MethodCall methodCall) {
   return Future.value();
 }
 
-Future<bool> authWechatByPhoneLogin() async{
-  return  await _channel.invokeMethod("authByPhoneLogin");
+///IOS only
+Future<bool> authWeChatByPhoneLogin(
+    {@required String scope, String state}) async {
+  return await _channel
+      .invokeMethod("authByPhoneLogin", {"scope": scope, "state": state});
 }

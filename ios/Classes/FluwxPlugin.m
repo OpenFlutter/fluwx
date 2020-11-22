@@ -55,7 +55,7 @@ BOOL handleOpenURLByFluwx = YES;
     } else if ([@"autoDeduct" isEqualToString:call.method]) {
         [self handleAutoDeductWithCall:call result:result];
     }else if([@"authByPhoneLogin" isEqualToString:call.method]){
-        [_fluwxAuthHandler handAuthByPhoneLogin:call result:result];
+        [_fluwxAuthHandler handleAuthByPhoneLogin:call result:result];
     } else if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
     } else {

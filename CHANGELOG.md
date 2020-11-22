@@ -1,3 +1,6 @@
+## 2.3.1
+* 修复Android 11无法分享图片的问题
+
 ## 2.3.0
 * 适配Flutter 1.20
 * 升级Android的Gradle以及更库的版本

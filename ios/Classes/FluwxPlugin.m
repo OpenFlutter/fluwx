@@ -54,6 +54,8 @@ BOOL handleOpenURLByFluwx = YES;
         [self handleSubscribeWithCall:call result:result];
     } else if ([@"autoDeduct" isEqualToString:call.method]) {
         [self handleAutoDeductWithCall:call result:result];
+    }else if([@"authByPhoneLogin" isEqualToString:call.method]){
+        [_fluwxAuthHandler handleAuthByPhoneLogin:call result:result];
     } else if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
     } else {
@@ -177,6 +179,7 @@ BOOL handleOpenURLByFluwx = YES;
         result(@(done));
     }];
 }
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];

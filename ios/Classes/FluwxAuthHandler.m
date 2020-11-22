@@ -21,6 +21,16 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
     return self;
 }
 
+- (void)handleAuthByPhoneLogin:(FlutterMethodCall*)call result:(FlutterResult)result{
+    UIViewController *vc = UIApplication.sharedApplication.keyWindow.rootViewController;
+    SendAuthReq *authReq = [[SendAuthReq alloc]init];
+    authReq.scope = call.arguments[@"scope"];
+    authReq.state = (call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"];
+    [WXApi sendAuthReq:authReq viewController:vc delegate:[FluwxResponseHandler defaultManager] completion:^(BOOL success) {
+        result(@(success));
+    }];
+}
+
 - (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *openId = call.arguments[@"openId"];
 

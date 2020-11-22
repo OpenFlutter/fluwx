@@ -134,7 +134,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                 sourceByteArray.isEmpty() -> {
                     WXImageObject()
                 }
-                sourceByteArray.size > 500 * 1024 -> {
+                else -> {
                     WXImageObject().apply {
                         if (supportFileProvider && targetHigherThanN) {
                             setImagePath(getFileContentUri(sourceByteArray.toCacheFile(context, sourceImage.suffix)))
@@ -146,9 +146,6 @@ internal interface FluwxShareHandler : CoroutineScope {
                             }
                         }
                     }
-                }
-                else -> {
-                    WXImageObject(sourceByteArray)
                 }
             }
             val msg = WXMediaMessage()

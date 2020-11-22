@@ -1,3 +1,7 @@
+## 2.4.0
+* 支持compressThumbnail
+* 升级OkHttp
+
 ## 2.3.1
 * 修复Android 11无法分享图片的问题
 

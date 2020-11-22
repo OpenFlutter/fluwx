@@ -240,3 +240,10 @@ Future _methodHandler(MethodCall methodCall) {
   _weChatResponseEventHandlerController.add(response);
   return Future.value();
 }
+
+///IOS only
+Future<bool> authWeChatByPhoneLogin(
+    {@required String scope, String state}) async {
+  return await _channel
+      .invokeMethod("authByPhoneLogin", {"scope": scope, "state": state});
+}

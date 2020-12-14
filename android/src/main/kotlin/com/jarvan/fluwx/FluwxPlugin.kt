@@ -24,6 +24,7 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
             val authHandler = FluwxAuthHandler(channel)
             FluwxResponseHandler.setMethodChannel(channel)
+            FluwxRequestHandler.setMethodChannel(channel)
             WXAPiHandler.setContext(registrar.activity().applicationContext)
             channel.setMethodCallHandler(FluwxPlugin().apply {
                 this.authHandler = authHandler
@@ -42,6 +43,7 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
         channel.setMethodCallHandler(this)
         FluwxResponseHandler.setMethodChannel(channel)
+        FluwxRequestHandler.setMethodChannel(channel)
         authHandler = FluwxAuthHandler(channel)
         shareHandler = FluwxShareHandlerEmbedding(flutterPluginBinding.flutterAssets, flutterPluginBinding.applicationContext)
     }

@@ -40,6 +40,8 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
       WeChatAuthGotQRCodeResponse.fromMap(argument),
   "onQRCodeScanned": (Map argument) =>
       WeChatQRCodeScannedResponse.fromMap(argument),
+  "onWXShowMessageFromWX": (Map argument) =>
+      WeChatShowMessageFromWXRequest.fromMap(argument),
 };
 
 class BaseWeChatResponse {
@@ -171,6 +173,15 @@ class WeChatAuthGotQRCodeResponse extends BaseWeChatResponse {
 class WeChatQRCodeScannedResponse extends BaseWeChatResponse {
   WeChatQRCodeScannedResponse.fromMap(Map map)
       : super._(map[_errCode], map[_errStr]);
+}
+
+// 获取微信打开App时携带的参数
+class WeChatShowMessageFromWXRequest extends BaseWeChatResponse {
+  final String extMsg;
+
+  WeChatShowMessageFromWXRequest.fromMap(Map map)
+      : extMsg = map["extMsg"],
+        super._(0, '');
 }
 
 ///WechatAuth_Err_OK(0),

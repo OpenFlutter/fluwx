@@ -53,8 +53,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
               decoration: InputDecoration(labelText: "thumbnail"),
             ),
             new TextField(
-              controller:
-                  TextEditingController(text: "images/logo.png"),
+              controller: TextEditingController(text: "images/logo.png"),
               onChanged: (str) {
                 _thumnail = str;
               },
@@ -68,9 +67,8 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.SESSION,
                         groupValue: scene,
-                        onChanged: (v){
-                          if(v!=null)
-                            handleRadioValueChanged(v);
+                        onChanged: (v) {
+                          if (v != null) handleRadioValueChanged(v);
                         }),
                     const Text("会话")
                   ],
@@ -80,9 +78,8 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.TIMELINE,
                         groupValue: scene,
-                        onChanged: (v){
-                          if(v!=null)
-                            handleRadioValueChanged(v);
+                        onChanged: (v) {
+                          if (v != null) handleRadioValueChanged(v);
                         }),
                     const Text("朋友圈")
                   ],
@@ -92,9 +89,8 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.FAVORITE,
                         groupValue: scene,
-                        onChanged: (v){
-                          if(v!=null)
-                            handleRadioValueChanged(v);
+                        onChanged: (v) {
+                          if (v != null) handleRadioValueChanged(v);
                         }),
                     const Text("收藏")
                   ],

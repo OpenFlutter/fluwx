@@ -57,12 +57,12 @@ class WeChatFile {
         this.suffix = source.readSuffix(suffix, defaultSuffixTxt);
 
   WeChatFile.file(File source, {String suffix = defaultSuffixTxt})
-      :this.source = source.path,
+      : this.source = source.path,
         this.schema = FileSchema.FILE,
         this.suffix = source.path.readSuffix(suffix, defaultSuffixTxt);
 
   WeChatFile.binary(Uint8List source, {String suffix = defaultSuffixTxt})
-      :  assert(suffix.trim().isNotEmpty),
+      : assert(suffix.trim().isNotEmpty),
         this.source = source,
         this.schema = FileSchema.BINARY,
         this.suffix = suffix;
@@ -88,8 +88,7 @@ extension _FileSuffix on String {
   /// If [suffix] is blank, then try to read from url
   /// if suffix in url not found, then return jpg as default.
   String readSuffix(String? suffix, String defaultSuffix) {
-
-    if (suffix!=null && suffix.trim().isNotEmpty) {
+    if (suffix != null && suffix.trim().isNotEmpty) {
       if (suffix.startsWith(".")) {
         return suffix;
       } else {

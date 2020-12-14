@@ -89,11 +89,11 @@ Future<bool> registerWxApi(
 ///see [_shareModelMethodMapper] for detail.
 Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
   if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
-    var methodChannel =  _shareModelMethodMapper[model.runtimeType];
-    if(methodChannel == null)
-      throw ArgumentError.value("${model.runtimeType} method channel not found");
-    return await _channel.invokeMethod(
-        methodChannel , model.toMap());
+    var methodChannel = _shareModelMethodMapper[model.runtimeType];
+    if (methodChannel == null)
+      throw ArgumentError.value(
+          "${model.runtimeType} method channel not found");
+    return await _channel.invokeMethod(methodChannel, model.toMap());
   } else {
     return Future.error("no method mapper found[${model.runtimeType}]");
   }
@@ -106,7 +106,8 @@ Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
-Future<bool> sendWeChatAuth({required String scope, String state="state"}) async {
+Future<bool> sendWeChatAuth(
+    {required String scope, String state = "state"}) async {
   assert(scope.trim().isNotEmpty);
   return await _channel
       .invokeMethod("sendAuth", {"scope": scope, "state": state});
@@ -251,7 +252,7 @@ Future _methodHandler(MethodCall methodCall) {
 
 ///IOS only
 Future<bool> authWeChatByPhoneLogin(
-    {required String scope, String state="state"}) async {
+    {required String scope, String state = "state"}) async {
   return await _channel
       .invokeMethod("authByPhoneLogin", {"scope": scope, "state": state});
 }

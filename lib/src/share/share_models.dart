@@ -53,7 +53,7 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
       this.messageExt,
       String? description,
       String? title})
-      :this.title = title ?? source,
+      : this.title = title ?? source,
         this.description = description ?? source;
 
   @override
@@ -102,8 +102,7 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       this.messageAction,
       this.messageExt,
       this.compressThumbnail = true})
-      :
-        assert(webPageUrl.isNotEmpty),
+      : assert(webPageUrl.isNotEmpty),
         assert(userName.isNotEmpty),
         assert(path.isNotEmpty);
 
@@ -149,7 +148,7 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
       this.messageAction,
       this.messageExt,
       this.compressThumbnail = true})
-      :this.thumbnail = thumbnail ?? source;
+      : this.thumbnail = thumbnail ?? source;
 
   @override
   Map toMap() {

@@ -55,12 +55,11 @@ class BaseWeChatResponse {
   /// create response from response pool
   factory BaseWeChatResponse.create(String name, Map argument) {
     var result = _nameAndResponseMapper[name];
-    if(result == null){
-     throw ArgumentError("Can't found instance of $name");
+    if (result == null) {
+      throw ArgumentError("Can't found instance of $name");
     }
     return result(argument);
   }
-
 }
 
 class WeChatShareResponse extends BaseWeChatResponse {

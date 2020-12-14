@@ -212,5 +212,10 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             [_delegate managerDidRecvLaunchFromWXReq:launchReq];
         }
     }
+    LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
+    NSDictionary *result = @{
+            @"extMsg": launchFromWXReq.message.messageExt
+    };
+    [fluwxMethodChannel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
 }
 @end

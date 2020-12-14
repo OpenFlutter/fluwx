@@ -10,7 +10,7 @@ class AuthByQRCodePage extends StatefulWidget {
 
 class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
   String _status = "status";
-  Uint8List _image;
+  Uint8List? _image;
 
   @override
   void initState() {
@@ -64,7 +64,7 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
     if (_image == null) {
       return Container();
     } else {
-      return Image.memory(_image);
+      return Image.memory(_image!);
     }
   }
 }

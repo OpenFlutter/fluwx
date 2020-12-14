@@ -7,7 +7,7 @@ class SendAuthPage extends StatefulWidget {
 }
 
 class _SendAuthPageState extends State<SendAuthPage> {
-  String _result = "无";
+  String? _result = "无";
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
             child: const Text("send auth"),
           ),
           const Text("响应结果;"),
-          Text(_result)
+          Text("$_result")
         ],
       ),
     );

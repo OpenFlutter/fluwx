@@ -68,7 +68,10 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.SESSION,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v){
+                          if(v!=null)
+                            handleRadioValueChanged(v);
+                        }),
                     const Text("会话")
                   ],
                 ),
@@ -77,7 +80,10 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.TIMELINE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v){
+                          if(v!=null)
+                            handleRadioValueChanged(v);
+                        }),
                     const Text("朋友圈")
                   ],
                 ),
@@ -86,7 +92,10 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.FAVORITE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v){
+                          if(v!=null)
+                            handleRadioValueChanged(v);
+                        }),
                     const Text("收藏")
                   ],
                 )

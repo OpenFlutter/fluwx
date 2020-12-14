@@ -1,3 +1,6 @@
+## 3.0.0-nullsafety.1
+* Support nullsafety
+
 ## 2.5.0
 * App获取开放标签<wx-open-launch-app>中的extinfo数据
 

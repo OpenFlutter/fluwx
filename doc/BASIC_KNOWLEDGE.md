@@ -5,11 +5,11 @@ Actually, almost every result from functions like `shareToWeChat` or `payWithWeC
 So if you want get the real result you shall do like this:
 
 ```dart
-  weChatResponseEventHandler.listen((res) {
-      if (res is WeChatPaymentResponse) {
-          // do something here
-      }
-    });
+  fluwx.weChatResponseEventHandler.listen((res) {
+    if (res is fluwx.WeChatPaymentResponse) {
+      // do something here
+    }
+  });
 ```
 Take a look at subclasses of `BaseWeChatResponse` for help.
 

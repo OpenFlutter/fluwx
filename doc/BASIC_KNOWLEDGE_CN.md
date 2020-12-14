@@ -6,11 +6,11 @@
 为了获取真实的回调，你应该这样做：
 
 ```dart
-  weChatResponseEventHandler.listen((res) {
-      if (res is WeChatPaymentResponse) {
-          // do something here
-      }
-    });
+  fluwx.weChatResponseEventHandler.listen((res) {
+    if (res is fluwx.WeChatPaymentResponse) {
+      // do something here
+    }
+  });
 ```
 
 > 笔记: 如果你的 `errCode = -1`, 那请阅读微信官方文档，因为-1的原因数不胜数.

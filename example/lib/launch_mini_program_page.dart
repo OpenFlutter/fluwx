@@ -7,7 +7,7 @@ class LaunchMiniProgramPage extends StatefulWidget {
 }
 
 class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
-  String _result = "无";
+  String? _result = "无";
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
             child: const Text("Launch MiniProgrom"),
           ),
           const Text("响应结果;"),
-          Text(_result)
+          Text("$_result")
         ],
       ),
     );

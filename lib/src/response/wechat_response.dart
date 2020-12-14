@@ -53,8 +53,14 @@ class BaseWeChatResponse {
   BaseWeChatResponse._(this.errCode, this.errStr);
 
   /// create response from response pool
-  factory BaseWeChatResponse.create(String name, Map argument) =>
-      _nameAndResponseMapper[name](argument);
+  factory BaseWeChatResponse.create(String name, Map argument) {
+    var result = _nameAndResponseMapper[name];
+    if(result == null){
+     throw ArgumentError("Can't found instance of $name");
+    }
+    return result(argument);
+  }
+
 }
 
 class WeChatShareResponse extends BaseWeChatResponse {
@@ -67,10 +73,10 @@ class WeChatShareResponse extends BaseWeChatResponse {
 
 class WeChatAuthResponse extends BaseWeChatResponse {
   final int type;
-  final String country;
-  final String lang;
-  final String code;
-  final String state;
+  final String? country;
+  final String? lang;
+  final String? code;
+  final String? state;
 
   WeChatAuthResponse.fromMap(Map map)
       : type = map["type"],
@@ -101,8 +107,8 @@ class WeChatAuthResponse extends BaseWeChatResponse {
 }
 
 class WeChatLaunchMiniProgramResponse extends BaseWeChatResponse {
-  final int type;
-  final String extMsg;
+  final int? type;
+  final String? extMsg;
 
   WeChatLaunchMiniProgramResponse.fromMap(Map map)
       : type = map["type"],
@@ -121,10 +127,10 @@ class WeChatPaymentResponse extends BaseWeChatResponse {
 }
 
 class WeChatSubscribeMsgResponse extends BaseWeChatResponse {
-  final String openid;
-  final String templateId;
-  final String action;
-  final String reserved;
+  final String? openid;
+  final String? templateId;
+  final String? action;
+  final String? reserved;
   final int scene;
 
   WeChatSubscribeMsgResponse.fromMap(Map map)
@@ -137,9 +143,9 @@ class WeChatSubscribeMsgResponse extends BaseWeChatResponse {
 }
 
 class WeChatOpenBusinessWebviewResponse extends BaseWeChatResponse {
-  final int type;
+  final int? type;
   final int errCode;
-  final int businessType;
+  final int? businessType;
   final String resultInfo;
 
   WeChatOpenBusinessWebviewResponse.fromMap(Map map)
@@ -151,8 +157,8 @@ class WeChatOpenBusinessWebviewResponse extends BaseWeChatResponse {
 }
 
 class WeChatAuthByQRCodeFinishedResponse extends BaseWeChatResponse {
-  final String authCode;
-  final AuthByQRCodeErrorCode qrCodeErrorCode;
+  final String? authCode;
+  final AuthByQRCodeErrorCode? qrCodeErrorCode;
 
   WeChatAuthByQRCodeFinishedResponse.fromMap(Map map)
       : authCode = map["authCode"],
@@ -177,7 +183,7 @@ class WeChatQRCodeScannedResponse extends BaseWeChatResponse {
 
 // 获取微信打开App时携带的参数
 class WeChatShowMessageFromWXRequest extends BaseWeChatResponse {
-  final String extMsg;
+  final String? extMsg;
 
   WeChatShowMessageFromWXRequest.fromMap(Map map)
       : extMsg = map["extMsg"],

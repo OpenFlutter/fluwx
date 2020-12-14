@@ -14,8 +14,8 @@ class _ShareImagePageState extends State<ShareImagePage> {
 
   String _response = "";
 
-  WeChatImage source;
-  WeChatImage thumbnail;
+  WeChatImage? source;
+  WeChatImage? thumbnail;
 
   @override
   void initState() {
@@ -72,7 +72,10 @@ class _ShareImagePageState extends State<ShareImagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.SESSION,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v){
+                          if(v!=null)
+                            handleRadioValueChanged(v);
+                        }),
                     const Text("会话")
                   ],
                 ),
@@ -81,7 +84,10 @@ class _ShareImagePageState extends State<ShareImagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.TIMELINE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v){
+                          if(v!=null)
+                            handleRadioValueChanged(v);
+                        }),
                     const Text("朋友圈")
                   ],
                 ),
@@ -90,7 +96,10 @@ class _ShareImagePageState extends State<ShareImagePage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.FAVORITE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v){
+                          if(v!=null)
+                            handleRadioValueChanged(v);
+                        }),
                     const Text("收藏")
                   ],
                 )
@@ -104,7 +113,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
   }
 
   void _shareImage() {
-    shareToWeChat(WeChatShareImageModel(source, thumbnail: thumbnail));
+    shareToWeChat(WeChatShareImageModel(source!, thumbnail: thumbnail));
   }
 
   void handleRadioValueChanged(WeChatScene scene) {

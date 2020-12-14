@@ -83,8 +83,8 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   }
 
   Widget _buildTextField({
-    String title,
-    TextEditingController textEditController,
+    String? title,
+    TextEditingController? textEditController,
   }) {
     return TextField(
       decoration: InputDecoration(

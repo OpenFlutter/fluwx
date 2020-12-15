@@ -1,3 +1,6 @@
+## 3.0.0-nullsafety.2
+* Fix trailing , issue
+
 ## 3.0.0-nullsafety.1
 * Support nullsafety
 

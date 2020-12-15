@@ -1,3 +1,6 @@
+## 2.5.0+1
+* Fix trailing , issue.
+
 ## 2.5.0
 * App获取开放标签<wx-open-launch-app>中的extinfo数据
 

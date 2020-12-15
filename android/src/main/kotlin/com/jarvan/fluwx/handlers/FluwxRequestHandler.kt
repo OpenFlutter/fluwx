@@ -33,7 +33,7 @@ object FluwxRequestHandler {
 
     private  fun hanleWXShowMessageFromWX(req: ShowMessageFromWX.Req) {
         val result = mapOf(
-                "extMsg" to req.message.messageExt, )
+                "extMsg" to req.message.messageExt)
         channel?.invokeMethod("onWXShowMessageFromWX", result)
     }
 }

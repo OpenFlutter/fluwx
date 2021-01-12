@@ -19,9 +19,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.jarvan.fluwx.handlers.FluwxResponseHandler
+import com.jarvan.fluwx.handlers.FluwxRequestHandler
 import com.jarvan.fluwx.handlers.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
+import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 
 
@@ -61,6 +63,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
         if (baseReq.type == 4) {
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
+            FluwxRequestHandler.handleRequest(baseReq)
             startSpecifiedActivity()
         }
     }

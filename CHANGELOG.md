@@ -1,3 +1,7 @@
+## 3.1.0-nullsafety.1
+* Android支持通过H5冷启动app传递<wx-open-launch-app>中的extinfo数据
+* Android新加<meta-data>handleWeChatRequestByFluwx</meta-data>。
+
 ## 3.0.0-nullsafety.2
 * Fix trailing , issue
 

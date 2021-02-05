@@ -30,6 +30,18 @@ object WXAPiHandler {
 
     private var context: Context? = null
 
+    private var registered: Boolean = false
+
+    val wxApiRegistered get() = registered
+
+    fun setupWxApi(appId: String, context: Context, force: Boolean = true): Boolean {
+        if (force || !registered) {
+            setContext(context)
+            registerWxAPIInternal(appId, context)
+        }
+        return registered
+    }
+
     fun setContext(context: Context?) {
         WXAPiHandler.context = context
     }
@@ -51,9 +63,9 @@ object WXAPiHandler {
             return
         }
 
-        val api = WXAPIFactory.createWXAPI(context?.applicationContext, appId)
-        val registered = api.registerApp(appId)
-        wxApi = api
+        context?.let {
+            registerWxAPIInternal(appId, it)
+        }
         result.success(registered)
     }
 
@@ -64,6 +76,11 @@ object WXAPiHandler {
         } else {
             result.success(wxApi?.isWXAppInstalled)
         }
+    }
 
+    private fun registerWxAPIInternal(appId: String, context: Context) {
+        val api = WXAPIFactory.createWXAPI(context.applicationContext, appId)
+        registered = api.registerApp(appId)
+        wxApi = api
     }
 }

@@ -1,3 +1,7 @@
+## 2.6.0
+* Android支持通过H5冷启动app传递<wx-open-launch-app>中的extinfo数据
+* Android新加<meta-data>handleWeChatRequestByFluwx</meta-data>。
+
 ## 2.5.0+1
 * Fix trailing , issue.
 

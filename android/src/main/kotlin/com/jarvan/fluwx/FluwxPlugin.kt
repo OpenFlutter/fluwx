@@ -16,7 +16,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 
 /** FluwxPlugin */
-public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     companion object {
         @JvmStatic
@@ -39,12 +39,18 @@ public class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     private var authHandler: FluwxAuthHandler? = null
 
+    private var fluwxChannel: MethodChannel? = null
+
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
-        channel.setMethodCallHandler(this)
-        FluwxResponseHandler.setMethodChannel(channel)
-        FluwxRequestHandler.setMethodChannel(channel)
-        authHandler = FluwxAuthHandler(channel)
+        if (fluwxChannel == null) {
+            fluwxChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
+            fluwxChannel?.setMethodCallHandler(this)
+        }
+        fluwxChannel?.let {
+            FluwxResponseHandler.setMethodChannel(it)
+            FluwxRequestHandler.setMethodChannel(it)
+            authHandler = FluwxAuthHandler(it)
+        }
         shareHandler = FluwxShareHandlerEmbedding(flutterPluginBinding.flutterAssets, flutterPluginBinding.applicationContext)
     }
 

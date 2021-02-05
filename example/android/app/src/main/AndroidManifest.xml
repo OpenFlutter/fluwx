@@ -25,7 +25,7 @@
             </intent-filter>
             <meta-data
                 android:name="handleWeChatRequestByFluwx"
-                android:value="false" />
+                android:value="true" />
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

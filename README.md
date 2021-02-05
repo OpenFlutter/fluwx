@@ -21,6 +21,7 @@
 - Launch mini program in WeChat.
 - Subscribe Message.
 - Just open WeChat app.
+- Launch app From wechat link.
 
 ## Preparation
 
@@ -72,6 +73,7 @@ And you have to understand the difference between debug signature and release si
 - [Share](./doc/SHARE.md)
 - [Payment](./doc/PAYMENT.md)
 - [Auth](./doc/AUTH.md)
+- [Launch app from h5](./doc/LAUNCH_APP_FROM_H5.md)
 
 For more capabilities, you can read the public functions of `fluwx`.
 

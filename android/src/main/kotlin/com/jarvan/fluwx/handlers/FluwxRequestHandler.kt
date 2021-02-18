@@ -57,7 +57,7 @@ object FluwxRequestHandler {
 
     private fun handleWXShowMessageFromWX(req: ShowMessageFromWX.Req) {
         val result = mapOf(
-                "extMsg" to req.message.messageExt,
+                "extMsg" to req.message.messageExt
         )
         channel?.invokeMethod("onWXShowMessageFromWX", result)
     }

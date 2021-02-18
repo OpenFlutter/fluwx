@@ -1,3 +1,6 @@
+## 3.2.0-nullsafety.2
+* remove trailing
+
 ## 3.2.0-nullsafety.1
 * Nothing
 

@@ -1,4 +1,7 @@
 ## 3.1.0-nullsafety.3
+* Fix #338
+
+## 3.1.0-nullsafety.3
 * Nothing
 
 ## 3.1.0-nullsafety.2

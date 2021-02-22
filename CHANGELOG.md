@@ -1,3 +1,6 @@
+## 3.2.1-nullsafety.1
+* Fix #338
+
 ## 3.2.0-nullsafety.2
 * remove trailing
 

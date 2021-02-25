@@ -79,7 +79,7 @@ For more capabilities, you can read the public functions of `fluwx`.
 
 ## QA
 
-[These questions maybe help](./doc/QA.md)
+[These questions maybe help](./doc/QA_CN.md)
 
 ## Donate
 Buy the writer a cup of coffee。

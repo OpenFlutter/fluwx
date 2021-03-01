@@ -1,3 +1,6 @@
+## 3.2.2-nullsafety.1
+* Fix #338 on Android
+
 ## 3.2.1-nullsafety.1
 * Fix #338
 

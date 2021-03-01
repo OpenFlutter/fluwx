@@ -19,14 +19,16 @@ import io.flutter.plugin.common.PluginRegistry
 class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     companion object {
+
+        var callingChannel:MethodChannel? = null
+
         @JvmStatic
         fun registerWith(registrar: PluginRegistry.Registrar) {
             val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
             val authHandler = FluwxAuthHandler(channel)
-            FluwxResponseHandler.setMethodChannel(channel)
-            FluwxRequestHandler.setMethodChannel(channel)
             WXAPiHandler.setContext(registrar.activity().applicationContext)
             channel.setMethodCallHandler(FluwxPlugin().apply {
+                this.fluwxChannel = channel
                 this.authHandler = authHandler
                 this.shareHandler = FluwxShareHandlerCompat(registrar).apply {
                     permissionHandler = PermissionHandler(registrar.activity())
@@ -42,19 +44,15 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private var fluwxChannel: MethodChannel? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        if (fluwxChannel == null) {
-            fluwxChannel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
-            fluwxChannel?.setMethodCallHandler(this)
-        }
-        fluwxChannel?.let {
-            FluwxResponseHandler.setMethodChannel(it)
-            FluwxRequestHandler.setMethodChannel(it)
-            authHandler = FluwxAuthHandler(it)
-        }
+        val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
+        channel.setMethodCallHandler(this)
+        fluwxChannel = channel
+        authHandler = FluwxAuthHandler(channel)
         shareHandler = FluwxShareHandlerEmbedding(flutterPluginBinding.flutterAssets, flutterPluginBinding.applicationContext)
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+        FluwxPlugin.callingChannel = fluwxChannel
         when {
             call.method == "registerApp" -> WXAPiHandler.registerApp(call, result)
             call.method == "sendAuth" -> authHandler?.sendAuth(call, result)

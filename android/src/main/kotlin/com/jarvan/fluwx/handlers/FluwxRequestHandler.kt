@@ -21,6 +21,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import com.jarvan.fluwx.FluwxPlugin
 import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import io.flutter.plugin.common.MethodChannel
 import com.tencent.mm.opensdk.modelbase.BaseReq
@@ -30,13 +31,6 @@ object FluwxRequestHandler {
     private const val KEY_FLUWX_REQUEST_INFO_BUNDLE = "KEY_FLUWX_REQUEST_INFO_BUNDLE"
 
     var customOnReqDelegate: ((baseReq: BaseReq, activity: Activity) -> Unit)? = null
-
-    private var channel: MethodChannel? = null
-
-    fun setMethodChannel(channel: MethodChannel) {
-        FluwxRequestHandler.channel = channel
-    }
-
 
     fun handleRequestInfoFromIntent(intent: Intent) {
         intent.getBundleExtra(KEY_FLUWX_REQUEST_INFO_BUNDLE)?.run {
@@ -59,7 +53,7 @@ object FluwxRequestHandler {
         val result = mapOf(
                 "extMsg" to req.message.messageExt,
         )
-        channel?.invokeMethod("onWXShowMessageFromWX", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onWXShowMessageFromWX", result)
     }
 
     private fun defaultOnReqDelegate(baseReq: BaseReq, activity: Activity) {

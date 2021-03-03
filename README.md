@@ -3,7 +3,7 @@
 [![Build status](https://img.shields.io/cirrus/github/OpenFlutter/fluwx/master)](https://cirrus-ci.com/github/OpenFlutter/fluwx)
 ======
 
-![logo](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/fluwx_logo.png)
+![logo](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/fluwx_logo.png)
 
 [中文请移步此处](./README_CN.md)
 
@@ -84,10 +84,10 @@ For more capabilities, you can read the public functions of `fluwx`.
 ## Donate
 Buy the writer a cup of coffee。
 
-<img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/wx.jpeg" height="300">  <img src="https://github.com/JarvanMo/ImagesStore/blob/master/common/ali.jpeg" height="300">
+<img src="https://gitee.com/OpenFlutter/resoures-repository/blob/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/blob/master/common/ali.jpeg" height="300">
 
 ## Subscribe Us On WeChat
-![subscribe](https://github.com/JarvanMo/ImagesStore/blob/master/fluwx/wx_subscription.png)
+![subscribe](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/wx_subscription.png)
 
 ## LICENSE
 

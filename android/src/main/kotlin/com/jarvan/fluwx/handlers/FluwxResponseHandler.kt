@@ -15,6 +15,7 @@
  */
 package com.jarvan.fluwx.handlers
 
+import com.jarvan.fluwx.FluwxPlugin
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
@@ -25,16 +26,11 @@ import com.tencent.mm.opensdk.modelpay.PayResp
 import io.flutter.plugin.common.MethodChannel
 
 object FluwxResponseHandler {
-    private var channel: MethodChannel? = null
 
     private const val errStr = "errStr"
     private const val errCode = "errCode"
     private const val openId = "openId"
     private const val type = "type"
-
-    fun setMethodChannel(channel: MethodChannel) {
-        FluwxResponseHandler.channel = channel
-    }
 
     fun handleResponse(response: BaseResp) {
         when (response) {
@@ -56,7 +52,7 @@ object FluwxResponseHandler {
                 "scene" to response.scene,
                 type to response.type)
 
-        channel?.invokeMethod("onSubscribeMsgResp", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onSubscribeMsgResp", result)
     }
 
     private fun handleLaunchMiniProgramResponse(response: WXLaunchMiniProgram.Resp) {
@@ -71,7 +67,7 @@ object FluwxResponseHandler {
             result["extMsg"] = response.extMsg
         }
 
-        channel?.invokeMethod("onLaunchMiniProgramResponse", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onLaunchMiniProgramResponse", result)
     }
 
     private fun handlePayResp(response: PayResp) {
@@ -83,7 +79,7 @@ object FluwxResponseHandler {
                 type to response.type,
                 errCode to response.errCode
         )
-        channel?.invokeMethod("onPayResponse", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onPayResponse", result)
     }
 
     private fun handleSendMessageResp(response: SendMessageToWX.Resp) {
@@ -93,7 +89,7 @@ object FluwxResponseHandler {
                 errCode to response.errCode,
                 openId to response.openId)
 
-        channel?.invokeMethod("onShareResponse", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onShareResponse", result)
     }
 
     private fun handleAuthResponse(response: SendAuth.Resp) {
@@ -108,7 +104,7 @@ object FluwxResponseHandler {
                 "url" to response.url,
                 type to response.type)
 
-        channel?.invokeMethod("onAuthResponse", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onAuthResponse", result)
     }
 
 
@@ -121,6 +117,6 @@ object FluwxResponseHandler {
                 openId to response.openId,
                 type to response.type)
 
-        channel?.invokeMethod("onWXOpenBusinessWebviewResponse", result)
+        FluwxPlugin.callingChannel?.invokeMethod("onWXOpenBusinessWebviewResponse", result)
     }
 }

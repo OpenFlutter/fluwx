@@ -69,8 +69,7 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
               decoration: InputDecoration(labelText: "description"),
             ),
             new TextField(
-              controller:
-                  TextEditingController(text: "images/logo.png"),
+              controller: TextEditingController(text: "images/logo.png"),
               onChanged: (str) {
                 _thumnail = str;
               },
@@ -84,7 +83,9 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.SESSION,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v) {
+                          if (v != null) handleRadioValueChanged(v);
+                        }),
                     const Text("会话")
                   ],
                 ),
@@ -93,7 +94,9 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.TIMELINE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v) {
+                          if (v != null) handleRadioValueChanged(v);
+                        }),
                     const Text("朋友圈")
                   ],
                 ),
@@ -102,7 +105,9 @@ class _ShareMusicPageState extends State<ShareVideoPage> {
                     new Radio<WeChatScene>(
                         value: WeChatScene.FAVORITE,
                         groupValue: scene,
-                        onChanged: handleRadioValueChanged),
+                        onChanged: (v) {
+                          if (v != null) handleRadioValueChanged(v);
+                        }),
                     const Text("收藏")
                   ],
                 )

@@ -1,3 +1,7 @@
+## 3.3.0
+* Null-safety support
+* Fix #350
+
 ## 2.6.2
 * Fix #338 on Android
 

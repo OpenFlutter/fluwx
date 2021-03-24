@@ -68,7 +68,7 @@ class WeChatFile {
         this.suffix = suffix;
 
   Map toMap() =>
-      {"source": source, "schema": schema.index, "suffix": suffix ?? ""};
+      {"source": source, "schema": schema.index, "suffix": suffix};
 }
 
 ///Types of image, usually there are for types listed below.

@@ -1,3 +1,7 @@
+# 3.2.0
+* Null-safety
+* Fix #350
+
 ## 3.1.2-nullsafety.1
 * Fix #338
 

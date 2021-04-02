@@ -46,7 +46,7 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
 
 class BaseWeChatResponse {
   final int errCode;
-  final String errStr;
+  final String? errStr;
 
   bool get isSuccessful => errCode == 0;
 

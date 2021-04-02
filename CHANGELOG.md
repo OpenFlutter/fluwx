@@ -1,3 +1,6 @@
+## 3.3.1
+* Fix #354
+
 ## 3.3.0
 * Null-safety support
 * Fix #350

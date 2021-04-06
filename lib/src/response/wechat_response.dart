@@ -117,7 +117,7 @@ class WeChatLaunchMiniProgramResponse extends BaseWeChatResponse {
 
 class WeChatPaymentResponse extends BaseWeChatResponse {
   final int type;
-  final String extData;
+  final String? extData;
 
   WeChatPaymentResponse.fromMap(Map map)
       : type = map["type"],
@@ -168,7 +168,7 @@ class WeChatAuthByQRCodeFinishedResponse extends BaseWeChatResponse {
 
 ///[qrCode] in memory.
 class WeChatAuthGotQRCodeResponse extends BaseWeChatResponse {
-  final Uint8List qrCode;
+  final Uint8List? qrCode;
 
   WeChatAuthGotQRCodeResponse.fromMap(Map map)
       : qrCode = map["qrCode"],

@@ -21,6 +21,8 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     companion object {
 
         var callingChannel:MethodChannel? = null
+        // 主动获取的启动参数
+        var extMsg:String? = null
 
         @JvmStatic
         fun registerWith(registrar: PluginRegistry.Registrar) {
@@ -66,6 +68,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             call.method == "openWXApp" -> openWXApp(result)
             call.method.startsWith("share") -> shareHandler?.share(call, result)
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
+            call.method == "getExtMsg" -> getExtMsg(result)
             else -> result.notImplemented()
         }
     }
@@ -91,6 +94,10 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onDetachedFromActivityForConfigChanges() {
     }
 
+
+    private fun getExtMsg(result: MethodChannel.Result) {
+        result.success(extMsg)
+    }
 
     private fun pay(call: MethodCall, result: MethodChannel.Result) {
 

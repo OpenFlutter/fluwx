@@ -53,6 +53,7 @@ object FluwxRequestHandler {
         val result = mapOf(
                 "extMsg" to req.message.messageExt
         )
+        FluwxPlugin.extMsg = req.message.messageExt;
         FluwxPlugin.callingChannel?.invokeMethod("onWXShowMessageFromWX", result)
     }
 

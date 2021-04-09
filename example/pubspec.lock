@@ -73,7 +73,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "2.4.2"
+    version: "2.6.3"
   matcher:
     dependency: transitive
     description:

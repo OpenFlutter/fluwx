@@ -78,6 +78,15 @@ class ShareSelectorPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: new OutlineButton(
+                onPressed: () async {
+                  String extMsg = await getExtMsg();
+                  print("extMsg:$extMsg\n");
+                },
+                child: const Text("Get ExtMessage")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: new OutlineButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed("shareText");
                 },

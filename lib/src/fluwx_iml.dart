@@ -80,6 +80,11 @@ Future<bool> registerWxApi(
   });
 }
 
+// get ext Message
+Future<String> getExtMsg() async {
+  return await _channel.invokeMethod("getExtMsg");
+}
+
 ///Share your requests to WeChat.
 ///This depends on the actual type of [model].
 ///see [_shareModelMethodMapper] for detail.

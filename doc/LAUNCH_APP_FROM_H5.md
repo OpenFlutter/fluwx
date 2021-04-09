@@ -34,4 +34,16 @@ If you want to custom your request logic, you need add the `<meta-data>` in appl
 ```
 And then, set `FluwxRequestHandler.customOnReqDelegate` on your own.
 
+
+## on Android 11
+Please add the following queries in your app's `AndroidManifest.xml`:
+
+```xml
+<queries>
+    <intent>
+        <action android:name="${applicationId}.FlutterActivity" />
+    </intent>
+</queries>
+```
+
 > For details, please read the example.

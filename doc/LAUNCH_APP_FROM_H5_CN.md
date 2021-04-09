@@ -35,4 +35,15 @@ Fluwx 支持从`<wx-open-launch-app>`启动你的app, 并且支持传递`extInfo
 ```
 然后, 自己实现 `FluwxRequestHandler.customOnReqDelegate`.
 
+## 兼容Android 11
+请在你的应用的`AndroidManifest.xml`中添加以下queries:
+
+```xml
+<queries>
+    <intent>
+        <action android:name="${applicationId}.FlutterActivity" />
+    </intent>
+</queries>
+```
+
 > 更多信息请参考example.

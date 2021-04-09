@@ -10,6 +10,10 @@
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="fluwx_example">
+
+        <meta-data
+            android:name="weChatAppId"
+            android:value="12345678" />
         
         <meta-data
                 android:name="handleWeChatRequestByFluwx"

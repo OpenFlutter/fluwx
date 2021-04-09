@@ -34,6 +34,14 @@ object WXAPiHandler {
 
     val wxApiRegistered get() = registered
 
+    //是否为冷启动
+    private var coolBoot: Boolean = false
+    val isCoolBoot get() = coolBoot
+
+    fun setCoolBool(isCoolBoot : Boolean) {
+        coolBoot = isCoolBoot
+    }
+
     fun setupWxApi(appId: String, context: Context, force: Boolean = true): Boolean {
         if (force || !registered) {
             setContext(context)

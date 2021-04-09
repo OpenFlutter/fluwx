@@ -61,7 +61,7 @@ object FluwxRequestHandler {
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
         if (baseReq.type == 4) {
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
-            if (WXAPiHandler.wxApiRegistered) {
+            if (!WXAPiHandler.isCoolBoot) {
                 handleRequest(baseReq)
                 startSpecifiedActivity(defaultFlutterActivityAction(activity), activity = activity)
             } else {
@@ -74,8 +74,9 @@ object FluwxRequestHandler {
 
     fun onReq(baseReq: BaseReq, activity: Activity) {
         try {
-            val activityInfo = activity.packageManager.getActivityInfo(activity.componentName, PackageManager.GET_META_DATA)
-            val defaultHandle = activityInfo.metaData.getBoolean("handleWeChatRequestByFluwx", true)
+            val packageManager = activity.packageManager
+            var appInfo = packageManager.getApplicationInfo(activity.packageName,PackageManager.GET_META_DATA)
+            val defaultHandle = appInfo.metaData.getBoolean("handleWeChatRequestByFluwx", true)
             if (defaultHandle) {
                 defaultOnReqDelegate(baseReq, activity)
             } else {
@@ -101,5 +102,5 @@ object FluwxRequestHandler {
         }
     }
 
-    private fun defaultFlutterActivityAction(context: Context): String = "$context.packageName.FlutterActivity"
+    private fun defaultFlutterActivityAction(context: Context): String = "${context.packageName}.FlutterActivity"
 }

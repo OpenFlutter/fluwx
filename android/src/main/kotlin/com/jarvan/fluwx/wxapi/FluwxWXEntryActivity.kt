@@ -17,6 +17,7 @@ package com.jarvan.fluwx.wxapi
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.jarvan.fluwx.handlers.FluwxResponseHandler
 import com.jarvan.fluwx.handlers.FluwxRequestHandler
@@ -24,6 +25,7 @@ import com.jarvan.fluwx.handlers.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
+import io.flutter.Log
 
 
 open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
@@ -34,6 +36,17 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         super.onCreate(savedInstanceState)
 
         try {
+            if (!WXAPiHandler.wxApiRegistered) {
+                var appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+                val wechatAppId = appInfo.metaData.getString("weChatAppId")
+                if (wechatAppId != null ){
+                    WXAPiHandler.setupWxApi(wechatAppId,this)
+                    WXAPiHandler.setCoolBool(true)
+                    Log.d("fluwx","weChatAppId:" + wechatAppId)
+                }else {
+                    Log.e("fluwx","can't load meta-data weChatAppId")
+                }
+            }
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()

@@ -17,6 +17,7 @@ package com.jarvan.fluwx.wxapi
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.jarvan.fluwx.handlers.FluwxResponseHandler
 import com.jarvan.fluwx.handlers.FluwxRequestHandler
@@ -24,6 +25,7 @@ import com.jarvan.fluwx.handlers.WXAPiHandler
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
+import io.flutter.Log
 
 
 open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {

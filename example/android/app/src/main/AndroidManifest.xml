@@ -12,6 +12,10 @@
         android:label="fluwx_example">
 
         <meta-data
+            android:name="weChatAppId"
+            android:value="12345678" />
+        
+        <meta-data
                 android:name="handleWeChatRequestByFluwx"
                 android:value="true" />
                 

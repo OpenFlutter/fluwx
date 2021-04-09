@@ -178,3 +178,9 @@ _wxlogin = fluwx.responseFromAuth.listen((val) {})
 ### android代码混淆
 
 请手动给 lib 里的 package 添加混淆规则，具体参考微信文档。
+
+### 参考文章
+
+[iOS-微信SDK更新后需要UniversalLink解决方案](https://juejin.cn/post/6844904051042156551)
+[flutter使用fluwx调通微信支付](https://www.jianshu.com/p/caf5b32c4772)
+[Flutter ios 使用fluwx配置微信分享](https://www.jianshu.com/p/3d8b2d65e57a)

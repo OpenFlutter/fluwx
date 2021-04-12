@@ -6,6 +6,14 @@ For Android side, you need add the following action for your FlutterActivity in 
        <action android:name="${applicationId}.FlutterActivity" />
        <category android:name="android.intent.category.DEFAULT" />
    </intent-filter>
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <data
+        android:host="${applicationId}"
+        android:path="/"
+        android:scheme="wechatextmsg" />
+</intent-filter>
 ```
 
 At the same time, you also need to add `<meta-data>` in application which used to store your WeChat AppId:
@@ -45,5 +53,15 @@ Please add the following queries in your app's `AndroidManifest.xml`:
     </intent>
 </queries>
 ```
+## IOS
+Please register your WXApi in your `AppDelegate`:
+```oc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //向微信注册
+    [WXApi registerApp:APP_ID
+universalLink:UNIVERSAL_LINK];
+    return YES;
+}
+```
 
-> For details, please read the example.
+> If you want to get ext from website, please call ``fluwx.getExtMsg()`。`For details, please read the example.

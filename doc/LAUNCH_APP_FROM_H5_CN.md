@@ -2,9 +2,17 @@
 Fluwx 支持从`<wx-open-launch-app>`启动你的app, 并且支持传递`extInfo`给你的app.
 对于Android来说,你要在`AndroidManifest.xml`中给你的`Activity`加上一个标签:
 ```
+   <intent-filter>
+       <action android:name="${applicationId}.FlutterActivity" />
+       <category android:name="android.intent.category.DEFAULT" />
+   </intent-filter>
 <intent-filter>
-    <action android:name="${applicationId}.FlutterActivity" />
+    <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
+    <data
+        android:host="${applicationId}"
+        android:path="/"
+        android:scheme="wechatextmsg" />
 </intent-filter>
 ```
 
@@ -46,4 +54,16 @@ Fluwx 支持从`<wx-open-launch-app>`启动你的app, 并且支持传递`extInfo
 </queries>
 ```
 
-> 更多信息请参考example.
+## IOS
+请在你的`AppDelegate`中主动注册`WXApi`
+```oc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //向微信注册
+    [WXApi registerApp:APP_ID
+universalLink:UNIVERSAL_LINK];
+    return YES;
+}
+```
+
+> 如你想主动获取从网页传进来的值 ，请主动调用`fluwx.getExtMsg()`。更多信息请参考example.
+

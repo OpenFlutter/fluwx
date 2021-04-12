@@ -50,7 +50,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
     private fun handelIntent(intent:Intent?){
         val action = intent?.action
         val dataString = intent?.dataString
-        if (Intent.ACTION_VIEW.equals(action)) {
+        if (Intent.ACTION_VIEW == action) {
             extMsg = dataString
         }
     }

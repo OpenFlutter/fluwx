@@ -10,7 +10,7 @@
             <action android:name="${applicationId}.FlutterActivity" />
         </intent>
     </queries>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:icon="@mipmap/ic_launcher"
@@ -21,8 +21,8 @@
             android:value="12345678" />
 
         <meta-data
-                android:name="handleWeChatRequestByFluwx"
-                android:value="true" />
+            android:name="handleWeChatRequestByFluwx"
+            android:value="true" />
 
         <activity
             android:name=".MainActivity"
@@ -38,6 +38,14 @@
             <intent-filter>
                 <action android:name="${applicationId}.FlutterActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="${applicationId}"
+                    android:path="/"
+                    android:scheme="wechatextmsg" />
             </intent-filter>
 
         </activity>

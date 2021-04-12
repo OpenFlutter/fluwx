@@ -1,5 +1,7 @@
 package com.jarvan.fluwx
 
+import android.content.Intent
+import android.util.Log
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
@@ -16,7 +18,7 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 
 /** FluwxPlugin */
-class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegistry.NewIntentListener {
 
     companion object {
 
@@ -44,6 +46,14 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     private var authHandler: FluwxAuthHandler? = null
 
     private var fluwxChannel: MethodChannel? = null
+
+    private fun handelIntent(intent:Intent?){
+        val action = intent?.action
+        val dataString = intent?.dataString
+        if (Intent.ACTION_VIEW.equals(action)) {
+            extMsg = dataString
+        }
+    }
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
@@ -84,10 +94,12 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
+        handelIntent(binding.activity.intent)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         WXAPiHandler.setContext(binding.activity.applicationContext)
+        handelIntent(binding.activity.intent)
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
 
@@ -194,4 +206,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     }
 
     private fun openWXApp(result: MethodChannel.Result) = result.success(WXAPiHandler.wxApi?.openWXApp())
+
+    override fun onNewIntent(intent: Intent?): Boolean {
+        handelIntent(intent)
+        return false
+    }
 }

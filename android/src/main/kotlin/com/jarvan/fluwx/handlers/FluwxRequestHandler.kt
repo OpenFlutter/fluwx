@@ -19,13 +19,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import com.jarvan.fluwx.FluwxPlugin
-import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
-import io.flutter.plugin.common.MethodChannel
 import com.tencent.mm.opensdk.modelbase.BaseReq
-import java.lang.Exception
+import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
+import java.security.cert.Extension
+
 
 object FluwxRequestHandler {
     private const val KEY_FLUWX_REQUEST_INFO_BUNDLE = "KEY_FLUWX_REQUEST_INFO_BUNDLE"
@@ -53,7 +55,6 @@ object FluwxRequestHandler {
         val result = mapOf(
                 "extMsg" to req.message.messageExt
         )
-        FluwxPlugin.extMsg = req.message.messageExt;
         FluwxPlugin.callingChannel?.invokeMethod("onWXShowMessageFromWX", result)
     }
 
@@ -66,9 +67,19 @@ object FluwxRequestHandler {
                 handleRequest(baseReq)
                 startSpecifiedActivity(defaultFlutterActivityAction(activity), activity = activity)
             } else {
-                startSpecifiedActivity(defaultFlutterActivityAction(activity), bundle = Bundle().apply {
-                    baseReq.toBundle(this)
-                }, bundleKey = KEY_FLUWX_REQUEST_INFO_BUNDLE, activity = activity)
+                when (baseReq) {
+                    is ShowMessageFromWX.Req -> {
+                        try {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("wechatextmsg://${activity.packageName}/?extmsg=${baseReq.message.messageExt}"))
+                            activity.startActivity(intent)
+                            activity.finish()
+                            WXAPiHandler.setCoolBool(false)
+                        }catch (e:Exception) {
+                            Log.i("fluwx","call scheme error:${e.toString()}")
+                        }
+
+                    }
+                }
             }
         }
     }
@@ -76,7 +87,7 @@ object FluwxRequestHandler {
     fun onReq(baseReq: BaseReq, activity: Activity) {
         try {
             val packageManager = activity.packageManager
-            var appInfo = packageManager.getApplicationInfo(activity.packageName,PackageManager.GET_META_DATA)
+            var appInfo = packageManager.getApplicationInfo(activity.packageName, PackageManager.GET_META_DATA)
             val defaultHandle = appInfo.metaData.getBoolean("handleWeChatRequestByFluwx", true)
             if (defaultHandle) {
                 defaultOnReqDelegate(baseReq, activity)

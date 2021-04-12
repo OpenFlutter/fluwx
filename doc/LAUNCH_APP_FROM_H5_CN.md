@@ -51,6 +51,13 @@ Fluwx 支持从`<wx-open-launch-app>`启动你的app, 并且支持传递`extInfo
     <intent>
         <action android:name="${applicationId}.FlutterActivity" />
     </intent>
+<intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data
+        android:host="${applicationId}"
+        android:path="/"
+        android:scheme="wechatextmsg" />
+</intent>
 </queries>
 ```
 

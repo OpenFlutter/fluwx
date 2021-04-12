@@ -51,6 +51,13 @@ Please add the following queries in your app's `AndroidManifest.xml`:
     <intent>
         <action android:name="${applicationId}.FlutterActivity" />
     </intent>
+<intent>
+    <action android:name="android.intent.action.VIEW" />
+    <data
+        android:host="${applicationId}"
+        android:path="/"
+        android:scheme="wechatextmsg" />
+</intent>
 </queries>
 ```
 ## IOS

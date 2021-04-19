@@ -160,7 +160,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(businessResp.errCode),
                 type: @(businessResp.type),
-                @"resultInfo": businessResp.result,
+                @"resultInfo": [FluwxStringUtil nilToEmpty:businessResp.result],
                 @"businessType": @(businessResp.businessType),
         };
 

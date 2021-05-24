@@ -59,40 +59,6 @@ payWithWeChat(
 
 ![image-20210523133551034](https://gitee.com/inkkk0516/typora/raw/master/image-20210523133551034.png)
 
-* 在`android/app/build.gradle`中配置依赖
-
-  ```shell
-  dependencies {
-      implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
-  }
-  ```
-
-* 在安卓项目包名目录下创建微信回调页面`WXPayEntryActivity.java`
-
-  ```java
-  package cn.pokedo.app.wxapi;
-  import com.jarvan.fluwx.wxapi.FluwxWXEntryActivity;
-  
-  public class WXPayEntryActivity extends FluwxWXEntryActivity {
-  }
-  ```
-
-* 在`AndroidManifest.xml`中配置
-
-  ```xml
-  <!-- 安卓微信支付 START -->
-    <activity
-        android:name=".wxapi.WXPayEntryActivity"
-        android:exported="true"
-        android:launchMode="singleTop">
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <data android:scheme="wx84cfe5cd6c843545"/>
-        </intent-filter>
-    </activity>
-    <!-- 安卓微信支付 END -->
-  ```
 
 * 使用
 

@@ -19,7 +19,7 @@ NSString *const fluwxKeyDescription = @"description";
 NSString *const fluwxKeyPackage = @"?package=";
 
 NSString *const fluwxKeyMessageExt = @"messageExt";
-NSString *const fluwxKeyMediaTagName = @"mediaTagName ";
+NSString *const fluwxKeyMediaTagName = @"mediaTagName";
 NSString *const fluwxKeyMessageAction = @"messageAction";
 
 NSString *const fluwxKeyScene = @"scene";

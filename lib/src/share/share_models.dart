@@ -26,7 +26,7 @@ const String _thumbnail = "thumbnail";
 const String _title = "title";
 const String _description = "description";
 const String _messageExt = "messageExt";
-const String _mediaTagName = "mediaTagName ";
+const String _mediaTagName = "mediaTagName";
 const String _messageAction = "messageAction";
 const String _compressThumbnail = "compressThumbnail";
 

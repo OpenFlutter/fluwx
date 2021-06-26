@@ -1,3 +1,6 @@
+## 3.4.3
+* update Android SDK version
+
 ## 3.4.2
 * Merge #370
 

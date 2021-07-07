@@ -1,3 +1,6 @@
+## 3.5.0
+* update compileSdkVersion
+
 ## 3.4.3
 * update Android SDK version
 

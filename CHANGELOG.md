@@ -1,3 +1,6 @@
+## 3.5.1
+* 自动释放extMsg
+
 ## 3.5.0
 * update compileSdkVersion
 

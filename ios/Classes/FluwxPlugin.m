@@ -198,6 +198,7 @@ FlutterMethodChannel *channel = nil;
 
 - (void)handelGetExtMsgWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     result(self.extMsg);
+    self.extMsg=nil;
 }
 
 

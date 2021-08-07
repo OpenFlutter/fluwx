@@ -109,6 +109,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
 
     private fun getExtMsg(result: MethodChannel.Result) {
         result.success(extMsg)
+        extMsg = null
     }
 
     private fun pay(call: MethodCall, result: MethodChannel.Result) {

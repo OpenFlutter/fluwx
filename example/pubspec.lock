@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -73,7 +73,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "3.4.2"
+    version: "3.5.1"
   matcher:
     dependency: transitive
     description:

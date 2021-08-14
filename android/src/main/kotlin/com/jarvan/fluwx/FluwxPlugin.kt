@@ -16,6 +16,10 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
+import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
+
+
+
 
 /** FluwxPlugin */
 class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegistry.NewIntentListener {
@@ -79,6 +83,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
             call.method.startsWith("share") -> shareHandler?.share(call, result)
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
             call.method == "getExtMsg" -> getExtMsg(result)
+            call.method == "openWeChatCustomerServiceChat" -> openWeChatCustomerServiceChat(call, result)
             else -> result.notImplemented()
         }
     }
@@ -142,6 +147,16 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
         request.queryInfo = hashMapOf(
                 "token" to prepayId
         )
+        result.success(WXAPiHandler.wxApi?.sendReq(request))
+    }
+
+    private fun openWeChatCustomerServiceChat(call: MethodCall, result: Result) {
+        val url = call.argument<String>("url") ?: ""
+        val corpId = call.argument<String>("corpId") ?: ""
+        val request = WXOpenCustomerServiceChat.Req()
+        request.corpId = corpId // 企业ID
+
+        request.url = url
         result.success(WXAPiHandler.wxApi?.sendReq(request))
     }
 

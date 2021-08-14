@@ -42,6 +42,8 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
       WeChatQRCodeScannedResponse.fromMap(argument),
   "onWXShowMessageFromWX": (Map argument) =>
       WeChatShowMessageFromWXRequest.fromMap(argument),
+  "onWXOpenCustomerServiceChatResponse": (Map argument) =>
+      WeChatOpenCustomerServiceChatResponse.fromMap(argument),
 };
 
 class BaseWeChatResponse {
@@ -123,6 +125,11 @@ class WeChatPaymentResponse extends BaseWeChatResponse {
       : type = map["type"],
         extData = map["extData"],
         super._(map[_errCode], map[_errStr]);
+}
+
+class WeChatOpenCustomerServiceChatResponse extends BaseWeChatResponse {
+  WeChatOpenCustomerServiceChatResponse.fromMap(Map map)
+      :super._(map[_errCode], map[_errStr]);
 }
 
 class WeChatSubscribeMsgResponse extends BaseWeChatResponse {

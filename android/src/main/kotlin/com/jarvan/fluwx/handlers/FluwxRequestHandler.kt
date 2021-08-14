@@ -88,7 +88,7 @@ object FluwxRequestHandler {
     fun onReq(baseReq: BaseReq, activity: Activity) {
         try {
             val packageManager = activity.packageManager
-            var appInfo = packageManager.getApplicationInfo(activity.packageName, PackageManager.GET_META_DATA)
+            val appInfo = packageManager.getApplicationInfo(activity.packageName, PackageManager.GET_META_DATA)
             val defaultHandle = appInfo.metaData.getBoolean("handleWeChatRequestByFluwx", true)
             if (defaultHandle) {
                 defaultOnReqDelegate(baseReq, activity)

@@ -20,6 +20,7 @@ import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
 import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
+import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelpay.PayResp
@@ -40,6 +41,7 @@ object FluwxResponseHandler {
             is WXLaunchMiniProgram.Resp -> handleLaunchMiniProgramResponse(response)
             is SubscribeMessage.Resp -> handleSubscribeMessage(response)
             is WXOpenBusinessWebview.Resp -> handlerWXOpenBusinessWebviewResponse(response)
+            is WXOpenCustomerServiceChat.Resp -> handlerWXOpenCustomerServiceChatResponse(response)
         }
     }
 
@@ -118,5 +120,15 @@ object FluwxResponseHandler {
                 type to response.type)
 
         FluwxPlugin.callingChannel?.invokeMethod("onWXOpenBusinessWebviewResponse", result)
+    }
+
+    private fun handlerWXOpenCustomerServiceChatResponse(response: WXOpenCustomerServiceChat.Resp) {
+        val result = mapOf(
+            errCode to response.errCode,
+            errStr to response.errStr,
+            openId to response.openId,
+            type to response.type)
+
+        FluwxPlugin.callingChannel?.invokeMethod("onWXOpenCustomerServiceChatResponse", result)
     }
 }

@@ -383,5 +383,10 @@
     [WXApi sendReq:chooseInvoiceReq completion:completion];
 }
 
-
++ (void)openCustomerService:(NSString *)url CorpId:(NSString *)corpId completion:(void (^)(BOOL))completion{
+    WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];
+    req.corpid = corpId;    //企业ID
+    req.url = url;            //客服URL
+    [WXApi sendReq:req completion:completion];
+}
 @end

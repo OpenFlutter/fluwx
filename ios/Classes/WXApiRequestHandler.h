@@ -144,6 +144,10 @@ NS_ASSUME_NONNULL_BEGIN
             Package:(NSString *)package
                Sign:(NSString *)sign
          completion:(void (^ __nullable)(BOOL success))completion;
+
++ (void)openCustomerService:(NSString *)url
+                     CorpId:(NSString *)corpId
+         completion:(void (^ __nullable)(BOOL success))completion;
 @end
 
 NS_ASSUME_NONNULL_END

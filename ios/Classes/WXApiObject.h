@@ -33,6 +33,7 @@ enum WXScene {
     WXSceneTimeline         = 1,   /**< 朋友圈     */
     WXSceneFavorite         = 2,   /**< 收藏       */
     WXSceneSpecifiedSession = 3,   /**< 指定联系人  */
+    WXSceneState            = 4,   /**< 状态  */
 };
 
 
@@ -163,7 +164,6 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 #pragma mark - WXMediaMessage
 @class WXMediaMessage;
 
-
 #pragma mark - SendAuthReq
 /*! @brief 第三方程序向微信终端请求认证的消息结构
  *
@@ -201,7 +201,55 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 @property (nonatomic, copy, nullable) NSString *country;
 @end
 
+#pragma mark - WXStateJumpInfo
+/*! @brief 状态发表时的小尾巴跳转信息
+ */
+@interface WXStateJumpInfo : NSObject
 
+@end
+
+#pragma mark - WXStateJumpUrlInfo
+/*! @brief 状态小尾巴跳转指定url的信息
+ */
+@interface WXStateJumpUrlInfo : WXStateJumpInfo
+/** 跳转到指定的url
+ * @note 必填，url长度必须大于0且小于10K
+ */
+@property (nonatomic, copy) NSString *url;
+
+@end
+
+#pragma mark - WXStateSceneDataObject
+/*! @brief 场景类型额外参数基类
+ */
+@interface WXSceneDataObject : NSObject
+
+@end
+
+#pragma mark - WXStateSceneDataObject
+/*! @brief 状态场景类型
+ * 用户填写WXStateSceneDataObject参数后，可以跳转到微信状态发表页
+ */
+@interface WXStateSceneDataObject : WXSceneDataObject
+
+/** 状态标志的ID
+ * @note 选填，文本长度必须小于10K
+ */
+@property (nonatomic, copy) NSString *stateId;
+/** 状态发表时附带的文本描述
+ * @note 选填，文本长度必须小于10K
+ */
+@property (nonatomic, copy) NSString *stateTitle;
+/** 后台校验token
+ * @note 选填，文本长度必须小于10K
+ */
+@property (nonatomic, copy) NSString *token;
+/** 小尾巴跳转所需的信息
+ * @note 必填，目前仅支持url跳转
+ */
+@property (nonatomic, strong) WXStateJumpInfo *stateJumpDataInfo;
+
+@end
 
 #pragma mark - SendMessageToWXReq
 /*! @brief 第三方程序发送消息至微信终端程序的消息结构体
@@ -229,6 +277,11 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * @note WXSceneSpecifiedSession时有效
  */
 @property (nonatomic, copy, nullable) NSString *toUserOpenId;
+/** 目标场景附带信息
+ * @note 目前只针对状态场景
+ */
+@property (nonatomic, strong) WXSceneDataObject *sceneDataObject;
+
 @end
 
 #pragma mark - SendMessageToWXResp
@@ -684,6 +737,76 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 
 
 
+#pragma mark - WXMusicVideoObject
+
+
+@interface WXMusicVideoObject : NSObject
+
+/*! @brief 返回一个WXMusicVideoObject对象
+ *
+ * @note 返回的WXMusicVideoObject对象是自动释放的
+ */
++ (WXMusicVideoObject *)object;
+
+/** 音乐网页的url地址
+ * @note 长度不能超过10K，不能为空
+ */
+@property (nonatomic, copy) NSString *musicUrl;
+
+/** 音乐数据url地址
+ * @note 长度不能超过10K，不能为空
+ */
+@property (nonatomic, copy) NSString *musicDataUrl;
+
+/**歌手名
+ * @note 长度不能超过1k，不能为空
+ */
+@property (nonatomic, copy) NSString *singerName;
+
+/**
+ * @note 音乐时长, 单位毫秒
+ */
+@property (nonatomic, assign) UInt32 duration;
+
+/**歌词信息 LRC格式
+ * @note 长度不能超过32K
+ */
+@property (nonatomic, copy) NSString *songLyric;
+
+/**高清封面图
+ * @note 大小不能超过1M
+ */
+@property (nonatomic, strong) NSData *hdAlbumThumbData;
+
+/**音乐专辑名称
+ * @note 长度不能超过1k
+ */
+@property (nonatomic, copy, nullable) NSString *albumName;
+
+/**音乐流派
+ * @note 长度不能超过1k
+ */
+@property (nonatomic, copy, nullable) NSString *musicGenre;
+
+/**发行时间
+ * @note Unix时间戳，单位为秒
+ */
+@property (nonatomic, assign) UInt64 issueDate;
+
+/**音乐标识符
+ * @note 长度不能超过1K，从微信跳回应用时会带上
+ */
+@property (nonatomic, copy, nullable) NSString *identification;
+
+/**运营H5地址
+ * @note 选填，建议填写，用户进入歌曲详情页将展示内嵌的运营H5，可展示该歌曲的相关评论、歌曲推荐等内容，不可诱导下载、分享等。
+ */
+@property (nonatomic, copy, nullable) NSString *musicOperationUrl;
+
+@end
+
+
+
 #pragma mark - WXVideoObject
 /*! @brief 多媒体消息中包含的视频数据对象
  *
@@ -896,6 +1019,30 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 /** 是否禁用转发 */
 @property (nonatomic, assign) BOOL disableForward;
 
+@property (nonatomic, assign) BOOL isUpdatableMessage;
+
+@property (nonatomic, assign) BOOL isSecretMessage;
+
+
+/** 业务所需的额外信息 */
+@property (nonatomic, strong, nullable) NSDictionary *extraInfoDic;
+
+@end
+
+#pragma mark - WXGameLiveObject
+
+/*! @brief WXGameLiveObject对象
+ *
+ * @note 游戏直播消息类型
+ */
+
+@interface WXGameLiveObject : NSObject
+
++ (WXGameLiveObject *)object;
+
+/** 业务所需的额外信息 */
+@property (nonatomic, strong, nullable) NSDictionary *extraInfoDic;
+
 @end
 
 #pragma mark - WXLaunchMiniProgramReq
@@ -986,4 +1133,28 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 @property (nonatomic, copy, nullable) NSString *extMsg;
 
 @end
+
+#pragma mark - WXOpenCustomerServiceReq
+@interface WXOpenCustomerServiceReq : BaseReq
+
++ (WXOpenCustomerServiceReq *)object;
+
+/**企微客服发起流程 url
+ */
+@property (nonatomic, copy, nullable) NSString *url;
+
+/**企业 id
+ */
+@property (nonatomic, copy, nullable) NSString *corpid;
+
+@end
+
+@interface WXOpenCustomerServiceResp : BaseResp
+
+/** 业务返回数据
+ */
+@property (nonatomic, copy, nullable) NSString *extMsg;
+
+@end
+
 NS_ASSUME_NONNULL_END

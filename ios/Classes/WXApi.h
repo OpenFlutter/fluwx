@@ -103,6 +103,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isWXAppSupportApi;
 
 
+/*! @brief 判断当前微信的版本是否支持分享微信状态功能
+ *
+ * @attention 需在工程LSApplicationQueriesSchemes配置中添加weixinStateAPI
+ * @return 支持返回YES，不支持返回NO。
+ */
++ (BOOL)isWXAppSupportStateAPI;
+
 
 /*! @brief 获取微信的itunes安装地址
  *

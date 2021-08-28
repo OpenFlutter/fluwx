@@ -75,7 +75,7 @@ FlutterMethodChannel *channel = nil;
     } else if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
     } else if ([@"openWeChatCustomerServiceChat" isEqualToString:call.method]) {
-        [self checkWeChatInstallation:call result:result];
+        [self openWeChatCustomerServiceChat:call result:result];
     } else {
         result(FlutterMethodNotImplemented);
     }

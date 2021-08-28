@@ -4,7 +4,7 @@
 
 #import <Flutter/Flutter.h>
 #import "FluwxStringUtil.h"
-#import <WechatOpenSDK/WXApiObject.h>
+#import "WXApiObject.h"
 #import "FluwxResponseHandler.h"
 
 @implementation FluwxResponseHandler
@@ -189,6 +189,20 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         };
 
         [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
+    } else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]])
+    {
+        
+        WXOpenCustomerServiceResp *customerResp = (WXOpenCustomerServiceResp *) resp;
+        NSDictionary *result = @{
+                description: [FluwxStringUtil nilToEmpty:customerResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+                errCode: @(customerResp.errCode),
+                type: @(customerResp.type),
+                @"extMsg":[FluwxStringUtil nilToEmpty:customerResp.extMsg]
+        };
+
+        [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
+     // 相关错误信息
     }
 }
 

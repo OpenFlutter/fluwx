@@ -128,8 +128,11 @@ class WeChatPaymentResponse extends BaseWeChatResponse {
 }
 
 class WeChatOpenCustomerServiceChatResponse extends BaseWeChatResponse {
+  final String? extMsg;
+
   WeChatOpenCustomerServiceChatResponse.fromMap(Map map)
-      :super._(map[_errCode], map[_errStr]);
+      : extMsg = map["extMsg"],
+        super._(map[_errCode], map[_errStr]);
 }
 
 class WeChatSubscribeMsgResponse extends BaseWeChatResponse {

@@ -74,6 +74,8 @@ FlutterMethodChannel *channel = nil;
         [self handelGetExtMsgWithCall:call result:result];
     } else if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
+    } else if ([@"openWeChatCustomerServiceChat" isEqualToString:call.method]) {
+        [self checkWeChatInstallation:call result:result];
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -106,6 +108,12 @@ FlutterMethodChannel *channel = nil;
 }
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {
+    result(@([WXApi isWXAppInstalled]));
+}
+
+- (void)openWeChatCustomerServiceChat:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *url = call.arguments[@"url"];
+    NSString *corpId = call.arguments[@"corpId"];
     result(@([WXApi isWXAppInstalled]));
 }
 

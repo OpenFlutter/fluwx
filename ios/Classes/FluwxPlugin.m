@@ -114,7 +114,14 @@ FlutterMethodChannel *channel = nil;
 - (void)openWeChatCustomerServiceChat:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *url = call.arguments[@"url"];
     NSString *corpId = call.arguments[@"corpId"];
-    result(@([WXApi isWXAppInstalled]));
+    
+    
+    WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];
+    req.corpid = corpId;    //企业ID
+    req.url = url;         //客服URL
+    return [WXApi sendReq:req completion:^(BOOL success) {
+        result(@(success));
+    }];
 }
 
 - (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {

@@ -261,3 +261,9 @@ Future<bool> authWeChatByPhoneLogin(
   return await _channel
       .invokeMethod("authByPhoneLogin", {"scope": scope, "state": state});
 }
+
+
+Future<bool> openWeChatCustomerServiceChat({required String url, required String corpId}) async {
+  return await _channel
+      .invokeMethod("openWeChatCustomerServiceChat", {"corpId": corpId, "url": url});
+}

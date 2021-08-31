@@ -261,5 +261,5 @@ Future<bool> authWeChatByPhoneLogin(
 
 Future<bool> openWeChatCustomerServiceChat({required String url, required String corpId}) async {
   return await _channel
-      .invokeMethod("openWeChatCustomerServiceChat", {"corpId": url, "url": url});
+      .invokeMethod("openWeChatCustomerServiceChat", {"corpId": corpId, "url": url});
 }

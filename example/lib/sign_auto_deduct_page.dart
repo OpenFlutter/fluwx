@@ -96,16 +96,16 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
 
   void _signAutoDeduct() {
     autoDeDuctWeChat(
-        appId: appId.text ?? "",
-        mchId: mchId.text ?? "",
-        planId: planId.text ?? "",
-        contractCode: contractCode.text ?? "",
+        appId: appId.text ,
+        mchId: mchId.text,
+        planId: planId.text ,
+        contractCode: contractCode.text,
         requestSerial: requestSerial.text ?? "",
-        contractDisplayAccount: contractDisplayAccount.text ?? "",
-        notifyUrl: notifyUrl.text ?? "",
-        version: version.text ?? "",
-        sign: sign.text ?? "",
-        timestamp: timestamp.text ?? "",
+        contractDisplayAccount: contractDisplayAccount.text,
+        notifyUrl: notifyUrl.text,
+        version: version.text,
+        sign: sign.text,
+        timestamp: timestamp.text,
         returnApp: '3');
   }
 }

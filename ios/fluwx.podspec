@@ -18,6 +18,7 @@ A new Flutter plugin for Wechat SDK.
   s.static_framework = true
   s.dependency 'Flutter'
 #  s.dependency 'WechatOpenSDK', '1.8.7.1'
+  s.dependency 'WechatOpenSDK_Fuck',  '~> 1.9.2'
 
 # s.dependency 'OpenWeChatSDK','~> 1.8.3+10'
 #  s.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}" }

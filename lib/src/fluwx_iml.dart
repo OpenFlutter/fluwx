@@ -83,7 +83,7 @@ Future<bool> registerWxApi(
 }
 
 // get ext Message
-Future<String> getExtMsg() async {
+Future<String?> getExtMsg() async {
   return await _channel.invokeMethod("getExtMsg");
 }
 

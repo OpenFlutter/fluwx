@@ -3,7 +3,6 @@
 
 .packages
 .pub/
-pubspec.lock
 
 build/
 *.iml

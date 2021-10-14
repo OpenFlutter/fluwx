@@ -25,6 +25,8 @@ example/ios/.symlinks
 example/Podfile.lock
 .last_build_id
 
+example/
+
 example/build
 example/.dart_tool
 

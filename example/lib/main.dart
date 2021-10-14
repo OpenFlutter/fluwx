@@ -88,7 +88,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("shareText");
+                  Navigator.of(context).pushNamed("shareText");
                 },
                 child: const Text("share text")),
           ),
@@ -96,7 +96,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("shareImage");
+                  Navigator.of(context).pushNamed("shareImage");
                 },
                 child: const Text("share image")),
           ),
@@ -104,7 +104,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("shareWebPage");
+                  Navigator.of(context).pushNamed("shareWebPage");
                 },
                 child: const Text("share webpage")),
           ),
@@ -112,7 +112,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("shareMusic");
+                  Navigator.of(context).pushNamed("shareMusic");
                 },
                 child: const Text("share music")),
           ),
@@ -120,7 +120,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("shareVideo");
+                  Navigator.of(context).pushNamed("shareVideo");
                 },
                 child: const Text("share video")),
           ),
@@ -128,7 +128,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("shareMiniProgram");
+                  Navigator.of(context).pushNamed("shareMiniProgram");
                 },
                 child: const Text("share mini program")),
           ),
@@ -136,7 +136,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("sendAuth");
+                  Navigator.of(context).pushNamed("sendAuth");
                 },
                 child: const Text("send auth")),
           ),
@@ -144,7 +144,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("pay");
+                  Navigator.of(context).pushNamed("pay");
                 },
                 child: const Text("pay")),
           ),
@@ -152,7 +152,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("launchMiniProgram");
+                  Navigator.of(context).pushNamed("launchMiniProgram");
                 },
                 child: const Text("Launch MiniProgram")),
           ),
@@ -160,7 +160,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("subscribeMessage");
+                  Navigator.of(context).pushNamed("subscribeMessage");
                 },
                 child: const Text("SubscribeMessage")),
           ),
@@ -168,7 +168,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("AuthByQRCode");
+                  Navigator.of(context).pushNamed("AuthByQRCode");
                 },
                 child: const Text("AuthByQRCode")),
           ),
@@ -176,7 +176,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: new OutlinedButton(
                 onPressed: () {
-                  Navigator.of(context)?.pushNamed("AutoDeduct");
+                  Navigator.of(context).pushNamed("AutoDeduct");
                 },
                 child: const Text("SignAuto-deduct")),
           ),

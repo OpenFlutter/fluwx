@@ -24,5 +24,3 @@ example/android/app/.settings/org.eclipse.buildship.core.prefs
 example/ios/.symlinks
 example/Podfile.lock
 .last_build_id
-
-pubspec.lock

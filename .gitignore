@@ -21,5 +21,8 @@ example/android/.settings/org.eclipse.buildship.core.prefs
 example/android/app/.classpath
 example/android/app/.project
 example/android/app/.settings/org.eclipse.buildship.core.prefs
+example/ios/.symlinks
 example/Podfile.lock
 .last_build_id
+
+pubspec.lock

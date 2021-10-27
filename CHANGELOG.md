@@ -1,3 +1,6 @@
+# 3.6.1+4
+* Android P support
+
 # 3.6.1+3
 * Fix #431
 

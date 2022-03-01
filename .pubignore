@@ -1,1 +1,4 @@
 example/
+example/android/gradle/wrapper/gradle-wrapper.jar
+example/pubspec.lock
+pubspec.lock

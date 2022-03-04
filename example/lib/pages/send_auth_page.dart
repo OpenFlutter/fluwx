@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 
 class SendAuthPage extends StatefulWidget {
+  const SendAuthPage({Key? key}) : super(key: key);
+
   @override
   _SendAuthPageState createState() => _SendAuthPageState();
 }
 
 class _SendAuthPageState extends State<SendAuthPage> {
-  String? _result = "无";
+  String? _result = '无';
 
   @override
   void initState() {
@@ -15,7 +17,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
     fluwx.weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
       if (res is fluwx.WeChatAuthResponse) {
         setState(() {
-          _result = "state :${res.state} \n code:${res.code}";
+          _result = 'state :${res.state} \n code:${res.code}';
         });
       }
     });
@@ -30,22 +32,22 @@ class _SendAuthPageState extends State<SendAuthPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Send Auth"),
-      ),
+      appBar: AppBar(title: const Text('Send Auth')),
       body: Column(
         children: <Widget>[
-          OutlineButton(
+          OutlinedButton(
             onPressed: () {
               fluwx
                   .sendWeChatAuth(
-                      scope: "snsapi_userinfo", state: "wechat_sdk_demo_test")
+                    scope: 'snsapi_userinfo',
+                    state: 'wechat_sdk_demo_test',
+                  )
                   .then((data) {});
             },
-            child: const Text("send auth"),
+            child: const Text('send auth'),
           ),
-          const Text("响应结果;"),
-          Text("$_result")
+          const Text('响应结果;'),
+          Text('$_result')
         ],
       ),
     );

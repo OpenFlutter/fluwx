@@ -18,35 +18,38 @@
  */
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/share/share_models.dart';
-import 'package:fluwx/src/wechat_enums.dart';
 
 void main() {
-  test("test create WeChatShareImageModel with thumbnail", () {
-    var image = WeChatImage.network("http://openflutter.dev/fluwx.png");
-    var thumbnail = WeChatImage.network("http://openflutter.dev/fluwx.png");
-    var model = WeChatShareImageModel(image,
-        scene: WeChatScene.FAVORITE, thumbnail: thumbnail);
+  test('test create WeChatShareImageModel with thumbnail', () {
+    var image = WeChatImage.network('http://openflutter.dev/fluwx.png');
+    var thumbnail = WeChatImage.network('http://openflutter.dev/fluwx.png');
+    var model = WeChatShareImageModel(
+      image,
+      scene: WeChatScene.FAVORITE,
+      thumbnail: thumbnail,
+    );
     expect(model.source, image);
     expect(model.scene, WeChatScene.FAVORITE);
     expect(model.thumbnail, thumbnail);
   });
 
-  test("test create WeChatShareImageModel without thumbnail", () {
-    var image = WeChatImage.network("http://openflutter.dev/fluwx.png");
+  test('test create WeChatShareImageModel without thumbnail', () {
+    var image = WeChatImage.network('http://openflutter.dev/fluwx.png');
     var model = WeChatShareImageModel(image, scene: WeChatScene.FAVORITE);
     expect(model.source, image);
     expect(model.scene, WeChatScene.FAVORITE);
     expect(model.thumbnail, image);
   });
 
-  test("test WeChatShareImageModel toMap", () {
-    var image = WeChatImage.network("http://openflutter.dev/fluwx.png");
-    var thumbnail = WeChatImage.network("http://openflutter.dev/fluwx.png");
-    var map = WeChatShareImageModel(image,
-            scene: WeChatScene.FAVORITE, thumbnail: thumbnail)
-        .toMap();
-    assert(map["thumbnail"] != null);
-    expect(map["thumbnail"]["source"], "http://openflutter.dev/fluwx.png");
+  test('test WeChatShareImageModel toMap', () {
+    var image = WeChatImage.network('http://openflutter.dev/fluwx.png');
+    var thumbnail = WeChatImage.network('http://openflutter.dev/fluwx.png');
+    var map = WeChatShareImageModel(
+      image,
+      scene: WeChatScene.FAVORITE,
+      thumbnail: thumbnail,
+    ).toMap();
+    assert(map['thumbnail'] != null);
+    expect(map['thumbnail']['source'], 'http://openflutter.dev/fluwx.png');
   });
 }

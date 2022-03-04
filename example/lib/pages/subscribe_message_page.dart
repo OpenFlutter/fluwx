@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
 
 class SubscribeMessagePage extends StatefulWidget {
+  const SubscribeMessagePage({Key? key}) : super(key: key);
+
   @override
   _SubscribeMessagePageState createState() => _SubscribeMessagePageState();
 }
@@ -9,17 +11,17 @@ class SubscribeMessagePage extends StatefulWidget {
 /// see wechat [document](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1500434436_aWfqW&token=&lang=zh_CN)
 class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   TextEditingController appId =
-      TextEditingController(text: "wx316f9c82e99ac105");
-  TextEditingController scene = TextEditingController(text: "1");
+      TextEditingController(text: 'wx316f9c82e99ac105');
+  TextEditingController scene = TextEditingController(text: '1');
   TextEditingController templateId = TextEditingController(
-      text: "cm_vM2k3IjHcYbkGUeAfL6Fja_7Pgv4Hx_q4tA253Ss");
-  TextEditingController reserved = TextEditingController(text: "123");
+      text: 'cm_vM2k3IjHcYbkGUeAfL6Fja_7Pgv4Hx_q4tA253Ss');
+  TextEditingController reserved = TextEditingController(text: '123');
 
   @override
   void initState() {
     super.initState();
     weChatResponseEventHandler.listen((resp) {
-      print("resp = $resp");
+      print('resp = $resp');
     });
   }
 
@@ -41,12 +43,23 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
       body: Container(
         child: Column(
           children: <Widget>[
-            _buildTextField(title: "appId", textEditController: appId),
-            _buildTextField(title: "scene", textEditController: scene),
             _buildTextField(
-                title: "templateId", textEditController: templateId),
-            _buildTextField(title: "reserved", textEditController: reserved),
-            FlatButton(
+              title: 'appId',
+              textEditController: appId,
+            ),
+            _buildTextField(
+              title: 'scene',
+              textEditController: scene,
+            ),
+            _buildTextField(
+              title: 'templateId',
+              textEditController: templateId,
+            ),
+            _buildTextField(
+              title: 'reserved',
+              textEditController: reserved,
+            ),
+            TextButton(
               child: Text('request once subscribe message'),
               onPressed: _requestSubMsg,
             ),
@@ -61,9 +74,7 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
     TextEditingController? textEditController,
   }) {
     return TextField(
-      decoration: InputDecoration(
-        labelText: title,
-      ),
+      decoration: InputDecoration(labelText: title),
       controller: textEditController,
     );
   }

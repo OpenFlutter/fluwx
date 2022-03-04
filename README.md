@@ -3,7 +3,7 @@
 [![Build status](https://img.shields.io/cirrus/github/OpenFlutter/fluwx/master)](https://cirrus-ci.com/github/OpenFlutter/fluwx)
 ======
 
-![logo](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/fluwx_logo.png)
+![logo](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/fluwx_logo.png)
 
 [中文请移步此处](./README_CN.md)
 

@@ -1,4 +1,7 @@
-#gradle-wrapper.jar
+gradle-wrapper.jar
+**.classpath
+**.project
+**.settings
 /.gradle
 /captures/
 /gradlew

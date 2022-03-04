@@ -1,7 +1,6 @@
 package com.jarvan.fluwx
 
 import android.content.Intent
-import android.util.Log
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
 import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
@@ -18,31 +17,12 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
 
-
-
-
 /** FluwxPlugin */
 class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegistry.NewIntentListener {
-
     companion object {
-
         var callingChannel:MethodChannel? = null
         // 主动获取的启动参数
         var extMsg:String? = null
-
-        @JvmStatic
-        fun registerWith(registrar: PluginRegistry.Registrar) {
-            val channel = MethodChannel(registrar.messenger(), "com.jarvanmo/fluwx")
-            val authHandler = FluwxAuthHandler(channel)
-            WXAPiHandler.setContext(registrar.activity().applicationContext)
-            channel.setMethodCallHandler(FluwxPlugin().apply {
-                this.fluwxChannel = channel
-                this.authHandler = authHandler
-                this.shareHandler = FluwxShareHandlerCompat(registrar).apply {
-                    permissionHandler = PermissionHandler(registrar.activity())
-                }
-            })
-        }
     }
 
     private var shareHandler: FluwxShareHandler? = null
@@ -51,9 +31,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
 
     private var fluwxChannel: MethodChannel? = null
 
-    private fun handelIntent(intent:Intent?){
-        val action = intent?.action
-        val dataString = intent?.dataString
+    private fun handelIntent(intent: Intent) {
+        val action = intent.action
+        val dataString = intent.dataString
         if (Intent.ACTION_VIEW == action) {
             extMsg = dataString
         }
@@ -64,11 +44,14 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
         channel.setMethodCallHandler(this)
         fluwxChannel = channel
         authHandler = FluwxAuthHandler(channel)
-        shareHandler = FluwxShareHandlerEmbedding(flutterPluginBinding.flutterAssets, flutterPluginBinding.applicationContext)
+        shareHandler = FluwxShareHandlerEmbedding(
+            flutterPluginBinding.flutterAssets,
+            flutterPluginBinding.applicationContext
+        )
     }
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
-        FluwxPlugin.callingChannel = fluwxChannel
+        callingChannel = fluwxChannel
         when {
             call.method == "registerApp" -> WXAPiHandler.registerApp(call, result)
             call.method == "sendAuth" -> authHandler?.sendAuth(call, result)
@@ -112,19 +95,18 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
     }
 
 
-    private fun getExtMsg(result: MethodChannel.Result) {
+    private fun getExtMsg(result: Result) {
         result.success(extMsg)
         extMsg = null
     }
 
-    private fun pay(call: MethodCall, result: MethodChannel.Result) {
+    private fun pay(call: MethodCall, result: Result) {
 
         if (WXAPiHandler.wxApi == null) {
-            result.error("Unassigned WxApi", "please config  wxapi first", null)
+            result.error("Unassigned WxApi", "please config wxapi first", null)
             return
         } else {
-
-// 将该app注册到微信
+            // 将该app注册到微信
             val request = PayReq()
             request.appId = call.argument("appId")
             request.partnerId = call.argument("partnerId")
@@ -140,7 +122,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
         }
     }
 
-    private fun payWithHongKongWallet(call: MethodCall, result: MethodChannel.Result) {
+    private fun payWithHongKongWallet(call: MethodCall, result: Result) {
         val prepayId = call.argument<String>("prepayId") ?: ""
         val request = WXOpenBusinessWebview.Req()
         request.businessType = 1
@@ -192,7 +174,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
 
-    private fun subScribeMsg(call: MethodCall, result: MethodChannel.Result) {
+    private fun subScribeMsg(call: MethodCall, result: Result) {
         val appId = call.argument<String>("appId")
         val scene = call.argument<Int>("scene")
         val templateId = call.argument<String>("templateId")
@@ -207,9 +189,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
         result.success(b)
     }
 
-    private fun launchMiniProgram(call: MethodCall, result: MethodChannel.Result) {
+    private fun launchMiniProgram(call: MethodCall, result: Result) {
         val req = WXLaunchMiniProgram.Req()
-        req.userName = call.argument<String?>("userName") // 填小程序原始id
+        req.userName = call.argument("userName") // 填小程序原始id
         req.path = call.argument<String?>("path") ?: "" //拉起小程序页面的可带参路径，不填默认拉起小程序首页
         val type = call.argument("miniProgramType") ?: 0
         req.miniprogramType = when (type) {
@@ -218,12 +200,12 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
             else -> WXLaunchMiniProgram.Req.MINIPTOGRAM_TYPE_RELEASE
         }// 可选打开 开发版，体验版和正式版
         val done = WXAPiHandler.wxApi?.sendReq(req)
-        result.success(WXAPiHandler.wxApi?.sendReq(req))
+        result.success(done)
     }
 
-    private fun openWXApp(result: MethodChannel.Result) = result.success(WXAPiHandler.wxApi?.openWXApp())
+    private fun openWXApp(result: Result) = result.success(WXAPiHandler.wxApi?.openWXApp())
 
-    override fun onNewIntent(intent: Intent?): Boolean {
+    override fun onNewIntent(intent: Intent): Boolean {
         handelIntent(intent)
         return false
     }

@@ -100,7 +100,7 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
         mchId: mchId.text,
         planId: planId.text ,
         contractCode: contractCode.text,
-        requestSerial: requestSerial.text ?? "",
+        requestSerial: requestSerial.text,
         contractDisplayAccount: contractDisplayAccount.text,
         notifyUrl: notifyUrl.text,
         version: version.text,

@@ -17,10 +17,7 @@ package com.jarvan.fluwx.handlers
 
 import com.jarvan.fluwx.FluwxPlugin
 import com.tencent.mm.opensdk.modelbase.BaseResp
-import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
-import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
-import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
-import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
+import com.tencent.mm.opensdk.modelbiz.*
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelpay.PayResp
@@ -42,7 +39,20 @@ object FluwxResponseHandler {
             is SubscribeMessage.Resp -> handleSubscribeMessage(response)
             is WXOpenBusinessWebview.Resp -> handlerWXOpenBusinessWebviewResponse(response)
             is WXOpenCustomerServiceChat.Resp -> handlerWXOpenCustomerServiceChatResponse(response)
+            is WXOpenBusinessView.Resp -> handleWXOpenBusinessView(response)
         }
+    }
+
+    private fun handleWXOpenBusinessView(response: WXOpenBusinessView.Resp) {
+        val result = mapOf(
+            "openid" to response.openId,
+            "extMsg" to response.extMsg,
+            "businessType" to response.businessType,
+            errStr to response.errStr,
+            type to response.type,
+            errCode to response.errCode)
+
+        FluwxPlugin.callingChannel?.invokeMethod("onOpenBusinessViewResponse", result)
     }
 
     private fun handleSubscribeMessage(response: SubscribeMessage.Resp) {

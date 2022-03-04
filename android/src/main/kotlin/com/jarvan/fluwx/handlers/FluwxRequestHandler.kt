@@ -64,7 +64,7 @@ object FluwxRequestHandler {
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
         if (baseReq.type == 4) {
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
-            if (!WXAPiHandler.isCoolBoot) {
+            if (!WXAPiHandler.coolBoot) {
                 handleRequest(baseReq)
                 startSpecifiedActivity(defaultFlutterActivityAction(activity), activity = activity)
             } else {
@@ -74,7 +74,7 @@ object FluwxRequestHandler {
                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("wechatextmsg://${activity.packageName}/?extmsg=${baseReq.message.messageExt}"))
                             activity.startActivity(intent)
                             activity.finish()
-                            WXAPiHandler.setCoolBool(false)
+                            WXAPiHandler.coolBoot = false
                         }catch (e:Exception) {
                             Log.i("fluwx","call scheme error:${e.toString()}")
                         }

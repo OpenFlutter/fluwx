@@ -3,9 +3,7 @@ package com.jarvan.fluwx
 import android.content.Intent
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
-import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
-import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
-import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
+import com.tencent.mm.opensdk.modelbiz.*
 import com.tencent.mm.opensdk.modelpay.PayReq
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -15,10 +13,9 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
-import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
 
 /** FluwxPlugin */
-class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegistry.NewIntentListener {
+class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.NewIntentListener {
     companion object {
         var callingChannel:MethodChannel? = null
         // 主动获取的启动参数
@@ -67,6 +64,8 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
             call.method == "getExtMsg" -> getExtMsg(result)
             call.method == "openWeChatCustomerServiceChat" -> openWeChatCustomerServiceChat(call, result)
+            call.method == "checkSupportOpenBusinessView" -> WXAPiHandler.checkSupportOpenBusinessView(result)
+            call.method == "openBusinessView" -> openBusinessView(call, result)
             else -> result.notImplemented()
         }
     }
@@ -139,6 +138,14 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,PluginRegist
         request.corpId = corpId // 企业ID
 
         request.url = url
+        result.success(WXAPiHandler.wxApi?.sendReq(request))
+    }
+
+    private fun openBusinessView(call: MethodCall, result: Result) {
+        val request = WXOpenBusinessView.Req()
+        request.businessType = call.argument<String>("businessType") ?: ""
+        request.query = call.argument<String>("query") ?: ""
+        request.extInfo = "{\"miniProgramType\": 0}"
         result.success(WXAPiHandler.wxApi?.sendReq(request))
     }
 

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
-import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.jarvan.fluwx.io.*
@@ -15,7 +14,6 @@ import com.tencent.mm.opensdk.modelmsg.*
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.PluginRegistry
 import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
@@ -36,29 +34,11 @@ internal class FluwxShareHandlerEmbedding(private val flutterAssets: FlutterPlug
         } else {
             flutterAssets.getAssetFilePathBySubpath(uri.path.orEmpty(), packageName)
         }
-
         context.assets.openFd(subPath)
     }
 
     override val job: Job = Job()
 
-    override var permissionHandler: PermissionHandler? = null
-}
-
-internal class FluwxShareHandlerCompat(private val registrar: PluginRegistry.Registrar) : FluwxShareHandler {
-    override val assetFileDescriptor: (String) -> AssetFileDescriptor = {
-        val uri = Uri.parse(it)
-        val packageName = uri.getQueryParameter("package")
-        val key = if (TextUtils.isEmpty(packageName)) {
-            registrar.lookupKeyForAsset(uri.path)
-        } else {
-            registrar.lookupKeyForAsset(uri.path, packageName)
-        }
-        context.assets.openFd(key)
-    }
-
-    override val context: Context = registrar.context().applicationContext
-    override val job: Job = Job()
     override var permissionHandler: PermissionHandler? = null
 }
 
@@ -317,7 +297,7 @@ internal interface FluwxShareHandler : CoroutineScope {
 
     }
 
-    private val supportFileProvider: Boolean get() = WXAPiHandler.wxApi?.wxAppSupportAPI ?: 0 >= 0x27000D00
+    private val supportFileProvider: Boolean get() = (WXAPiHandler.wxApi?.wxAppSupportAPI ?: 0) >= 0x27000D00
     private val targetHigherThanN: Boolean get() = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N
 
     val context: Context

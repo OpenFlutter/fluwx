@@ -21,15 +21,15 @@ import 'package:fluwx/src/share/share_models.dart';
 import 'package:fluwx/src/wechat_enums.dart';
 
 void main() {
-  test("create WeChatTextModel", () {
-    var model = WeChatShareTextModel("text", scene: WeChatScene.FAVORITE);
-    expect(model.source, "text");
+  test('create WeChatTextModel', () {
+    var model = WeChatShareTextModel('text', scene: WeChatScene.FAVORITE);
+    expect(model.source, 'text');
     expect(model.scene, WeChatScene.FAVORITE);
   });
 
-  test("WeChatTextModel toMap", () {
-    var map = WeChatShareTextModel("text", scene: WeChatScene.FAVORITE).toMap();
-    expect(map["source"], "text");
-    expect(map["scene"], 2);
+  test('WeChatTextModel toMap', () {
+    var map = WeChatShareTextModel('text', scene: WeChatScene.FAVORITE).toMap();
+    expect(map['source'], 'text');
+    expect(map['scene'], 2);
   });
 }

@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart' as fluwx;
 
 class PayPage extends StatefulWidget {
+  const PayPage({Key? key}) : super(key: key);
+
   @override
   _PayPageState createState() => _PayPageState();
 }
 
 class _PayPageState extends State<PayPage> {
-  String _url = "https://wxpay.wxutil.com/pub_v2/app/app_pay.php";
-
-  String _result = "无";
+  String _url = 'https://wxpay.wxutil.com/pub_v2/app/app_pay.php';
+  String _result = '无';
 
   @override
   void initState() {
@@ -20,13 +21,13 @@ class _PayPageState extends State<PayPage> {
     fluwx.weChatResponseEventHandler.listen((res) {
       if (res is fluwx.WeChatPaymentResponse) {
         setState(() {
-          _result = "pay :${res.isSuccessful}";
+          _result = 'pay :${res.isSuccessful}';
         });
       }
     });
 //    fluwx.responseFromPayment.listen((data) {
 //      setState(() {
-//        _result = "${data.errCode}";
+//        _result = '${data.errCode}';
 //      });
 //    });
   }
@@ -34,12 +35,10 @@ class _PayPageState extends State<PayPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("pay"),
-      ),
+      appBar: AppBar(title: const Text('pay')),
       body: Column(
         children: <Widget>[
-          OutlineButton(
+          OutlinedButton(
             onPressed: () async {
               var h = H.HttpClient();
               h.badCertificateCallback = (cert, String host, int port) {
@@ -50,7 +49,7 @@ class _PayPageState extends State<PayPage> {
               var data = await Utf8Decoder().bind(response).join();
               Map<String, dynamic> result = json.decode(data);
               print(result['appid']);
-              print(result["timestamp"]);
+              print(result['timestamp']);
               fluwx
                   .payWithWeChat(
                 appId: result['appid'].toString(),
@@ -62,12 +61,12 @@ class _PayPageState extends State<PayPage> {
                 sign: result['sign'].toString(),
               )
                   .then((data) {
-                print("---》$data");
+                print('---》$data');
               });
             },
-            child: const Text("pay"),
+            child: const Text('pay'),
           ),
-          const Text("响应结果;"),
+          const Text('响应结果;'),
           Text(_result)
         ],
       ),

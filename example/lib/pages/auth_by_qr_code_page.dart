@@ -1,15 +1,16 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
 
 class AuthByQRCodePage extends StatefulWidget {
+  const AuthByQRCodePage({Key? key}) : super(key: key);
+
   @override
   _AuthByQRCodePageState createState() => _AuthByQRCodePageState();
 }
 
 class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
-  String _status = "status";
+  String _status = 'status';
   Uint8List? _image;
 
   @override
@@ -18,7 +19,7 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
 
 //    fluwx.onAuthByQRCodeFinished.listen((data) {
 //      setState(() {
-//        _status = "errorCode=>${data.errorCode}\nauthCode=>${data.authCode}";
+//        _status = 'errorCode=>${data.errorCode}\nauthCode=>${data.authCode}';
 //      });
 //    });
 //    fluwx.onAuthGotQRCode.listen((image) {
@@ -29,7 +30,7 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
 //
 //    fluwx.onQRCodeScanned.listen((scanned) {
 //      setState(() {
-//        _status = "scanned";
+//        _status = 'scanned';
 //      });
 //    });
   }
@@ -38,20 +39,20 @@ class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("AuthByQRCode"),
+        title: Text('AuthByQRCode'),
       ),
       body: Column(
         children: <Widget>[
-          RaisedButton(
+          ElevatedButton(
             onPressed: () {
 //              fluwx.authByQRCode(
-//                  appId: "wxd930ea5d5a258f4f",
-//                  scope: "noncestr",
-//                  nonceStr: "nonceStr",
-//                  timeStamp: "1417508194",
-//                  signature: "429eaaa13fd71efbc3fd344d0a9a9126835e7303");
+//                  appId: 'wxd930ea5d5a258f4f',
+//                  scope: 'noncestr',
+//                  nonceStr: 'nonceStr',
+//                  timeStamp: '1417508194',
+//                  signature: '429eaaa13fd71efbc3fd344d0a9a9126835e7303');
             },
-            child: Text("AUTH NOW"),
+            child: Text('AUTH NOW'),
           ),
           Text(_status),
           _qrCode()

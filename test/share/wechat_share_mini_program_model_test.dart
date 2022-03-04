@@ -18,8 +18,6 @@
  */
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/share/share_models.dart';
-import 'package:fluwx/src/wechat_enums.dart';
 
 void main() {
   group("construct", () {

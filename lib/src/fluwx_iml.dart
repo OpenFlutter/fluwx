@@ -20,86 +20,90 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:fluwx/fluwx.dart';
-import 'package:fluwx/src/wechat_enums.dart';
 
 const Map<Type, String> _shareModelMethodMapper = {
-  WeChatShareTextModel: "shareText",
-  WeChatShareImageModel: "shareImage",
-  WeChatShareMusicModel: "shareMusic",
-  WeChatShareVideoModel: "shareVideo",
-  WeChatShareWebPageModel: "shareWebPage",
-  WeChatShareMiniProgramModel: "shareMiniProgram",
-  WeChatShareFileModel: "shareFile",
+  WeChatShareTextModel: 'shareText',
+  WeChatShareImageModel: 'shareImage',
+  WeChatShareMusicModel: 'shareMusic',
+  WeChatShareVideoModel: 'shareVideo',
+  WeChatShareWebPageModel: 'shareWebPage',
+  WeChatShareMiniProgramModel: 'shareMiniProgram',
+  WeChatShareFileModel: 'shareFile',
 };
 
 MethodChannel _channel = MethodChannel('com.jarvanmo/fluwx')
   ..setMethodCallHandler(_methodHandler);
 
 StreamController<BaseWeChatResponse> _weChatResponseEventHandlerController =
-    new StreamController.broadcast();
+    StreamController.broadcast();
 
 /// Response answers from WeChat after sharing, payment etc.
 Stream<BaseWeChatResponse> get weChatResponseEventHandler =>
     _weChatResponseEventHandlerController.stream;
 
-///true if WeChat installed,otherwise false.
-///Please add WeChat to the white list in order to get the correct result on IOS.
+/// [true] if WeChat installed, otherwise [false].
+/// Please add WeChat to the white list in order use this method on IOS.
 Future<bool> get isWeChatInstalled async {
-  return await _channel.invokeMethod("isWeChatInstalled");
+  return await _channel.invokeMethod('isWeChatInstalled');
 }
 
 ///just open WeChat, noting to do.
 Future<bool> openWeChatApp() async {
-  return await _channel.invokeMethod("openWXApp");
+  return await _channel.invokeMethod('openWXApp');
 }
 
-/// it's ok if you register multi times.
-///[appId] is not necessary.
-///if [doOnIOS] is true ,fluwx will register WXApi on iOS.
-///if [doOnAndroid] is true, fluwx will register WXApi on Android.
+/// It's ok if you register multi times.
+/// [appId] is not necessary.
+/// if [doOnIOS] is true ,fluwx will register WXApi on iOS.
+/// if [doOnAndroid] is true, fluwx will register WXApi on Android.
 /// [universalLink] is required if you want to register on iOS.
-Future<bool> registerWxApi(
-    {required String appId,
-    bool doOnIOS: true,
-    bool doOnAndroid: true,
-    String? universalLink}) async {
+Future<bool> registerWxApi({
+  required String appId,
+  bool doOnIOS: true,
+  bool doOnAndroid: true,
+  String? universalLink,
+}) async {
   if (doOnIOS && Platform.isIOS) {
     if (universalLink == null ||
         universalLink.trim().isEmpty ||
-        !universalLink.startsWith("https")) {
-      throw ArgumentError.value(universalLink,
-          "you're trying to use illegal universal link , see https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html for detail");
+        !universalLink.startsWith('https')) {
+      throw ArgumentError.value(
+        universalLink,
+        "You're trying to use illegal universal link, see "
+        'https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html '
+        'for more detai.l',
+      );
     }
   }
-  return await _channel.invokeMethod("registerApp", {
-    "appId": appId,
-    "iOS": doOnIOS,
-    "android": doOnAndroid,
-    "universalLink": universalLink
+  return await _channel.invokeMethod('registerApp', {
+    'appId': appId,
+    'iOS': doOnIOS,
+    'android': doOnAndroid,
+    'universalLink': universalLink
   });
 }
 
-// get ext Message
-Future<String?> getExtMsg() async {
-  return await _channel.invokeMethod("getExtMsg");
+// Get ext Message
+Future<String?> getExtMsg() {
+  return _channel.invokeMethod('getExtMsg');
 }
 
-///Share your requests to WeChat.
-///This depends on the actual type of [model].
-///see [_shareModelMethodMapper] for detail.
+/// Share your requests to WeChat.
+/// This depends on the actual type of [model].
+/// see [_shareModelMethodMapper] for detail.
 Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
   if (_shareModelMethodMapper.containsKey(model.runtimeType)) {
-    var methodChannel = _shareModelMethodMapper[model.runtimeType];
-    if (methodChannel == null)
+    final methodChannel = _shareModelMethodMapper[model.runtimeType];
+    if (methodChannel == null) {
       throw ArgumentError.value(
-          "${model.runtimeType} method channel not found");
+        '${model.runtimeType} method channel not found',
+      );
+    }
     return await _channel.invokeMethod(methodChannel, model.toMap());
-  } else {
-    return Future.error("no method mapper found[${model.runtimeType}]");
   }
+  return Future.error('no method mapper found[${model.runtimeType}]');
 }
 
 /// The WeChat-Login is under Auth-2.0
@@ -109,58 +113,64 @@ Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
-Future<bool> sendWeChatAuth(
-    {required String scope, String state = "state"}) async {
+Future<bool> sendWeChatAuth({
+  required String scope,
+  String state = 'state',
+}) async {
   assert(scope.trim().isNotEmpty);
-  return await _channel
-      .invokeMethod("sendAuth", {"scope": scope, "state": state});
+  return await _channel.invokeMethod(
+    'sendAuth',
+    {'scope': scope, 'state': state},
+  );
 }
 
 /// open mini-program
 /// see [WXMiniProgramType]
-Future<bool> launchWeChatMiniProgram(
-    {required String username,
-    String? path,
-    WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE}) async {
+Future<bool> launchWeChatMiniProgram({
+  required String username,
+  String? path,
+  WXMiniProgramType miniProgramType = WXMiniProgramType.RELEASE,
+}) async {
   assert(username.trim().isNotEmpty);
-  return await _channel.invokeMethod("launchMiniProgram", {
-    "userName": username,
-    "path": path,
-    "miniProgramType": miniProgramType.toNativeInt()
+  return await _channel.invokeMethod('launchMiniProgram', {
+    'userName': username,
+    'path': path,
+    'miniProgramType': miniProgramType.toNativeInt()
   });
 }
 
 /// request payment with WeChat.
 /// Read the official document for more detail.
 /// [timeStamp] is int because [timeStamp] will be mapped to Unit32.
-Future<bool> payWithWeChat(
-    {required String appId,
-    required String partnerId,
-    required String prepayId,
-    required String packageValue,
-    required String nonceStr,
-    required int timeStamp,
-    required String sign,
-    String? signType,
-    String? extData}) async {
-  return await _channel.invokeMethod("payWithFluwx", {
-    "appId": appId,
-    "partnerId": partnerId,
-    "prepayId": prepayId,
-    "packageValue": packageValue,
-    "nonceStr": nonceStr,
-    "timeStamp": timeStamp,
-    "sign": sign,
-    "signType": signType,
-    "extData": extData,
+Future<bool> payWithWeChat({
+  required String appId,
+  required String partnerId,
+  required String prepayId,
+  required String packageValue,
+  required String nonceStr,
+  required int timeStamp,
+  required String sign,
+  String? signType,
+  String? extData,
+}) async {
+  return await _channel.invokeMethod('payWithFluwx', {
+    'appId': appId,
+    'partnerId': partnerId,
+    'prepayId': prepayId,
+    'packageValue': packageValue,
+    'nonceStr': nonceStr,
+    'timeStamp': timeStamp,
+    'sign': sign,
+    'signType': signType,
+    'extData': extData,
   });
 }
 
 /// request Hong Kong Wallet payment with WeChat.
 /// Read the official document for more detail.
 Future<bool> payWithWeChatHongKongWallet({required String prepayId}) async {
-  return await _channel.invokeMethod("payWithHongKongWallet", {
-    "prepayId": prepayId,
+  return await _channel.invokeMethod('payWithHongKongWallet', {
+    'prepayId': prepayId,
   });
 }
 
@@ -172,31 +182,32 @@ Future<bool> subscribeWeChatMsg({
   String? reserved,
 }) async {
   return await _channel.invokeMethod(
-    "subscribeMsg",
+    'subscribeMsg',
     {
-      "appId": appId,
-      "scene": scene,
-      "templateId": templateId,
-      "reserved": reserved,
+      'appId': appId,
+      'scene': scene,
+      'templateId': templateId,
+      'reserved': reserved,
     },
   );
 }
 
 /// please read official docs.
-Future<bool> autoDeDuctWeChat(
-    {required String appId,
-    required String mchId,
-    required String planId,
-    required String contractCode,
-    required String requestSerial,
-    required String contractDisplayAccount,
-    required String notifyUrl,
-    required String version,
-    required String sign,
-    required String timestamp,
-    String returnApp = '3',
-    int businessType = 12}) async {
-  return await _channel.invokeMethod("autoDeduct", {
+Future<bool> autoDeDuctWeChat({
+  required String appId,
+  required String mchId,
+  required String planId,
+  required String contractCode,
+  required String requestSerial,
+  required String contractDisplayAccount,
+  required String notifyUrl,
+  required String version,
+  required String sign,
+  required String timestamp,
+  String returnApp = '3',
+  int businessType = 12,
+}) async {
+  return await _channel.invokeMethod('autoDeduct', {
     'appid': appId,
     'mch_id': mchId,
     'plan_id': planId,
@@ -208,7 +219,7 @@ Future<bool> autoDeDuctWeChat(
     'sign': sign,
     'timestamp': timestamp,
     'return_app': returnApp,
-    "businessType": businessType
+    'businessType': businessType
   });
 }
 
@@ -217,49 +228,61 @@ Future<bool> autoDeDuctWeChat(
 /// All required params must not be null or empty
 /// [schemeData] only works on iOS
 /// see * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=215238808828h4XN&token=&lang=zh_CN
-Future<bool> authWeChatByQRCode(
-    {required String appId,
-    required String scope,
-    required String nonceStr,
-    required String timeStamp,
-    required String signature,
-    String? schemeData}) async {
+Future<bool> authWeChatByQRCode({
+  required String appId,
+  required String scope,
+  required String nonceStr,
+  required String timeStamp,
+  required String signature,
+  String? schemeData,
+}) async {
   assert(appId.isNotEmpty);
   assert(scope.isNotEmpty);
   assert(nonceStr.isNotEmpty);
   assert(timeStamp.isNotEmpty);
   assert(signature.isNotEmpty);
 
-  return await _channel.invokeMethod("authByQRCode", {
-    "appId": appId,
-    "scope": scope,
-    "nonceStr": nonceStr,
-    "timeStamp": timeStamp,
-    "signature": signature,
-    "schemeData": schemeData
+  return await _channel.invokeMethod('authByQRCode', {
+    'appId': appId,
+    'scope': scope,
+    'nonceStr': nonceStr,
+    'timeStamp': timeStamp,
+    'signature': signature,
+    'schemeData': schemeData
   });
 }
 
 /// stop [authWeChatByQRCode]
 Future<bool> stopWeChatAuthByQRCode() async {
-  return await _channel.invokeMethod("stopAuthByQRCode");
+  return await _channel.invokeMethod('stopAuthByQRCode');
 }
 
 Future _methodHandler(MethodCall methodCall) {
-  var response =
-      BaseWeChatResponse.create(methodCall.method, methodCall.arguments);
+  final response = BaseWeChatResponse.create(
+    methodCall.method,
+    methodCall.arguments,
+  );
   _weChatResponseEventHandlerController.add(response);
   return Future.value();
 }
 
-///IOS only
-Future<bool> authWeChatByPhoneLogin(
-    {required String scope, String state = "state"}) async {
-  return await _channel
-      .invokeMethod("authByPhoneLogin", {"scope": scope, "state": state});
+/// IOS only
+Future<bool> authWeChatByPhoneLogin({
+  required String scope,
+  String state = 'state',
+}) async {
+  return await _channel.invokeMethod(
+    'authByPhoneLogin',
+    {'scope': scope, 'state': state},
+  );
 }
 
-Future<bool> openWeChatCustomerServiceChat({required String url, required String corpId}) async {
-  return await _channel
-      .invokeMethod("openWeChatCustomerServiceChat", {"corpId": corpId, "url": url});
+Future<bool> openWeChatCustomerServiceChat({
+  required String url,
+  required String corpId,
+}) async {
+  return await _channel.invokeMethod(
+    'openWeChatCustomerServiceChat',
+    {'corpId': corpId, 'url': url},
+  );
 }

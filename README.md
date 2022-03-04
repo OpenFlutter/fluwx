@@ -84,7 +84,7 @@ For more capabilities, you can read the public functions of `fluwx`.
 ## Donate
 Buy the writer a cup of coffee。
 
-<img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/ali.jpeg" height="300">
+<img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/ali.jpeg" height="300">
 
 ## Subscribe Us On WeChat
 ![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)

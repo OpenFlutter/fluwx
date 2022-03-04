@@ -263,3 +263,13 @@ Future<bool> openWeChatCustomerServiceChat({required String url, required String
   return await _channel
       .invokeMethod("openWeChatCustomerServiceChat", {"corpId": corpId, "url": url});
 }
+
+// see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/Offline/apis/chapter6_2_1.shtml
+Future<bool> openWeChatBusinessView({required String businessType, required String query}) async {
+  return await _channel
+      .invokeMethod("openBusinessView", {"businessType": businessType, "query": query});
+}
+
+Future<bool> checkSupportOpenBusinessView() async {
+  return await _channel.invokeMethod("checkSupportOpenBusinessView");
+}

@@ -44,6 +44,8 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
       WeChatShowMessageFromWXRequest.fromMap(argument),
   "onWXOpenCustomerServiceChatResponse": (Map argument) =>
       WeChatOpenCustomerServiceChatResponse.fromMap(argument),
+  "onOpenBusinessViewResponse": (Map argument) =>
+      WeChatOpenBusinessViewResponse.fromMap(argument),
 };
 
 class BaseWeChatResponse {
@@ -132,6 +134,20 @@ class WeChatOpenCustomerServiceChatResponse extends BaseWeChatResponse {
 
   WeChatOpenCustomerServiceChatResponse.fromMap(Map map)
       : extMsg = map["extMsg"],
+        super._(map[_errCode], map[_errStr]);
+}
+
+class WeChatOpenBusinessViewResponse extends BaseWeChatResponse {
+  final String? extMsg;
+  final String? openid;
+  final String? businessType;
+  final int? type;
+
+  WeChatOpenBusinessViewResponse.fromMap(Map map)
+      : extMsg = map["extMsg"],
+        openid = map["openid"],
+        businessType = map["businessType"],
+        type = map["type"],
         super._(map[_errCode], map[_errStr]);
 }
 

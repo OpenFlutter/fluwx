@@ -39,11 +39,11 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
             if (!WXAPiHandler.wxApiRegistered) {
                 val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
                 val wechatAppId = appInfo.metaData.getString("weChatAppId")
-                if (wechatAppId != null ){
+                if (wechatAppId != null) {
                     WXAPiHandler.setupWxApi(wechatAppId,this)
-                    WXAPiHandler.setCoolBool(true)
+                    WXAPiHandler.coolBoot = true
                     Log.d("fluwx","weChatAppId: $wechatAppId")
-                }else {
+                } else {
                     Log.e("fluwx","can't load meta-data weChatAppId")
                 }
             }

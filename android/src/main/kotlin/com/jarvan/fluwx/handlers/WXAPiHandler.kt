@@ -23,6 +23,7 @@ import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import com.tencent.mm.opensdk.constants.Build
 
 object WXAPiHandler {
 
@@ -35,12 +36,7 @@ object WXAPiHandler {
     val wxApiRegistered get() = registered
 
     //是否为冷启动
-    private var coolBoot: Boolean = false
-    val isCoolBoot get() = coolBoot
-
-    fun setCoolBool(isCoolBoot : Boolean) {
-        coolBoot = isCoolBoot
-    }
+    var coolBoot: Boolean = false
 
     fun setupWxApi(appId: String, context: Context, force: Boolean = true): Boolean {
         if (force || !registered) {
@@ -83,6 +79,23 @@ object WXAPiHandler {
             return
         } else {
             result.success(wxApi?.isWXAppInstalled)
+        }
+    }
+
+    fun checkSupportOpenBusinessView(result: MethodChannel.Result) {
+        when {
+            wxApi == null -> {
+                result.error("Unassigned WxApi", "please config  wxapi first", null)
+            }
+            wxApi?.isWXAppInstalled != true -> {
+                result.error("WeChat Not Installed", "Please install the WeChat first", null)
+            }
+            wxApi?.wxAppSupportAPI ?: 0 < Build.OPEN_BUSINESS_VIEW_SDK_INT -> {
+                result.error("WeChat Not Supported", "Please upgrade the WeChat version", null)
+            }
+            else -> {
+                result.success(null)
+            }
         }
     }
 

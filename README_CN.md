@@ -84,7 +84,7 @@ registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerall
 <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/ali.jpeg" height="300">
 
 ## 关注公众号
-![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)
+![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx_subscription.png)
 
 ## LICENSE
 

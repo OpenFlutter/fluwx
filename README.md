@@ -3,7 +3,7 @@
 ![Build status](https://github.com/OpenFlutter/fluwx/actions/workflows/build_test.yml/badge.svg)
 ======
 
-![logo](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/fluwx_logo.png)
+![logo](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/fluwx_logo.png)
 
 [中文请移步此处](./README_CN.md)
 
@@ -84,10 +84,10 @@ For more capabilities, you can read the public functions of `fluwx`.
 ## Donate
 Buy the writer a cup of coffee。
 
-<img src="https://gitee.com/OpenFlutter/resoures-repository/blob/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/blob/master/common/ali.jpeg" height="300">
+<img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/ali.jpeg" height="300">
 
 ## Subscribe Us On WeChat
-![subscribe](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/wx_subscription.png)
+![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx_subscription.png)
 
 ## LICENSE
 

@@ -68,6 +68,8 @@ FlutterMethodChannel *channel = nil;
         [self handleSubscribeWithCall:call result:result];
     } else if ([@"autoDeduct" isEqualToString:call.method]) {
         [self handleAutoDeductWithCall:call result:result];
+    } else if ([@"openBusinessView" isEqualToString:call.method]) {
+        [self handleOpenBusinessView:call result:result];
     }else if([@"authByPhoneLogin" isEqualToString:call.method]){
         [_fluwxAuthHandler handleAuthByPhoneLogin:call result:result];
     }else if([@"getExtMsg" isEqualToString:call.method]){
@@ -76,7 +78,9 @@ FlutterMethodChannel *channel = nil;
         [_fluwxShareHandler handleShare:call result:result];
     } else if ([@"openWeChatCustomerServiceChat" isEqualToString:call.method]) {
         [self openWeChatCustomerServiceChat:call result:result];
-    } else {
+    } else if ([@"checkSupportOpenBusinessView" isEqualToString:call.method]) {
+        [self checkSupportOpenBusinessView:call result:result];
+    }else {
         result(FlutterMethodNotImplemented);
     }
 }
@@ -122,6 +126,14 @@ FlutterMethodChannel *channel = nil;
     return [WXApi sendReq:req completion:^(BOOL success) {
         result(@(success));
     }];
+}
+
+- (void)checkSupportOpenBusinessView:(FlutterMethodCall *)call result:(FlutterResult)result {
+    if(![WXApi isWXAppInstalled]){
+        result([FlutterError errorWithCode:@"WeChat Not Installed" message:@"Please install the WeChat first" details:nil]);
+    }else {
+        result(@(true));
+    }
 }
 
 - (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -206,6 +218,21 @@ FlutterMethodChannel *channel = nil;
     NSNumber *businessType = call.arguments[@"businessType"];
     req.businessType = [businessType unsignedIntValue];
     req.queryInfoDic = paramsFromDart;
+    [WXApi sendReq:req completion:^(BOOL done) {
+        result(@(done));
+    }];
+}
+
+
+- (void)handleOpenBusinessView:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *params = call.arguments;
+
+    WXOpenBusinessViewReq *req = [WXOpenBusinessViewReq object];
+    NSString *businessType = [params valueForKey:@"businessType"];
+    NSString *query = [params valueForKey:@"query"];
+    req.businessType = businessType;
+    req.query = query;
+    req.extInfo = @"{\"miniProgramType\":0}";
     [WXApi sendReq:req completion:^(BOOL done) {
         result(@(done));
     }];

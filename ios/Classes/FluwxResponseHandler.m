@@ -203,6 +203,21 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
 
         [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
      // 相关错误信息
+    }else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]])
+    {
+        
+        WXOpenBusinessViewResp *openBusinessViewResp = (WXOpenBusinessViewResp *) resp;
+        NSDictionary *result = @{
+                description: [FluwxStringUtil nilToEmpty:openBusinessViewResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+                errCode: @(openBusinessViewResp.errCode),
+                @"businessType":openBusinessViewResp.businessType,
+                type: @(openBusinessViewResp.type),
+                @"extMsg":[FluwxStringUtil nilToEmpty:openBusinessViewResp.extMsg]
+        };
+
+        [fluwxMethodChannel invokeMethod:@"onOpenBusinessViewResponse" arguments:result];
+     // 相关错误信息
     }
 }
 

@@ -1,9 +1,9 @@
 # Fluwx
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
-[![Build status](https://github.com/OpenFlutter/fluwx/workflows/build_test.yml/badge.svg)](https://cirrus-ci.com/github/OpenFlutter/fluwx)
+[![Build status](https://github.com/OpenFlutter/fluwx/workflows/build_test.yml/badge.svg)](https://github.com/OpenFlutter/fluwx/workflows/build_test.yml/badge.svg)
 ======
 
-![logo](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/fluwx_logo.png)
+![logo](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/fluwx_logo.png)
 
 ## 什么是Fluwx
 `Fluwx` 是一个[微信SDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html)插件，它允许开发者调用
@@ -23,7 +23,7 @@
 
 ## 准备
 
-`Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1).  
+`Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1).
  然后你才知道怎么生成签名，怎么使用universal link以及怎么添加URL schema等.
 
 > [收费视频教程点这里](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
@@ -59,7 +59,7 @@ dependencies:
 registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
 ```
 
-参数 `universalLink` 只在iOS上有用. 查看[文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) 以便了解如何生成通用链接.  
+参数 `universalLink` 只在iOS上有用. 查看[文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) 以便了解如何生成通用链接.
  你也可以学习到怎么在iOS工程中添加URL schema，怎么添加`LSApplicationQueriesSchemes`。这很重要。
 
 对于Android, 可以查看[本文](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html)以便了解怎么获取app签名.
@@ -81,10 +81,10 @@ registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerall
 ## 捐助
 开源不易，请作者喝杯咖啡。
 
-<img src="https://gitee.com/OpenFlutter/resoures-repository/blob/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/blob/master/common/ali.jpeg" height="300">
+<img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/ali.jpeg" height="300">
 
 ## 关注公众号
-![subscribe](https://gitee.com/OpenFlutter/resoures-repository/blob/master/fluwx/wx_subscription.png)
+![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)
 
 ## LICENSE
 

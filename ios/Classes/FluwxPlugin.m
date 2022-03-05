@@ -64,6 +64,8 @@ FlutterMethodChannel *channel = nil;
         [self handleSubscribeWithCall:call result:result];
     } else if ([@"autoDeduct" isEqualToString:call.method]) {
         [self handleAutoDeductWithCall:call result:result];
+    } else if ([@"openBusinessView" isEqualToString:call.method]) {
+        [self handleOpenBusinessView:call result:result];
     }else if([@"authByPhoneLogin" isEqualToString:call.method]){
         [_fluwxAuthHandler handleAuthByPhoneLogin:call result:result];
     }else if([@"getExtMsg" isEqualToString:call.method]){
@@ -71,7 +73,9 @@ FlutterMethodChannel *channel = nil;
     } else if ([call.method hasPrefix:@"share"]) {
         [_fluwxShareHandler handleShare:call result:result];
     } else if ([@"openWeChatCustomerServiceChat" isEqualToString:call.method]) {
-         [self openWeChatCustomerServiceChat:call result:result];
+        [self openWeChatCustomerServiceChat:call result:result];
+    } else if ([@"checkSupportOpenBusinessView" isEqualToString:call.method]) {
+        [self checkSupportOpenBusinessView:call result:result];
     } else {
         result(FlutterMethodNotImplemented);
     }
@@ -117,6 +121,49 @@ FlutterMethodChannel *channel = nil;
     req.url = url;         //客服URL
     return [WXApi sendReq:req completion:^(BOOL success) {
         result(@(success));
+    }];
+}
+
+- (void)checkSupportOpenBusinessView:(FlutterMethodCall *)call result:(FlutterResult)result {
+    if(![WXApi isWXAppInstalled]){
+        result([FlutterError errorWithCode:@"WeChat Not Installed" message:@"Please install the WeChat first" details:nil]);
+    }else {
+        result(@(true));
+    }
+}
+
+- (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+
+    NSNumber *timestamp = call.arguments[@"timeStamp"];
+
+    NSString *partnerId = call.arguments[@"partnerId"];
+    NSString *prepayId = call.arguments[@"prepayId"];
+    NSString *packageValue = call.arguments[@"packageValue"];
+    NSString *nonceStr = call.arguments[@"nonceStr"];
+    UInt32 timeStamp = [timestamp unsignedIntValue];
+    NSString *sign = call.arguments[@"sign"];
+    [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
+                           PartnerId:partnerId
+                            PrepayId:prepayId
+                            NonceStr:nonceStr
+                           Timestamp:timeStamp
+                             Package:packageValue
+                                Sign:sign completion:^(BOOL done) {
+                result(@(done));
+            }];
+}
+
+- (void)handleHongKongWalletPayment:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSString *partnerId = call.arguments[@"prepayId"];
+
+    WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
+    req.businessType = 1;
+    NSMutableDictionary *queryInfoDic = [NSMutableDictionary dictionary];
+    [queryInfoDic setObject:partnerId forKey:@"token"];
+    req.queryInfoDic = queryInfoDic;
+    [WXApi sendReq:req completion:^(BOOL done) {
+        result(@(done));
     }];
 }
 
@@ -167,6 +214,21 @@ FlutterMethodChannel *channel = nil;
     NSNumber *businessType = call.arguments[@"businessType"];
     req.businessType = [businessType unsignedIntValue];
     req.queryInfoDic = paramsFromDart;
+    [WXApi sendReq:req completion:^(BOOL done) {
+        result(@(done));
+    }];
+}
+
+
+- (void)handleOpenBusinessView:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *params = call.arguments;
+
+    WXOpenBusinessViewReq *req = [WXOpenBusinessViewReq object];
+    NSString *businessType = [params valueForKey:@"businessType"];
+    NSString *query = [params valueForKey:@"query"];
+    req.businessType = businessType;
+    req.query = query;
+    req.extInfo = @"{\"miniProgramType\":0}";
     [WXApi sendReq:req completion:^(BOOL done) {
         result(@(done));
     }];

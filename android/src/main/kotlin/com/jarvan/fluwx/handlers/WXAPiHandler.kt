@@ -29,7 +29,7 @@ object WXAPiHandler {
 
     var wxApi: IWXAPI? = null
 
-    private var context: Context? = null
+//    private var context: Context? = null
 
     private var registered: Boolean = false
 
@@ -40,17 +40,17 @@ object WXAPiHandler {
 
     fun setupWxApi(appId: String, context: Context, force: Boolean = true): Boolean {
         if (force || !registered) {
-            setContext(context)
+//            setContext(context)
             registerWxAPIInternal(appId, context)
         }
         return registered
     }
+//
+//    fun setContext(context: Context?) {
+//        WXAPiHandler.context = context
+//    }
 
-    fun setContext(context: Context?) {
-        WXAPiHandler.context = context
-    }
-
-    fun registerApp(call: MethodCall, result: MethodChannel.Result) {
+    fun registerApp(call: MethodCall, result: MethodChannel.Result, context: Context?) {
 
         if (call.argument<Boolean?>("android") == false) {
             return
@@ -94,7 +94,7 @@ object WXAPiHandler {
                 result.error("WeChat Not Supported", "Please upgrade the WeChat version", null)
             }
             else -> {
-                result.success(null)
+                result.success(true)
             }
         }
     }

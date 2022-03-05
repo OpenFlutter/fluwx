@@ -1,6 +1,6 @@
 # Fluwx
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
-![Build status](https://github.com/OpenFlutter/fluwx/workflows/build_test.yml/badge.svg)](https://github.com/OpenFlutter/fluwx/workflows/build_test.yml/badge.svg)
+![Build status](https://github.com/OpenFlutter/fluwx/actions/workflows/build_test.yml/badge.svg)
 ======
 
 ![logo](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/fluwx_logo.png)

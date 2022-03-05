@@ -1,5 +1,6 @@
 package com.jarvan.fluwx
 
+import android.content.Context
 import android.content.Intent
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
@@ -15,11 +16,13 @@ import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
 
 /** FluwxPlugin */
-class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegistry.NewIntentListener {
+class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
+    PluginRegistry.NewIntentListener {
     companion object {
-        var callingChannel:MethodChannel? = null
+        var callingChannel: MethodChannel? = null
+
         // 主动获取的启动参数
-        var extMsg:String? = null
+        var extMsg: String? = null
     }
 
     private var shareHandler: FluwxShareHandler? = null
@@ -27,6 +30,8 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
     private var authHandler: FluwxAuthHandler? = null
 
     private var fluwxChannel: MethodChannel? = null
+
+    private var context: Context? = null
 
     private fun handelIntent(intent: Intent) {
         val action = intent.action
@@ -40,6 +45,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
         val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
         channel.setMethodCallHandler(this)
         fluwxChannel = channel
+        context = flutterPluginBinding.applicationContext
         authHandler = FluwxAuthHandler(channel)
         shareHandler = FluwxShareHandlerEmbedding(
             flutterPluginBinding.flutterAssets,
@@ -50,7 +56,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         callingChannel = fluwxChannel
         when {
-            call.method == "registerApp" -> WXAPiHandler.registerApp(call, result)
+            call.method == "registerApp" -> WXAPiHandler.registerApp(call, result, context)
             call.method == "sendAuth" -> authHandler?.sendAuth(call, result)
             call.method == "authByQRCode" -> authHandler?.authByQRCode(call, result)
             call.method == "stopAuthByQRCode" -> authHandler?.stopAuthByQRCode(result)
@@ -63,8 +69,13 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
             call.method.startsWith("share") -> shareHandler?.share(call, result)
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
             call.method == "getExtMsg" -> getExtMsg(result)
-            call.method == "openWeChatCustomerServiceChat" -> openWeChatCustomerServiceChat(call, result)
-            call.method == "checkSupportOpenBusinessView" -> WXAPiHandler.checkSupportOpenBusinessView(result)
+            call.method == "openWeChatCustomerServiceChat" -> openWeChatCustomerServiceChat(
+                call,
+                result
+            )
+            call.method == "checkSupportOpenBusinessView" -> WXAPiHandler.checkSupportOpenBusinessView(
+                result
+            )
             call.method == "openBusinessView" -> openBusinessView(call, result)
             else -> result.notImplemented()
         }
@@ -85,7 +96,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        WXAPiHandler.setContext(binding.activity.applicationContext)
+//        WXAPiHandler.setContext(binding.activity.applicationContext)
         handelIntent(binding.activity.intent)
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
@@ -126,7 +137,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
         val request = WXOpenBusinessWebview.Req()
         request.businessType = 1
         request.queryInfo = hashMapOf(
-                "token" to prepayId
+            "token" to prepayId
         )
         result.success(WXAPiHandler.wxApi?.sendReq(request))
     }
@@ -166,17 +177,17 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, PluginRegis
         val req = WXOpenBusinessWebview.Req()
         req.businessType = businessType
         req.queryInfo = hashMapOf(
-                "appid" to appId,
-                "mch_id" to mchId,
-                "plan_id" to planId,
-                "contract_code" to contractCode,
-                "request_serial" to requestSerial,
-                "contract_display_account" to contractDisplayAccount,
-                "notify_url" to notifyUrl,
-                "version" to version,
-                "sign" to sign,
-                "timestamp" to timestamp,
-                "return_app" to returnApp
+            "appid" to appId,
+            "mch_id" to mchId,
+            "plan_id" to planId,
+            "contract_code" to contractCode,
+            "request_serial" to requestSerial,
+            "contract_display_account" to contractDisplayAccount,
+            "notify_url" to notifyUrl,
+            "version" to version,
+            "sign" to sign,
+            "timestamp" to timestamp,
+            "return_app" to returnApp
         )
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }

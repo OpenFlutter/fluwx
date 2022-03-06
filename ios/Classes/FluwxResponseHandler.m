@@ -165,8 +165,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         };
 
         [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
-    }else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]])
-         {
+    }else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]]){
 
              WXOpenCustomerServiceResp *customerResp = (WXOpenCustomerServiceResp *) resp;
              NSDictionary *result = @{
@@ -178,13 +177,7 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
              };
 
              [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
-          // 相关错误信息
-         }
-        [fluwxMethodChannel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
-     // 相关错误信息
-    }else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]])
-    {
-
+    }else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]]){
         WXOpenBusinessViewResp *openBusinessViewResp = (WXOpenBusinessViewResp *) resp;
         NSDictionary *result = @{
                 description: [FluwxStringUtil nilToEmpty:openBusinessViewResp.description],

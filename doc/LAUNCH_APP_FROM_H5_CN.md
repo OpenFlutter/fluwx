@@ -66,8 +66,7 @@ Fluwx 支持从`<wx-open-launch-app>`启动你的app, 并且支持传递`extInfo
 ```oc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //向微信注册
-    [WXApi registerApp:APP_ID
-universalLink:UNIVERSAL_LINK];
+[[FluwxDelegate defaultManager] registerWxAPI:@"" universalLink:@""];
     return YES;
 }
 ```

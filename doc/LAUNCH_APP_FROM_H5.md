@@ -65,8 +65,7 @@ Please register your WXApi in your `AppDelegate`:
 ```oc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     //向微信注册
-    [WXApi registerApp:APP_ID
-universalLink:UNIVERSAL_LINK];
+[[FluwxDelegate defaultManager] registerWxAPI:@"" universalLink:@""];
     return YES;
 }
 ```

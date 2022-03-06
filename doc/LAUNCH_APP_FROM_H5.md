@@ -38,7 +38,7 @@ If you want to custom your request logic, you need add the `<meta-data>` in appl
 ```xml
         <meta-data
             android:name="handleWeChatRequestByFluwx"
-            android:value="flase" />
+            android:value="false" />
 ```
 And then, set `FluwxRequestHandler.customOnReqDelegate` on your own.
 

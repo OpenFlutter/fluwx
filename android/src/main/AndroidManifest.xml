@@ -15,6 +15,7 @@
         <activity
             android:name=".wxapi.FluwxWXEntryActivity"
             android:launchMode="singleTask"
+            android:exported="false"
             android:taskAffinity="${applicationId}"
             android:theme="@style/DisablePreviewTheme" />
 

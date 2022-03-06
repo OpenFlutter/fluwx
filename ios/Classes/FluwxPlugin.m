@@ -3,14 +3,20 @@
 #import "FluwxStringUtil.h"
 #import "FluwxAuthHandler.h"
 #import "FluwxShareHandler.h"
+#import "FluwxDelegate.h"
 
 @interface FluwxPlugin()<WXApiManagerDelegate>
 @property (strong,nonatomic)NSString *extMsg;
 @end
 
+typedef void(^FluwxWXReqRunnable)(void);
+
 @implementation FluwxPlugin
 FluwxAuthHandler *_fluwxAuthHandler;
 FluwxShareHandler *_fluwxShareHandler;
+BOOL _isRunning;
+FluwxWXReqRunnable _initialWXReqRunnable;
+
 
 BOOL handleOpenURLByFluwx = YES;
 
@@ -40,12 +46,17 @@ FlutterMethodChannel *channel = nil;
     if (self) {
         _fluwxAuthHandler = [[FluwxAuthHandler alloc] initWithRegistrar:registrar methodChannel:flutterMethodChannel];
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
+        _isRunning = NO;
+        channel = flutterMethodChannel;
         [FluwxResponseHandler defaultManager].delegate = self;
+        
     }
     return self;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
+    _isRunning = YES;
+    
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
     } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
@@ -239,8 +250,8 @@ FlutterMethodChannel *channel = nil;
 }
 
 - (void)handelGetExtMsgWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    result(self.extMsg);
-    self.extMsg=nil;
+    result([FluwxDelegate defaultManager].extMsg);
+    [FluwxDelegate defaultManager].extMsg=nil;
 }
 
 
@@ -271,7 +282,18 @@ FlutterMethodChannel *channel = nil;
 }
 
 - (void)managerDidRecvLaunchFromWXReq:(LaunchFromWXReq *)request {
-    self.extMsg = request.message.messageExt;
+    [FluwxDelegate defaultManager].extMsg = request.message.messageExt;
+//    LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *)request;
+//
+//           if (_isRunning) {
+//               [FluwxDelegate defaultManager].extMsg = request.message.messageExt;
+//           } else {
+//               __weak typeof(self) weakSelf = self;
+//               _initialWXReqRunnable = ^() {
+//                   __strong typeof(weakSelf) strongSelf = weakSelf;
+//                   [FluwxDelegate defaultManager].extMsg = request.message.messageExt
+//               };
+//           }
 }
 
 @end

@@ -8,5 +8,9 @@
 
 @interface FluwxDelegate : NSObject
 
+@property (strong,nonatomic)NSString *extMsg;
+
++ (instancetype)defaultManager;
+
 - (void)registerWxAPI:(NSString *)appId universalLink:(NSString *)universalLink;
 @end

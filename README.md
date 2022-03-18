@@ -11,7 +11,8 @@
 `Fluwx` is flutter plugin for [WeChatSDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) which allows developers to call  
 [WeChatSDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) native APIs.
 
-> Join QQ Group now: 1003811176。
+> Join QQ Group now: 1003811176
+
 ![QQGroup](https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/flutter.png)
 
 ## Capability

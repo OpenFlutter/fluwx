@@ -1,3 +1,6 @@
+# 3.8.1+1
+* Just update docs
+
 # 3.8.1
 * 在iOS中增加FluwxDelegate
 * 尝试修复iOS冷启动获取extMsg问题

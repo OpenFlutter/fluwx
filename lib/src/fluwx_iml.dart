@@ -223,6 +223,15 @@ Future<bool> autoDeDuctWeChat({
   });
 }
 
+/// please read * [official docs](https://pay.weixin.qq.com/wiki/doc/api/wxpay_v2/papay/chapter3_2.shtml).
+Future<bool> autoDeductWeChatV2(
+  Map<String, String> queryInfo, {
+  int businessType = 12,
+}) async {
+  return await _channel.invokeMethod(
+      'autoDeductV2', {'queryInfo': queryInfo, 'businessType': businessType});
+}
+
 /// Sometimes WeChat  is not installed on users's devices.However we can
 /// request a QRCode so that we can get AuthCode by scanning the QRCode
 /// All required params must not be null or empty
@@ -277,16 +286,17 @@ Future<bool> authWeChatByPhoneLogin({
   );
 }
 
-
-Future<bool> openWeChatCustomerServiceChat({required String url, required String corpId}) async {
-  return await _channel
-      .invokeMethod("openWeChatCustomerServiceChat", {"corpId": corpId, "url": url});
+Future<bool> openWeChatCustomerServiceChat(
+    {required String url, required String corpId}) async {
+  return await _channel.invokeMethod(
+      "openWeChatCustomerServiceChat", {"corpId": corpId, "url": url});
 }
 
-/// see https://pay.weixin.qq.com/wiki/doc/apiv3_partner/Offline/apis/chapter6_2_1.shtml
-Future<bool> openWeChatBusinessView({required String businessType, required String query}) async {
-  return await _channel
-      .invokeMethod("openBusinessView", {"businessType": businessType, "query": query});
+/// see * https://pay.weixin.qq.com/wiki/doc/apiv3_partner/Offline/apis/chapter6_2_1.shtml
+Future<bool> openWeChatBusinessView(
+    {required String businessType, required String query}) async {
+  return await _channel.invokeMethod(
+      "openBusinessView", {"businessType": businessType, "query": query});
 }
 
 Future<bool> checkSupportOpenBusinessView() async {

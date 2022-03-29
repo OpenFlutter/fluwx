@@ -65,6 +65,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             call.method == "launchMiniProgram" -> launchMiniProgram(call, result)
             call.method == "subscribeMsg" -> subScribeMsg(call, result)
             call.method == "autoDeduct" -> signAutoDeduct(call, result)
+            call.method == "autoDeductV2" -> autoDeductV2(call, result)
             call.method == "openWXApp" -> openWXApp(result)
             call.method.startsWith("share") -> shareHandler?.share(call, result)
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
@@ -189,6 +190,16 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             "timestamp" to timestamp,
             "return_app" to returnApp
         )
+        result.success(WXAPiHandler.wxApi?.sendReq(req))
+    }
+
+    private fun autoDeductV2(call: MethodCall, result: Result) {
+        val businessType = call.argument<Int>("businessType") ?: 12
+
+        val req = WXOpenBusinessWebview.Req()
+        req.businessType = businessType
+        req.queryInfo = call.argument<HashMap<String, String>>("queryInfo") ?: hashMapOf()
+
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
 

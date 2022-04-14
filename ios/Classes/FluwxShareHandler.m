@@ -235,16 +235,15 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         NSDictionary *hdImagePath = call.arguments[@"hdImagePath"];
         if (hdImagePath != (id) [NSNull null]) {
             NSData *imageData = [self getNsDataFromWeChatFile:hdImagePath];
-            NSString *suffix = hdImagePath[@"suffix"];
-            BOOL isPNG = [self isPNG:suffix];
             BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
 
-            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
-            if (isPNG) {
-                hdImageData = UIImagePNGRepresentation(uiImage);
-            } else {
-                hdImageData = UIImageJPEGRepresentation(uiImage, 1);
-            }
+            hdImageData = [self getThumbnailDataFromNSData:imageData size:120 * 1024 compress:compress];
+//            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
+//            if (isPNG) {
+//                hdImageData = UIImagePNGRepresentation(uiImage);
+//            } else {
+//                hdImageData = UIImageJPEGRepresentation(uiImage, 1);
+//            }
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -330,6 +329,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
     else
         return uiImage;
+}
+
+- (NSData *)getThumbnailDataFromNSData:(NSData *)data size:(NSUInteger)size compress:(BOOL)compress {
+    if(compress) {
+        return [ThumbnailHelper compressImageData:data toByte:size];
+    } else{
+        return data;
+    }
 }
 
 - (NSString *)readFileFromAssets:(NSString *)imagePath {

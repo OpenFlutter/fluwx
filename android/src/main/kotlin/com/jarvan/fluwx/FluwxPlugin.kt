@@ -57,7 +57,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
         callingChannel = fluwxChannel
         when {
             call.method == "registerApp" -> WXAPiHandler.registerApp(call, result, context)
-            call.method == "starLog" -> WXAPiHandler.startLog(call, result)
+            call.method == "startLog" -> WXAPiHandler.startLog(call, result)
             call.method == "stopLog" -> WXAPiHandler.stopLog(call, result)
             call.method == "sendAuth" -> authHandler?.sendAuth(call, result)
             call.method == "authByQRCode" -> authHandler?.authByQRCode(call, result)

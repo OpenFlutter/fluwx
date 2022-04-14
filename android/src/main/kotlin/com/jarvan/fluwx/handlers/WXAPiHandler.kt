@@ -19,13 +19,15 @@
 package com.jarvan.fluwx.handlers
 
 import android.content.Context
+import android.util.Log
+import com.tencent.mm.opensdk.constants.Build
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.tencent.mm.opensdk.utils.ILog
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import com.tencent.mm.opensdk.constants.Build
 
-object WXAPiHandler {
+object WXAPiHandler : ILog {
 
     var wxApi: IWXAPI? = null
 
@@ -104,4 +106,57 @@ object WXAPiHandler {
         registered = api.registerApp(appId)
         wxApi = api
     }
+
+    fun startLog(call: MethodCall, result: MethodChannel.Result) {
+        wxApi?.setLogImpl(this);
+        result.success(true);
+    }
+
+    fun stopLog(call: MethodCall, result: MethodChannel.Result) {
+        wxApi?.setLogImpl(null);
+        result.success(true);
+
+    }
+
+    override fun d(p0: String?, p1: String?) {
+        when {
+            p1 != null -> {
+                Log.d(p0, p1);
+            }
+        }
+    }
+
+    override fun i(p0: String?, p1: String?) {
+        when {
+            p1 != null -> {
+                Log.d(p0, p1);
+            }
+        }
+    }
+
+    override fun e(p0: String?, p1: String?) {
+        when {
+            p1 != null -> {
+                Log.d(p0, p1);
+            }
+        }
+    }
+
+    override fun v(p0: String?, p1: String?) {
+        when {
+            p1 != null -> {
+                Log.d(p0, p1);
+            }
+        }
+    }
+
+    override fun w(p0: String?, p1: String?) {
+        when {
+            p1 != null -> {
+                Log.d(p0, p1);
+            }
+        }
+    }
 }
+
+

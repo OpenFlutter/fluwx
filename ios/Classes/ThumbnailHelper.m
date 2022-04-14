@@ -7,6 +7,53 @@
 
 @implementation ThumbnailHelper
 
++ (NSData *)compressImageData:(NSData *)imageData toByte:(NSUInteger)maxLength {
+    // Compress by quality
+    CGFloat compression = 1;
+    NSData *data = imageData;
+    NSLog(@"压缩前 %lu  %lu  ",(unsigned long)data.length,maxLength);
+    if (data.length < maxLength) return data;
+
+    UIImage *image = [UIImage imageWithData:imageData];
+    CGFloat max = 1;
+    CGFloat min = 0;
+    for (int i = 0; i < 6; ++i) {
+        compression = (max + min) / 2;
+        data = UIImageJPEGRepresentation(image, compression);
+        if (data.length < maxLength * 0.9) {
+            min = compression;
+        } else if (data.length > maxLength) {
+            max = compression;
+        } else {
+            break;
+        }
+    }
+    
+    NSLog(@"压缩第一次 %lu  %lu  ",(unsigned long)data.length,maxLength);
+    if (data.length < maxLength) return data;
+    
+    UIImage *resultImage;
+
+    resultImage = [UIImage imageWithData:data];
+
+    // Compress by size
+    NSUInteger lastDataLength = 0;
+    while (data.length > maxLength && data.length != lastDataLength) {
+        lastDataLength = data.length;
+        CGFloat ratio = (CGFloat) maxLength / data.length;
+        CGSize size = CGSizeMake((NSUInteger) (resultImage.size.width * sqrtf(ratio)),
+                (NSUInteger) (resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
+        UIGraphicsBeginImageContext(size);
+        [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
+        resultImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        data = UIImageJPEGRepresentation(resultImage, compression);
+    }
+    
+    NSLog(@"压缩第二次%lu  %lu  ",(unsigned long)data.length,maxLength);
+    return data;
+}
+
 + (UIImage *)compressImage:(UIImage *)image toByte:(NSUInteger)maxLength isPNG:(BOOL)isPNG {
     // Compress by quality
     CGFloat compression = 1;

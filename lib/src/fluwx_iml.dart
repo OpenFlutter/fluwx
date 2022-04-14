@@ -90,6 +90,17 @@ Future<String?> getExtMsg() {
   return _channel.invokeMethod('getExtMsg');
 }
 
+/// start Log
+/// defalult [WXLogLevel.DETAIL]
+Future<bool?> startLog({WXLogLevel logLevel = WXLogLevel.DETAIL}) async {
+  return await _channel.invokeMethod('startLog', {'logLevel': logLevel.toNativeInt()});
+}
+
+/// stop log
+Future<bool?> stopLog() async {
+  return await _channel.invokeMethod('stopLog');
+}
+
 /// Share your requests to WeChat.
 /// This depends on the actual type of [model].
 /// see [_shareModelMethodMapper] for detail.

@@ -90,6 +90,26 @@ class ShareSelectorPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
+              onPressed: () async {
+                bool? success = await startLog(logLevel: WXLogLevel.NORMAL);
+                print('startLog:$success\n');
+              },
+              child: const Text('start log'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () async {
+                dynamic success = await stopLog();
+                print('stopLog:$success\n');
+              },
+              child: const Text('stop log'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed('shareText');
               },

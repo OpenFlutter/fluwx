@@ -41,3 +41,20 @@ extension MiniProgramTypeExtensions on WXMiniProgramType {
     }
   }
 }
+
+/// 打印日常的日志
+/// 打印详细的日志
+enum WXLogLevel { NORMAL, DETAIL }
+
+extension LogLevelExtensions on WXLogLevel {
+  int toNativeInt() {
+    switch (this) {
+      case WXLogLevel.DETAIL:
+        return 1;
+      case WXLogLevel.NORMAL:
+        return 0;
+      default:
+        return 0;
+    }
+  }
+}

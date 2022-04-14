@@ -59,6 +59,10 @@ FlutterMethodChannel *channel = nil;
     
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
+    } else if ([@"startLog" isEqualToString:call.method]) {
+        [self startLog:call result:result];
+    } else if ([@"stopLog" isEqualToString:call.method]) {
+        [self stopLog:call result:result];
     } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
         [self checkWeChatInstallation:call result:result];
     } else if ([@"sendAuth" isEqualToString:call.method]) {
@@ -122,6 +126,27 @@ FlutterMethodChannel *channel = nil;
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
 
     result(@(isWeChatRegistered));
+}
+
+- (void)startLog:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSNumber *typeInt = call.arguments[@"logLevel"];
+    WXLogLevel logLevel = WXLogLevelDetail;
+    if ([typeInt isEqualToNumber:@1]) {
+        logLevel = WXLogLevelDetail;
+    } else if ([typeInt isEqualToNumber:@0]) {
+        logLevel = WXLogLevelNormal;
+    }
+    NSLog(@"%@",call.arguments);
+    [WXApi startLogByLevel:logLevel logBlock:^(NSString * _Nonnull log) {
+        NSLog(@"%@",log);
+    }];
+    result([NSNumber numberWithBool:true]);
+
+}
+
+- (void)stopLog:(FlutterMethodCall *)call result:(FlutterResult)result {
+    [WXApi stopLog];
+    result([NSNumber numberWithBool:true]);
 }
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {

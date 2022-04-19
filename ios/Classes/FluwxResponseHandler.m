@@ -242,9 +242,14 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         }
     }
     LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
+    NSString *msg = launchFromWXReq.message.messageExt;
+    if (msg == nil || msg == NULL || [msg isKindOfClass:[NSNull class]]) {
+        msg = @"";
+    }
     NSDictionary *result = @{
-            @"extMsg": launchFromWXReq.message.messageExt
+            @"extMsg": msg
     };
+
     [fluwxMethodChannel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
 }
 @end

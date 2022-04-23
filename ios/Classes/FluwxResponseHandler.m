@@ -242,10 +242,17 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
         }
     }
     LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
-    NSString *msg = launchFromWXReq.message.messageExt;
-    if (msg == nil || msg == NULL || [msg isKindOfClass:[NSNull class]]) {
+    WXMediaMessage *wmm = launchFromWXReq.message;
+    NSString *msg = @"";
+    if (wmm == nil || wmm == NULL || [wmm isKindOfClass:[NSNull class]]) {
         msg = @"";
+    }else {
+        msg = wmm.messageExt;
+        if (msg == nil || msg == NULL || [msg isKindOfClass:[NSNull class]]) {
+            msg = @"";
+        }
     }
+
     NSDictionary *result = @{
             @"extMsg": msg
     };

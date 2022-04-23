@@ -240,23 +240,24 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
             LaunchFromWXReq *launchReq = (LaunchFromWXReq *) req;
             [_delegate managerDidRecvLaunchFromWXReq:launchReq];
         }
-    }
-    LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
-    WXMediaMessage *wmm = launchFromWXReq.message;
-    NSString *msg = @"";
-    if (wmm == nil || wmm == NULL || [wmm isKindOfClass:[NSNull class]]) {
-        msg = @"";
-    }else {
-        msg = wmm.messageExt;
-        if (msg == nil || msg == NULL || [msg isKindOfClass:[NSNull class]]) {
+        LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
+        WXMediaMessage *wmm = launchFromWXReq.message;
+        NSString *msg = @"";
+        if (wmm == nil || wmm == NULL || [wmm isKindOfClass:[NSNull class]]) {
             msg = @"";
+        }else {
+            msg = wmm.messageExt;
+            if (msg == nil || msg == NULL || [msg isKindOfClass:[NSNull class]]) {
+                msg = @"";
+            }
         }
+
+        NSDictionary *result = @{
+                @"extMsg": msg
+        };
+
+        [fluwxMethodChannel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
     }
-
-    NSDictionary *result = @{
-            @"extMsg": msg
-    };
-
-    [fluwxMethodChannel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
+    
 }
 @end

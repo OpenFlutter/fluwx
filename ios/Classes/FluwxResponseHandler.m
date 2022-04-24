@@ -104,22 +104,29 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
 
         WXSubscribeMsgResp *subscribeMsgResp = (WXSubscribeMsgResp *) resp;
         NSMutableDictionary *result = [NSMutableDictionary dictionary];
-        if(subscribeMsgResp.openId != nil){
-           result[@"openid"] = subscribeMsgResp.openId;
+        NSString *openid = subscribeMsgResp.openId;
+        if(openid != nil && openid != NULL && ![openid isKindOfClass:[NSNull class]]){
+           result[@"openid"] = openid;
         }
-        if(subscribeMsgResp.openId != nil){
-           result[@"templateId"] = subscribeMsgResp.templateId;
+        
+        NSString *templateId = subscribeMsgResp.templateId;
+        if(templateId != nil && templateId != NULL && ![templateId isKindOfClass:[NSNull class]]){
+           result[@"templateId"] = templateId;
         }
-        if(subscribeMsgResp.openId != nil){
-            result[@"action"] = subscribeMsgResp.action;
+        
+        NSString *action = subscribeMsgResp.action;
+        if(action != nil && action != NULL && ![action isKindOfClass:[NSNull class]]){
+            result[@"action"] = action;
         }
-        if(subscribeMsgResp.openId != nil){
-          result[@"reserved"] = subscribeMsgResp.reserved;
+        
+        NSString *reserved = subscribeMsgResp.action;
+        if(reserved != nil && reserved != NULL && ![reserved isKindOfClass:[NSNull class]]){
+          result[@"reserved"] = reserved;
         }
-        if(subscribeMsgResp.openId != nil){
-          result[@"scene"] = @(subscribeMsgResp.scene);
-        }
-   
+        
+        UInt32 scene = subscribeMsgResp.scene;
+        result[@"scene"] = @(scene);
+
         [fluwxMethodChannel invokeMethod:@"onSubscribeMsgResp" arguments:result];
     } else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]]) {
         if ([_delegate respondsToSelector:@selector(managerDidRecvLaunchMiniProgram:)]) {

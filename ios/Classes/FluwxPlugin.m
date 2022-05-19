@@ -93,9 +93,27 @@ FlutterMethodChannel *channel = nil;
         [self openWeChatCustomerServiceChat:call result:result];
     } else if ([@"checkSupportOpenBusinessView" isEqualToString:call.method]) {
         [self checkSupportOpenBusinessView:call result:result];
+    } else if([@"openWeChatInvoice" isEqualToString:call.method]) {
+        [self openWeChatInvoice:call result:result];
     } else {
         result(FlutterMethodNotImplemented);
     }
+}
+
+- (void)openWeChatInvoice:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+    NSString *appId = call.arguments[@"appId"];
+    
+    if ([FluwxStringUtil isBlank:appId]) {
+        result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
+        return;
+    }
+    
+    [WXApiRequestHandler chooseInvoice: appId
+                          timestamp:[[NSDate date] timeIntervalSince1970]
+                         completion:^(BOOL done) {
+        result(@(done));
+    }];
 }
 
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {

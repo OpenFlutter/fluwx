@@ -40,7 +40,19 @@ object FluwxResponseHandler {
             is WXOpenBusinessWebview.Resp -> handlerWXOpenBusinessWebviewResponse(response)
             is WXOpenCustomerServiceChat.Resp -> handlerWXOpenCustomerServiceChatResponse(response)
             is WXOpenBusinessView.Resp -> handleWXOpenBusinessView(response)
+            is ChooseCardFromWXCardPackage.Resp -> handleWXOpenInvoiceResponse(response)
         }
+    }
+    private fun handleWXOpenInvoiceResponse(response: ChooseCardFromWXCardPackage.Resp) {
+        val result = mapOf(
+                "cardItemList" to response.cardItemList,
+                "transaction" to response.transaction,
+                "openid" to response.openId,
+                errStr to response.errStr,
+                type to response.type,
+                errCode to response.errCode)
+
+        FluwxPlugin.callingChannel?.invokeMethod("onOpenWechatInvoiceResponse", result)
     }
 
     private fun handleWXOpenBusinessView(response: WXOpenBusinessView.Resp) {

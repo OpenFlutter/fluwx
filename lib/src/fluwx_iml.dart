@@ -317,3 +317,20 @@ Future<bool> openWeChatBusinessView(
 Future<bool> checkSupportOpenBusinessView() async {
   return await _channel.invokeMethod("checkSupportOpenBusinessView");
 }
+
+
+Future<bool> openWeChatInvoice({
+  required String appId,
+  required String cardType,
+  String locationId = "",
+  String cardId = "",
+  String canMultiSelect = "1"
+}) async {
+  return await _channel.invokeMethod("openWeChatInvoice", {
+    "appId":appId,
+    "cardType":cardType,
+    "locationId":locationId,
+    "cardId": cardId,
+    "canMultiSelect": canMultiSelect
+  });
+}

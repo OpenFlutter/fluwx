@@ -2,8 +2,10 @@ package com.jarvan.fluwx
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
+import com.jarvan.fluwx.utils.WXApiUtils
 import com.tencent.mm.opensdk.modelbiz.*
 import com.tencent.mm.opensdk.modelpay.PayReq
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -80,7 +82,31 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
                 result
             )
             call.method == "openBusinessView" -> openBusinessView(call, result)
+
+            call.method == "openWeChatInvoice" -> openWeChatInvoice(call, result);
             else -> result.notImplemented()
+        }
+    }
+
+    private fun openWeChatInvoice(call: MethodCall, result: Result) {
+        if (WXAPiHandler.wxApi == null) {
+            result.error("Unassigned WxApi", "please config wxapi first", null)
+            return
+        } else {
+            //android 只有ChooseCard, IOS直接有ChooseInvoice
+            val request = ChooseCardFromWXCardPackage.Req()
+            request.cardType = call.argument("cardType")
+            request.appId = call.argument("appId")
+            request.locationId = call.argument("locationId")
+            request.cardId = call.argument("cardId")
+            request.canMultiSelect = call.argument("canMultiSelect")
+
+            request.timeStamp = System.currentTimeMillis().toString()
+            request.nonceStr = System.currentTimeMillis().toString()
+            request.signType = "SHA1"
+            request.cardSign = WXApiUtils.createSign(request.appId, request.nonceStr, request.timeStamp, request.cardType)
+            val done = WXAPiHandler.wxApi?.sendReq(request)
+            result.success(done)
         }
     }
 

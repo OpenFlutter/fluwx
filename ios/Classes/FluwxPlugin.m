@@ -73,10 +73,6 @@ FlutterMethodChannel *channel = nil;
         [_fluwxAuthHandler stopAuthByQRCode:call result:result];
     } else if ([@"openWXApp" isEqualToString:call.method]) {
         result(@([WXApi openWXApp]));
-    } else if ([@"payWithFluwx" isEqualToString:call.method]) {
-        [self handlePayment:call result:result];
-    } else if ([@"payWithHongKongWallet" isEqualToString:call.method]) {
-        [self handleHongKongWalletPayment:call result:result];
     } else if ([@"launchMiniProgram" isEqualToString:call.method]) {
         [self handleLaunchMiniProgram:call result:result];
     } else if ([@"subscribeMsg" isEqualToString:call.method]) {
@@ -97,9 +93,27 @@ FlutterMethodChannel *channel = nil;
         [self openWeChatCustomerServiceChat:call result:result];
     } else if ([@"checkSupportOpenBusinessView" isEqualToString:call.method]) {
         [self checkSupportOpenBusinessView:call result:result];
-    }else {
+    } else if([@"openWeChatInvoice" isEqualToString:call.method]) {
+        [self openWeChatInvoice:call result:result];
+    } else {
         result(FlutterMethodNotImplemented);
     }
+}
+
+- (void)openWeChatInvoice:(FlutterMethodCall *)call result:(FlutterResult)result {
+
+    NSString *appId = call.arguments[@"appId"];
+
+    if ([FluwxStringUtil isBlank:appId]) {
+        result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
+        return;
+    }
+
+    [WXApiRequestHandler chooseInvoice: appId
+                          timestamp:[[NSDate date] timeIntervalSince1970]
+                         completion:^(BOOL done) {
+        result(@(done));
+    }];
 }
 
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -198,7 +212,7 @@ FlutterMethodChannel *channel = nil;
 
 - (void)handleHongKongWalletPayment:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *partnerId = call.arguments[@"prepayId"];
-    
+
     WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
     req.businessType = 1;
     NSMutableDictionary *queryInfoDic = [NSMutableDictionary dictionary];

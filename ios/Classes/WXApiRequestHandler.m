@@ -326,6 +326,19 @@
 
 }
 
++ (void)chooseInvoice:(NSString *)appid
+         timestamp:(UInt32)timestamp
+        completion:(void (^ __nullable)(BOOL success))completion {
+    WXChooseInvoiceReq *chooseInvoiceReq = [[WXChooseInvoiceReq alloc] init];
+    chooseInvoiceReq.appID = appid;
+    chooseInvoiceReq.timeStamp = timestamp;
+    chooseInvoiceReq.signType = @"SHA1";
+    chooseInvoiceReq.cardSign = @"";
+    chooseInvoiceReq.nonceStr = @"";
+    [WXApi sendReq:chooseInvoiceReq completion:completion];
+}
+
+
 + (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
                       OpenID:(NSString *)openID

@@ -125,15 +125,14 @@ NS_ASSUME_NONNULL_BEGIN
          timestamp:(UInt32)timestamp
         completion:(void (^ __nullable)(BOOL success))completion;
 
++ (void)chooseInvoice:(NSString *)appid
+            timestamp:(UInt32)timestamp
+           completion:(void (^ __nullable)(BOOL success))completion;
+
 + (void)openUrl:(NSString *)url
      completion:(void (^ __nullable)(BOOL success))completion;
 
-+ (void)chooseInvoice:(NSString *)appid
-             cardSign:(NSString *)cardSign
-             nonceStr:(NSString *)nonceStr
-             signType:(NSString *)signType
-            timestamp:(UInt32)timestamp
-           completion:(void (^ __nullable)(BOOL success))completion;
+
 
 
 + (void)sendPayment:(NSString *)appId

@@ -314,7 +314,7 @@ Future<bool> checkSupportOpenBusinessView() async {
   return await _channel.invokeMethod("checkSupportOpenBusinessView");
 }
 
-///open wechat invoice list
+
 Future<bool> openWeChatInvoice({
   required String appId,
   required String cardType,

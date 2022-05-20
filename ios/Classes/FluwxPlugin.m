@@ -73,6 +73,10 @@ FlutterMethodChannel *channel = nil;
         [_fluwxAuthHandler stopAuthByQRCode:call result:result];
     } else if ([@"openWXApp" isEqualToString:call.method]) {
         result(@([WXApi openWXApp]));
+    } else if ([@"payWithFluwx" isEqualToString:call.method]) {
+        [self handlePayment:call result:result];
+    } else if ([@"payWithHongKongWallet" isEqualToString:call.method]) {
+        [self handleHongKongWalletPayment:call result:result];
     } else if ([@"launchMiniProgram" isEqualToString:call.method]) {
         [self handleLaunchMiniProgram:call result:result];
     } else if ([@"subscribeMsg" isEqualToString:call.method]) {

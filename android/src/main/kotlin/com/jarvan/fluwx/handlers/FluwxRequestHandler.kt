@@ -72,6 +72,9 @@ object FluwxRequestHandler {
                     is ShowMessageFromWX.Req -> {
                         try {
                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("wechatextmsg://${activity.packageName}/?extmsg=${baseReq.message.messageExt}"))
+                            val bundle = Bundle()
+                            baseReq.toBundle(bundle)
+                            intent.putExtra(KEY_FLUWX_REQUEST_INFO_BUNDLE, bundle)
                             activity.startActivity(intent)
                             activity.finish()
                             WXAPiHandler.coolBoot = false

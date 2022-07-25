@@ -203,6 +203,7 @@ FlutterMethodChannel *channel = nil;
     NSString *nonceStr = call.arguments[@"nonceStr"];
     UInt32 timeStamp = [timestamp unsignedIntValue];
     NSString *sign = call.arguments[@"sign"];
+    [FluwxDelegate defaultManager].extData = call.arguments[@"extData"];
     [WXApiRequestHandler sendPayment:call.arguments[@"appId"]
                            PartnerId:partnerId
                             PrepayId:prepayId

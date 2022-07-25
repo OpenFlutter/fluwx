@@ -10,6 +10,8 @@
 
 @property (strong,nonatomic)NSString *extMsg;
 
+@property (strong,nonatomic)NSString *extData;
+
 + (instancetype)defaultManager;
 
 - (void)registerWxAPI:(NSString *)appId universalLink:(NSString *)universalLink;

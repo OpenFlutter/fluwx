@@ -1,3 +1,6 @@
+# 3.9.1
+* Fix issue getting extData on iOS
+
 # 3.9.0+2
 * Merge #485
 

@@ -85,7 +85,7 @@ class ImagesIOIml(override val image: WeChatFile) : ImagesIO {
                 result.recycle()
             }
             result = tmp
-            if (result.byteCount < maxLength) {
+            if (result.byteCount <= maxLength) {
                 break
             }
         }

@@ -1,3 +1,6 @@
+# 3.9.2
+* 修复分享图片会导致Android无反应问题
+
 # 3.9.1
 * Fix issue getting extData on iOS
 

@@ -182,6 +182,10 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  */
 @property (nonatomic, copy) NSString *state;
 
+@property (nonatomic, assign) BOOL isOption1;
+
+@property (nonatomic, copy) NSString *extData;
+
 @end
 
 #pragma mark - SendAuthResp
@@ -216,6 +220,41 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * @note 必填，url长度必须大于0且小于10K
  */
 @property (nonatomic, copy) NSString *url;
+
+@end
+
+#pragma mark - WXStateJumpWXMiniProgramInfo
+/*! @brief 状态小尾巴跳转指定小程序的信息
+ */
+@interface WXStateJumpMiniProgramInfo : WXStateJumpInfo
+/** 小程序username
+ * @note 必填
+ */
+@property (nonatomic, copy) NSString *username;
+
+/** 小程序页面的路径
+ * @attention 不填默认拉起小程序首页
+ */
+@property (nonatomic, copy, nullable) NSString *path;
+
+/** 分享小程序的版本
+ * @attention （正式，开发，体验）
+ */
+@property (nonatomic, assign) WXMiniProgramType miniProgramType;
+
+@end
+
+
+
+#pragma mark - WXStateJumpWXMiniProgramInfo
+/*! @brief 状态小尾巴跳转指定视频号主页信息
+ */
+@interface WXStateJumpChannelProfileInfo : WXStateJumpInfo
+/** 视频号username
+ * @note 必填，username长度必须大于0且小于1K
+ */
+@property (nonatomic, copy) NSString *username;
+
 
 @end
 
@@ -739,6 +778,15 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 
 #pragma mark - WXMusicVideoObject
 
+@interface WXMusicVipInfo : NSObject
+
+/**付费歌曲的id
+ * @note 长度不能超过32K
+ */
+@property (nonatomic, copy) NSString *musicId;
+
+@end
+
 
 @interface WXMusicVideoObject : NSObject
 
@@ -803,6 +851,11 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  */
 @property (nonatomic, copy, nullable) NSString *musicOperationUrl;
 
+/** 付费歌曲相关信息
+ * @note 选填，如果歌曲是需要付费的，那么将付费歌曲id等信息封装在内。
+ */
+@property (nonatomic, strong) WXMusicVipInfo *musicVipInfo;
+
 @end
 
 
@@ -851,6 +904,13 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * @note 不能为空且长度不能超过10K
  */
 @property (nonatomic, copy) NSString *webpageUrl;
+
+/**是否是私密消息
+ */
+@property (nonatomic, assign) BOOL isSecretMessage;
+
+/** 业务所需的额外信息 */
+@property (nonatomic, strong, nullable) NSDictionary *extraInfoDic;
 
 @end
 
@@ -1150,6 +1210,27 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 @end
 
 @interface WXOpenCustomerServiceResp : BaseResp
+
+/** 业务返回数据
+ */
+@property (nonatomic, copy, nullable) NSString *extMsg;
+
+@end
+
+
+#pragma mark - WXChannelStartLiveReq
+
+@interface WXChannelStartLiveReq : BaseReq
+
++ (WXChannelStartLiveReq *)object;
+
+/** 必填，直播业务数据（json格式）
+ */
+@property (nonatomic, copy) NSString *liveJsonInfo;
+
+@end
+
+@interface WXChannelStartLiveResp : BaseResp
 
 /** 业务返回数据
  */

@@ -11,6 +11,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+typedef BOOL(^WXGrantReadPasteBoardPermissionCompletion)(void);
+
+
 #pragma mark - WXApiDelegate
 /*! @brief 接收并处理来自微信终端程序的事件消息
  *
@@ -37,6 +41,17 @@ NS_ASSUME_NONNULL_BEGIN
  * @param resp具体的回应内容，是自动释放的
  */
 - (void)onResp:(BaseResp*)resp;
+
+/* ! @brief 用于在iOS16以及以上系统上，控制OpenSDK是否读取剪切板中微信传递的数据以及读取的时机
+ * 在iOS16以及以上系统，在SDK需要读取剪切板中微信写入的数据时，会回调该方法。没有实现默认会直接读取微信通过剪切板传递过来的数据
+ * 注意：
+ *      1. 只在iOS16以及以上的系统版本上回调;
+ *      2. 不实现时，OpenSDK会直接调用读取剪切板接口，读取微信传递过来的数据;
+ *      3. 若实现该方法：开发者需要通过调用completion(), 支持异步，通知SDK允许读取剪切板中微信传递的数据,
+ *                    不调用completion()则代表不授权OpenSDK读取剪切板，会导致收不到onReq:, onResp:回调，无法后续业务流程。请谨慎使用
+ *      4. 不要长时间持有completion不释放，可能会导致内存泄漏。
+ */
+- (void)onNeedGrantReadPasteBoardPermissionWithURL:(nonnull NSURL *)openURL completion:(nonnull WXGrantReadPasteBoardPermissionCompletion)completion;
 
 @end
 

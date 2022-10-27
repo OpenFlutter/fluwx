@@ -62,7 +62,7 @@ class BaseWeChatResponse {
     return result(argument);
   }
 
-  final int errCode;
+  final int? errCode;
   final String? errStr;
 
   bool get isSuccessful => errCode == 0;

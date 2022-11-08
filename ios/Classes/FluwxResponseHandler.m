@@ -214,8 +214,8 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
                 errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
                 type: @(payResp.type),
-                @"extData": [FluwxDelegate defaultManager].extData,
-                @"returnKey": payResp.returnKey == nil ? @"" : payResp.returnKey,
+                @"extData": [FluwxStringUtil nilToEmpty:[FluwxDelegate defaultManager].extData],
+                @"returnKey": [FluwxStringUtil nilToEmpty:payResp.returnKey],
         };
         [FluwxDelegate defaultManager].extData = nil;
         [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];

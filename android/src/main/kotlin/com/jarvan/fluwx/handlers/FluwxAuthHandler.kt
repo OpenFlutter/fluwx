@@ -57,7 +57,7 @@ internal class FluwxAuthHandler(private val methodChannel: MethodChannel) {
         if (!openId.isNullOrBlank()) {
             req.openId = call.argument("openId")
         }
-
+        req.nonAutomatic = call.argument<Boolean?>("nonAutomatic") ?: false
         result.success(WXAPiHandler.wxApi?.sendReq(req))
     }
 

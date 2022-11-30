@@ -159,8 +159,6 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 
 @end
 
-
-
 #pragma mark - WXMediaMessage
 @class WXMediaMessage;
 
@@ -183,6 +181,11 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
 @property (nonatomic, copy) NSString *state;
 
 @property (nonatomic, assign) BOOL isOption1;
+
+/** 是否关闭自动授权
+ * @note YES为关闭自动授权，每次登陆都需要用户手动授权；NO为允许自动授权
+ */
+@property (nonatomic, assign) BOOL nonautomatic;
 
 @property (nonatomic, copy) NSString *extData;
 
@@ -698,6 +701,17 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  */
 @property (nonatomic, strong) id mediaObject;
 
+/** 缩略图的hash值
+ * @note 使用sha256得到，用于计算签名
+ */
+@property (nonatomic, copy, nullable) NSString *thumbDataHash;
+
+/** 消息签名
+ * @note 用于校验消息体是否被篡改过
+ */
+@property (nonatomic, copy, nullable) NSString *msgSignature;
+
+
 /*! @brief 设置消息缩略图的方法
  *
  * @param image 缩略图
@@ -727,6 +741,11 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * @note 大小不能超过25M
  */
 @property (nonatomic, strong) NSData *imageData;
+
+/** 图片数据的hash值
+ * @note 使用sha256得到，用于计算签名
+ */
+@property (nonatomic, copy, nullable) NSString *imgDataHash;
 
 @end
 
@@ -825,6 +844,11 @@ typedef void(^WXCheckULCompletion)(WXULCheckStep step, WXCheckULStepResult* resu
  * @note 大小不能超过1M
  */
 @property (nonatomic, strong) NSData *hdAlbumThumbData;
+
+/** 高清封面图数据的hash值
+ * @note 使用sha256得到，用于计算签名
+ */
+@property (nonatomic, copy, nullable) NSString *hdAlbumThumbFileHash;
 
 /**音乐专辑名称
  * @note 长度不能超过1k

@@ -7,6 +7,7 @@
 //
 
 #import "WXMediaMessage+messageConstruct.h"
+
 @implementation WXMediaMessage (messageConstruct)
 
 + (WXMediaMessage *)messageWithTitle:(NSString *)title
@@ -15,7 +16,8 @@
                           MessageExt:(NSString *)messageExt
                        MessageAction:(NSString *)action
                           ThumbImage:(UIImage *)thumbImage
-                            MediaTag:(NSString *)tagName {
+                            MediaTag:(NSString *)tagName
+                        MsgSignature:(NSString *)msgSignature {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
     message.description = description;
@@ -23,8 +25,10 @@
     message.messageExt = messageExt;
     message.messageAction = action;
     message.mediaTagName = tagName;
+    if(msgSignature != nil ){
+        message.msgSignature = msgSignature;
+    }
     [message setThumbImage:thumbImage];
     return message;
 }
-
 @end

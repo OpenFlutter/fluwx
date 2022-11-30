@@ -93,7 +93,8 @@ Future<String?> getExtMsg() {
 /// start Log
 /// defalult [WXLogLevel.DETAIL]
 Future<bool?> startLog({WXLogLevel logLevel = WXLogLevel.DETAIL}) async {
-  return await _channel.invokeMethod('startLog', {'logLevel': logLevel.toNativeInt()});
+  return await _channel
+      .invokeMethod('startLog', {'logLevel': logLevel.toNativeInt()});
 }
 
 /// stop log
@@ -124,14 +125,14 @@ Future<bool> shareToWeChat(WeChatShareBaseModel model) async {
 /// Once AuthCode got, you need to request Access_Token
 /// For more information please visit：
 /// * https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419317851&token=
-Future<bool> sendWeChatAuth({
-  required String scope,
-  String state = 'state',
-}) async {
+Future<bool> sendWeChatAuth(
+    {required String scope,
+    String state = 'state',
+    bool nonAutomatic = false}) async {
   assert(scope.trim().isNotEmpty);
   return await _channel.invokeMethod(
     'sendAuth',
-    {'scope': scope, 'state': state},
+    {'scope': scope, 'state': state, 'nonAutomatic': nonAutomatic},
   );
 }
 
@@ -314,18 +315,16 @@ Future<bool> checkSupportOpenBusinessView() async {
   return await _channel.invokeMethod("checkSupportOpenBusinessView");
 }
 
-
-Future<bool> openWeChatInvoice({
-  required String appId,
-  required String cardType,
-  String locationId = "",
-  String cardId = "",
-  String canMultiSelect = "1"
-}) async {
+Future<bool> openWeChatInvoice(
+    {required String appId,
+    required String cardType,
+    String locationId = "",
+    String cardId = "",
+    String canMultiSelect = "1"}) async {
   return await _channel.invokeMethod("openWeChatInvoice", {
-    "appId":appId,
-    "cardType":cardType,
-    "locationId":locationId,
+    "appId": appId,
+    "cardType": cardType,
+    "locationId": locationId,
     "cardId": cardId,
     "canMultiSelect": canMultiSelect
   });

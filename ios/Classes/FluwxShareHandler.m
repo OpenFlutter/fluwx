@@ -15,6 +15,7 @@ NSString *const fluwxKeyImage = @ "image";
 NSString *const fluwxKeyImageData = @ "imageData";
 NSString *const fluwxKeyThumbnail = @"thumbnail";
 NSString *const fluwxKeyDescription = @"description";
+NSString *const fluwxKeyMsgSignature = @"msgSignature";
 
 NSString *const fluwxKeyPackage = @"?package=";
 
@@ -68,6 +69,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)shareText:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *text = call.arguments[@"source"];
     NSNumber *scene = call.arguments[fluwxKeyScene];
+
     [WXApiRequestHandler sendText:text InScene:[self intToWeChatScene:scene] completion:^(BOOL done) {
         result(@(done));
     }];
@@ -85,7 +87,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         if (thumbnailImage == nil) {
             NSString *suffix = sourceImage[@"suffix"];
             BOOL isPNG = [self isPNG:suffix];
-            BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
+            BOOL compress = [call.arguments[fluwxKeyCompressThumbnail] boolValue];
 
             realThumbnailImage = [self getThumbnailFromNSData:sourceImageData size:defaultThumbnailSize isPNG:isPNG compress:compress];
         } else {
@@ -103,6 +105,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                        InScene:[self intToWeChatScene:scene]
                                          title:call.arguments[fluwxKeyTitle]
                                    description:call.arguments[fluwxKeyDescription]
+                                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
                                     completion:^(BOOL done) {
                                         result(@(done));
                                     }
@@ -132,6 +135,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                   MessageExt:call.arguments[fluwxKeyMessageExt]
                                MessageAction:call.arguments[fluwxKeyMessageAction]
                                      InScene:[self intToWeChatScene:scene]
+                                MsgSignature:call.arguments[fluwxKeyMsgSignature]
                                   completion:^(BOOL done) {
                                       result(@(done));
                                   }];
@@ -160,6 +164,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                 MessageAction:call.arguments[fluwxKeyMessageAction]
                                       TagName:call.arguments[fluwxKeyMediaTagName]
                                       InScene:[self intToWeChatScene:scene]
+                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
                                    completion:^(BOOL done) {
                                        result(@(done));
                                    }
@@ -187,6 +192,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                 MessageAction:call.arguments[fluwxKeyMessageAction]
                                       TagName:call.arguments[fluwxKeyMediaTagName]
                                       InScene:[self intToWeChatScene:scene]
+                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
+
                                    completion:^(BOOL done) {
                                        result(@(done));
                                    }];
@@ -217,6 +224,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                   Description:call.arguments[fluwxKeyDescription]
                                    ThumbImage:thumbnailImage
                                       InScene:[self intToWeChatScene:scene]
+                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
+
                                    completion:^(BOOL success) {
                                        result(@(success));
                                    }];
@@ -235,7 +244,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         NSDictionary *hdImagePath = call.arguments[@"hdImagePath"];
         if (hdImagePath != (id) [NSNull null]) {
             NSData *imageData = [self getNsDataFromWeChatFile:hdImagePath];
-            BOOL compress = call.arguments[fluwxKeyCompressThumbnail];
+            BOOL compress = [call.arguments[fluwxKeyCompressThumbnail] boolValue];
 
             hdImageData = [self getThumbnailDataFromNSData:imageData size:120 * 1024 compress:compress];
 //            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
@@ -271,6 +280,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                              MessageAction:call.arguments[fluwxKeyMessageAction]
                                                    TagName:call.arguments[fluwxKeyMediaTagName]
                                                    InScene:[self intToWeChatScene:scene]
+                                              MsgSignature:call.arguments[fluwxKeyMsgSignature]
                                                 completion:^(BOOL done) {
                                                     result(@(done));
                                                 }
@@ -289,8 +299,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     NSString *suffix = thumbnail[@"suffix"];
-    NSNumber* compress = call.arguments[fluwxKeyCompressThumbnail];
-  
+    NSNumber *compress = call.arguments[fluwxKeyCompressThumbnail];
+
     NSData *thumbnailData = [self getNsDataFromWeChatFile:thumbnail];
     UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix] compress:[compress boolValue]];
     return thumbnailImage;
@@ -323,18 +333,19 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         return nil;
     }
 }
-- (UIImage *)getThumbnailFromNSData:(NSData *)data size:(NSUInteger)size isPNG:(BOOL)isPNG compress:(BOOL)compress{
+
+- (UIImage *)getThumbnailFromNSData:(NSData *)data size:(NSUInteger)size isPNG:(BOOL)isPNG compress:(BOOL)compress {
     UIImage *uiImage = [UIImage imageWithData:data];
-    if(compress)
-    return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
+    if (compress)
+        return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
     else
         return uiImage;
 }
 
 - (NSData *)getThumbnailDataFromNSData:(NSData *)data size:(NSUInteger)size compress:(BOOL)compress {
-    if(compress) {
+    if (compress) {
         return [ThumbnailHelper compressImageData:data toByte:size];
-    } else{
+    } else {
         return data;
     }
 }
@@ -374,11 +385,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (enum WXScene)intToWeChatScene:(NSNumber *)value {
 //    enum WeChatScene { SESSION, TIMELINE, FAVORITE }
-    if ([value isEqual: @0]) {
+    if ([value isEqual:@0]) {
         return WXSceneSession;
-    } else if ([value isEqual: @1]) {
+    } else if ([value isEqual:@1]) {
         return WXSceneTimeline;
-    } else if ([value isEqual: @2]) {
+    } else if ([value isEqual:@2]) {
         return WXSceneFavorite;
     } else {
         return WXSceneSession;

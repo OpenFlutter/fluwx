@@ -27,6 +27,7 @@ const String _messageExt = "messageExt";
 const String _mediaTagName = "mediaTagName";
 const String _messageAction = "messageAction";
 const String _compressThumbnail = "compressThumbnail";
+const String _msgSignature = "msgSignature";
 
 mixin WeChatShareBaseModel {
   Map toMap();
@@ -41,6 +42,7 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
+    this.msgSignature,
     String? description,
     String? title,
   })  : this.title = title ?? source,
@@ -53,6 +55,7 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
   final String? mediaTagName;
   final String? title;
   final String? description;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -63,7 +66,8 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
       _title: title,
-      _description: description
+      _description: description,
+      _msgSignature: msgSignature
     };
   }
 }
@@ -72,21 +76,22 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
 /// [hdImagePath] only works on iOS, not sure the relationship
 /// between [thumbnail] and [hdImagePath].
 class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
-  WeChatShareMiniProgramModel({
-    required this.webPageUrl,
-    this.miniProgramType = WXMiniProgramType.RELEASE,
-    required this.userName,
-    this.path: "/",
-    this.title,
-    this.description,
-    this.withShareTicket: false,
-    this.thumbnail,
-    this.hdImagePath,
-    this.mediaTagName,
-    this.messageAction,
-    this.messageExt,
-    this.compressThumbnail = true,
-  })  : assert(webPageUrl.isNotEmpty),
+  WeChatShareMiniProgramModel(
+      {required this.webPageUrl,
+      this.miniProgramType = WXMiniProgramType.RELEASE,
+      required this.userName,
+      this.path: "/",
+      this.title,
+      this.description,
+      this.withShareTicket: false,
+      this.thumbnail,
+      this.hdImagePath,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt,
+      this.compressThumbnail = true,
+      this.msgSignature})
+      : assert(webPageUrl.isNotEmpty),
         assert(userName.isNotEmpty),
         assert(path.isNotEmpty);
 
@@ -103,6 +108,7 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -118,7 +124,8 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       "hdImagePath": hdImagePath?.toMap(),
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail
+      _compressThumbnail: compressThumbnail,
+      _msgSignature: msgSignature
     };
   }
 }
@@ -127,17 +134,17 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
 /// [scene] the target you want to send
 /// [thumbnail] the preview of your image, will be created from [scene] if null.
 class WeChatShareImageModel implements WeChatShareBaseModel {
-  WeChatShareImageModel(
-    this.source, {
-    WeChatImage? thumbnail,
-    this.title,
-    this.scene = WeChatScene.SESSION,
-    this.description,
-    this.mediaTagName,
-    this.messageAction,
-    this.messageExt,
-    this.compressThumbnail = true,
-  }) : this.thumbnail = thumbnail ?? source;
+  WeChatShareImageModel(this.source,
+      {WeChatImage? thumbnail,
+      this.title,
+      this.scene = WeChatScene.SESSION,
+      this.description,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt,
+      this.compressThumbnail = true,
+      this.msgSignature})
+      : this.thumbnail = thumbnail ?? source;
 
   final WeChatImage source;
   final WeChatImage thumbnail;
@@ -148,6 +155,7 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -159,7 +167,8 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
       _description: description,
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail
+      _compressThumbnail: compressThumbnail,
+      _msgSignature: msgSignature
     };
   }
 }
@@ -167,20 +176,21 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
 /// if [musicUrl] and [musicLowBandUrl] are both provided,
 /// only [musicUrl] will be used.
 class WeChatShareMusicModel implements WeChatShareBaseModel {
-  WeChatShareMusicModel({
-    this.musicUrl,
-    this.musicLowBandUrl,
-    this.title: "",
-    this.description: "",
-    this.musicDataUrl,
-    this.musicLowBandDataUrl,
-    this.thumbnail,
-    this.mediaTagName,
-    this.messageAction,
-    this.messageExt,
-    this.scene = WeChatScene.SESSION,
-    this.compressThumbnail = true,
-  }) : assert(musicUrl != null || musicLowBandUrl != null);
+  WeChatShareMusicModel(
+      {this.musicUrl,
+      this.musicLowBandUrl,
+      this.title: "",
+      this.description: "",
+      this.musicDataUrl,
+      this.musicLowBandDataUrl,
+      this.thumbnail,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt,
+      this.scene = WeChatScene.SESSION,
+      this.compressThumbnail = true,
+      this.msgSignature})
+      : assert(musicUrl != null || musicLowBandUrl != null);
 
   final String? musicUrl;
   final String? musicDataUrl;
@@ -194,6 +204,7 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -208,7 +219,8 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
       _description: description,
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail
+      _compressThumbnail: compressThumbnail,
+      _msgSignature: msgSignature
     };
   }
 }
@@ -216,18 +228,19 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
 /// if [videoUrl] and [videoLowBandUrl] are both provided,
 /// only [videoUrl] will be used.
 class WeChatShareVideoModel implements WeChatShareBaseModel {
-  WeChatShareVideoModel({
-    this.scene = WeChatScene.SESSION,
-    this.videoUrl,
-    this.videoLowBandUrl,
-    this.title: "",
-    this.description: "",
-    this.thumbnail,
-    this.mediaTagName,
-    this.messageAction,
-    this.messageExt,
-    this.compressThumbnail = true,
-  })  : assert(videoUrl != null || videoLowBandUrl != null),
+  WeChatShareVideoModel(
+      {this.scene = WeChatScene.SESSION,
+      this.videoUrl,
+      this.videoLowBandUrl,
+      this.title: "",
+      this.description: "",
+      this.thumbnail,
+      this.mediaTagName,
+      this.messageAction,
+      this.messageExt,
+      this.compressThumbnail = true,
+      this.msgSignature})
+      : assert(videoUrl != null || videoLowBandUrl != null),
         assert(thumbnail != null);
 
   final String? videoUrl;
@@ -240,6 +253,7 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -252,7 +266,8 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
       _description: description,
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail
+      _compressThumbnail: compressThumbnail,
+      _msgSignature: msgSignature
     };
   }
 }
@@ -269,6 +284,7 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
+    this.msgSignature,
     this.compressThumbnail = true,
   })  : assert(webPage.isNotEmpty),
         this.description = description ?? webPage;
@@ -282,6 +298,7 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -293,7 +310,8 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
       _description: description,
-      _compressThumbnail: compressThumbnail
+      _compressThumbnail: compressThumbnail,
+      _msgSignature: msgSignature
     };
   }
 }
@@ -311,6 +329,7 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
+    this.msgSignature,
     this.compressThumbnail = true,
   });
 
@@ -323,6 +342,7 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
+  final String? msgSignature;
 
   @override
   Map toMap() {
@@ -334,7 +354,8 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
       _description: description,
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail
+      _compressThumbnail: compressThumbnail,
+      _msgSignature: msgSignature
     };
   }
 }

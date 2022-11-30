@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
               InScene:(enum WXScene)scene
                 title:(NSString *)title
           description:(NSString *)description
+         MsgSignature:(NSString *)msgSignature
            completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendLinkURL:(NSString *)urlString
@@ -33,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
          MessageExt:(NSString *)messageExt
       MessageAction:(NSString *)messageAction
             InScene:(enum WXScene)scene
+       MsgSignature:(NSString *)msgSignature
          completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendMusicURL:(NSString *)musicURL
@@ -46,6 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene
+        MsgSignature:(NSString *)msgSignature
           completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendVideoURL:(NSString *)videoURL
@@ -57,11 +60,13 @@ NS_ASSUME_NONNULL_BEGIN
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene
+        MsgSignature:(NSString *)msgSignature
           completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendEmotionData:(NSData *)emotionData
              ThumbImage:(UIImage *)thumbImage
                 InScene:(enum WXScene)scene
+           MsgSignature:(NSString *)msgSignature
              completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendFileData:(NSData *)fileData
@@ -70,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
          Description:(NSString *)description
           ThumbImage:(UIImage *)thumbImage
              InScene:(enum WXScene)scene
+        MsgSignature:(NSString *)msgSignature
           completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)sendMiniProgramWebpageUrl:(NSString *)webpageUrl
@@ -85,6 +91,7 @@ NS_ASSUME_NONNULL_BEGIN
                     MessageAction:(NSString *)messageAction
                           TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene
+                     MsgSignature:(NSString *)msgSignature
                        completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)launchMiniProgramWithUserName:(NSString *)userName
@@ -101,6 +108,7 @@ NS_ASSUME_NONNULL_BEGIN
              MessageAction:(NSString *)action
                 ThumbImage:(UIImage *)thumbImage
                    InScene:(enum WXScene)scene
+              MsgSignature:(NSString *)msgSignature
                 completion:(void (^ __nullable)(BOOL success))completion;
 
 + (void)addCardsToCardPackage:(NSArray *)cardIds cardExts:(NSArray *)cardExts
@@ -115,6 +123,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
                       OpenID:(NSString *)openID
+                NonAutomatic:(BOOL)nonAutomatic
                   completion:(void (^ __nullable)(BOOL success))completion;
 
 
@@ -133,8 +142,6 @@ NS_ASSUME_NONNULL_BEGIN
      completion:(void (^ __nullable)(BOOL success))completion;
 
 
-
-
 + (void)sendPayment:(NSString *)appId
           PartnerId:(NSString *)partnerId
            PrepayId:(NSString *)prepayId
@@ -146,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)openCustomerService:(NSString *)url
                      CorpId:(NSString *)corpId
-         completion:(void (^ __nullable)(BOOL success))completion;
+                 completion:(void (^ __nullable)(BOOL success))completion;
 @end
 
 NS_ASSUME_NONNULL_END

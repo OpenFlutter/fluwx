@@ -267,6 +267,9 @@ internal interface FluwxShareHandler : CoroutineScope {
     //    SESSION, TIMELINE, FAVORITE
     private fun setCommonArguments(call: MethodCall, req: SendMessageToWX.Req, msg: WXMediaMessage) {
         msg.messageAction = call.argument("messageAction")
+        call.argument<String?>("msgSignature")?.let {
+            msg.msgSignature = it
+        }
         msg.messageExt = call.argument("messageExt")
         msg.mediaTagName = call.argument("mediaTagName")
         msg.title = call.argument(keyTitle)

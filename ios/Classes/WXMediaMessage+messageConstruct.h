@@ -15,5 +15,6 @@
                           MessageExt:(NSString *)messageExt
                        MessageAction:(NSString *)action
                           ThumbImage:(UIImage *)thumbImage
-                            MediaTag:(NSString *)tagName;
+                            MediaTag:(NSString *)tagName
+                        MsgSignature:(NSString *)msgSignature;
 @end

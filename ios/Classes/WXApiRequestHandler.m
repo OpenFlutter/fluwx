@@ -32,10 +32,10 @@
               InScene:(enum WXScene)scene
                 title:(NSString *)title
           description:(NSString *)description
+         MsgSignature:(NSString *)msgSignature
            completion:(void (^ __nullable)(BOOL success))completion {
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
-
 
     WXMediaMessage *message = [WXMediaMessage messageWithTitle:(title == (id) [NSNull null]) ? nil : title
                                                    Description:(description == (id) [NSNull null]) ? nil : description
@@ -43,7 +43,10 @@
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(action == (id) [NSNull null]) ? nil : action
                                                     ThumbImage:thumbImage
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+
+    ];;
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -61,6 +64,7 @@
          MessageExt:(NSString *)messageExt
       MessageAction:(NSString *)messageAction
             InScene:(enum WXScene)scene
+       MsgSignature:(NSString *)msgSignature
          completion:(void (^ __nullable)(BOOL success))completion {
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = urlString;
@@ -71,7 +75,9 @@
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
                                                     ThumbImage:thumbImage
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+    ];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -91,6 +97,7 @@
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene
+        MsgSignature:(NSString *)msgSignature
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMusicObject *ext = [WXMusicObject object];
 
@@ -109,7 +116,9 @@
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
                                                     ThumbImage:thumbImage
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+    ];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -128,6 +137,7 @@
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene
+        MsgSignature:(NSString *)msgSignature
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = (title == (id) [NSNull null]) ? nil : title;
@@ -155,6 +165,7 @@
 + (void)sendEmotionData:(NSData *)emotionData
              ThumbImage:(UIImage *)thumbImage
                 InScene:(enum WXScene)scene
+           MsgSignature:(NSString *)msgSignature
              completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     [message setThumbImage:thumbImage];
@@ -163,6 +174,11 @@
     ext.emoticonData = emotionData;
 
     message.mediaObject = ext;
+
+    NSString *signature = (msgSignature == (id) [NSNull null]) ? nil : msgSignature;
+    if (signature != nil) {
+        message.msgSignature = signature;
+    }
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -177,6 +193,7 @@
          Description:(NSString *)description
           ThumbImage:(UIImage *)thumbImage
              InScene:(enum WXScene)scene
+        MsgSignature:(NSString *)msgSignature
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
@@ -188,6 +205,11 @@
     ext.fileData = fileData;
 
     message.mediaObject = ext;
+
+    NSString *signature = (msgSignature == (id) [NSNull null]) ? nil : msgSignature;
+    if (signature != nil) {
+        message.msgSignature = signature;
+    }
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -209,6 +231,7 @@
                     MessageAction:(NSString *)messageAction
                           TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene
+                     MsgSignature:(NSString *)msgSignature
                        completion:(void (^ __nullable)(BOOL success))completion {
     WXMiniProgramObject *ext = [WXMiniProgramObject object];
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
@@ -235,7 +258,10 @@
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
                                                     ThumbImage:thumbImage
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName];
+                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+
+    ];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -267,6 +293,7 @@
              MessageAction:(NSString *)action
                 ThumbImage:(UIImage *)thumbImage
                    InScene:(enum WXScene)scene
+              MsgSignature:(NSString *)msgSignature
                 completion:(void (^ __nullable)(BOOL success))completion {
     WXAppExtendObject *ext = [WXAppExtendObject object];
     ext.extInfo = info;
@@ -279,7 +306,9 @@
                                                     MessageExt:messageExt
                                                  MessageAction:action
                                                     ThumbImage:thumbImage
-                                                      MediaTag:nil];
+                                                      MediaTag:nil
+                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+    ];
 
     SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil
                                                    OrMediaMessage:message
@@ -327,8 +356,8 @@
 }
 
 + (void)chooseInvoice:(NSString *)appid
-         timestamp:(UInt32)timestamp
-        completion:(void (^ __nullable)(BOOL success))completion {
+            timestamp:(UInt32)timestamp
+           completion:(void (^ __nullable)(BOOL success))completion {
     WXChooseInvoiceReq *chooseInvoiceReq = [[WXChooseInvoiceReq alloc] init];
     chooseInvoiceReq.appID = appid;
     chooseInvoiceReq.timeStamp = timestamp;
@@ -356,20 +385,21 @@
                    completion:completion];
 }
 
+
 + (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
                       OpenID:(NSString *)openID
-                  completion:(void (^ __nullable)(BOOL success))completion {
+                NonAutomatic:(BOOL)nonAutomatic
+                  completion:(void (^)(BOOL))completion {
     SendAuthReq *req = [[SendAuthReq alloc] init];
     req.scope = scope; // @"post_timeline,sns"
     req.state = state;
     req.openID = openID;
+    req.nonautomatic = nonAutomatic;
 
     [WXApi sendReq:req completion:completion];
+
 }
-
-
-
 
 
 + (void)openUrl:(NSString *)url
@@ -413,7 +443,7 @@
     [WXApi sendReq:req completion:completion];
 }
 
-+ (void)openCustomerService:(NSString *)url CorpId:(NSString *)corpId completion:(void (^)(BOOL))completion{
++ (void)openCustomerService:(NSString *)url CorpId:(NSString *)corpId completion:(void (^)(BOOL))completion {
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];
     req.corpid = corpId;    //企业ID
     req.url = url;            //客服URL

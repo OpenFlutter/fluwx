@@ -35,6 +35,13 @@ FlutterMethodChannel *fluwxMethodChannel = nil;
     fluwxMethodChannel = flutterMethodChannel;
 }
 
+- (void)onNeedGrantReadPasteBoardPermissionWithURL:(nonnull NSURL *)openURL completion:(nonnull WXGrantReadPasteBoardPermissionCompletion)completion {
+    /// allow wechat OpenSDK to accessing the clipboard and paste
+    dispatch_async(dispatch_get_main_queue(), ^{
+        completion();
+    });
+}
+
 #pragma mark - WXApiDelegate
 
 - (void)onResp:(BaseResp *)resp {

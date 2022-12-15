@@ -73,7 +73,7 @@ Future<bool> registerWxApi({
         universalLink,
         "You're trying to use illegal universal link, see "
         'https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html '
-        'for more detai.l',
+        'for more detail',
       );
     }
   }

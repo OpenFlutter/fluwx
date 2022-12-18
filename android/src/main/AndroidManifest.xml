@@ -25,28 +25,13 @@
             android:launchMode="singleTop"
             android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:taskAffinity="${applicationId}"
-            android:theme="@style/DisablePreviewTheme">
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="sdksample" />
-            </intent-filter>
-        </activity-alias>
+            android:theme="@style/DisablePreviewTheme"/>
         <activity-alias
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
-            android:theme="@style/DisablePreviewTheme">
-
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data android:scheme="sdksample" />
-            </intent-filter>
-        </activity-alias>
+            android:theme="@style/DisablePreviewTheme"/>
 
         <provider
             android:name="com.jarvan.fluwx.FluwxFileProvider"

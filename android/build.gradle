@@ -2,7 +2,7 @@ group 'com.jarvan.fluwx'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.7.10'
     repositories {
         google()
         mavenCentral()
@@ -41,9 +41,9 @@ android {
 }
 
 dependencies {
-    api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.18'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     implementation 'id.zelory:compressor:3.0.1'
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
     testImplementation 'junit:junit:4.13.2'

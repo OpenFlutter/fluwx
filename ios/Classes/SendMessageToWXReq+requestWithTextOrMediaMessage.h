@@ -6,7 +6,7 @@
 //
 //
 
-#import "WXApiObject.h"
+#import <WXApiObject.h>
 
 @interface SendMessageToWXReq (requestWithTextOrMediaMessage)
 

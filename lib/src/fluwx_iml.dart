@@ -61,8 +61,8 @@ Future<bool> openWeChatApp() async {
 /// [universalLink] is required if you want to register on iOS.
 Future<bool> registerWxApi({
   required String appId,
-  bool doOnIOS: true,
-  bool doOnAndroid: true,
+  bool doOnIOS = true,
+  bool doOnAndroid = true,
   String? universalLink,
 }) async {
   if (doOnIOS && Platform.isIOS) {

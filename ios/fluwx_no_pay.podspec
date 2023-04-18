@@ -26,6 +26,7 @@ A new Flutter plugin for Wechat SDK.
   s.preserve_paths = 'Lib/*.a'
   s.vendored_libraries = "**/*.a"
   s.ios.deployment_target = '12.0'
+  s.vendored_frameworks   = 'WeChat/WechatOpenSDK-XCFramework.xcframework'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }

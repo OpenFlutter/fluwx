@@ -2,7 +2,7 @@
 // Created by mo on 2020/3/7.
 //
 
-#import "WXApi.h"
+#import <WXApi.h>
 #import "WXApiRequestHandler.h"
 #import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
 #import "WXMediaMessage+messageConstruct.h"

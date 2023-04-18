@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FluwxDelegate.h"
-#import "WXApi.h"
+#import <WXApi.h>
 
 @implementation FluwxDelegate
 

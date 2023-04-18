@@ -7,7 +7,7 @@
 #import <Flutter/Flutter.h>
 
 #import <Flutter/Flutter.h>
-#import "WXApi.h"
+#import <WXApi.h>
 #import "WXApiObject.h"
 
 @protocol WXApiManagerDelegate <NSObject>

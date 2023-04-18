@@ -16,7 +16,6 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-import 'package:flutter/foundation.dart';
 import 'package:fluwx_no_pay/src/wechat_enums.dart';
 
 import '../wechat_file.dart';

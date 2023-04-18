@@ -17,14 +17,14 @@
  * the License.
  */
 
-///[WXMiniProgramType.RELEASE]正式版
-///[WXMiniProgramType.TEST]测试版
-///[WXMiniProgramType.PREVIEW]预览版
+/// [WXMiniProgramType.RELEASE]正式版
+/// [WXMiniProgramType.TEST]测试版
+/// [WXMiniProgramType.PREVIEW]预览版
 enum WXMiniProgramType { RELEASE, TEST, PREVIEW }
 
-///[WeChatScene.SESSION]会话
-///[WeChatScene.TIMELINE]朋友圈
-///[WeChatScene.FAVORITE]收藏
+/// [WeChatScene.SESSION]会话
+/// [WeChatScene.TIMELINE]朋友圈
+/// [WeChatScene.FAVORITE]收藏
 enum WeChatScene { SESSION, TIMELINE, FAVORITE }
 
 extension MiniProgramTypeExtensions on WXMiniProgramType {
@@ -37,7 +37,6 @@ extension MiniProgramTypeExtensions on WXMiniProgramType {
       case WXMiniProgramType.RELEASE:
         return 0;
     }
-    return 0;
   }
 }
 

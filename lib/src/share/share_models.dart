@@ -179,8 +179,8 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
   WeChatShareMusicModel(
       {this.musicUrl,
       this.musicLowBandUrl,
-      this.title: "",
-      this.description: "",
+      this.title = "",
+      this.description = "",
       this.musicDataUrl,
       this.musicLowBandDataUrl,
       this.thumbnail,
@@ -232,8 +232,8 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
       {this.scene = WeChatScene.SESSION,
       this.videoUrl,
       this.videoLowBandUrl,
-      this.title: "",
-      this.description: "",
+      this.title = "",
+      this.description = "",
       this.thumbnail,
       this.mediaTagName,
       this.messageAction,
@@ -277,7 +277,7 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
 class WeChatShareWebPageModel implements WeChatShareBaseModel {
   WeChatShareWebPageModel(
     this.webPage, {
-    this.title: "",
+    this.title = "",
     String? description,
     this.thumbnail,
     this.scene = WeChatScene.SESSION,
@@ -323,7 +323,7 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
   WeChatShareFileModel(
     this.source, {
     this.title = "",
-    this.description: "",
+    this.description = "",
     this.thumbnail,
     this.scene = WeChatScene.SESSION,
     this.mediaTagName,

@@ -1,3 +1,8 @@
+# 3.13.0
+* Android SDK升级到6.8.24
+* Kotlin升级到1.7.10
+* iOS切换到WechatOpenSDK-XCFramework
+
 # 3.12.3
 * Fix 520
 

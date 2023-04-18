@@ -23,8 +23,6 @@ A new Flutter plugin for Wechat SDK.
 #  s.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}" }
   s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
   s.libraries = ["z", "sqlite3.0", "c++"]
-  s.preserve_paths = 'Lib/*.a'
-  s.vendored_libraries = "**/*.a"
   s.ios.deployment_target = '12.0'
   s.vendored_frameworks   = 'WeChat/WechatOpenSDK-XCFramework.xcframework'
 

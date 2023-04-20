@@ -22,8 +22,7 @@ import 'package:fluwx/fluwx.dart';
 void main() {
   group("construct", () {
     test("non default values", () {
-      var thumbnail =
-          WeChatImage.network("http://openflutter.dev/fluwx.png");
+      var thumbnail = WeChatImage.network("http://openflutter.dev/fluwx.png");
       var model = WeChatShareMiniProgramModel(
           webPageUrl: "http://openflutter.dev",
           miniProgramType: WXMiniProgramType.PREVIEW,
@@ -41,8 +40,11 @@ void main() {
     });
 
     test("default values", () {
+      var thumbnail = WeChatImage.network("http://openflutter.dev/fluwx.png");
       var model = WeChatShareMiniProgramModel(
-          webPageUrl: "http://openflutter.dev", userName: "userName");
+          webPageUrl: "http://openflutter.dev",
+          userName: "userName",
+          thumbnail: thumbnail);
       expect(model.webPageUrl, "http://openflutter.dev");
       expect(model.miniProgramType, WXMiniProgramType.RELEASE);
       expect(model.thumbnail, null);
@@ -53,8 +55,7 @@ void main() {
 
   group("toMap", () {
     test("with thumbnail", () {
-      var thumbnail =
-          WeChatImage.network("http://openflutter.dev/fluwx.png");
+      var thumbnail = WeChatImage.network("http://openflutter.dev/fluwx.png");
       var map = WeChatShareMiniProgramModel(
               webPageUrl: "http://openflutter.dev",
               miniProgramType: WXMiniProgramType.PREVIEW,
@@ -71,10 +72,12 @@ void main() {
     });
 
     test("without thumbnail", () {
+      var thumbnail = WeChatImage.network("http://openflutter.dev/fluwx.png");
       var map = WeChatShareMiniProgramModel(
               webPageUrl: "http://openflutter.dev",
               miniProgramType: WXMiniProgramType.PREVIEW,
               withShareTicket: true,
+              thumbnail: thumbnail,
               userName: "userName",
               path: "path")
           .toMap();

@@ -80,11 +80,11 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       {required this.webPageUrl,
       this.miniProgramType = WXMiniProgramType.RELEASE,
       required this.userName,
-      this.path =  "/",
+      this.path = "/",
       this.title,
       this.description,
       this.withShareTicket = false,
-      this.thumbnail,
+      required this.thumbnail,
       this.hdImagePath,
       this.mediaTagName,
       this.messageAction,
@@ -102,7 +102,7 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
   final WeChatImage? hdImagePath;
   final String? title;
   final String? description;
-  final WeChatImage? thumbnail;
+  final WeChatImage thumbnail;
   final bool withShareTicket;
   final String? messageExt;
   final String? messageAction;
@@ -120,7 +120,7 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
       "title": title,
       _description: description,
       "withShareTicket": withShareTicket,
-      _thumbnail: thumbnail?.toMap(),
+      _thumbnail: thumbnail.toMap(),
       "hdImagePath": hdImagePath?.toMap(),
       _messageAction: messageAction,
       _mediaTagName: mediaTagName,

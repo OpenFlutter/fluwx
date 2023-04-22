@@ -22,7 +22,7 @@ import 'dart:typed_data';
 const String _errCode = 'errCode';
 const String _errStr = 'errStr';
 
-typedef BaseWeChatResponse _WeChatResponseInvoker(Map argument);
+typedef _WeChatResponseInvoker = WeChatResponse Function(Map argument);
 
 Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
   'onShareResponse': (Map argument) => WeChatShareResponse.fromMap(argument),
@@ -50,11 +50,11 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
       WeChatOpenInvoiceResponse.fromMap(argument),
 };
 
-class BaseWeChatResponse {
-  BaseWeChatResponse._(this.errCode, this.errStr);
+sealed class WeChatResponse {
+  WeChatResponse._(this.errCode, this.errStr);
 
   /// Create response from the response pool.
-  factory BaseWeChatResponse.create(String name, Map argument) {
+  factory WeChatResponse.create(String name, Map argument) {
     var result = _nameAndResponseMapper[name];
     if (result == null) {
       throw ArgumentError("Can't found instance of $name");
@@ -68,14 +68,15 @@ class BaseWeChatResponse {
   bool get isSuccessful => errCode == 0;
 }
 
-class WeChatOpenInvoiceResponse extends BaseWeChatResponse {
+class WeChatOpenInvoiceResponse extends WeChatResponse {
   String? cardItemList;
+
   WeChatOpenInvoiceResponse.fromMap(Map map)
       : cardItemList = map["cardItemList"],
         super._(map[_errCode], map[_errStr]);
 }
 
-class WeChatShareResponse extends BaseWeChatResponse {
+class WeChatShareResponse extends WeChatResponse {
   WeChatShareResponse.fromMap(Map map)
       : type = map['type'],
         super._(map[_errCode], map[_errStr]);
@@ -83,7 +84,7 @@ class WeChatShareResponse extends BaseWeChatResponse {
   final int type;
 }
 
-class WeChatAuthResponse extends BaseWeChatResponse {
+class WeChatAuthResponse extends WeChatResponse {
   WeChatAuthResponse.fromMap(Map map)
       : type = map['type'],
         country = map['country'],
@@ -115,7 +116,7 @@ class WeChatAuthResponse extends BaseWeChatResponse {
       1432;
 }
 
-class WeChatLaunchMiniProgramResponse extends BaseWeChatResponse {
+class WeChatLaunchMiniProgramResponse extends WeChatResponse {
   WeChatLaunchMiniProgramResponse.fromMap(Map map)
       : type = map['type'],
         extMsg = map['extMsg'],
@@ -125,7 +126,7 @@ class WeChatLaunchMiniProgramResponse extends BaseWeChatResponse {
   final String? extMsg;
 }
 
-class WeChatPaymentResponse extends BaseWeChatResponse {
+class WeChatPaymentResponse extends WeChatResponse {
   WeChatPaymentResponse.fromMap(Map map)
       : type = map['type'],
         extData = map['extData'],
@@ -135,7 +136,7 @@ class WeChatPaymentResponse extends BaseWeChatResponse {
   final String? extData;
 }
 
-class WeChatOpenCustomerServiceChatResponse extends BaseWeChatResponse {
+class WeChatOpenCustomerServiceChatResponse extends WeChatResponse {
   WeChatOpenCustomerServiceChatResponse.fromMap(Map map)
       : extMsg = map['extMsg'],
         super._(map[_errCode], map[_errStr]);
@@ -143,7 +144,7 @@ class WeChatOpenCustomerServiceChatResponse extends BaseWeChatResponse {
   final String? extMsg;
 }
 
-class WeChatOpenBusinessViewResponse extends BaseWeChatResponse {
+class WeChatOpenBusinessViewResponse extends WeChatResponse {
   final String? extMsg;
   final String? openid;
   final String? businessType;
@@ -157,7 +158,7 @@ class WeChatOpenBusinessViewResponse extends BaseWeChatResponse {
         super._(map[_errCode], map[_errStr]);
 }
 
-class WeChatSubscribeMsgResponse extends BaseWeChatResponse {
+class WeChatSubscribeMsgResponse extends WeChatResponse {
   WeChatSubscribeMsgResponse.fromMap(Map map)
       : openid = map['openid'],
         templateId = map['templateId'],
@@ -173,25 +174,23 @@ class WeChatSubscribeMsgResponse extends BaseWeChatResponse {
   final int scene;
 }
 
-class WeChatOpenBusinessWebviewResponse extends BaseWeChatResponse {
+class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
   WeChatOpenBusinessWebviewResponse.fromMap(Map map)
       : type = map['type'],
-        errCode = map[_errCode],
         businessType = map['businessType'],
         resultInfo = map['resultInfo'],
         super._(map[_errCode], map[_errStr]);
 
   final int? type;
-  final int errCode;
   final int? businessType;
   final String resultInfo;
 }
 
-class WeChatAuthByQRCodeFinishedResponse extends BaseWeChatResponse {
+class WeChatAuthByQRCodeFinishedResponse extends WeChatResponse {
   WeChatAuthByQRCodeFinishedResponse.fromMap(Map map)
       : authCode = map['authCode'],
         qrCodeErrorCode = (_authByQRCodeErrorCodes[_errCode] ??
-            AuthByQRCodeErrorCode.UNKNOWN),
+            AuthByQRCodeErrorCode.unknown),
         super._(map[_errCode], map[_errStr]);
 
   final String? authCode;
@@ -199,7 +198,7 @@ class WeChatAuthByQRCodeFinishedResponse extends BaseWeChatResponse {
 }
 
 ///[qrCode] in memory.
-class WeChatAuthGotQRCodeResponse extends BaseWeChatResponse {
+class WeChatAuthGotQRCodeResponse extends WeChatResponse {
   WeChatAuthGotQRCodeResponse.fromMap(Map map)
       : qrCode = map['qrCode'],
         super._(map[_errCode], map[_errStr]);
@@ -207,13 +206,13 @@ class WeChatAuthGotQRCodeResponse extends BaseWeChatResponse {
   final Uint8List? qrCode;
 }
 
-class WeChatQRCodeScannedResponse extends BaseWeChatResponse {
+class WeChatQRCodeScannedResponse extends WeChatResponse {
   WeChatQRCodeScannedResponse.fromMap(Map map)
       : super._(map[_errCode], map[_errStr]);
 }
 
 // 获取微信打开App时携带的参数
-class WeChatShowMessageFromWXRequest extends BaseWeChatResponse {
+class WeChatShowMessageFromWXRequest extends WeChatResponse {
   WeChatShowMessageFromWXRequest.fromMap(Map map)
       : extMsg = map['extMsg'],
         super._(0, '');
@@ -222,21 +221,21 @@ class WeChatShowMessageFromWXRequest extends BaseWeChatResponse {
 }
 
 enum AuthByQRCodeErrorCode {
-  OK, // WechatAuth_Err_OK(0)
-  NORMAL_ERR, // WechatAuth_Err_NormalErr(-1)
-  NETWORK_ERR, // WechatAuth_Err_NetworkErr(-2)
-  JSON_DECODE_ERR, // WechatAuth_Err_JsonDecodeErr(-3), WechatAuth_Err_GetQrcodeFailed on iOS
-  CANCEL, // WechatAuth_Err_Cancel(-4)
-  TIMEOUT, // WechatAuth_Err_Timeout(-5)
-  AUTH_STOPPED, // WechatAuth_Err_Auth_Stopped(-6), Android only
-  UNKNOWN
+  ok, // WechatAuth_Err_OK(0)
+  normalErr, // WechatAuth_Err_NormalErr(-1)
+  networkErr, // WechatAuth_Err_NetworkErr(-2)
+  jsonDecodeErr, // WechatAuth_Err_JsonDecodeErr(-3), WechatAuth_Err_GetQrcodeFailed on iOS
+  cancel, // WechatAuth_Err_Cancel(-4)
+  timeout, // WechatAuth_Err_Timeout(-5)
+  authStopped, // WechatAuth_Err_Auth_Stopped(-6), Android only
+  unknown
 }
 
 const Map<int, AuthByQRCodeErrorCode> _authByQRCodeErrorCodes = {
-  0: AuthByQRCodeErrorCode.OK,
-  -1: AuthByQRCodeErrorCode.NORMAL_ERR,
-  -2: AuthByQRCodeErrorCode.NETWORK_ERR,
-  -3: AuthByQRCodeErrorCode.JSON_DECODE_ERR,
-  -4: AuthByQRCodeErrorCode.CANCEL,
-  -5: AuthByQRCodeErrorCode.AUTH_STOPPED
+  0: AuthByQRCodeErrorCode.ok,
+  -1: AuthByQRCodeErrorCode.normalErr,
+  -2: AuthByQRCodeErrorCode.networkErr,
+  -3: AuthByQRCodeErrorCode.jsonDecodeErr,
+  -4: AuthByQRCodeErrorCode.cancel,
+  -5: AuthByQRCodeErrorCode.authStopped
 };

@@ -5,7 +5,7 @@ class ShareMusicPage extends StatefulWidget {
   const ShareMusicPage({Key? key}) : super(key: key);
 
   @override
-  _ShareMusicPageState createState() => _ShareMusicPageState();
+  State<ShareMusicPage> createState() => _ShareMusicPageState();
 }
 
 class _ShareMusicPageState extends State<ShareMusicPage> {
@@ -15,7 +15,8 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
   String _title = 'Beyond';
   String _description = 'A Popular Rock Band From China';
   String _thumnail = 'images/logo.png';
-  WeChatScene scene = WeChatScene.SESSION;
+  WeChatScene scene = WeChatScene.session;
+  Fluwx _fluwx = Fluwx();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
         title: const Text('ShareMusicPage'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
+            icon: const Icon(Icons.share, color: Colors.white),
             onPressed: _share,
           ),
         ],
@@ -41,21 +42,22 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
               onChanged: (str) {
                 _musicUrl = str;
               },
-              decoration: InputDecoration(labelText: 'music url'),
+              decoration: const InputDecoration(labelText: 'music url'),
             ),
             TextField(
               controller: TextEditingController(text: 'http://www.qq.com'),
               onChanged: (str) {
                 _musicLowBandUrl = str;
               },
-              decoration: InputDecoration(labelText: 'music low band url'),
+              decoration:
+                  const InputDecoration(labelText: 'music low band url'),
             ),
             TextField(
               controller: TextEditingController(text: 'Beyond'),
               onChanged: (str) {
                 _title = str;
               },
-              decoration: InputDecoration(labelText: 'title'),
+              decoration: const InputDecoration(labelText: 'title'),
             ),
             TextField(
               controller: TextEditingController(
@@ -64,14 +66,14 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
               onChanged: (str) {
                 _description = str;
               },
-              decoration: InputDecoration(labelText: 'description'),
+              decoration: const InputDecoration(labelText: 'description'),
             ),
             TextField(
               controller: TextEditingController(text: 'images/logo.png'),
               onChanged: (str) {
                 _thumnail = str;
               },
-              decoration: InputDecoration(labelText: 'thumbnail'),
+              decoration: const InputDecoration(labelText: 'thumbnail'),
             ),
             Row(
               children: <Widget>[
@@ -79,7 +81,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.SESSION,
+                      value: WeChatScene.session,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -91,7 +93,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.TIMELINE,
+                      value: WeChatScene.timeline,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -103,7 +105,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.FAVORITE,
+                      value: WeChatScene.favorite,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -130,7 +132,7 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
       thumbnail: WeChatImage.network(_thumnail),
     );
 
-    shareToWeChat(model);
+    _fluwx.share(model);
   }
 
   void handleRadioValueChanged(WeChatScene scene) {

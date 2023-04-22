@@ -2,34 +2,38 @@ import 'dart:convert';
 import 'dart:io' as H;
 
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class PayPage extends StatefulWidget {
   const PayPage({Key? key}) : super(key: key);
 
   @override
-  _PayPageState createState() => _PayPageState();
+  State<PayPage> createState() => _PayPageState();
 }
 
 class _PayPageState extends State<PayPage> {
-  String _url = 'https://wxpay.wxutil.com/pub_v2/app/app_pay.php';
+  final Fluwx fluwx = Fluwx();
+  final String _url = 'https://wxpay.wxutil.com/pub_v2/app/app_pay.php';
   String _result = '无';
+  late Function(WeChatResponse) responseListener;
+
+  @override
+  void dispose() {
+    super.dispose();
+    fluwx.unsubscribeResponse(responseListener);
+  }
 
   @override
   void initState() {
     super.initState();
-    fluwx.weChatResponseEventHandler.listen((res) {
-      if (res is fluwx.WeChatPaymentResponse) {
+    responseListener = (response) {
+      if (response is WeChatPaymentResponse) {
         setState(() {
-          _result = 'pay :${res.isSuccessful}';
+          _result = 'pay :${response.isSuccessful}';
         });
       }
-    });
-//    fluwx.responseFromPayment.listen((data) {
-//      setState(() {
-//        _result = '${data.errCode}';
-//      });
-//    });
+    };
+    fluwx.subscribeResponse(responseListener);
   }
 
   @override
@@ -46,18 +50,18 @@ class _PayPageState extends State<PayPage> {
               };
               var request = await h.getUrl(Uri.parse(_url));
               var response = await request.close();
-              var data = await Utf8Decoder().bind(response).join();
+              var data = await const Utf8Decoder().bind(response).join();
               Map<String, dynamic> result = json.decode(data);
-              print(result['appid']);
-              print(result['timestamp']);
+              debugPrint(result['appid']);
+              debugPrint(result['timestamp']);
               fluwx
-                  .payWithWeChat(
+                  .pay(
                 appId: result['appid'].toString(),
                 partnerId: result['partnerid'].toString(),
                 prepayId: result['prepayid'].toString(),
                 packageValue: result['package'].toString(),
                 nonceStr: result['noncestr'].toString(),
-                timeStamp: result['timestamp'],
+                timestamp: result['timestamp'],
                 sign: result['sign'].toString(),
               )
                   .then((data) {

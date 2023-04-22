@@ -5,7 +5,7 @@ class SubscribeMessagePage extends StatefulWidget {
   const SubscribeMessagePage({Key? key}) : super(key: key);
 
   @override
-  _SubscribeMessagePageState createState() => _SubscribeMessagePageState();
+  State<SubscribeMessagePage> createState() => _SubscribeMessagePageState();
 }
 
 /// see wechat [document](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1500434436_aWfqW&token=&lang=zh_CN)
@@ -16,12 +16,13 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   TextEditingController templateId = TextEditingController(
       text: 'cm_vM2k3IjHcYbkGUeAfL6Fja_7Pgv4Hx_q4tA253Ss');
   TextEditingController reserved = TextEditingController(text: '123');
+  Fluwx fluwx = Fluwx();
 
   @override
   void initState() {
     super.initState();
-    weChatResponseEventHandler.listen((resp) {
-      print('resp = $resp');
+    fluwx.subscribeResponse((resp) {
+      debugPrint('resp = $resp');
     });
   }
 
@@ -80,7 +81,7 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   }
 
   void _requestSubMsg() {
-    subscribeWeChatMsg(
+    fluwx.subscribeMsg(
       appId: appId.text,
       scene: int.tryParse(scene.text) ?? 1,
       templateId: templateId.text,

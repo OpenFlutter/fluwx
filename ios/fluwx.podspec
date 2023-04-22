@@ -1,33 +1,24 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint fluwx.podspec' to validate before publishing.
+# Run `pod lib lint fluwx.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
   s.name             = 'fluwx'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter plugin for Wechat SDK.'
+  s.summary          = 'The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers can use WeChatSDK easily, such as sharing, payment, lanuch mini program and etc.'
   s.description      = <<-DESC
-A new Flutter plugin for Wechat SDK.
+The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers can use WeChatSDK easily, such as sharing, payment, lanuch mini program and etc.
                        DESC
-  s.homepage         = 'https://github.com/OpenFlutter/fluwx'
+  s.homepage         = 'http://example.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'JarvanMo' => 'jarvan.mo@gmail.com' }
+  s.author           = { 'Your Company' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/public/*.h'
-  s.static_framework = true
+  s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-#  s.dependency 'WechatOpenSDK', '1.8.7.1'
-
-# s.dependency 'OpenWeChatSDK','~> 1.9.9'
+  s.platform = :ios, '12.0'
   s.dependency 'WechatOpenSDK-XCFramework','~> 2.0.2'
-#  s.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}" }
-  s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
-  s.libraries = ["z", "sqlite3.0", "c++"]
-  s.preserve_paths = 'Lib/*.a'
-  s.vendored_libraries = "**/*.a"
-  s.ios.deployment_target = '12.0'
 
-  # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
-  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
+  # Flutter.framework does not contain a i386 slice.
+  s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
 end

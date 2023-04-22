@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:fluwx/fluwx.dart' as fluwx;
+import 'package:fluwx/fluwx.dart';
 
 class SendAuthPage extends StatefulWidget {
   const SendAuthPage({Key? key}) : super(key: key);
 
   @override
-  _SendAuthPageState createState() => _SendAuthPageState();
+  State<SendAuthPage> createState() => _SendAuthPageState();
 }
 
 class _SendAuthPageState extends State<SendAuthPage> {
   String? _result = '无';
+  Fluwx fluwx = Fluwx();
 
   @override
   void initState() {
     super.initState();
-    fluwx.weChatResponseEventHandler.distinct((a, b) => a == b).listen((res) {
-      if (res is fluwx.WeChatAuthResponse) {
+    fluwx.subscribeResponse((response) {
+      if (response is WeChatAuthResponse) {
         setState(() {
-          _result = 'state :${res.state} \n code:${res.code}';
+          _result = 'state :${response.state} \n code:${response.code}';
         });
       }
     });
@@ -38,7 +39,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
           OutlinedButton(
             onPressed: () {
               fluwx
-                  .sendWeChatAuth(
+                  .sendAuth(
                     scope: 'snsapi_userinfo',
                     state: 'wechat_sdk_demo_test',
                   )

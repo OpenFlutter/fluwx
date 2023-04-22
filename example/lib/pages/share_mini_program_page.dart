@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
 
 class ShareMiniProgramPage extends StatefulWidget {
+  const ShareMiniProgramPage({Key? key}) : super(key: key);
+
   @override
-  _ShareMiniProgramPageState createState() => _ShareMiniProgramPageState();
+  State<ShareMiniProgramPage> createState() => _ShareMiniProgramPageState();
 }
 
 class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
-  WeChatScene scene = WeChatScene.SESSION;
+  WeChatScene scene = WeChatScene.session;
   String _webPageUrl = 'http://www.qq.com';
   String _thumbnail = 'https://timgsa.baidu.com/timg'
       '?image'
@@ -22,6 +24,8 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
   String _path = '/pages/media';
   String _description = 'Fluwx';
 
+  Fluwx fluwx = Fluwx();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +33,7 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
         title: const Text('ShareMiniProgram'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
+            icon: const Icon(Icons.share, color: Colors.white),
             onPressed: _share,
           ),
         ],
@@ -95,6 +99,6 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
       description: _description,
       thumbnail: WeChatImage.network(_thumbnail),
     );
-    shareToWeChat(model);
+    fluwx.share(model);
   }
 }

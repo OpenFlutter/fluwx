@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020.  OpenFlutter Project
+ * Copyright (c) 2023.  OpenFlutter Project
  *
- *   Licensed to the Apache Software Foundation (ASF) under one or more contributor
+ * Licensed to the Apache Software Foundation (ASF) under one or more contributor
  * license agreements.  See the NOTICE file distributed with this work for
  * additional information regarding copyright ownership.  The ASF licenses this
  * file to you under the Apache License, Version 2.0 (the "License"); you may not
@@ -16,6 +16,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 import 'package:fluwx/fluwx.dart';
 
 const String _scene = "scene";
@@ -29,24 +30,24 @@ const String _messageAction = "messageAction";
 const String _compressThumbnail = "compressThumbnail";
 const String _msgSignature = "msgSignature";
 
-mixin WeChatShareBaseModel {
-  Map toMap();
+sealed class WeChatShareModel {
+  Map<String, dynamic> toMap();
 }
 
 /// [source] the text you want to send to WeChat
 /// [scene] the target you want to send
-class WeChatShareTextModel implements WeChatShareBaseModel {
+class WeChatShareTextModel extends WeChatShareModel {
   WeChatShareTextModel(
     this.source, {
-    this.scene = WeChatScene.SESSION,
+    this.scene = WeChatScene.session,
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
     this.msgSignature,
     String? description,
     String? title,
-  })  : this.title = title ?? source,
-        this.description = description ?? source;
+  })  : title = title ?? source,
+        description = description ?? source;
 
   final String source;
   final WeChatScene scene;
@@ -58,7 +59,7 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       _scene: scene.index,
       _source: source,
@@ -75,10 +76,10 @@ class WeChatShareTextModel implements WeChatShareBaseModel {
 /// the default value is [MINI_PROGRAM_TYPE_RELEASE]
 /// [hdImagePath] only works on iOS, not sure the relationship
 /// between [thumbnail] and [hdImagePath].
-class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
+class WeChatShareMiniProgramModel extends WeChatShareModel {
   WeChatShareMiniProgramModel(
       {required this.webPageUrl,
-      this.miniProgramType = WXMiniProgramType.RELEASE,
+      this.miniProgramType = WXMiniProgramType.release,
       required this.userName,
       this.path = "/",
       this.title,
@@ -111,10 +112,10 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       'webPageUrl': webPageUrl,
-      "miniProgramType": miniProgramType.toNativeInt(),
+      "miniProgramType": miniProgramType.value,
       "userName": userName,
       "path": path,
       "title": title,
@@ -133,11 +134,11 @@ class WeChatShareMiniProgramModel implements WeChatShareBaseModel {
 /// [source] the image you want to send to WeChat
 /// [scene] the target you want to send
 /// [thumbnail] the preview of your image, will be created from [scene] if null.
-class WeChatShareImageModel implements WeChatShareBaseModel {
+class WeChatShareImageModel extends WeChatShareModel {
   WeChatShareImageModel(this.source,
       {WeChatImage? thumbnail,
       this.title,
-      this.scene = WeChatScene.SESSION,
+      this.scene = WeChatScene.session,
       this.description,
       this.mediaTagName,
       this.messageAction,
@@ -158,7 +159,7 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       _scene: scene.index,
       _source: source.toMap(),
@@ -175,7 +176,7 @@ class WeChatShareImageModel implements WeChatShareBaseModel {
 
 /// if [musicUrl] and [musicLowBandUrl] are both provided,
 /// only [musicUrl] will be used.
-class WeChatShareMusicModel implements WeChatShareBaseModel {
+class WeChatShareMusicModel extends WeChatShareModel {
   WeChatShareMusicModel(
       {this.musicUrl,
       this.musicLowBandUrl,
@@ -187,7 +188,7 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
       this.mediaTagName,
       this.messageAction,
       this.messageExt,
-      this.scene = WeChatScene.SESSION,
+      this.scene = WeChatScene.session,
       this.compressThumbnail = true,
       this.msgSignature})
       : assert(musicUrl != null || musicLowBandUrl != null);
@@ -207,7 +208,7 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       _scene: scene.index,
       "musicUrl": musicUrl,
@@ -227,9 +228,9 @@ class WeChatShareMusicModel implements WeChatShareBaseModel {
 
 /// if [videoUrl] and [videoLowBandUrl] are both provided,
 /// only [videoUrl] will be used.
-class WeChatShareVideoModel implements WeChatShareBaseModel {
+class WeChatShareVideoModel extends WeChatShareModel {
   WeChatShareVideoModel(
-      {this.scene = WeChatScene.SESSION,
+      {this.scene = WeChatScene.session,
       this.videoUrl,
       this.videoLowBandUrl,
       this.title = "",
@@ -256,7 +257,7 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       _scene: scene.index,
       "videoUrl": videoUrl,
@@ -274,13 +275,13 @@ class WeChatShareVideoModel implements WeChatShareBaseModel {
 
 /// [webPage] url you want to send to wechat
 /// [thumbnail] logo of your website
-class WeChatShareWebPageModel implements WeChatShareBaseModel {
+class WeChatShareWebPageModel extends WeChatShareModel {
   WeChatShareWebPageModel(
     this.webPage, {
     this.title = "",
     String? description,
     this.thumbnail,
-    this.scene = WeChatScene.SESSION,
+    this.scene = WeChatScene.session,
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
@@ -301,7 +302,7 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       _scene: scene.index,
       "webPage": webPage,
@@ -319,13 +320,13 @@ class WeChatShareWebPageModel implements WeChatShareBaseModel {
 /// [source] the file you want to share, [source.suffix] is necessary on iOS.
 /// [scene] can't be [WeChatScene.TIMELINE], otherwise, sharing nothing.
 /// send files to WeChat
-class WeChatShareFileModel implements WeChatShareBaseModel {
+class WeChatShareFileModel extends WeChatShareModel {
   WeChatShareFileModel(
     this.source, {
     this.title = "",
     this.description = "",
     this.thumbnail,
-    this.scene = WeChatScene.SESSION,
+    this.scene = WeChatScene.session,
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
@@ -345,7 +346,7 @@ class WeChatShareFileModel implements WeChatShareBaseModel {
   final String? msgSignature;
 
   @override
-  Map toMap() {
+  Map<String, dynamic> toMap() {
     return {
       _scene: scene.index,
       _source: source.toMap(),

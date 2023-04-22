@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020.  OpenFlutter Project
+ * Copyright (c) 2023.  OpenFlutter Project
  *
  *   Licensed to the Apache Software Foundation (ASF) under one or more contributor
  * license agreements.  See the NOTICE file distributed with this work for
@@ -47,37 +47,33 @@ class WeChatImage extends WeChatFile {
 class WeChatFile {
   /// [source] must begin with http or https
   WeChatFile.network(
-    String source, {
+    String this.source, {
     String? suffix,
   })  : assert(source.startsWith('http')),
-        source = source,
-        schema = FileSchema.NETWORK,
+        schema = FileSchema.network,
         suffix = source.readSuffix(suffix, defaultSuffixTxt);
 
   ///[source] path of the image, like '/asset/image.pdf?package=flutter',
   ///the query param package in [source] only available when you want to specify the package of image
   WeChatFile.asset(
-    String source, {
+    String this.source, {
     String? suffix,
   })  : assert(source.trim().isNotEmpty),
-        this.source = source,
-        this.schema = FileSchema.ASSET,
-        this.suffix = source.readSuffix(suffix, defaultSuffixTxt);
+        schema = FileSchema.asset,
+        suffix = source.readSuffix(suffix, defaultSuffixTxt);
 
   WeChatFile.file(
     File source, {
     String suffix = defaultSuffixTxt,
   })  : source = source.path,
-        schema = FileSchema.FILE,
+        schema = FileSchema.file,
         suffix = source.path.readSuffix(suffix, defaultSuffixTxt);
 
   WeChatFile.binary(
-    Uint8List source, {
-    String suffix = defaultSuffixTxt,
+    Uint8List this.source, {
+    this.suffix = defaultSuffixTxt,
   })  : assert(suffix.trim().isNotEmpty),
-        source = source,
-        schema = FileSchema.BINARY,
-        suffix = suffix;
+        schema = FileSchema.binary;
 
   final dynamic source;
   final FileSchema schema;
@@ -88,11 +84,11 @@ class WeChatFile {
 
 /// Types of image, usually there are for types listed below.
 ///
-/// [NETWORK] is online images.
-/// [ASSET] is flutter asset image.
-/// [BINARY] is binary image, shall be be [Uint8List]
-/// [FILE] is local file, usually not comes from flutter asset.
-enum FileSchema { NETWORK, ASSET, FILE, BINARY }
+/// [network] is online images.
+/// [asset] is flutter asset image.
+/// [binary] is binary image, shall be be [Uint8List]
+/// [file] is local file, usually not comes from flutter asset.
+enum FileSchema { network, asset, file, binary }
 
 extension _FileSuffix on String {
   /// returns [suffix] if [suffix] not blank.

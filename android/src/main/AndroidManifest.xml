@@ -1,5 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jarvan.fluwx">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,8 +13,8 @@
     <application>
         <activity
             android:name=".wxapi.FluwxWXEntryActivity"
-            android:launchMode="singleTask"
             android:exported="false"
+            android:launchMode="singleTask"
             android:taskAffinity="${applicationId}"
             android:theme="@style/DisablePreviewTheme" />
 
@@ -25,13 +24,13 @@
             android:launchMode="singleTop"
             android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:taskAffinity="${applicationId}"
-            android:theme="@style/DisablePreviewTheme"/>
+            android:theme="@style/DisablePreviewTheme" />
         <activity-alias
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
-            android:theme="@style/DisablePreviewTheme"/>
+            android:theme="@style/DisablePreviewTheme" />
 
         <provider
             android:name="com.jarvan.fluwx.FluwxFileProvider"

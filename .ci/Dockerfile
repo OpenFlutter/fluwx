@@ -16,14 +16,14 @@ RUN sudo apt-get update && sudo apt-get install -y google-cloud-sdk && \
     gcloud config set component_manager/disable_update_check true
 
 RUN yes | sdkmanager \
-    "platforms;android-29" \
-    "build-tools;29.0.2" \
+    "platforms;android-33" \
+    "build-tools;33.0.2" \
     "extras;google;m2repository" \
     "extras;android;m2repository"
 
 RUN yes | sdkmanager \
-    "platforms;android-30" \
-    "build-tools;28.0.3" \
+    "platforms;android-32" \
+    "build-tools;33.0.2" \
     "extras;google;m2repository" \
     "extras;android;m2repository"
 

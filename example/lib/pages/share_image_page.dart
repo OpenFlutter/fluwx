@@ -5,20 +5,21 @@ class ShareImagePage extends StatefulWidget {
   const ShareImagePage({Key? key}) : super(key: key);
 
   @override
-  _ShareImagePageState createState() => _ShareImagePageState();
+  State<ShareImagePage> createState() => _ShareImagePageState();
 }
 
 class _ShareImagePageState extends State<ShareImagePage> {
-  WeChatScene scene = WeChatScene.SESSION;
+  WeChatScene scene = WeChatScene.session;
   String _response = '';
 
   WeChatImage? source;
   WeChatImage? thumbnail;
+  Fluwx fluwx = Fluwx();
 
   @override
   void initState() {
     super.initState();
-    weChatResponseEventHandler.listen((res) {
+    fluwx.subscribeResponse((res) {
       if (res is WeChatShareResponse) {
         setState(() {
           _response = 'state :${res.isSuccessful}';
@@ -34,7 +35,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
         title: const Text('shareImage'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
+            icon: const Icon(Icons.share, color: Colors.white),
             onPressed: _shareImage,
           ),
         ],
@@ -44,7 +45,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
         child: Column(
           children: <Widget>[
             TextField(
-              decoration: InputDecoration(labelText: '图片地址(仅限网络)'),
+              decoration: const InputDecoration(labelText: '图片地址(仅限网络)'),
               controller: TextEditingController(
                 text: 'https://timgsa.baidu.com/timg'
                     '?image'
@@ -73,7 +74,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.SESSION,
+                      value: WeChatScene.session,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -85,7 +86,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.TIMELINE,
+                      value: WeChatScene.timeline,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -97,7 +98,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.FAVORITE,
+                      value: WeChatScene.favorite,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -116,7 +117,7 @@ class _ShareImagePageState extends State<ShareImagePage> {
   }
 
   void _shareImage() {
-    shareToWeChat(WeChatShareImageModel(source!, thumbnail: thumbnail));
+    fluwx.share(WeChatShareImageModel(source!, thumbnail: thumbnail));
   }
 
   void handleRadioValueChanged(WeChatScene scene) {

@@ -145,7 +145,7 @@ class WeChatShareImageModel extends WeChatShareModel {
       this.messageExt,
       this.compressThumbnail = true,
       this.msgSignature})
-      : this.thumbnail = thumbnail ?? source;
+      : thumbnail = thumbnail ?? source;
 
   final WeChatImage source;
   final WeChatImage thumbnail;
@@ -288,7 +288,7 @@ class WeChatShareWebPageModel extends WeChatShareModel {
     this.msgSignature,
     this.compressThumbnail = true,
   })  : assert(webPage.isNotEmpty),
-        this.description = description ?? webPage;
+        description = description ?? webPage;
 
   final String webPage;
   final WeChatImage? thumbnail;

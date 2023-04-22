@@ -1,3 +1,11 @@
+# 4.0.0-pre.1
+* 重构Flutter端，现在需要`Fluwx fluwx = Fluwx();`调用fluwx实例
+* 支持取消回传值的监听
+* 枚举例按照dart语言规范进行了重命名
+* 一些包含`WeChat`的方法删除了`WeChat`
+* 部分类改为sealed class
+* 最低dart版本>=3.1.0-26.0.dev
+
 # 3.13.1
 * 分享到小程序的thumbnail为必填
 

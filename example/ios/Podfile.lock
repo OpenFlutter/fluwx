@@ -1,0 +1,35 @@
+PODS:
+  - Flutter (1.0.0)
+  - fluwx (0.0.1):
+    - Flutter
+    - WechatOpenSDK-XCFramework (~> 2.0.2)
+  - integration_test (0.0.1):
+    - Flutter
+  - WechatOpenSDK-XCFramework (2.0.2)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - fluwx (from `.symlinks/plugins/fluwx/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+SPEC REPOS:
+  trunk:
+    - WechatOpenSDK-XCFramework
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  fluwx:
+    :path: ".symlinks/plugins/fluwx/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  fluwx: 2f899ad93971ba6d02a6ca1be8b8942a33683668
+  integration_test: 13825b8a9334a850581300559b8839134b124670
+  WechatOpenSDK-XCFramework: acdeeda129efbef9532bca8a10c24e1b4b8c7d69
+
+PODFILE CHECKSUM: beab77b38961de946f08660e554f80ac174dc842
+
+COCOAPODS: 1.11.3

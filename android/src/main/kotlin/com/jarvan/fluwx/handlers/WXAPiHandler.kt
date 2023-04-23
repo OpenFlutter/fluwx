@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
 import com.jarvan.fluwx.BuildConfig
+import com.jarvan.fluwx.FluwxPlugin
 import com.tencent.mm.opensdk.constants.Build
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
@@ -135,48 +136,30 @@ object WXAPiHandler : ILog {
         wxApi?.setLogImpl(this)
     }
 
-    fun stopLog() {
-        wxApi?.setLogImpl(null)
-    }
-
     override fun d(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1)
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun i(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun e(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun v(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun w(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
+    }
+
+    private fun logToFlutter(tag:String?,message:String?){
+        FluwxPlugin.callingChannel?.invokeMethod("wechatLog", mapOf(
+            "detail" to "$tag : $message"
+        ))
     }
 }
 

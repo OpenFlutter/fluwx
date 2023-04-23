@@ -52,7 +52,7 @@ FlutterMethodChannel *channel = nil;
         
 #ifdef WECHAT_LOGGING
         [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
-            NSLog(@"Fluwx log: %@", log);
+            [self logToFlutterWithDetail:log];
         }];
 #endif
     }
@@ -161,7 +161,8 @@ FlutterMethodChannel *channel = nil;
 #ifdef WECHAT_LOGGING
     if(isWeChatRegistered) {
         [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-            NSLog(@"Fluwx Log:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+            NSString *log = [NSString stringWithFormat:@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion];
+            [self logToFlutterWithDetail:log];
         }];
     }
 
@@ -359,6 +360,14 @@ FlutterMethodChannel *channel = nil;
     }
 }
 
+- (void)logToFlutterWithDetail:(NSString *) detail {
+    if(channel != nil){
+        NSDictionary *result = @{
+            @"detail":detail
+        };
+        [channel invokeMethod:@"wechatLog" arguments:result];
+    }
+}
 
 - (void)managerDidRecvLaunchFromWXReq:(LaunchFromWXReq *)request {
     [FluwxDelegate defaultManager].extMsg = request.message.messageExt;

@@ -58,14 +58,21 @@ class MethodChannelFluwx extends FluwxPlatform {
       _responseEventHandler.stream;
 
   Future _methodHandler(MethodCall methodCall) {
-    final response = WeChatResponse.create(
-      methodCall.method,
-      methodCall.arguments,
-    );
-
-    _responseEventHandler.add(response);
+    if (methodCall.method == "wechatLog") {
+      _printLog(methodCall.arguments);
+    } else {
+      final response = WeChatResponse.create(
+        methodCall.method,
+        methodCall.arguments,
+      );
+      _responseEventHandler.add(response);
+    }
 
     return Future.value();
+  }
+
+  _printLog(Map data){
+    debugPrint("FluwxLog: ${data["detail"]}");
   }
 
   /// [true] if WeChat installed, otherwise [false].
@@ -77,7 +84,7 @@ class MethodChannelFluwx extends FluwxPlatform {
 
   @override
   Future<bool> open(OpenCommand what) async {
-    switch(what){
+    switch (what) {
       case OpenWeChat():
         return await methodChannel.invokeMethod('openWXApp');
       case OpenUrl():

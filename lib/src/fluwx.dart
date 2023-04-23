@@ -21,9 +21,6 @@ import 'dart:async';
 
 import '../fluwx.dart';
 import 'method_channel/fluwx_platform_interface.dart';
-import 'response/wechat_response.dart';
-import 'share/share_models.dart';
-import 'wechat_enums.dart';
 
 class Fluwx {
   final List<Function(WeChatResponse response)> _responseListeners = [];

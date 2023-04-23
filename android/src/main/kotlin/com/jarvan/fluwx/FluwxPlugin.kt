@@ -2,9 +2,11 @@ package com.jarvan.fluwx
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.util.Log
 import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.*
+import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_EXT_MSG
 import com.jarvan.fluwx.utils.WXApiUtils
 import com.tencent.mm.opensdk.modelbiz.*
 import com.tencent.mm.opensdk.modelpay.PayReq
@@ -36,7 +38,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     private var context: Context? = null
 
     private fun handelIntent(intent: Intent) {
-        intent.getStringExtra(FluwxRequestHandler.KEY_FLUWX_REQUEST_INFO_EXT_MSG)?.let {
+        intent.getStringExtra(KEY_FLUWX_REQUEST_INFO_EXT_MSG)?.let {
             extMsg = it
         }
     }
@@ -44,6 +46,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
         channel.setMethodCallHandler(this)
+        val applicationContext = flutterPluginBinding.applicationContext
         fluwxChannel = channel
         context = flutterPluginBinding.applicationContext
         authHandler = FluwxAuthHandler(channel)
@@ -56,8 +59,6 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
         callingChannel = fluwxChannel
         when {
             call.method == "registerApp" -> WXAPiHandler.registerApp(call, result, context)
-            call.method == "startLog" -> WXAPiHandler.startLog(call, result)
-            call.method == "stopLog" -> WXAPiHandler.stopLog(call, result)
             call.method == "sendAuth" -> authHandler?.sendAuth(call, result)
             call.method == "authByQRCode" -> authHandler?.authByQRCode(call, result)
             call.method == "stopAuthByQRCode" -> authHandler?.stopAuthByQRCode(result)

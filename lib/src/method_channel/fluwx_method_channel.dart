@@ -118,20 +118,6 @@ class MethodChannelFluwx extends FluwxPlatform {
     return methodChannel.invokeMethod('getExtMsg');
   }
 
-  /// start Log
-  /// default [WXLogLevel.unspecific]
-  @override
-  Future<bool?> startLog({WXLogLevel logLevel = WXLogLevel.unspecific}) async {
-    return await methodChannel
-        .invokeMethod('startLog', {'logLevel': logLevel.level});
-  }
-
-  /// stop log
-  @override
-  Future<bool?> stopLog() async {
-    return await methodChannel.invokeMethod('stopLog');
-  }
-
   /// Share your requests to WeChat.
   /// This depends on the actual type of [what].
   /// see [_shareModelMethodMapper] for detail.

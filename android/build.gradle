@@ -72,6 +72,7 @@ Map loadManifestPlaceholder() {
     String appId = ""
     String interruptWxRequest = "true"
     String flutterActivity = ""
+    String debugLogging = "disabled"
     Map fluwx = (Map) projectConfig.get("fluwx")
     if (fluwx) {
         Map android = (Map) fluwx.get("android")
@@ -86,7 +87,16 @@ Map loadManifestPlaceholder() {
                 flutterActivity = (String) activity
             }
         }
+
+        def logging = fluwx.get("debug_logging")
+        if (logging && logging == "enabled") {
+            debugLogging = "enabled"
+        }
+
     }
 
-    return ["WeChatAppId": appId, "InterruptWeChatRequestByFluwx": interruptWxRequest, "FluwxFlutterActivity": flutterActivity]
+    return ["WeChatAppId": appId,
+            "InterruptWeChatRequestByFluwx": interruptWxRequest,
+            "FluwxFlutterActivity": flutterActivity,
+            "WeChatDebugLogging": debugLogging]
 }

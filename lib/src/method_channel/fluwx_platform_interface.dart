@@ -67,14 +67,6 @@ abstract class FluwxPlatform extends PlatformInterface {
     throw UnimplementedError('getExtMsg() has not been implemented.');
   }
 
-  Future<bool?> startLog({WXLogLevel logLevel = WXLogLevel.unspecific}) {
-    throw UnimplementedError('startLog() has not been implemented.');
-  }
-
-  Future<bool?> stopLog() {
-    throw UnimplementedError('stopLog() has not been implemented.');
-  }
-
   Future<bool> share(WeChatShareModel what) {
     throw UnimplementedError('share() has not been implemented.');
   }

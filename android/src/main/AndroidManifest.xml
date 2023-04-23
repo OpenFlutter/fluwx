@@ -21,6 +21,9 @@
             android:value="${InterruptWeChatRequestByFluwx}" />
 
         <meta-data
+            android:name="WeChatDebugLogging"
+            android:value="${WeChatDebugLogging}" />
+        <meta-data
             android:name="FluwxFlutterActivity"
             android:value="${FluwxFlutterActivity}" />
 

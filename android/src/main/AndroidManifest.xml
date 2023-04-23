@@ -11,6 +11,19 @@
     </queries>
 
     <application>
+
+        <meta-data
+            android:name="WeChatAppId"
+            android:value="${WeChatAppId}" />
+
+        <meta-data
+            android:name="InterruptWeChatRequestByFluwx"
+            android:value="${InterruptWeChatRequestByFluwx}" />
+
+        <meta-data
+            android:name="FluwxFlutterActivity"
+            android:value="${FluwxFlutterActivity}" />
+
         <activity
             android:name=".wxapi.FluwxWXEntryActivity"
             android:exported="false"
@@ -25,6 +38,7 @@
             android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
             android:taskAffinity="${applicationId}"
             android:theme="@style/DisablePreviewTheme" />
+
         <activity-alias
             android:name="${applicationId}.wxapi.WXPayEntryActivity"
             android:exported="true"

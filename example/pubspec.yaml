@@ -55,7 +55,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - images/logo.png
+    - images/logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -82,3 +82,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+fluwx:
+  app_id: 123456
+  android:
+    interrupt_wx_request: true
+    flutter_activity: MainActivity
+  ios:
+    uni_link: hello

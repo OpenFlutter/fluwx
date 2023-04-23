@@ -22,6 +22,8 @@ import android.os.Bundle
 import com.jarvan.fluwx.handlers.FluwxResponseHandler
 import com.jarvan.fluwx.handlers.FluwxRequestHandler
 import com.jarvan.fluwx.handlers.WXAPiHandler
+import com.jarvan.fluwx.utils.flutterActivityIntent
+import com.jarvan.fluwx.utils.startFlutterActivity
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
@@ -38,19 +40,18 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         try {
             if (!WXAPiHandler.wxApiRegistered) {
                 val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-                val wechatAppId = appInfo.metaData.getString("weChatAppId")
+                val wechatAppId = appInfo.metaData.getString("WeChatAppId")
                 if (wechatAppId != null) {
                     WXAPiHandler.setupWxApi(wechatAppId,this)
                     WXAPiHandler.coolBoot = true
                 } else {
-                    Log.e("fluwx","can't load meta-data weChatAppId")
+                    Log.w("fluwx","can't load meta-data weChatAppId")
                 }
             }
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()
-            startSpecifiedActivity(defaultFlutterActivityAction())
-            finish()
+            this.startFlutterActivity()
         }
     }
 
@@ -63,8 +64,7 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
             WXAPiHandler.wxApi?.handleIntent(intent, this)
         } catch (e: Exception) {
             e.printStackTrace()
-            startSpecifiedActivity(defaultFlutterActivityAction())
-            finish()
+            this.startFlutterActivity()
         }
     }
 
@@ -80,21 +80,4 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
         FluwxResponseHandler.handleResponse(resp)
         finish()
     }
-
-    private fun startSpecifiedActivity(action: String, bundle: Bundle? = null, bundleKey: String? = null) {
-        Intent(action).run {
-            bundleKey?.let {
-                putExtra(bundleKey, bundle)
-            }
-            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-            packageManager?.let {
-                resolveActivity(packageManager)?.also {
-                    startActivity(this)
-                    finish()
-                }
-            }
-        }
-    }
-
-    private fun defaultFlutterActivityAction(): String = "$packageName.FlutterActivity"
 }

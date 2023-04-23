@@ -36,26 +36,23 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     private var context: Context? = null
 
     private fun handelIntent(intent: Intent) {
-        val action = intent.action
-        val dataString = intent.dataString
-        if (Intent.ACTION_VIEW == action) {
-            extMsg = dataString
+        intent.getStringExtra(FluwxRequestHandler.KEY_FLUWX_REQUEST_INFO_EXT_MSG)?.let {
+            extMsg = it
         }
     }
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
         channel.setMethodCallHandler(this)
         fluwxChannel = channel
         context = flutterPluginBinding.applicationContext
         authHandler = FluwxAuthHandler(channel)
         shareHandler = FluwxShareHandlerEmbedding(
-            flutterPluginBinding.flutterAssets,
-            flutterPluginBinding.applicationContext
+            flutterPluginBinding.flutterAssets, flutterPluginBinding.applicationContext
         )
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(call: MethodCall, result: Result) {
         callingChannel = fluwxChannel
         when {
             call.method == "registerApp" -> WXAPiHandler.registerApp(call, result, context)
@@ -75,12 +72,13 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             call.method == "isWeChatInstalled" -> WXAPiHandler.checkWeChatInstallation(result)
             call.method == "getExtMsg" -> getExtMsg(result)
             call.method == "openWeChatCustomerServiceChat" -> openWeChatCustomerServiceChat(
-                call,
-                result
+                call, result
             )
+
             call.method == "checkSupportOpenBusinessView" -> WXAPiHandler.checkSupportOpenBusinessView(
                 result
             )
+
             call.method == "openBusinessView" -> openBusinessView(call, result)
 
             call.method == "openWeChatInvoice" -> openWeChatInvoice(call, result);
@@ -104,7 +102,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             request.timeStamp = System.currentTimeMillis().toString()
             request.nonceStr = System.currentTimeMillis().toString()
             request.signType = "SHA1"
-            request.cardSign = WXApiUtils.createSign(request.appId, request.nonceStr, request.timeStamp, request.cardType)
+            request.cardSign = WXApiUtils.createSign(
+                request.appId, request.nonceStr, request.timeStamp, request.cardType
+            )
             val done = WXAPiHandler.wxApi?.sendReq(request)
             result.success(done)
         }
@@ -122,11 +122,13 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
         handelIntent(binding.activity.intent)
+        FluwxRequestHandler.handleRequestInfoFromIntent(binding.activity.intent)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
 //        WXAPiHandler.setContext(binding.activity.applicationContext)
         handelIntent(binding.activity.intent)
+        FluwxRequestHandler.handleRequestInfoFromIntent(binding.activity.intent)
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
 

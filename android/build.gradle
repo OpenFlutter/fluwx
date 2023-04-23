@@ -1,3 +1,5 @@
+import org.yaml.snakeyaml.Yaml
+
 group 'com.jarvan.fluwx'
 version '1.0-SNAPSHOT'
 
@@ -9,7 +11,8 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.0'
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath "org.yaml:snakeyaml:2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -23,10 +26,9 @@ allprojects {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
 android {
     namespace "com.jarvan.fluwx"
-    compileSdkVersion 31
+    compileSdk 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -36,6 +38,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         consumerProguardFiles 'consumer-proguard-rules.txt'
+        manifestPlaceholders = loadManifestPlaceholder()
     }
 
     dependencies {
@@ -53,10 +56,37 @@ android {
             useJUnitPlatform()
 
             testLogging {
-               events "passed", "skipped", "failed", "standardOut", "standardError"
-               outputs.upToDateWhen {false}
-               showStandardStreams = true
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
             }
         }
     }
+}
+
+Map loadManifestPlaceholder() {
+    def path = rootProject.projectDir.parent + File.separator + "pubspec.yaml"
+    InputStream input = new FileInputStream(new File(path))
+    Yaml yaml = new Yaml()
+    Map projectConfig = yaml.load(input)
+    String appId = ""
+    String interruptWxRequest = "true"
+    String flutterActivity = ""
+    Map fluwx = (Map) projectConfig.get("fluwx")
+    if (fluwx) {
+        Map android = (Map) fluwx.get("android")
+        if (android) {
+            def iwr = android.get("interrupt_wx_request")
+            if (iwr) {
+                interruptWxRequest = (String) iwr
+            }
+
+            def activity = android.get("flutter_activity")
+            if (activity) {
+                flutterActivity = (String) activity
+            }
+        }
+    }
+
+    return ["WeChatAppId": appId, "InterruptWeChatRequestByFluwx": interruptWxRequest, "FluwxFlutterActivity": flutterActivity]
 }

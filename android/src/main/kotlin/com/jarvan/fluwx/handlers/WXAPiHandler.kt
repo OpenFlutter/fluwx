@@ -92,7 +92,7 @@ object WXAPiHandler : ILog {
             wxApi?.isWXAppInstalled != true -> {
                 result.error("WeChat Not Installed", "Please install the WeChat first", null)
             }
-            wxApi?.wxAppSupportAPI ?: 0 < Build.OPEN_BUSINESS_VIEW_SDK_INT -> {
+            (wxApi?.wxAppSupportAPI ?: 0) < Build.OPEN_BUSINESS_VIEW_SDK_INT -> {
                 result.error("WeChat Not Supported", "Please upgrade the WeChat version", null)
             }
             else -> {
@@ -108,20 +108,19 @@ object WXAPiHandler : ILog {
     }
 
     fun startLog(call: MethodCall, result: MethodChannel.Result) {
-        wxApi?.setLogImpl(this);
-        result.success(true);
+        wxApi?.setLogImpl(this)
+        result.success(true)
     }
 
     fun stopLog(call: MethodCall, result: MethodChannel.Result) {
-        wxApi?.setLogImpl(null);
-        result.success(true);
-
+        wxApi?.setLogImpl(null)
+        result.success(true)
     }
 
     override fun d(p0: String?, p1: String?) {
         when {
             p1 != null -> {
-                Log.d(p0, p1);
+                Log.d(p0, p1)
             }
         }
     }

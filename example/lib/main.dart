@@ -205,7 +205,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
               onPressed: () {
-                fluwx.openWeChatApp();
+                fluwx.open(OpenWeChat());
               },
               child: const Text('Open WeChat App'),
             ),

@@ -94,6 +94,10 @@ FlutterMethodChannel *channel = nil;
         [self openWeChatCustomerServiceChat:call result:result];
     } else if ([@"checkSupportOpenBusinessView" isEqualToString:call.method]) {
         [self checkSupportOpenBusinessView:call result:result];
+    } else if ([@"openRankList" isEqualToString:call.method]) {
+        [self handleOpenRankListCall:call result:result];
+    } else if ([@"openUrl" isEqualToString:call.method]) {
+        [self handleOpenUrlCall:call result:result];
     } else if([@"openWeChatInvoice" isEqualToString:call.method]) {
         [self openWeChatInvoice:call result:result];
     }
@@ -326,6 +330,25 @@ FlutterMethodChannel *channel = nil;
     [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
 }
 
+- (void)handleOpenUrlCall:(FlutterMethodCall *)call
+                   result:(FlutterResult)result {
+    OpenWebviewReq *req = [[OpenWebviewReq alloc] init];
+    req.url = call.arguments[@"url"];
+    [WXApi sendReq:req
+        completion:^(BOOL success){
+        result(@(success));
+        }];
+}
+
+- (void)handleOpenRankListCall:(FlutterMethodCall *)call
+                        result:(FlutterResult)result {
+    OpenRankListReq *req = [[OpenRankListReq alloc] init];
+    [WXApi sendReq:req
+        completion:^(BOOL success){
+        result(@(success));
+        }];
+}
+
 - (BOOL)handleOpenURL:(NSNotification *)aNotification {
     if (handleOpenURLByFluwx) {
         NSString *aURLString = [aNotification userInfo][@"url"];
@@ -335,6 +358,7 @@ FlutterMethodChannel *channel = nil;
         return NO;
     }
 }
+
 
 - (void)managerDidRecvLaunchFromWXReq:(LaunchFromWXReq *)request {
     [FluwxDelegate defaultManager].extMsg = request.message.messageExt;

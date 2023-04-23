@@ -50,8 +50,8 @@ abstract class FluwxPlatform extends PlatformInterface {
     throw UnimplementedError('isWeChatInstalled has not been implemented.');
   }
 
-  Future<bool> openWeChatApp() {
-    throw UnimplementedError('openWeChatApp() has not been implemented.');
+  Future<bool> open(OpenCommand what) {
+    throw UnimplementedError('open() has not been implemented.');
   }
 
   Future<bool> registerWxApi({

@@ -2,14 +2,25 @@ package com.jarvan.fluwx
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.util.Log
 import androidx.annotation.NonNull
-import com.jarvan.fluwx.handlers.*
+import com.jarvan.fluwx.handlers.FluwxAuthHandler
+import com.jarvan.fluwx.handlers.FluwxRequestHandler
+import com.jarvan.fluwx.handlers.FluwxShareHandler
+import com.jarvan.fluwx.handlers.FluwxShareHandlerEmbedding
+import com.jarvan.fluwx.handlers.PermissionHandler
+import com.jarvan.fluwx.handlers.WXAPiHandler
 import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_EXT_MSG
 import com.jarvan.fluwx.utils.WXApiUtils
-import com.tencent.mm.opensdk.modelbiz.*
+import com.tencent.mm.opensdk.modelbiz.ChooseCardFromWXCardPackage
+import com.tencent.mm.opensdk.modelbiz.OpenRankList
+import com.tencent.mm.opensdk.modelbiz.OpenWebview
+import com.tencent.mm.opensdk.modelbiz.SubscribeMessage
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
+import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessView
+import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
+import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
 import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.openapi.SendReqCallback
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -82,7 +93,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
 
             call.method == "openBusinessView" -> openBusinessView(call, result)
 
-            call.method == "openWeChatInvoice" -> openWeChatInvoice(call, result);
+            call.method == "openWeChatInvoice" -> openWeChatInvoice(call, result)
+            call.method == "openUrl" -> openUrl(call, result)
+            call.method == "openRankList" -> openRankList(result)
             else -> result.notImplemented()
         }
     }
@@ -265,8 +278,27 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
 
     private fun openWXApp(result: Result) = result.success(WXAPiHandler.wxApi?.openWXApp())
 
+    private fun openUrl(call: MethodCall, result: Result) {
+        val req = OpenWebview.Req()
+        req.url = call.argument("url")
+        WXAPiHandler.wxApi?.sendReq(req, SendReqCallback {
+            result.success(it)
+        }) ?: kotlin.run {
+            result.success(false)
+        }
+    }
+    private fun openRankList(result: Result) {
+        val req = OpenRankList.Req()
+        WXAPiHandler.wxApi?.sendReq(req, SendReqCallback {
+            result.success(it)
+        }) ?: kotlin.run {
+            result.success(false)
+        }
+    }
+
     override fun onNewIntent(intent: Intent): Boolean {
         handelIntent(intent)
         return false
     }
+
 }

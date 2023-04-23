@@ -27,4 +27,5 @@ export 'src/fluwx.dart';
 export 'src/response/wechat_response.dart';
 export 'src/share/share_models.dart';
 export 'src/wechat_enums.dart';
+export 'src/open_command.dart';
 export 'src/wechat_file.dart' hide FileSchema;

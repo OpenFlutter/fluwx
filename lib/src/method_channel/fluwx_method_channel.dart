@@ -23,6 +23,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import '../open_command.dart';
 import '../response/wechat_response.dart';
 import '../share/share_models.dart';
 import '../wechat_enums.dart';
@@ -74,10 +75,21 @@ class MethodChannelFluwx extends FluwxPlatform {
     return await methodChannel.invokeMethod('isWeChatInstalled');
   }
 
-  /// Just open WeChat, noting to do.
   @override
-  Future<bool> openWeChatApp() async {
-    return await methodChannel.invokeMethod('openWXApp');
+  Future<bool> open(OpenCommand what) async {
+    switch(what){
+      case OpenWeChat():
+        return await methodChannel.invokeMethod('openWXApp');
+      case OpenUrl():
+        return await methodChannel.invokeMethod(
+          'openUrl',
+          <String, dynamic>{
+            'url': what.url,
+          },
+        );
+      case OpenRankList():
+        return await methodChannel.invokeMethod("openRankList");
+    }
   }
 
   /// It's ok if you register multi times.

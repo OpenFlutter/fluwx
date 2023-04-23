@@ -101,12 +101,6 @@ class MockFluwxPlatform
   }
 
   @override
-  Future<bool> openWeChatApp() {
-    // TODO: implement openWeChatApp
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> pay(
       {required String appId,
       required String partnerId,
@@ -171,6 +165,12 @@ class MockFluwxPlatform
   @override
   // TODO: implement responseEventHandler
   Stream<WeChatResponse> get responseEventHandler => throw UnimplementedError();
+
+  @override
+  Future<bool> open(OpenCommand what) {
+    // TODO: implement open
+    throw UnimplementedError();
+  }
 
 }
 

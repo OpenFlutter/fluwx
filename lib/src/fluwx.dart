@@ -19,6 +19,7 @@
 
 import 'dart:async';
 
+import '../fluwx.dart';
 import 'method_channel/fluwx_platform_interface.dart';
 import 'response/wechat_response.dart';
 import 'share/share_models.dart';
@@ -38,8 +39,8 @@ class Fluwx {
   Future<bool> get isWeChatInstalled =>
       FluwxPlatform.instance.isWeChatInstalled;
 
-  Future<bool> openWeChatApp() async {
-    return FluwxPlatform.instance.openWeChatApp();
+  Future<bool> open(OpenCommand what){
+   return FluwxPlatform.instance.open(what);
   }
 
   Future<bool> registerWxApi({

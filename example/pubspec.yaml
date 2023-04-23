@@ -85,8 +85,12 @@ flutter:
 
 fluwx:
   app_id: 123456
+# only debug in debug mode
+  debug_logging: true
   android:
-    interrupt_wx_request: true
-    flutter_activity: MainActivity
+#    interrupt_wx_request: true # default is true
+#    flutter_activity: MainActivity #Default to launch app's launcher
   ios:
-    uni_link: hello
+    universal_link: https://testdomain.com
+# payment is enabled by default
+    no_pay: true

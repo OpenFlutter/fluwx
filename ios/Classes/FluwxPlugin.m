@@ -30,7 +30,7 @@ FlutterMethodChannel *channel = nil;
         channel = [FlutterMethodChannel
                 methodChannelWithName:@"com.jarvanmo/fluwx"
                       binaryMessenger:[registrar messenger]];
-        FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar methodChannel:channel];
+            FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar methodChannel:channel];
         [registrar addMethodCallDelegate:instance channel:channel];
         [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
         
@@ -50,6 +50,11 @@ FlutterMethodChannel *channel = nil;
         channel = flutterMethodChannel;
         [FluwxResponseHandler defaultManager].delegate = self;
         
+#ifdef WECHAT_LOGGING
+        [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
+            NSLog(@"Fluwx log: %@", log);
+        }];
+#endif
     }
     return self;
 }
@@ -59,10 +64,6 @@ FlutterMethodChannel *channel = nil;
     
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
-    } else if ([@"startLog" isEqualToString:call.method]) {
-        [self startLog:call result:result];
-    } else if ([@"stopLog" isEqualToString:call.method]) {
-        [self stopLog:call result:result];
     } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
         [self checkWeChatInstallation:call result:result];
     } else if ([@"sendAuth" isEqualToString:call.method]) {
@@ -73,10 +74,6 @@ FlutterMethodChannel *channel = nil;
         [_fluwxAuthHandler stopAuthByQRCode:call result:result];
     } else if ([@"openWXApp" isEqualToString:call.method]) {
         result(@([WXApi openWXApp]));
-    } else if ([@"payWithFluwx" isEqualToString:call.method]) {
-        [self handlePayment:call result:result];
-    } else if ([@"payWithHongKongWallet" isEqualToString:call.method]) {
-        [self handleHongKongWalletPayment:call result:result];
     } else if ([@"launchMiniProgram" isEqualToString:call.method]) {
         [self handleLaunchMiniProgram:call result:result];
     } else if ([@"subscribeMsg" isEqualToString:call.method]) {
@@ -99,7 +96,21 @@ FlutterMethodChannel *channel = nil;
         [self checkSupportOpenBusinessView:call result:result];
     } else if([@"openWeChatInvoice" isEqualToString:call.method]) {
         [self openWeChatInvoice:call result:result];
-    } else {
+    }
+    else if ([@"payWithFluwx" isEqualToString:call.method]) {
+#ifndef NO_PAY
+        [self handlePayment:call result:result];
+#else
+        result(@NO);
+#endif
+    } else if ([@"payWithHongKongWallet" isEqualToString:call.method]) {
+#ifndef NO_PAY
+        [self handleHongKongWalletPayment:call result:result];
+#else
+        result(@NO);
+#endif
+    }
+    else {
         result(FlutterMethodNotImplemented);
     }
 }
@@ -142,29 +153,17 @@ FlutterMethodChannel *channel = nil;
     }
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
-
-    result(@(isWeChatRegistered));
-}
-
-- (void)startLog:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSNumber *typeInt = call.arguments[@"logLevel"];
-    WXLogLevel logLevel = WXLogLevelDetail;
-    if ([typeInt isEqualToNumber:@1]) {
-        logLevel = WXLogLevelDetail;
-    } else if ([typeInt isEqualToNumber:@0]) {
-        logLevel = WXLogLevelNormal;
+    
+#ifdef WECHAT_LOGGING
+    if(isWeChatRegistered) {
+        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+            NSLog(@"Fluwx Log:%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion);
+        }];
     }
-    NSLog(@"%@",call.arguments);
-    [WXApi startLogByLevel:logLevel logBlock:^(NSString * _Nonnull log) {
-        NSLog(@"%@",log);
-    }];
-    result([NSNumber numberWithBool:true]);
 
-}
-
-- (void)stopLog:(FlutterMethodCall *)call result:(FlutterResult)result {
-    [WXApi stopLog];
-    result([NSNumber numberWithBool:true]);
+#endif
+    
+    result(@(isWeChatRegistered));
 }
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {

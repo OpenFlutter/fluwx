@@ -55,14 +55,6 @@ class Fluwx {
         universalLink: universalLink);
   }
 
-  Future<bool?> startLog({WXLogLevel logLevel = WXLogLevel.unspecific}) {
-    return FluwxPlatform.instance.startLog(logLevel: logLevel);
-  }
-
-  Future<bool?> stopLog() {
-    return FluwxPlatform.instance.stopLog();
-  }
-
   Future<bool> share(WeChatShareModel what) async {
     return FluwxPlatform.instance.share(what);
   }

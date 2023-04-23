@@ -2,6 +2,9 @@ PODS:
   - Flutter (1.0.0)
   - fluwx (0.0.1):
     - Flutter
+    - fluwx/pay (= 0.0.1)
+  - fluwx/pay (0.0.1):
+    - Flutter
     - WechatOpenSDK-XCFramework (~> 2.0.2)
   - integration_test (0.0.1):
     - Flutter
@@ -26,7 +29,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  fluwx: 2f899ad93971ba6d02a6ca1be8b8942a33683668
+  fluwx: 9c85ece30745e65a5fe02e62ecbfa6b71702105b
   integration_test: 13825b8a9334a850581300559b8839134b124670
   WechatOpenSDK-XCFramework: acdeeda129efbef9532bca8a10c24e1b4b8c7d69
 

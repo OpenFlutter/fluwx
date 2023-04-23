@@ -153,18 +153,6 @@ class MockFluwxPlatform
   }
 
   @override
-  Future<bool?> startLog({WXLogLevel logLevel = WXLogLevel.unspecific}) {
-    // TODO: implement startLog
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool?> stopLog() {
-    // TODO: implement stopLog
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> stopWeChatAuthByQRCode() {
     // TODO: implement stopWeChatAuthByQRCode
     throw UnimplementedError();

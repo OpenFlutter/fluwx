@@ -89,8 +89,8 @@ Map loadManifestPlaceholder() {
         }
 
         def logging = fluwx.get("debug_logging")
-        if (logging && logging == "enabled") {
-            debugLogging = "enabled"
+        if (logging && logging == "true") {
+            debugLogging = "true"
         }
 
     }

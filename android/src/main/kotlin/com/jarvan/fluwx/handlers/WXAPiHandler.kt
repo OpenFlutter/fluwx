@@ -61,7 +61,7 @@ object WXAPiHandler : ILog {
                 val appInfo =
                     packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
                 val enableLogging = appInfo.metaData.getString("WeChatDebugLogging", "")
-                if (enableLogging == "enabled" && BuildConfig.DEBUG) {
+                if (enableLogging == "true" && BuildConfig.DEBUG) {
                     startLog()
                 }
             }
@@ -121,7 +121,7 @@ object WXAPiHandler : ILog {
             val appInfo =
                 packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
             val enableLogging = appInfo.metaData.getString("WeChatDebugLogging", "")
-            if (enableLogging == "enabled" && BuildConfig.DEBUG) {
+            if (enableLogging == "true" && BuildConfig.DEBUG) {
                 startLog()
             }
         }

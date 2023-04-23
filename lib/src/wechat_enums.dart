@@ -32,14 +32,3 @@ enum WXMiniProgramType {
 /// [WeChatScene.timeline]朋友圈
 /// [WeChatScene.favorite]收藏
 enum WeChatScene { session, timeline, favorite }
-
-/// 打印日常的日志
-/// 打印详细的日志
-enum WXLogLevel {
-  normal(1),
-  unspecific(0);
-
-  final int level;
-
-  const WXLogLevel(this.level);
-}

@@ -39,8 +39,8 @@ class Fluwx {
   Future<bool> get isWeChatInstalled =>
       FluwxPlatform.instance.isWeChatInstalled;
 
-  Future<bool> open(OpenCommand what){
-   return FluwxPlatform.instance.open(what);
+  Future<bool> open(OpenCommand what) {
+    return FluwxPlatform.instance.open(what);
   }
 
   Future<bool> registerWxApi({

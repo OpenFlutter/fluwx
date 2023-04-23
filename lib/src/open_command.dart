@@ -1,10 +1,6 @@
-sealed class OpenCommand {
+sealed class OpenCommand {}
 
-}
-
-class OpenWeChat extends OpenCommand{
-
-}
+class OpenWeChat extends OpenCommand {}
 
 class OpenUrl extends OpenCommand {
   final String url;
@@ -12,6 +8,4 @@ class OpenUrl extends OpenCommand {
   OpenUrl(this.url);
 }
 
-class OpenRankList extends OpenCommand {
-
-}
+class OpenRankList extends OpenCommand {}

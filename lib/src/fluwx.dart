@@ -19,198 +19,87 @@
 
 import 'dart:async';
 
-import '../fluwx.dart';
+import 'foundation/arguments.dart';
 import 'method_channel/fluwx_platform_interface.dart';
+import 'response/wechat_response.dart';
 
 class Fluwx {
+  late final WeakReference<void Function(WeChatResponse event)>
+      responseListener;
+
   final List<Function(WeChatResponse response)> _responseListeners = [];
 
   Fluwx() {
-    FluwxPlatform.instance.responseEventHandler.listen((event) {
+    responseListener = WeakReference((event) {
       for (var listener in _responseListeners) {
         listener(event);
       }
     });
+    final target = responseListener.target;
+    if (target != null) {
+      FluwxPlatform.instance.responseEventHandler.listen(target);
+    }
   }
 
   Future<bool> get isWeChatInstalled =>
       FluwxPlatform.instance.isWeChatInstalled;
 
-  Future<bool> open(OpenCommand what) {
-    return FluwxPlatform.instance.open(what);
+  /// Open given target. See [OpenType] for more details
+  Future<bool> open({required OpenType target}) {
+    return FluwxPlatform.instance.open(target);
   }
 
-  Future<bool> registerWxApi({
+  /// It's ok if you register multi times.
+  /// [appId] is not necessary.
+  /// if [doOnIOS] is true ,fluwx will register WXApi on iOS.
+  /// if [doOnAndroid] is true, fluwx will register WXApi on Android.
+  /// [universalLink] is required if you want to register on iOS.
+  Future<bool> registerApi({
     required String appId,
     bool doOnIOS = true,
     bool doOnAndroid = true,
     String? universalLink,
   }) async {
-    return FluwxPlatform.instance.registerWxApi(
+    return FluwxPlatform.instance.registerApi(
         appId: appId,
         doOnAndroid: doOnAndroid,
         doOnIOS: doOnIOS,
         universalLink: universalLink);
   }
 
+  /// Share your requests to WeChat.
+  /// This depends on the actual type of [what].
   Future<bool> share(WeChatShareModel what) async {
     return FluwxPlatform.instance.share(what);
   }
 
-  Future<bool> sendAuth(
-      {required String scope,
-      String state = 'state',
-      bool nonAutomatic = false}) async {
-    return FluwxPlatform.instance
-        .sendAuth(scope: scope, nonAutomatic: nonAutomatic);
+  /// Login by WeChat.See [AuthType] for more details.
+  Future<bool> authBy({required AuthType which}) async {
+    return FluwxPlatform.instance.authBy(which);
   }
 
-  Future<bool> subscribeMsg({
-    required String appId,
-    required int scene,
-    required String templateId,
-    String? reserved,
-  }) async {
-    return FluwxPlatform.instance.subscribeMsg(
-        appId: appId, scene: scene, templateId: templateId, reserved: reserved);
+  /// please read * [official docs](https://pay.weixin.qq.com/wiki/doc/api/wxpay_v2/papay/chapter3_2.shtml).
+  Future<bool> autoDeduct({required AutoDeduct data}) async {
+    return FluwxPlatform.instance.autoDeduct(data);
   }
 
-  Future<bool> autoDeDuct({
-    required String appId,
-    required String mchId,
-    required String planId,
-    required String contractCode,
-    required String requestSerial,
-    required String contractDisplayAccount,
-    required String notifyUrl,
-    required String version,
-    required String sign,
-    required String timestamp,
-    String returnApp = '3',
-    int businessType = 12,
-  }) async {
-    return FluwxPlatform.instance.autoDeDuct(
-        appId: appId,
-        mchId: mchId,
-        planId: planId,
-        contractCode: contractCode,
-        requestSerial: requestSerial,
-        contractDisplayAccount: contractDisplayAccount,
-        notifyUrl: notifyUrl,
-        version: version,
-        sign: sign,
-        timestamp: timestamp,
-        returnApp: returnApp,
-        businessType: businessType);
-  }
-
-  Future<bool> autoDeductV2(
-    Map<String, String> queryInfo, {
-    int businessType = 12,
-  }) async {
-    return FluwxPlatform.instance.autoDeductV2(queryInfo, businessType: 12);
-  }
-
-  Future<bool> authByQRCode({
-    required String appId,
-    required String scope,
-    required String nonceStr,
-    required String timestamp,
-    required String signature,
-    String? schemeData,
-  }) async {
-    return FluwxPlatform.instance.authByQRCode(
-        appId: appId,
-        scope: scope,
-        nonceStr: nonceStr,
-        timestamp: timestamp,
-        signature: signature,
-        schemeData: schemeData);
-  }
-
-  /// IOS only
-  Future<bool> authByPhoneLogin({
-    required String scope,
-    String state = 'state',
-  }) async {
-    return FluwxPlatform.instance.authByPhoneLogin(scope: scope, state: state);
-  }
-
-  Future<bool> openCustomerServiceChat(
-      {required String url, required String corpId}) async {
-    return await FluwxPlatform.instance
-        .openCustomerServiceChat(url: url, corpId: corpId);
-  }
-
-  /// see * https://pay.weixin.qq.com/wiki/doc/apiv3_partner/Offline/apis/chapter6_2_1.shtml
-  Future<bool> openBusinessView(
-      {required String businessType, required String query}) async {
-    return await FluwxPlatform.instance
-        .openBusinessView(businessType: businessType, query: query);
-  }
-
-  Future<bool> checkSupportOpenBusinessView() async {
-    return await FluwxPlatform.instance.checkSupportOpenBusinessView();
-  }
-
-  Future<bool> openInvoice(
-      {required String appId,
-      required String cardType,
-      String locationId = "",
-      String cardId = "",
-      String canMultiSelect = "1"}) async {
-    return FluwxPlatform.instance.openInvoice(
-        appId: appId,
-        cardType: cardType,
-        locationId: locationId,
-        cardId: cardId,
-        canMultiSelect: canMultiSelect);
-  }
-
-  Future launchMiniProgram({
-    required String username,
-    String? path,
-    WXMiniProgramType miniProgramType = WXMiniProgramType.release,
-  }) async {
-    return FluwxPlatform.instance.launchMiniProgram(
-        username: username, path: path, miniProgramType: miniProgramType);
-  }
+  Future<bool> get isSupportOpenBusinessView async =>
+      await FluwxPlatform.instance.isSupportOpenBusinessView;
 
   Future<String?> getExtMsg() async {
     return FluwxPlatform.instance.getExtMsg();
   }
 
-  Future<bool> pay({
-    required String appId,
-    required String partnerId,
-    required String prepayId,
-    required String packageValue,
-    required String nonceStr,
-    required int timestamp,
-    required String sign,
-    String? signType,
-    String? extData,
-  }) async {
-    return FluwxPlatform.instance.pay(
-        appId: appId,
-        partnerId: partnerId,
-        prepayId: prepayId,
-        packageValue: packageValue,
-        nonceStr: nonceStr,
-        timestamp: timestamp,
-        sign: sign,
-        signType: signType,
-        extData: extData);
+  Future<bool> pay({required PayType which}) async {
+    return FluwxPlatform.instance.pay(which);
   }
 
-  Future<bool> payWithHongKongWallet({required String prepayId}) async {
-    return FluwxPlatform.instance.payWithHongKongWallet(prepayId: prepayId);
-  }
-
+  /// Subscribe responses from WeChat
   subscribeResponse(Function(WeChatResponse response) listener) {
     _responseListeners.add(listener);
   }
 
+  /// Unsubscribe responses from WeChat
   unsubscribeResponse(Function(WeChatResponse response) listener) {
     _responseListeners.remove(listener);
   }

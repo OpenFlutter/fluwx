@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   _initFluwx() async {
-    await fluwx.registerWxApi(
+    await fluwx.registerApi(
       appId: 'wxd930ea5d5a258f4f',
       doOnAndroid: true,
       doOnIOS: true,
@@ -205,7 +205,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
               onPressed: () {
-                fluwx.open(OpenWeChat());
+                fluwx.open(WeChatApp());
               },
               child: const Text('Open WeChat App'),
             ),

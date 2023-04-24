@@ -7,55 +7,6 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockFluwxPlatform
     with MockPlatformInterfaceMixin
     implements FluwxPlatform {
-  @override
-  Future<bool> authByPhoneLogin(
-      {required String scope, String state = 'state'}) {
-    // TODO: implement authByPhoneLogin
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> authByQRCode(
-      {required String appId,
-      required String scope,
-      required String nonceStr,
-      required String timestamp,
-      required String signature,
-      String? schemeData}) {
-    // TODO: implement authByQRCode
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> autoDeDuct(
-      {required String appId,
-      required String mchId,
-      required String planId,
-      required String contractCode,
-      required String requestSerial,
-      required String contractDisplayAccount,
-      required String notifyUrl,
-      required String version,
-      required String sign,
-      required String timestamp,
-      String returnApp = '3',
-      int businessType = 12}) {
-    // TODO: implement autoDeDuct
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> autoDeductV2(Map<String, String> queryInfo,
-      {int businessType = 12}) {
-    // TODO: implement autoDeductV2
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> checkSupportOpenBusinessView() {
-    // TODO: implement checkSupportOpenBusinessView
-    throw UnimplementedError();
-  }
 
   @override
   Future<String?> getExtMsg() {
@@ -67,62 +18,7 @@ class MockFluwxPlatform
   Future<bool> get isWeChatInstalled => Future.value(false);
 
   @override
-  Future<bool> launchMiniProgram(
-      {required String username,
-      String? path,
-      WXMiniProgramType miniProgramType = WXMiniProgramType.release}) {
-    // TODO: implement launchMiniProgram
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> openBusinessView(
-      {required String businessType, required String query}) {
-    // TODO: implement openBusinessView
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> openCustomerServiceChat(
-      {required String url, required String corpId}) {
-    // TODO: implement openCustomerServiceChat
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> openInvoice(
-      {required String appId,
-      required String cardType,
-      String locationId = "",
-      String cardId = "",
-      String canMultiSelect = "1"}) {
-    // TODO: implement openInvoice
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> pay(
-      {required String appId,
-      required String partnerId,
-      required String prepayId,
-      required String packageValue,
-      required String nonceStr,
-      required int timestamp,
-      required String sign,
-      String? signType,
-      String? extData}) {
-    // TODO: implement pay
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> payWithHongKongWallet({required String prepayId}) {
-    // TODO: implement payWithHongKongWallet
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> registerWxApi(
+  Future<bool> registerApi(
       {required String appId,
       bool doOnIOS = true,
       bool doOnAndroid = true,
@@ -147,28 +43,50 @@ class MockFluwxPlatform
   }
 
   @override
-  Future<bool> stopWeChatAuthByQRCode() {
+  Future<bool> stopAuthByQRCode() {
     // TODO: implement stopWeChatAuthByQRCode
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> subscribeMsg(
-      {required String appId,
-      required int scene,
-      required String templateId,
-      String? reserved}) {
-    // TODO: implement subscribeMsg
+  Stream<WeChatResponse> get responseEventHandler => throw UnimplementedError();
+
+  @override
+  Future<bool> open(OpenType target) {
     throw UnimplementedError();
   }
 
   @override
-  // TODO: implement responseEventHandler
-  Stream<WeChatResponse> get responseEventHandler => throw UnimplementedError();
+  Future<bool> authBy(AuthType which) {
+    // TODO: implement authBy
+    throw UnimplementedError();
+  }
 
   @override
-  Future<bool> open(OpenCommand what) {
-    // TODO: implement open
+  Future<bool> authByPhoneLogin({required String scope, String state = 'state'}) {
+    // TODO: implement authByPhoneLogin
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> authByQRCode({required String appId, required String scope, required String nonceStr, required String timestamp, required String signature, String? schemeData}) {
+    // TODO: implement authByQRCode
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> autoDeduct(AutoDeduct data) {
+    // TODO: implement autoDeduct
+    throw UnimplementedError();
+  }
+
+  @override
+  // TODO: implement isSupportOpenBusinessView
+  Future<bool> get isSupportOpenBusinessView => throw UnimplementedError();
+
+  @override
+  Future<bool> pay(PayType which) {
+    // TODO: implement pay
     throw UnimplementedError();
   }
 

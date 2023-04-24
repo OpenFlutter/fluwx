@@ -17,7 +17,7 @@
  * the License.
  */
 
-import 'package:fluwx/fluwx.dart';
+part of 'arguments.dart';
 
 const String _scene = "scene";
 const String _source = "source";
@@ -30,9 +30,7 @@ const String _messageAction = "messageAction";
 const String _compressThumbnail = "compressThumbnail";
 const String _msgSignature = "msgSignature";
 
-sealed class WeChatShareModel {
-  Map<String, dynamic> toMap();
-}
+sealed class WeChatShareModel with _Argument {}
 
 /// [source] the text you want to send to WeChat
 /// [scene] the target you want to send
@@ -59,18 +57,16 @@ class WeChatShareTextModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      _scene: scene.index,
-      _source: source,
-      _messageExt: messageExt,
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _title: title,
-      _description: description,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        _source: source,
+        _messageExt: messageExt,
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _title: title,
+        _description: description,
+        _msgSignature: msgSignature
+      };
 }
 
 /// the default value is [MINI_PROGRAM_TYPE_RELEASE]
@@ -112,23 +108,21 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      'webPageUrl': webPageUrl,
-      "miniProgramType": miniProgramType.value,
-      "userName": userName,
-      "path": path,
-      "title": title,
-      _description: description,
-      "withShareTicket": withShareTicket,
-      _thumbnail: thumbnail.toMap(),
-      "hdImagePath": hdImagePath?.toMap(),
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        'webPageUrl': webPageUrl,
+        "miniProgramType": miniProgramType.value,
+        "userName": userName,
+        "path": path,
+        "title": title,
+        _description: description,
+        "withShareTicket": withShareTicket,
+        _thumbnail: thumbnail.toMap(),
+        "hdImagePath": hdImagePath?.toMap(),
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _compressThumbnail: compressThumbnail,
+        _msgSignature: msgSignature
+      };
 }
 
 /// [source] the image you want to send to WeChat
@@ -159,19 +153,17 @@ class WeChatShareImageModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      _scene: scene.index,
-      _source: source.toMap(),
-      _thumbnail: thumbnail.toMap(),
-      _title: title,
-      _description: description,
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        _source: source.toMap(),
+        _thumbnail: thumbnail.toMap(),
+        _title: title,
+        _description: description,
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _compressThumbnail: compressThumbnail,
+        _msgSignature: msgSignature
+      };
 }
 
 /// if [musicUrl] and [musicLowBandUrl] are both provided,
@@ -208,22 +200,20 @@ class WeChatShareMusicModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      _scene: scene.index,
-      "musicUrl": musicUrl,
-      "musicDataUrl": musicDataUrl,
-      "musicLowBandUrl": musicLowBandUrl,
-      "musicLowBandDataUrl": musicLowBandDataUrl,
-      _thumbnail: thumbnail?.toMap(),
-      _title: title,
-      _description: description,
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        "musicUrl": musicUrl,
+        "musicDataUrl": musicDataUrl,
+        "musicLowBandUrl": musicLowBandUrl,
+        "musicLowBandDataUrl": musicLowBandDataUrl,
+        _thumbnail: thumbnail?.toMap(),
+        _title: title,
+        _description: description,
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _compressThumbnail: compressThumbnail,
+        _msgSignature: msgSignature
+      };
 }
 
 /// if [videoUrl] and [videoLowBandUrl] are both provided,
@@ -257,20 +247,18 @@ class WeChatShareVideoModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      _scene: scene.index,
-      "videoUrl": videoUrl,
-      "videoLowBandUrl": videoLowBandUrl,
-      _thumbnail: thumbnail?.toMap(),
-      _title: title,
-      _description: description,
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        "videoUrl": videoUrl,
+        "videoLowBandUrl": videoLowBandUrl,
+        _thumbnail: thumbnail?.toMap(),
+        _title: title,
+        _description: description,
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _compressThumbnail: compressThumbnail,
+        _msgSignature: msgSignature
+      };
 }
 
 /// [webPage] url you want to send to wechat
@@ -302,19 +290,17 @@ class WeChatShareWebPageModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      _scene: scene.index,
-      "webPage": webPage,
-      _thumbnail: thumbnail?.toMap(),
-      _title: title,
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _description: description,
-      _compressThumbnail: compressThumbnail,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        "webPage": webPage,
+        _thumbnail: thumbnail?.toMap(),
+        _title: title,
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _description: description,
+        _compressThumbnail: compressThumbnail,
+        _msgSignature: msgSignature
+      };
 }
 
 /// [source] the file you want to share, [source.suffix] is necessary on iOS.
@@ -346,17 +332,15 @@ class WeChatShareFileModel extends WeChatShareModel {
   final String? msgSignature;
 
   @override
-  Map<String, dynamic> toMap() {
-    return {
-      _scene: scene.index,
-      _source: source.toMap(),
-      _thumbnail: thumbnail?.toMap(),
-      _title: title,
-      _description: description,
-      _messageAction: messageAction,
-      _mediaTagName: mediaTagName,
-      _compressThumbnail: compressThumbnail,
-      _msgSignature: msgSignature
-    };
-  }
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        _source: source.toMap(),
+        _thumbnail: thumbnail?.toMap(),
+        _title: title,
+        _description: description,
+        _messageAction: messageAction,
+        _mediaTagName: mediaTagName,
+        _compressThumbnail: compressThumbnail,
+        _msgSignature: msgSignature
+      };
 }

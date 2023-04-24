@@ -50,11 +50,11 @@ abstract class FluwxPlatform extends PlatformInterface {
     throw UnimplementedError('isWeChatInstalled has not been implemented.');
   }
 
-  Future<bool> open(OpenCommand what) {
+  Future<bool> open(OpenType target) {
     throw UnimplementedError('open() has not been implemented.');
   }
 
-  Future<bool> registerWxApi({
+  Future<bool> registerApi({
     required String appId,
     bool doOnIOS = true,
     bool doOnAndroid = true,
@@ -96,93 +96,25 @@ abstract class FluwxPlatform extends PlatformInterface {
     throw UnimplementedError('authByQRCode() has not been implemented.');
   }
 
-  Future<bool> stopWeChatAuthByQRCode() async {
+  Future<bool> stopAuthByQRCode() async {
     throw UnimplementedError(
         'stopWeChatAuthByQRCode() has not been implemented.');
   }
 
-  Future<bool> launchMiniProgram({
-    required String username,
-    String? path,
-    WXMiniProgramType miniProgramType = WXMiniProgramType.release,
-  }) {
-    throw UnimplementedError('launchMiniProgram() has not been implemented.');
-  }
-
-  Future<bool> pay({
-    required String appId,
-    required String partnerId,
-    required String prepayId,
-    required String packageValue,
-    required String nonceStr,
-    required int timestamp,
-    required String sign,
-    String? signType,
-    String? extData,
-  }) {
+  Future<bool> pay(PayType which) {
     throw UnimplementedError('pay() has not been implemented.');
   }
 
-  Future<bool> payWithHongKongWallet({required String prepayId}) async {
+  Future<bool> autoDeduct(AutoDeduct data) {
+    throw UnimplementedError('autoDeduct() has not been implemented.');
+  }
+
+  Future<bool> authBy(AuthType which) {
+    throw UnimplementedError('authBy() has not been implemented.');
+  }
+
+  Future<bool> get isSupportOpenBusinessView async {
     throw UnimplementedError(
-        'payWithHongKongWallet() has not been implemented.');
-  }
-
-  Future<bool> subscribeMsg({
-    required String appId,
-    required int scene,
-    required String templateId,
-    String? reserved,
-  }) async {
-    throw UnimplementedError('subscribeWeChatMsg() has not been implemented.');
-  }
-
-  Future<bool> autoDeDuct({
-    required String appId,
-    required String mchId,
-    required String planId,
-    required String contractCode,
-    required String requestSerial,
-    required String contractDisplayAccount,
-    required String notifyUrl,
-    required String version,
-    required String sign,
-    required String timestamp,
-    String returnApp = '3',
-    int businessType = 12,
-  }) async {
-    throw UnimplementedError('autoDeDuct() has not been implemented.');
-  }
-
-  Future<bool> autoDeductV2(
-    Map<String, String> queryInfo, {
-    int businessType = 12,
-  }) async {
-    throw UnimplementedError('autoDeductV2() has not been implemented.');
-  }
-
-  Future<bool> openCustomerServiceChat(
-      {required String url, required String corpId}) {
-    throw UnimplementedError(
-        'openCustomerServiceChat() has not been implemented.');
-  }
-
-  Future<bool> openBusinessView(
-      {required String businessType, required String query}) async {
-    throw UnimplementedError('openBusinessView() has not been implemented.');
-  }
-
-  Future<bool> checkSupportOpenBusinessView() async {
-    throw UnimplementedError(
-        'checkSupportOpenBusinessView() has not been implemented.');
-  }
-
-  Future<bool> openInvoice(
-      {required String appId,
-      required String cardType,
-      String locationId = "",
-      String cardId = "",
-      String canMultiSelect = "1"}) async {
-    throw UnimplementedError('openInvoice() has not been implemented.');
+        'isSupportOpenBusinessView() has not been implemented.');
   }
 }

@@ -56,6 +56,7 @@ class _PayPageState extends State<PayPage> {
               debugPrint(result['timestamp']);
               fluwx
                   .pay(
+                      which: Payment(
                 appId: result['appid'].toString(),
                 partnerId: result['partnerid'].toString(),
                 prepayId: result['prepayid'].toString(),
@@ -63,7 +64,7 @@ class _PayPageState extends State<PayPage> {
                 nonceStr: result['noncestr'].toString(),
                 timestamp: result['timestamp'],
                 sign: result['sign'].toString(),
-              )
+              ))
                   .then((data) {
                 print('---》$data');
               });

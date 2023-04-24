@@ -39,10 +39,11 @@ class _SendAuthPageState extends State<SendAuthPage> {
           OutlinedButton(
             onPressed: () {
               fluwx
-                  .sendAuth(
+                  .authBy(
+                      which: NormalAuth(
                     scope: 'snsapi_userinfo',
                     state: 'wechat_sdk_demo_test',
-                  )
+                  ))
                   .then((data) {});
             },
             child: const Text('send auth'),

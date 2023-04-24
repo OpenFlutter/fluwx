@@ -81,11 +81,12 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   }
 
   void _requestSubMsg() {
-    fluwx.subscribeMsg(
+    fluwx.open(
+        target: SubscribeMessage(
       appId: appId.text,
       scene: int.tryParse(scene.text) ?? 1,
       templateId: templateId.text,
       reserved: reserved.text,
-    );
+    ));
   }
 }

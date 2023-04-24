@@ -1,4 +1,7 @@
 # 4.0.0-pre.2
+* `Fluwx`接口优化。合并了一些函数以优化使用体验。
+
+# 4.0.0-pre.2
 * No_pay现已合并入Fluwx
 * 将一些设置移到pubspec.yaml，具体可以参看`example/pubspec.yaml`
 * 删除了log相关操作，因为现在可以通过yaml配置

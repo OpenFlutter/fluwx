@@ -123,7 +123,8 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   }
 
   void _signAutoDeduct() {
-    fluwx.autoDeDuct(
+    fluwx.autoDeduct(
+        data: AutoDeduct.detail(
       appId: appId.text,
       mchId: mchId.text,
       planId: planId.text,
@@ -135,6 +136,6 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
       sign: sign.text,
       timestamp: timestamp.text,
       returnApp: '3',
-    );
+    ));
   }
 }

@@ -46,7 +46,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
         children: <Widget>[
           OutlinedButton(
             onPressed: () {
-              fluwx.launchMiniProgram(username: 'gh_d43f693ca31f');
+              fluwx.open(target: MiniProgram(username: 'gh_d43f693ca31f'));
             },
             child: const Text('Launch MiniProgrom'),
           ),

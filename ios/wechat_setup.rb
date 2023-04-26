@@ -92,7 +92,7 @@ project.targets.each do |target|
                 queriesSchemes = []
                 result["LSApplicationQueriesSchemes"] = queriesSchemes
             end
-            wechatQueriesSchemes = ["weixin", "weixinULAPI"]
+            wechatQueriesSchemes = ["weixin", "weixinULAPI", "weixinURLParamsAPI"]
             if wechatQueriesSchemes.any? { |queriesScheme| !(queriesSchemes.include? queriesScheme) }
                 wechatQueriesSchemes.each do |queriesScheme|
                     if !(queriesSchemes.include? queriesScheme)

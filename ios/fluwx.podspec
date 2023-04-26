@@ -16,9 +16,9 @@ calling_dir = File.dirname(__FILE__)
 project_dir = calling_dir.slice(0..(calling_dir.index('/.symlinks')))
 flutter_project_dir = calling_dir.slice(0..(calling_dir.index('/ios/.symlinks')))
 cfg = YAML.load_file(File.join(flutter_project_dir, 'pubspec.yaml'))
-debug_logging = '0'
+debug_logging = false
 if cfg['fluwx'] && cfg['fluwx']['debug_logging'] == true
-  debug_logging = '1'
+  debug_logging = true
 end
 
 if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['no_pay'] == true
@@ -53,23 +53,31 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
 
   s.default_subspec = fluwx_subspec
 
+  pod_target_xcconfig = {
+      'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load'
+  }
+
   s.subspec 'pay' do |sp|
     sp.dependency 'WechatOpenSDK-XCFramework','~> 2.0.2'
-    sp.pod_target_xcconfig = {
-        'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
-        "GCC_PREPROCESSOR_DEFINITIONS_Debug" => "$(inherited) WECHAT_LOGGING=#{debug_logging}"
-    }
+
+    if debug_logging
+        pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WECHAT_LOGGING=1'
+    else
+        pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WECHAT_LOGGING=0'
+    end
+    sp.pod_target_xcconfig = pod_target_xcconfig
   end
 
   s.subspec 'no_pay' do |sp|
     sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2+1'
     sp.frameworks = 'CoreGraphics', 'Security', 'WebKit'
     sp.libraries = 'c++', 'z', 'sqlite3.0'
-    sp.pod_target_xcconfig = {
-        'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
-        'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) NO_PAY=1',
-        "GCC_PREPROCESSOR_DEFINITIONS_Debug" => "$(inherited) WECHAT_LOGGING=#{debug_logging}"
-    }
+    if debug_logging
+      pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) NO_PAY=1 WECHAT_LOGGING=1'
+    else
+      pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) NO_PAY=1 WECHAT_LOGGING=0'
+    end
+      sp.pod_target_xcconfig = pod_target_xcconfig
   end
 
   # Flutter.framework does not contain a i386 slice.

@@ -93,4 +93,4 @@ fluwx:
   ios:
     universal_link: https://testdomain.com
 # payment is enabled by default
-    no_pay: true
+#    no_pay: true

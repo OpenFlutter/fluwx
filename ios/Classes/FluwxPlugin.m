@@ -1,17 +1,27 @@
 #import "FluwxPlugin.h"
-#import "FluwxResponseHandler.h"
 #import "FluwxStringUtil.h"
 #import "FluwxAuthHandler.h"
 #import "FluwxShareHandler.h"
 #import "FluwxDelegate.h"
-
-@interface FluwxPlugin()<WXApiManagerDelegate>
+#import <WXApi.h>
+#import <WXApiObject.h>
+@interface FluwxPlugin()<WXApiDelegate>
 @property (strong,nonatomic)NSString *extMsg;
 @end
 
 typedef void(^FluwxWXReqRunnable)(void);
 
 @implementation FluwxPlugin
+
+const NSString *errStr = @"errStr";
+const NSString *errCode = @"errCode";
+const NSString *openId = @"openId";
+const NSString *type = @"type";
+const NSString *lang = @"lang";
+const NSString *country = @"country";
+const NSString *description = @"description";
+
+
 FluwxAuthHandler *_fluwxAuthHandler;
 FluwxShareHandler *_fluwxShareHandler;
 BOOL _isRunning;
@@ -32,7 +42,6 @@ FlutterMethodChannel *channel = nil;
                       binaryMessenger:[registrar messenger]];
             FluwxPlugin *instance = [[FluwxPlugin alloc] initWithRegistrar:registrar methodChannel:channel];
         [registrar addMethodCallDelegate:instance channel:channel];
-        [[FluwxResponseHandler defaultManager] setMethodChannel:channel];
         
         [registrar addApplicationDelegate:instance];
 #if TARGET_OS_IPHONE
@@ -48,9 +57,8 @@ FlutterMethodChannel *channel = nil;
         _fluwxShareHandler = [[FluwxShareHandler alloc] initWithRegistrar:registrar];
         _isRunning = NO;
         channel = flutterMethodChannel;
-        [FluwxResponseHandler defaultManager].delegate = self;
         
-#ifdef WECHAT_LOGGING
+#if WECHAT_LOGGING
         [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
             [self logToFlutterWithDetail:log];
         }];
@@ -158,7 +166,7 @@ FlutterMethodChannel *channel = nil;
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
     
-#ifdef WECHAT_LOGGING
+#if WECHAT_LOGGING
     if(isWeChatRegistered) {
         [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
             NSString *log = [NSString stringWithFormat:@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion];
@@ -196,6 +204,7 @@ FlutterMethodChannel *channel = nil;
     }
 }
 
+#ifndef NO_PAY
 - (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
 
 
@@ -231,6 +240,7 @@ FlutterMethodChannel *channel = nil;
         result(@(done));
     }];
 }
+#endif
 
 - (void)handleLaunchMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *userName = call.arguments[@"userName"];
@@ -316,19 +326,19 @@ FlutterMethodChannel *channel = nil;
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+    return [WXApi handleOpenURL:url delegate:self];
 }
 
 // NOTE: 9.0以后使用新API接口
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
-    return [WXApi handleOpenURL:url delegate:[FluwxResponseHandler defaultManager]];
+    return [WXApi handleOpenURL:url delegate:self];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
-        return [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
+        return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
-    [WXApi handleOpenUniversalLink:userActivity delegate:[FluwxResponseHandler defaultManager]];
+    [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 
 - (void)handleOpenUrlCall:(FlutterMethodCall *)call
@@ -354,7 +364,7 @@ FlutterMethodChannel *channel = nil;
     if (handleOpenURLByFluwx) {
         NSString *aURLString = [aNotification userInfo][@"url"];
         NSURL *aURL = [NSURL URLWithString:aURLString];
-        return [WXApi handleOpenURL:aURL delegate:[FluwxResponseHandler defaultManager]];
+        return [WXApi handleOpenURL:aURL delegate:self];
     } else {
         return NO;
     }
@@ -384,4 +394,247 @@ FlutterMethodChannel *channel = nil;
 //           }
 }
 
+
+- (void)onResp:(BaseResp *)resp {
+    if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+
+        SendMessageToWXResp *messageResp = (SendMessageToWXResp *) resp;
+
+
+        NSDictionary *result = @{
+                description: messageResp.description == nil ? @"" : messageResp.description,
+                errStr: messageResp.errStr == nil ? @"" : messageResp.errStr,
+                errCode: @(messageResp.errCode),
+                type: @(messageResp.type),
+                country: messageResp.country == nil ? @"" : messageResp.country,
+                lang: messageResp.lang == nil ? @"" : messageResp.lang};
+        if(channel != nil){
+            [channel invokeMethod:@"onShareResponse" arguments:result];
+        }
+
+
+    } else if ([resp isKindOfClass:[SendAuthResp class]]) {
+
+        SendAuthResp *authResp = (SendAuthResp *) resp;
+        NSDictionary *result = @{
+                description: authResp.description == nil ? @"" : authResp.description,
+                errStr: authResp.errStr == nil ? @"" : authResp.errStr,
+                errCode: @(authResp.errCode),
+                type: @(authResp.type),
+                country: authResp.country == nil ? @"" : authResp.country,
+                lang: authResp.lang == nil ? @"" : authResp.lang,
+                @"code": [FluwxStringUtil nilToEmpty:authResp.code],
+                @"state": [FluwxStringUtil nilToEmpty:authResp.state]
+
+        };
+        
+        if(channel != nil){
+            [channel invokeMethod:@"onAuthResponse" arguments:result];
+        }
+
+    } else if ([resp isKindOfClass:[AddCardToWXCardPackageResp class]]) {
+
+    } else if ([resp isKindOfClass:[WXChooseCardResp class]]) {
+
+    } else if ([resp isKindOfClass:[WXChooseInvoiceResp class]]) {
+        //TODO 处理发票返回，并回调Dart
+        
+        WXChooseInvoiceResp *chooseInvoiceResp = (WXChooseInvoiceResp *) resp;
+    
+        
+        NSArray *array =  chooseInvoiceResp.cardAry;
+        
+        NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:array.count];
+
+        
+        for (int i = 0; i< array.count; i++) {
+            WXInvoiceItem *item =  array[i];
+            
+            
+            NSDictionary *dict = @{@"app_id":item.appID, @"encrypt_code":item.encryptCode, @"card_id":item.cardId};
+            [mutableArray addObject:dict];
+        }
+        
+        NSError *error = nil;
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableArray options:NSJSONWritingPrettyPrinted error: &error];
+        
+        NSString *cardItemList = @"";
+        
+        if ([jsonData length] && error == nil) {
+            cardItemList = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        }
+
+            NSDictionary *result = @{
+                    description: chooseInvoiceResp.description == nil ? @"" : chooseInvoiceResp.description,
+                    errStr: chooseInvoiceResp.errStr == nil ? @"" : chooseInvoiceResp.errStr,
+                    errCode: @(chooseInvoiceResp.errCode),
+                    type: @(chooseInvoiceResp.type),
+                    @"cardItemList":cardItemList
+            };
+        
+        if(channel != nil){
+    
+            [channel invokeMethod:@"onOpenWechatInvoiceResponse" arguments:result];
+        
+        }
+    } else if ([resp isKindOfClass:[WXSubscribeMsgResp class]]) {
+
+        WXSubscribeMsgResp *subscribeMsgResp = (WXSubscribeMsgResp *) resp;
+        NSMutableDictionary *result = [NSMutableDictionary dictionary];
+        NSString *openid = subscribeMsgResp.openId;
+        if(openid != nil && openid != NULL && ![openid isKindOfClass:[NSNull class]]){
+           result[@"openid"] = openid;
+        }
+        
+        NSString *templateId = subscribeMsgResp.templateId;
+        if(templateId != nil && templateId != NULL && ![templateId isKindOfClass:[NSNull class]]){
+           result[@"templateId"] = templateId;
+        }
+        
+        NSString *action = subscribeMsgResp.action;
+        if(action != nil && action != NULL && ![action isKindOfClass:[NSNull class]]){
+            result[@"action"] = action;
+        }
+        
+        NSString *reserved = subscribeMsgResp.action;
+        if(reserved != nil && reserved != NULL && ![reserved isKindOfClass:[NSNull class]]){
+          result[@"reserved"] = reserved;
+        }
+        
+        UInt32 scene = subscribeMsgResp.scene;
+        result[@"scene"] = @(scene);
+        if(channel != nil){
+            [channel invokeMethod:@"onSubscribeMsgResp" arguments:result];
+        }
+
+    } else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]]) {
+
+        WXLaunchMiniProgramResp *miniProgramResp = (WXLaunchMiniProgramResp *) resp;
+
+
+        NSDictionary *commonResult = @{
+                description: miniProgramResp.description == nil ? @"" : miniProgramResp.description,
+                errStr: miniProgramResp.errStr == nil ? @"" : miniProgramResp.errStr,
+                errCode: @(miniProgramResp.errCode),
+                type: @(miniProgramResp.type),
+        };
+
+        NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:commonResult];
+        if (miniProgramResp.extMsg != nil) {
+            result[@"extMsg"] = miniProgramResp.extMsg;
+        }
+
+
+//        @"extMsg":miniProgramResp.extMsg == nil?@"":miniProgramResp.extMsg
+            
+        if(channel != nil){
+            [channel invokeMethod:@"onLaunchMiniProgramResponse" arguments:result];
+
+        }
+
+    } else if ([resp isKindOfClass:[WXInvoiceAuthInsertResp class]]) {
+
+    } else if ([resp isKindOfClass:[WXOpenBusinessWebViewResp class]]) {
+        WXOpenBusinessWebViewResp *businessResp = (WXOpenBusinessWebViewResp *) resp;
+
+        NSDictionary *result = @{
+                description: [FluwxStringUtil nilToEmpty:businessResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+                errCode: @(businessResp.errCode),
+                type: @(businessResp.type),
+                @"resultInfo": [FluwxStringUtil nilToEmpty:businessResp.result],
+                @"businessType": @(businessResp.businessType),
+        };
+        if(channel != nil){
+            [channel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
+        }
+
+    } else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]])
+    {
+        
+        WXOpenCustomerServiceResp *customerResp = (WXOpenCustomerServiceResp *) resp;
+        NSDictionary *result = @{
+                description: [FluwxStringUtil nilToEmpty:customerResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+                errCode: @(customerResp.errCode),
+                type: @(customerResp.type),
+                @"extMsg":[FluwxStringUtil nilToEmpty:customerResp.extMsg]
+        };
+        if(channel != nil){
+            [channel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
+        }
+
+     // 相关错误信息
+    }else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]])
+    {
+        
+        WXOpenBusinessViewResp *openBusinessViewResp = (WXOpenBusinessViewResp *) resp;
+        NSDictionary *result = @{
+                description: [FluwxStringUtil nilToEmpty:openBusinessViewResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+                errCode: @(openBusinessViewResp.errCode),
+                @"businessType":openBusinessViewResp.businessType,
+                type: @(openBusinessViewResp.type),
+                @"extMsg":[FluwxStringUtil nilToEmpty:openBusinessViewResp.extMsg]
+        };
+        if(channel != nil){
+            [channel invokeMethod:@"onOpenBusinessViewResponse" arguments:result];
+        }
+
+     // 相关错误信息
+    }
+#ifndef NO_PAY
+    else if ([resp isKindOfClass:[WXPayInsuranceResp class]]) {
+       if ([_delegate respondsToSelector:@selector(managerDidRecvPayInsuranceResponse:)]) {
+           [_delegate managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *) resp];
+       }
+   } else if ([resp isKindOfClass:[PayResp class]]) {
+
+        PayResp *payResp = (PayResp *) resp;
+
+        NSDictionary *result = @{
+                description: [FluwxStringUtil nilToEmpty:payResp.description],
+                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+                errCode: @(payResp.errCode),
+                type: @(payResp.type),
+                @"extData": [FluwxStringUtil nilToEmpty:[FluwxDelegate defaultManager].extData],
+                @"returnKey": [FluwxStringUtil nilToEmpty:payResp.returnKey],
+        };
+        [FluwxDelegate defaultManager].extData = nil;
+        [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];
+    } else if ([resp isKindOfClass:[WXNontaxPayResp class]]) {
+ 
+    }
+#endif
+}
+
+- (void)onReq:(BaseReq *)req {
+    if ([req isKindOfClass:[GetMessageFromWXReq class]]) {
+
+    } else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
+
+    } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
+        LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
+        WXMediaMessage *wmm = launchFromWXReq.message;
+        NSString *msg = @"";
+        if (wmm == nil || wmm == NULL || [wmm isKindOfClass:[NSNull class]]) {
+            msg = @"";
+        }else {
+            msg = wmm.messageExt;
+            if (msg == nil || msg == NULL || [msg isKindOfClass:[NSNull class]]) {
+                msg = @"";
+            }
+        }
+
+        NSDictionary *result = @{
+                @"extMsg": msg
+        };
+
+        if(channel != nil){
+            [channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
+        }
+    }
+    
+}
 @end

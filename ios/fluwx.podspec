@@ -17,16 +17,16 @@ project_dir = calling_dir.slice(0..(calling_dir.index('/.symlinks')))
 flutter_project_dir = calling_dir.slice(0..(calling_dir.index('/ios/.symlinks')))
 cfg = YAML.load_file(File.join(flutter_project_dir, 'pubspec.yaml'))
 debug_logging = '0'
-if cfg['fluwx'] && cfg['fluwx']['debug_logging'] == 'true'
+if cfg['fluwx'] && cfg['fluwx']['debug_logging'] == true
   debug_logging = '1'
 end
 
-if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['no_pay'] == 'enabled'
+if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['no_pay'] == true
     fluwx_subspec = 'no_pay'
 else
     fluwx_subspec = 'pay'
 end
-Pod::UI.puts "wechatsdk #{fluwx_subspec}"
+Pod::UI.puts "using sdk with #{fluwx_subspec}"
 if cfg['fluwx'] && (cfg['fluwx']['app_id'] && cfg['fluwx']['ios']  && cfg['fluwx']['ios']['universal_link'])
     app_id = cfg['fluwx']['app_id']
     universal_link = cfg['fluwx']['ios']['universal_link']
@@ -57,16 +57,18 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
     sp.dependency 'WechatOpenSDK-XCFramework','~> 2.0.2'
     sp.pod_target_xcconfig = {
         'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
-        "GCC_PREPROCESSOR_DEFINITIONS_Debug" => "WECHAT_LOGGING=#{debug_logging}"
+        "GCC_PREPROCESSOR_DEFINITIONS_Debug" => "$(inherited) WECHAT_LOGGING=#{debug_logging}"
     }
   end
 
   s.subspec 'no_pay' do |sp|
-    sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2'
+    sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2+1'
+    sp.frameworks = 'CoreGraphics', 'Security', 'WebKit'
+    sp.libraries = 'c++', 'z', 'sqlite3.0'
     sp.pod_target_xcconfig = {
         'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load',
-        'GCC_PREPROCESSOR_DEFINITIONS' => 'NO_PAY=1',
-        "GCC_PREPROCESSOR_DEFINITIONS_Debug" => "WECHAT_LOGGING=#{debug_logging}"
+        'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) NO_PAY=1',
+        "GCC_PREPROCESSOR_DEFINITIONS_Debug" => "$(inherited) WECHAT_LOGGING=#{debug_logging}"
     }
   end
 

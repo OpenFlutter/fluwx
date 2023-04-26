@@ -26,7 +26,7 @@ FlutterMethodChannel *_fluwxMethodChannel = nil;
     SendAuthReq *authReq = [[SendAuthReq alloc] init];
     authReq.scope = call.arguments[@"scope"];
     authReq.state = (call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"];
-    [WXApi sendAuthReq:authReq viewController:vc delegate:[FluwxResponseHandler defaultManager] completion:^(BOOL success) {
+    [WXApi sendAuthReq:authReq viewController:vc delegate:self completion:^(BOOL success) {
         result(@(success));
     }];
 }

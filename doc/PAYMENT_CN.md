@@ -3,31 +3,16 @@
 调用支付方法很简单，但想成功并不简单：
 
 ```dart
-payWithWeChat(
-                appId: result['appid'],
-                partnerId: result['partnerid'],
-                prepayId: result['prepayid'],
-                packageValue: result['package'],
-                nonceStr: result['noncestr'],
-                timeStamp: result['timestamp'],
-                sign: result['sign'],
-              );
-```
-
-## iOS 支付
-
-* 配置`URL Schemes` ，内容为应用的`AppID`, 可以登录微信开放平台查看。编辑`ios/Runner/Info.plist`
-
-  ```xml
-  <key>CFBundleURLSchemes</key>
-  <array>
-    <string>wx84cxxxxxx</string>
-  </array>
-  ```
-
-* 配置`LSApplicationQueriesSchemes`
-
-  ![image-20210523140138835](https://gitee.com/inkkk0516/typora/raw/master/image-20210523140138835.png)
+fluwx.pay(
+      which: Payment(
+      appId: result['appid'].toString(),
+      partnerId: result['partnerid'].toString(),
+      prepayId: result['prepayid'].toString(),
+      packageValue: result['package'].toString(),
+      nonceStr: result['noncestr'].toString(),
+      timestamp: result['timestamp'],
+      sign: result['sign'].toString(),
+));
 
 * 使用
 

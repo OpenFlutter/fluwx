@@ -64,10 +64,7 @@ class _PayPageState extends State<PayPage> {
                 nonceStr: result['noncestr'].toString(),
                 timestamp: result['timestamp'],
                 sign: result['sign'].toString(),
-              ))
-                  .then((data) {
-                print('---》$data');
-              });
+              ));
             },
             child: const Text('pay'),
           ),

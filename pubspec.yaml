@@ -1,11 +1,11 @@
 name: fluwx
 description: The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers can use WeChatSDK easily, such as sharing, payment, lanuch mini program and etc.
-version: 4.0.0+1
+version: 4.0.0+2
 homepage: https://github.com/OpenFlutter/fluwx
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=1.12.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:

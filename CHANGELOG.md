@@ -1,3 +1,6 @@
+# 4.0.0+2
+* flutter: ">=3.3.0"
+
 # 4.0.0+1
 * Fix iOS compile issue
 

@@ -1,3 +1,6 @@
+# 4.0.0+1
+* Fix iOS compile issue
+
 # 4.0.0
 * 重构Flutter端，现在需要`Fluwx fluwx = Fluwx();`调用fluwx实例
 * 支持取消回传值的监听

@@ -2,13 +2,13 @@ PODS:
   - Flutter (1.0.0)
   - fluwx (0.0.1):
     - Flutter
-    - fluwx/no_pay (= 0.0.1)
-  - fluwx/no_pay (0.0.1):
+    - fluwx/pay (= 0.0.1)
+  - fluwx/pay (0.0.1):
     - Flutter
-    - "OpenWeChatSDKNoPay (~> 2.0.2+1)"
+    - WechatOpenSDK-XCFramework (~> 2.0.2)
   - integration_test (0.0.1):
     - Flutter
-  - OpenWeChatSDKNoPay (2.0.2)
+  - WechatOpenSDK-XCFramework (2.0.2)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
@@ -17,7 +17,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - OpenWeChatSDKNoPay
+    - WechatOpenSDK-XCFramework
 
 EXTERNAL SOURCES:
   Flutter:
@@ -29,9 +29,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  fluwx: f608fff0e3a8c30199b626fed590d83cdd820a52
+  fluwx: 26f146e29ad3fc4e5c41c82891b420adcdb2fb4d
   integration_test: 13825b8a9334a850581300559b8839134b124670
-  OpenWeChatSDKNoPay: 59a9628a746352bb400329cb7f12e6dc7096bf6e
+  WechatOpenSDK-XCFramework: acdeeda129efbef9532bca8a10c24e1b4b8c7d69
 
 PODFILE CHECKSUM: beab77b38961de946f08660e554f80ac174dc842
 

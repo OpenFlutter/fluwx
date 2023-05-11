@@ -586,9 +586,7 @@ FlutterMethodChannel *channel = nil;
     }
 #ifndef NO_PAY
     else if ([resp isKindOfClass:[WXPayInsuranceResp class]]) {
-       if ([_delegate respondsToSelector:@selector(managerDidRecvPayInsuranceResponse:)]) {
-           [_delegate managerDidRecvPayInsuranceResponse:(WXPayInsuranceResp *) resp];
-       }
+
    } else if ([resp isKindOfClass:[PayResp class]]) {
 
         PayResp *payResp = (PayResp *) resp;
@@ -602,7 +600,9 @@ FlutterMethodChannel *channel = nil;
                 @"returnKey": [FluwxStringUtil nilToEmpty:payResp.returnKey],
         };
         [FluwxDelegate defaultManager].extData = nil;
-        [fluwxMethodChannel invokeMethod:@"onPayResponse" arguments:result];
+        if(channel != nil){
+            [channel invokeMethod:@"onPayResponse" arguments:result];
+        }
     } else if ([resp isKindOfClass:[WXNontaxPayResp class]]) {
  
     }

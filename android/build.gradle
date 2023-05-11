@@ -1,3 +1,5 @@
+import org.yaml.snakeyaml.Yaml
+
 group 'com.jarvan.fluwx'
 version '1.0-SNAPSHOT'
 
@@ -9,12 +11,13 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath "org.yaml:snakeyaml:2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-rootProject.allprojects {
+allprojects {
     repositories {
         google()
         mavenCentral()
@@ -23,28 +26,77 @@ rootProject.allprojects {
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-
 android {
-    compileSdkVersion 31
+    namespace "com.jarvan.fluwx"
+    compileSdk 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
     }
+
     defaultConfig {
         minSdkVersion 16
         consumerProguardFiles 'consumer-proguard-rules.txt'
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = loadManifestPlaceholder()
     }
-    lintOptions {
-        disable 'InvalidPackage'
+
+    dependencies {
+        api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+        implementation 'id.zelory:compressor:3.0.1'
+        implementation 'com.squareup.okhttp3:okhttp:4.10.0'
+        testImplementation 'org.jetbrains.kotlin:kotlin-test'
+        testImplementation 'org.mockito:mockito-core:5.0.0'
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
     }
 }
 
-dependencies {
-    api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
-    implementation 'id.zelory:compressor:3.0.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
-    testImplementation 'junit:junit:4.13.2'
+Map loadManifestPlaceholder() {
+    def path = rootProject.projectDir.parent + File.separator + "pubspec.yaml"
+    InputStream input = new FileInputStream(new File(path))
+    Yaml yaml = new Yaml()
+    Map projectConfig = yaml.load(input)
+    String appId = ""
+    String interruptWxRequest = "true"
+    String flutterActivity = ""
+    String debugLogging = "disabled"
+    Map fluwx = (Map) projectConfig.get("fluwx")
+    if (fluwx) {
+        Map android = (Map) fluwx.get("android")
+        if (android) {
+            def iwr = android.get("interrupt_wx_request")
+            if (iwr) {
+                interruptWxRequest = (String) iwr
+            }
+
+            def activity = android.get("flutter_activity")
+            if (activity) {
+                flutterActivity = (String) activity
+            }
+        }
+
+        def logging = fluwx.get("debug_logging")
+        if (logging && logging == "true") {
+            debugLogging = "true"
+        }
+
+    }
+
+    return ["WeChatAppId": appId,
+            "InterruptWeChatRequestByFluwx": interruptWxRequest,
+            "FluwxFlutterActivity": flutterActivity,
+            "WeChatDebugLogging": debugLogging]
 }

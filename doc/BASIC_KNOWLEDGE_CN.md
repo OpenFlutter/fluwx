@@ -6,14 +6,16 @@
 为了获取真实的回调，你应该这样做：
 
 ```dart
-  fluwx.weChatResponseEventHandler.listen((res) {
-    if (res is fluwx.WeChatPaymentResponse) {
-      // do something here
-    }
-  });
+    fluwx.subscribeResponse((response) {
+      if (response is WeChatAuthResponse) {
+
+      }
+    }); 
 ```
 
 > 笔记: 如果你的 `errCode = -1`, 那请阅读微信官方文档，因为-1的原因数不胜数.
+
+你也可以通过`fluwx.unsubscribeResponse`取消订阅消息。
 
 ### 图片
 

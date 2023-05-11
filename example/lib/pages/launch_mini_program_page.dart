@@ -5,30 +5,35 @@ class LaunchMiniProgramPage extends StatefulWidget {
   const LaunchMiniProgramPage({Key? key}) : super(key: key);
 
   @override
-  _LaunchMiniProgramPageState createState() => _LaunchMiniProgramPageState();
+  State<LaunchMiniProgramPage> createState() => _LaunchMiniProgramPageState();
 }
 
 class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
   String? _result = '无';
-
-  @override
-  void initState() {
-    super.initState();
-    weChatResponseEventHandler.listen((res) {
-      if (res is WeChatLaunchMiniProgramResponse) {
-        if (mounted) {
-          setState(() {
-            _result = 'isSuccessful:${res.isSuccessful}';
-          });
-        }
-      }
-    });
-  }
+  final Fluwx fluwx = Fluwx();
+  late Function(WeChatResponse) responseListener;
 
   @override
   void dispose() {
     super.dispose();
     _result = null;
+    fluwx.unsubscribeResponse(responseListener);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    responseListener = (response) {
+      if (response is WeChatLaunchMiniProgramResponse) {
+        if (mounted) {
+          setState(() {
+            _result = 'isSuccessful:${response.isSuccessful}';
+          });
+        }
+      }
+    };
+
+    fluwx.subscribeResponse(responseListener);
   }
 
   @override
@@ -41,7 +46,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
         children: <Widget>[
           OutlinedButton(
             onPressed: () {
-              launchWeChatMiniProgram(username: 'gh_d43f693ca31f');
+              fluwx.open(target: MiniProgram(username: 'gh_d43f693ca31f'));
             },
             child: const Text('Launch MiniProgrom'),
           ),

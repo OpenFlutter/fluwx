@@ -16,6 +16,7 @@
 package com.jarvan.fluwx.handlers
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -24,13 +25,15 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.content.ContextCompat.startActivity
 import com.jarvan.fluwx.FluwxPlugin
+import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_BUNDLE
+import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_EXT_MSG
+import com.jarvan.fluwx.utils.startFlutterActivity
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import java.security.cert.Extension
 
 
 object FluwxRequestHandler {
-    private const val KEY_FLUWX_REQUEST_INFO_BUNDLE = "KEY_FLUWX_REQUEST_INFO_BUNDLE"
 
     var customOnReqDelegate: ((baseReq: BaseReq, activity: Activity) -> Unit)? = null
 
@@ -43,7 +46,8 @@ object FluwxRequestHandler {
         }
     }
 
-    private fun handleShowMessageFromWXBundle(bundle: Bundle) = handleWXShowMessageFromWX(ShowMessageFromWX.Req(bundle))
+    private fun handleShowMessageFromWXBundle(bundle: Bundle) =
+        handleWXShowMessageFromWX(ShowMessageFromWX.Req(bundle))
 
     private fun handleRequest(req: BaseReq) {
         when (req) {
@@ -53,7 +57,7 @@ object FluwxRequestHandler {
 
     private fun handleWXShowMessageFromWX(req: ShowMessageFromWX.Req) {
         val result = mapOf(
-                "extMsg" to req.message.messageExt
+            "extMsg" to req.message.messageExt
         )
         FluwxPlugin.extMsg = req.message.messageExt;
         FluwxPlugin.callingChannel?.invokeMethod("onWXShowMessageFromWX", result)
@@ -66,22 +70,21 @@ object FluwxRequestHandler {
             // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
             if (!WXAPiHandler.coolBoot) {
                 handleRequest(baseReq)
-                startSpecifiedActivity(defaultFlutterActivityAction(activity), activity = activity)
+                activity.startFlutterActivity()
             } else {
                 when (baseReq) {
                     is ShowMessageFromWX.Req -> {
-                        try {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("wechatextmsg://${activity.packageName}/?extmsg=${baseReq.message.messageExt}"))
-                            val bundle = Bundle()
-                            baseReq.toBundle(bundle)
-                            intent.putExtra(KEY_FLUWX_REQUEST_INFO_BUNDLE, bundle)
-                            activity.startActivity(intent)
-                            activity.finish()
-                            WXAPiHandler.coolBoot = false
-                        }catch (e:Exception) {
-                            Log.i("fluwx","call scheme error:${e.toString()}")
-                        }
-
+                        activity.startFlutterActivity(
+                            wxRequestBundle = Bundle().apply {
+                                baseReq.toBundle(this)
+                            },
+                            bundle = Bundle().apply {
+                                putString(
+                                    KEY_FLUWX_REQUEST_INFO_EXT_MSG,
+                                    baseReq.message.messageExt
+                                )
+                            })
+                        WXAPiHandler.coolBoot = false
                     }
                 }
             }
@@ -91,32 +94,18 @@ object FluwxRequestHandler {
     fun onReq(baseReq: BaseReq, activity: Activity) {
         try {
             val packageManager = activity.packageManager
-            val appInfo = packageManager.getApplicationInfo(activity.packageName, PackageManager.GET_META_DATA)
-            val defaultHandle = appInfo.metaData.getBoolean("handleWeChatRequestByFluwx", true)
+            val appInfo = packageManager.getApplicationInfo(
+                activity.packageName,
+                PackageManager.GET_META_DATA
+            )
+            val defaultHandle = appInfo.metaData.getBoolean("InterruptWeChatRequestByFluwx", true)
             if (defaultHandle) {
                 defaultOnReqDelegate(baseReq, activity)
             } else {
                 customOnReqDelegate?.invoke(baseReq, activity)
             }
         } catch (e: Exception) {
-            Log.i("Fluwx", "can't load meta-data handleWeChatRequestByFluwx")
+            Log.i("Fluwx", "can't load meta-data InterruptWeChatRequestByFluwx")
         }
     }
-
-    private fun startSpecifiedActivity(action: String, activity: Activity, bundle: Bundle? = null, bundleKey: String? = null) {
-        Intent(action).run {
-            bundleKey?.let {
-                putExtra(bundleKey, bundle)
-            }
-            addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
-            activity.packageManager?.let {
-                resolveActivity(it)?.also {
-                    activity.startActivity(this)
-                    activity.finish()
-                }
-            }
-        }
-    }
-
-    private fun defaultFlutterActivityAction(context: Context): String = "${context.packageName}.FlutterActivity"
 }

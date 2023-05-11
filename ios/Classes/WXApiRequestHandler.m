@@ -381,7 +381,7 @@
 
     return [WXApi sendAuthReq:req
                viewController:viewController
-                     delegate:[FluwxResponseHandler defaultManager]
+                     delegate:self
                    completion:completion];
 }
 
@@ -426,7 +426,7 @@
     [WXApi sendReq:chooseInvoiceReq completion:completion];
 }
 
-
+#ifndef NO_PAY
 + (void)sendPayment:(NSString *)appId PartnerId:(NSString *)partnerId PrepayId:(NSString *)prepayId NonceStr:(NSString *)nonceStr Timestamp:(UInt32)timestamp Package:(NSString *)package Sign:(NSString *)sign
          completion:(void (^ __nullable)(BOOL success))completion {
 
@@ -442,6 +442,7 @@
 
     [WXApi sendReq:req completion:completion];
 }
+#endif
 
 + (void)openCustomerService:(NSString *)url CorpId:(NSString *)corpId completion:(void (^)(BOOL))completion {
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];

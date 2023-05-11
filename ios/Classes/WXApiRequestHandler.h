@@ -5,7 +5,6 @@
 
 #import <Foundation/Foundation.h>
 #import <WXApiObject.h>
-#import "FluwxResponseHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -142,6 +141,7 @@ NS_ASSUME_NONNULL_BEGIN
      completion:(void (^ __nullable)(BOOL success))completion;
 
 
+#ifndef NO_PAY
 + (void)sendPayment:(NSString *)appId
           PartnerId:(NSString *)partnerId
            PrepayId:(NSString *)prepayId
@@ -150,6 +150,7 @@ NS_ASSUME_NONNULL_BEGIN
             Package:(NSString *)package
                Sign:(NSString *)sign
          completion:(void (^ __nullable)(BOOL success))completion;
+#endif
 
 + (void)openCustomerService:(NSString *)url
                      CorpId:(NSString *)corpId

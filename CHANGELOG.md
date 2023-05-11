@@ -1,3 +1,32 @@
+# 4.0.0
+* 重构Flutter端，现在需要`Fluwx fluwx = Fluwx();`调用fluwx实例
+* 支持取消回传值的监听
+* 枚举例按照dart语言规范进行了重命名
+* 一些包含`WeChat`的方法删除了`WeChat`
+* 部分类改为sealed class
+* No_pay现已合并入Fluwx
+* 将一些设置移到pubspec.yaml，具体可以参看`example/pubspec.yaml`
+* 删除了log相关操作，因为现在可以通过yaml配置
+* 新增一些open功能
+
+# 4.0.0-pre.3
+* `Fluwx`接口优化。合并了一些函数以优化使用体验。
+* 修复Logging在iOS端不好的问题。
+
+# 4.0.0-pre.2
+* No_pay现已合并入Fluwx
+* 将一些设置移到pubspec.yaml，具体可以参看`example/pubspec.yaml`
+* 删除了log相关操作，因为现在可以通过yaml配置
+* 增加了open()方法并删除了openWeChatApp
+
+# 4.0.0-pre.1
+* 重构Flutter端，现在需要`Fluwx fluwx = Fluwx();`调用fluwx实例
+* 支持取消回传值的监听
+* 枚举例按照dart语言规范进行了重命名
+* 一些包含`WeChat`的方法删除了`WeChat`
+* 部分类改为sealed class
+* 最低dart版本>=3.1.0-26.0.dev
+
 # 3.13.1
 * 分享到小程序的thumbnail为必填
 

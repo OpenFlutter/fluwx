@@ -30,6 +30,8 @@
 
 ## Preparation
 
+[Migrate to V4 now](./doc/MIGRATE_TO_V4_CN.md)
+
 `Fluwx` is good but not God. You'd better read [official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) before
 integrating `Fluwx`. Then you'll understand how to generate Android signature, what's universal link for iOS, how to add URL schema for iOS and so on.
 
@@ -49,23 +51,34 @@ dependencies:
 
 `Fluwx` without pay:
 
-```yaml
-dependencies:
-  fluwx_no_pay: ^${latestVersion}
-```
+> Developers who need to exclude payment for iOS can enable `no_pay` in [pubspec.yaml](./example/pubspec.yaml).
+
 
 ![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)
 
 > NOTE: Never forget to replace ^${latestVersion} with actual version.
+
+## Configurations
+
+`Fluwx` enables multiple configurations in the section `fluwx` of `pubspec.yaml` from v4, you can reference [pubspec.yaml](./example/pubspec.yaml)
+for more details.
+
+> For iOS, some configurations, such as url_scheme，universal_link, LSApplicationQueriesSchemes, can be configured by `fluwx`,
+> what you need to do is to fill configurations in `pubspec.yaml`
+
+- app_id. Required. It'll be used to generate scheme on iOS and register WxApi on Android side if app is cold boot.
+- debug_logging. Optional. Enable logs by setting it `true`.
+- flutter_activity. Optional. This is usually used by cold boot from WeChat on Android. `Fluwx` will try to launch launcher activity if not set.
+- universal_link. Required for iOS. It'll be used to generate universal link on your projects.
 
 ## Register WxAPI
 
 Register your app via `fluwx` if necessary.
 
 ```dart
-registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
+Fluwx fluwx = Fluwx();
+fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
 ```
-
 The param `universalLink` only works with iOS. You can read [this document](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) to learn
 how to create universalLink. You can also learn how to add URL schema, how to add `LSApplicationQueriesSchemes` in your iOS project. This is essential.
 

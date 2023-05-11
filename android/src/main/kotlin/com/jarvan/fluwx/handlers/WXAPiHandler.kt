@@ -19,7 +19,10 @@
 package com.jarvan.fluwx.handlers
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.util.Log
+import com.jarvan.fluwx.BuildConfig
+import com.jarvan.fluwx.FluwxPlugin
 import com.tencent.mm.opensdk.constants.Build
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
@@ -54,6 +57,16 @@ object WXAPiHandler : ILog {
 
     fun registerApp(call: MethodCall, result: MethodChannel.Result, context: Context?) {
 
+        context?.let {
+            with(it) {
+                val appInfo =
+                    packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+                val enableLogging = appInfo.metaData.getString("WeChatDebugLogging", "")
+                if (enableLogging == "true" && BuildConfig.DEBUG) {
+                    startLog()
+                }
+            }
+        }
         if (call.argument<Boolean?>("android") == false) {
             return
         }
@@ -89,12 +102,15 @@ object WXAPiHandler : ILog {
             wxApi == null -> {
                 result.error("Unassigned WxApi", "please config  wxapi first", null)
             }
+
             wxApi?.isWXAppInstalled != true -> {
                 result.error("WeChat Not Installed", "Please install the WeChat first", null)
             }
-            wxApi?.wxAppSupportAPI ?: 0 < Build.OPEN_BUSINESS_VIEW_SDK_INT -> {
+
+            (wxApi?.wxAppSupportAPI ?: 0) < Build.OPEN_BUSINESS_VIEW_SDK_INT -> {
                 result.error("WeChat Not Supported", "Please upgrade the WeChat version", null)
             }
+
             else -> {
                 result.success(true)
             }
@@ -102,60 +118,48 @@ object WXAPiHandler : ILog {
     }
 
     private fun registerWxAPIInternal(appId: String, context: Context) {
+        with(context) {
+            val appInfo =
+                packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+            val enableLogging = appInfo.metaData.getString("WeChatDebugLogging", "")
+            if (enableLogging == "true" && BuildConfig.DEBUG) {
+                startLog()
+            }
+        }
+
         val api = WXAPIFactory.createWXAPI(context.applicationContext, appId)
         registered = api.registerApp(appId)
         wxApi = api
     }
 
-    fun startLog(call: MethodCall, result: MethodChannel.Result) {
-        wxApi?.setLogImpl(this);
-        result.success(true);
-    }
-
-    fun stopLog(call: MethodCall, result: MethodChannel.Result) {
-        wxApi?.setLogImpl(null);
-        result.success(true);
-
+    fun startLog() {
+        wxApi?.setLogImpl(this)
     }
 
     override fun d(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun i(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun e(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun v(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
     }
 
     override fun w(p0: String?, p1: String?) {
-        when {
-            p1 != null -> {
-                Log.d(p0, p1);
-            }
-        }
+        logToFlutter(p0,p1)
+    }
+
+    private fun logToFlutter(tag:String?,message:String?){
+        FluwxPlugin.callingChannel?.invokeMethod("wechatLog", mapOf(
+            "detail" to "$tag : $message"
+        ))
     }
 }
 

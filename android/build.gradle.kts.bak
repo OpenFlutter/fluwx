@@ -1,0 +1,56 @@
+group = "com.jarvan.fluwx"
+version = "1.0-SNAPSHOT"
+
+plugins {
+    id("com.android.library")
+    kotlin("android")
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+android {
+    namespace = "com.jarvan.fluwx"
+    compileSdk = 31
+
+
+    sourceSets {
+            val main by getting
+            main.java.srcDirs("src/main/kotlin")
+            val test by getting
+            test.java.srcDirs("src/test/kotlin")
+    }
+
+    defaultConfig {
+        minSdk = 16
+        consumerProguardFile("consumer-proguard-rules.txt")
+    }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+            it.testLogging {
+                events("passed", "skipped", "failed", "standardOut", "standardError")
+                showStandardStreams = true
+                it.outputs.upToDateWhen {
+                    false
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    api("com.tencent.mm.opensdk:wechat-sdk-android:6.8.24")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("id.zelory:compressor:3.0.1")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    testImplementation("org.jetbrains.kotlin:kotlin-test")
+    testImplementation("org.mockito:mockito-core:5.0.0")
+}
+

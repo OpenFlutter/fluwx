@@ -26,6 +26,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  Fluwx fluwx = Fluwx();
+
   @override
   void initState() {
     super.initState();
@@ -33,14 +35,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   _initFluwx() async {
-    await registerWxApi(
+    await fluwx.registerApi(
       appId: 'wxd930ea5d5a258f4f',
       doOnAndroid: true,
       doOnIOS: true,
       universalLink: 'https://your.univerallink.com/link/',
     );
-    var result = await isWeChatInstalled;
-    print('is installed $result');
+    var result = await fluwx.isWeChatInstalled;
+    debugPrint('is installed $result');
   }
 
 // Platform messages are asynchronous, so we initialize in an async method.
@@ -51,20 +53,20 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       routes: <String, WidgetBuilder>{
         'shareText': (context) => ShareTextPage(),
-        'shareImage': (context) => ShareImagePage(),
-        'shareWebPage': (context) => ShareWebPagePage(),
-        'shareMusic': (context) => ShareMusicPage(),
-        'shareVideo': (context) => ShareVideoPage(),
-        'sendAuth': (context) => SendAuthPage(),
+        'shareImage': (context) => const ShareImagePage(),
+        'shareWebPage': (context) => const ShareWebPagePage(),
+        'shareMusic': (context) => const ShareMusicPage(),
+        'shareVideo': (context) => const ShareVideoPage(),
+        'sendAuth': (context) => const SendAuthPage(),
         'shareMiniProgram': (context) => ShareMiniProgramPage(),
-        'pay': (context) => PayPage(),
-        'launchMiniProgram': (context) => LaunchMiniProgramPage(),
-        'subscribeMessage': (ctx) => SubscribeMessagePage(),
-        'AuthByQRCode': (ctx) => AuthByQRCodePage(),
-        'AutoDeduct': (ctx) => SignAutoDeductPage(),
+        'pay': (context) => const PayPage(),
+        'launchMiniProgram': (context) => const LaunchMiniProgramPage(),
+        'subscribeMessage': (ctx) => const SubscribeMessagePage(),
+        'AuthByQRCode': (ctx) => const AuthByQRCodePage(),
+        'AutoDeduct': (ctx) => const SignAutoDeductPage(),
       },
       home: Scaffold(
-        appBar: AppBar(title: const Text('Plugin example app')),
+        appBar: AppBar(title: const Text('Fluwx sample')),
         body: ShareSelectorPage(),
       ),
     );
@@ -72,6 +74,10 @@ class _MyAppState extends State<MyApp> {
 }
 
 class ShareSelectorPage extends StatelessWidget {
+  final Fluwx fluwx = Fluwx();
+
+  ShareSelectorPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -81,30 +87,10 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
               onPressed: () async {
-                String? extMsg = await getExtMsg();
-                print('extMsg:$extMsg\n');
+                String? extMsg = await fluwx.getExtMsg();
+                debugPrint('extMsg:$extMsg\n');
               },
               child: const Text('Get ExtMessage'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: OutlinedButton(
-              onPressed: () async {
-                bool? success = await startLog(logLevel: WXLogLevel.NORMAL);
-                print('startLog:$success\n');
-              },
-              child: const Text('start log'),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: OutlinedButton(
-              onPressed: () async {
-                dynamic success = await stopLog();
-                print('stopLog:$success\n');
-              },
-              child: const Text('stop log'),
             ),
           ),
           Padding(
@@ -219,7 +205,7 @@ class ShareSelectorPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
               onPressed: () {
-                openWeChatApp();
+                fluwx.open(target: WeChatApp());
               },
               child: const Text('Open WeChat App'),
             ),

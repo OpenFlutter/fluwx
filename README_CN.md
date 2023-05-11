@@ -29,6 +29,8 @@
 
 ## 准备
 
+[迁移到V4指南](./doc/MIGRATE_TO_V4_CN.md)
+
 `Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1).  
  然后你才知道怎么生成签名，怎么使用universal link以及怎么添加URL schema等.
 
@@ -46,23 +48,32 @@ dependencies:
 ```
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
-`Fluwx`，不带支付:
+不带支付的`Fluwx`:
 
-```yaml
-dependencies:
-  fluwx_no_pay: ^${latestVersion}
-```
-
-![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)
+> 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在[pubspec.yaml](./example/pubspec.yaml).
+![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)中开启`no_pay`。
 
 > NOTE: 别忘记替换 ^${latestVersion} ！！！！
+
+## 配置
+
+`Fluwx` 从v4开始可以在`pubspec.yaml`的`fluwx`进行一些配置。具体可以参考[pubspec.yaml](./example/pubspec.yaml)。
+
+> V4开始，iOS中的url_scheme，universal_link, LSApplicationQueriesSchemes可以不必开发者手动配动。只需在`pubspec.yaml`
+> 中填写即可。
+
+- app_id. 必填. 它将用于生成iOS的url_scheme以及在Android端冷启动时，重新初始化WxApi。
+- debug_logging. 可选. 把它设置成`true`可以开启日志。
+- flutter_activity. 可选. 这个通常是用于Android的冷启动。如果不设置任何值，`Fluwx`将尝试启动launcher activity.
+- universal_link. iOS 必填. 它将用自动配置universal_link。
 
 ## 注册 WxAPI
 
 通过 `fluwx` 注册WxApi.
 
 ```dart
-registerWxApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
+Fluwx fluwx = Fluwx();
+fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
 ```
 
 参数 `universalLink` 只在iOS上有用. 查看[文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) 以便了解如何生成通用链接.  

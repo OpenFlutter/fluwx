@@ -6,11 +6,11 @@ class AuthByQRCodePage extends StatefulWidget {
   const AuthByQRCodePage({Key? key}) : super(key: key);
 
   @override
-  _AuthByQRCodePageState createState() => _AuthByQRCodePageState();
+  State<AuthByQRCodePage> createState() => _AuthByQRCodePageState();
 }
 
 class _AuthByQRCodePageState extends State<AuthByQRCodePage> {
-  String _status = 'status';
+  final String _status = 'status';
   Uint8List? _image;
 
   @override

@@ -6,10 +6,9 @@ class SignAutoDeductPage extends StatefulWidget {
   const SignAutoDeductPage({Key? key}) : super(key: key);
 
   @override
-  _SignAutoDeductPageState createState() => _SignAutoDeductPageState();
+  State<SignAutoDeductPage> createState() => _SignAutoDeductPageState();
 }
 
-/// see wechat [document](https://pay.weixin.qq.com/wiki/doc/api/pap.php?chapter=18_5&index=2)
 class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   TextEditingController appId =
       TextEditingController(text: 'wx316f9c82e99ac105');
@@ -25,10 +24,12 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   TextEditingController timestamp = TextEditingController(text: '');
   TextEditingController returnApp = TextEditingController(text: '3');
 
+  Fluwx fluwx = Fluwx();
+
   @override
   void initState() {
     super.initState();
-    weChatResponseEventHandler.listen((resp) {
+    fluwx.subscribeResponse((resp) {
       print('resp = ${resp.isSuccessful}');
     });
   }
@@ -54,61 +55,59 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('SubscribeMessagePage'),
+        title: const Text('SubscribeMessagePage'),
       ),
-      body: Container(
-        child: ListView(
-          children: <Widget>[
-            _buildTextField(
-              title: 'appId',
-              textEditController: appId,
-            ),
-            _buildTextField(
-              title: 'mchId',
-              textEditController: mchId,
-            ),
-            _buildTextField(
-              title: 'planId',
-              textEditController: planId,
-            ),
-            _buildTextField(
-              title: 'contractCode',
-              textEditController: contractCode,
-            ),
-            _buildTextField(
-              title: 'requestSerial',
-              textEditController: requestSerial,
-            ),
-            _buildTextField(
-              title: 'contractDisplayAccount',
-              textEditController: contractDisplayAccount,
-            ),
-            _buildTextField(
-              title: 'notifyUrl',
-              textEditController: notifyUrl,
-            ),
-            _buildTextField(
-              title: 'version',
-              textEditController: version,
-            ),
-            _buildTextField(
-              title: 'sign',
-              textEditController: sign,
-            ),
-            _buildTextField(
-              title: 'timestamp',
-              textEditController: timestamp,
-            ),
-            _buildTextField(
-              title: 'returnApp',
-              textEditController: returnApp,
-            ),
-            CupertinoButton(
-              child: Text('request once sign auto-deduct message'),
-              onPressed: _signAutoDeduct,
-            ),
-          ],
-        ),
+      body: ListView(
+        children: <Widget>[
+          _buildTextField(
+            title: 'appId',
+            textEditController: appId,
+          ),
+          _buildTextField(
+            title: 'mchId',
+            textEditController: mchId,
+          ),
+          _buildTextField(
+            title: 'planId',
+            textEditController: planId,
+          ),
+          _buildTextField(
+            title: 'contractCode',
+            textEditController: contractCode,
+          ),
+          _buildTextField(
+            title: 'requestSerial',
+            textEditController: requestSerial,
+          ),
+          _buildTextField(
+            title: 'contractDisplayAccount',
+            textEditController: contractDisplayAccount,
+          ),
+          _buildTextField(
+            title: 'notifyUrl',
+            textEditController: notifyUrl,
+          ),
+          _buildTextField(
+            title: 'version',
+            textEditController: version,
+          ),
+          _buildTextField(
+            title: 'sign',
+            textEditController: sign,
+          ),
+          _buildTextField(
+            title: 'timestamp',
+            textEditController: timestamp,
+          ),
+          _buildTextField(
+            title: 'returnApp',
+            textEditController: returnApp,
+          ),
+          CupertinoButton(
+            child: Text('request once sign auto-deduct message'),
+            onPressed: _signAutoDeduct,
+          ),
+        ],
       ),
     );
   }
@@ -124,7 +123,8 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   }
 
   void _signAutoDeduct() {
-    autoDeDuctWeChat(
+    fluwx.autoDeduct(
+        data: AutoDeduct.detail(
       appId: appId.text,
       mchId: mchId.text,
       planId: planId.text,
@@ -136,6 +136,6 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
       sign: sign.text,
       timestamp: timestamp.text,
       returnApp: '3',
-    );
+    ));
   }
 }

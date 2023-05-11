@@ -7,6 +7,7 @@
 #import "FluwxPlugin.h"
 #import "WXApiRequestHandler.h"
 #import "WechatAuthSDK.h"
+#import <WXApi.h>
 
 @class FluwxStringUtil;
 

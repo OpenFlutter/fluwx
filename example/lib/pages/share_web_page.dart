@@ -12,7 +12,9 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
   String _url = 'share text from fluwx';
   String _title = 'Fluwx';
   String _thumnail = 'images/logo.png';
-  WeChatScene scene = WeChatScene.SESSION;
+  WeChatScene scene = WeChatScene.session;
+
+  Fluwx fluwx = Fluwx();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
         title: const Text('ShareWebPage'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
+            icon: const Icon(Icons.share, color: Colors.white),
             onPressed: _share,
           ),
         ],
@@ -37,21 +39,21 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
               onChanged: (str) {
                 _url = str;
               },
-              decoration: InputDecoration(labelText: 'web page'),
+              decoration: const InputDecoration(labelText: 'web page'),
             ),
             TextField(
               controller: TextEditingController(text: 'Fluwx'),
               onChanged: (str) {
                 _title = str;
               },
-              decoration: InputDecoration(labelText: 'thumbnail'),
+              decoration: const InputDecoration(labelText: 'thumbnail'),
             ),
             TextField(
               controller: TextEditingController(text: 'images/logo.png'),
               onChanged: (str) {
                 _thumnail = str;
               },
-              decoration: InputDecoration(labelText: 'thumbnail'),
+              decoration: const InputDecoration(labelText: 'thumbnail'),
             ),
             Row(
               children: <Widget>[
@@ -59,7 +61,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.SESSION,
+                      value: WeChatScene.session,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -71,7 +73,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.TIMELINE,
+                      value: WeChatScene.timeline,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -83,7 +85,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
                 Row(
                   children: <Widget>[
                     Radio<WeChatScene>(
-                      value: WeChatScene.FAVORITE,
+                      value: WeChatScene.favorite,
                       groupValue: scene,
                       onChanged: (v) {
                         if (v != null) handleRadioValueChanged(v);
@@ -107,7 +109,7 @@ class ShareWebPagePageState extends State<ShareWebPagePage> {
       thumbnail: WeChatImage.network(_thumnail),
       scene: scene,
     );
-    shareToWeChat(model);
+    fluwx.share(model);
   }
 
   void handleRadioValueChanged(WeChatScene scene) {

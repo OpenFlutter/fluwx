@@ -184,6 +184,7 @@ class MethodChannelFluwx extends FluwxPlatform {
       case Payment():
         return await methodChannel.invokeMethod(
           'payWithFluwx',
+          which.arguments
         );
       case HongKongWallet():
         return await methodChannel.invokeMethod(

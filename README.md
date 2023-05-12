@@ -54,8 +54,6 @@ dependencies:
 > Developers who need to exclude payment for iOS can enable `no_pay` in [pubspec.yaml](./example/pubspec.yaml).
 
 
-![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)
-
 > NOTE: Never forget to replace ^${latestVersion} with actual version.
 
 ## Configurations

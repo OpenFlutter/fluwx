@@ -22,6 +22,24 @@ jobs:
       - run: flutter pub get
       - run: cd example; flutter build ios --no-codesign
 
+  test_iOS_No_Pay:
+    name: Test iOS no_pay on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          architecture: x64
+      - run: flutter pub get
+      - run: |
+             cd example
+             sed -i.bak0 's/#    no_pay: true/    no_pay: true/' pubspec.yaml
+             flutter build ios --no-codesign
+
   test_android:
     name: Test android on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}

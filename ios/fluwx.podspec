@@ -54,13 +54,12 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
   s.default_subspec = fluwx_subspec
 
   pod_target_xcconfig = {
-      'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load ',
+      'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load'
   }
 
   s.subspec 'pay' do |sp|
     sp.dependency 'WechatOpenSDK-XCFramework','~> 2.0.2'
-    pod_target_xcconfig["OTHER_SWIFT_FLAGS"]  = "-Xcc -Wno-error=non-modular-include-in-framework-module"
-    pod_target_xcconfig["OTHER_LDFLAGS"]  = "$(inherited) -ObjC -all_load "
+
     if debug_logging
         pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WECHAT_LOGGING=1'
     else
@@ -73,9 +72,6 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
     sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2+1'
     sp.frameworks = 'CoreGraphics', 'Security', 'WebKit'
     sp.libraries = 'c++', 'z', 'sqlite3.0'
-    pod_target_xcconfig["OTHER_SWIFT_FLAGS"]  = "-Xcc -Wno-error=non-modular-include-in-framework-module"
-    pod_target_xcconfig["OTHER_LDFLAGS"]  = "$(inherited) -ObjC -all_load "
-
     if debug_logging
       pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) NO_PAY=1 WECHAT_LOGGING=1'
     else

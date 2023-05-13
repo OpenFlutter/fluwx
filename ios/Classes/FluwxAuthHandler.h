@@ -4,9 +4,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Flutter/Flutter.h>
-#import "FluwxPlugin.h"
-#import "WXApiRequestHandler.h"
-#import "WechatAuthSDK.h"
+#import <fluwx/FluwxPlugin.h>
+#import <fluwx/WXApiRequestHandler.h>
+#import <WechatAuthSDK.h>
 #import <WXApi.h>
 
 @class FluwxStringUtil;

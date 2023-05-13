@@ -2,7 +2,7 @@
 // Created by mo on 2020/3/7.
 //
 
-#import "FluwxStringUtil.h"
+#import <fluwx/FluwxStringUtil.h>
 
 
 @implementation FluwxStringUtil

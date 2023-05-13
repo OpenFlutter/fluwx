@@ -1,8 +1,8 @@
-#import "FluwxPlugin.h"
-#import "FluwxStringUtil.h"
-#import "FluwxAuthHandler.h"
-#import "FluwxShareHandler.h"
-#import "FluwxDelegate.h"
+#import <fluwx/FluwxPlugin.h>
+#import <fluwx/FluwxStringUtil.h>
+#import <fluwx/FluwxAuthHandler.h>
+#import <fluwx/FluwxShareHandler.h>
+#import <fluwx/FluwxDelegate.h>
 #import <WXApi.h>
 #import <WXApiObject.h>
 @interface FluwxPlugin()<WXApiDelegate>

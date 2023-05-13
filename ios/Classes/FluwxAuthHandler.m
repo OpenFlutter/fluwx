@@ -3,7 +3,7 @@
 //
 
 
-#import "FluwxAuthHandler.h"
+#import <fluwx/FluwxAuthHandler.h>
 
 @implementation FluwxAuthHandler
 

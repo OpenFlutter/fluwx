@@ -2,11 +2,11 @@
 // Created by mo on 2020/3/7.
 //
 
-#import "FluwxShareHandler.h"
-#import "WXApiRequestHandler.h"
-#import "FluwxStringUtil.h"
-#import "NSStringWrapper.h"
-#import "ThumbnailHelper.h"
+#import <fluwx/FluwxShareHandler.h>
+#import <fluwx/WXApiRequestHandler.h>
+#import <fluwx/FluwxStringUtil.h>
+#import <fluwx/NSStringWrapper.h>
+#import <fluwx/ThumbnailHelper.h>
 
 @implementation FluwxShareHandler
 

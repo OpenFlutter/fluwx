@@ -3,10 +3,10 @@
 //
 
 #import <WXApi.h>
-#import "WXApiRequestHandler.h"
-#import "SendMessageToWXReq+requestWithTextOrMediaMessage.h"
-#import "WXMediaMessage+messageConstruct.h"
-#import "FluwxStringUtil.h"
+#import <fluwx/WXApiRequestHandler.h>
+#import <fluwx/SendMessageToWXReq+requestWithTextOrMediaMessage.h>
+#import <fluwx/WXMediaMessage+messageConstruct.h>
+#import <fluwx/FluwxStringUtil.h>
 #import <WXApiObject.h>
 
 @implementation WXApiRequestHandler

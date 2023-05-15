@@ -19,6 +19,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import com.jarvan.fluwx.FluwxHelper
 import com.jarvan.fluwx.handlers.FluwxResponseHandler
 import com.jarvan.fluwx.handlers.FluwxRequestHandler
 import com.jarvan.fluwx.handlers.WXAPiHandler
@@ -39,9 +40,8 @@ open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
 
         try {
             if (!WXAPiHandler.wxApiRegistered) {
-                val appInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-                val wechatAppId = appInfo.metaData.getString("WeChatAppId")
-                if (wechatAppId != null) {
+                val wechatAppId = FluwxHelper.appId
+                if (wechatAppId.isNotBlank()) {
                     WXAPiHandler.setupWxApi(wechatAppId,this)
                     WXAPiHandler.coolBoot = true
                 } else {

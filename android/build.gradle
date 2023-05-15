@@ -3,6 +3,8 @@ import org.yaml.snakeyaml.Yaml
 group 'com.jarvan.fluwx'
 version '1.0-SNAPSHOT'
 
+Map projectYaml = loadPubspec()
+
 buildscript {
     ext.kotlin_version = '1.7.10'
     repositories {
@@ -31,14 +33,14 @@ android {
     compileSdk 31
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
+        main.java.srcDirs += ['src/main/kotlin',"${buildDir}/generated/main/kotlin"]
         test.java.srcDirs += 'src/test/kotlin'
     }
 
     defaultConfig {
         minSdkVersion 16
         consumerProguardFiles 'consumer-proguard-rules.txt'
-        manifestPlaceholders = loadManifestPlaceholder()
+        manifestPlaceholders = loadManifestPlaceholder(projectYaml)
     }
 
     dependencies {
@@ -64,12 +66,16 @@ android {
     }
 }
 
-Map loadManifestPlaceholder() {
+Map loadPubspec() {
     def path = rootProject.projectDir.parent + File.separator + "pubspec.yaml"
     InputStream input = new FileInputStream(new File(path))
     Yaml yaml = new Yaml()
     Map projectConfig = yaml.load(input)
-    String appId = ""
+
+    return projectConfig
+}
+
+static def loadManifestPlaceholder(Map projectConfig) {
     String interruptWxRequest = "true"
     String flutterActivity = ""
     String debugLogging = "disabled"
@@ -95,8 +101,37 @@ Map loadManifestPlaceholder() {
 
     }
 
-    return ["WeChatAppId": appId,
-            "InterruptWeChatRequestByFluwx": interruptWxRequest,
-            "FluwxFlutterActivity": flutterActivity,
-            "WeChatDebugLogging": debugLogging]
+    return ["InterruptWeChatRequestByFluwx": interruptWxRequest,
+            "FluwxFlutterActivity"         : flutterActivity,
+            "WeChatDebugLogging"           : debugLogging]
+}
+
+tasks.register("generateFluwxHelperFile") {
+    Map config = loadPubspec()
+    Map fluwx = (Map) config.get("fluwx")
+
+    if (fluwx) {
+        String appId = (String) fluwx.get("app_id")
+        if (appId == null) {
+            appId = ""
+        }
+        File generateFolder = new File("${buildDir}/generated/main/kotlin/com/jarvan/fluwx")
+        String template = "package com.jarvan.fluwx\n" +
+                "// auto generated\n" +
+                "object FluwxHelper {\n" +
+                "    val appId:String =\"&&PLACEHOLDER&&\";\n" +
+                "}"
+        if (!generateFolder.exists()) {
+            generateFolder.mkdirs()
+        }
+
+        file("${generateFolder.absolutePath}/FluwxHelper.kt").text = template.replace("&&PLACEHOLDER&&", appId)
+
+    }
+
+}
+
+
+tasks.named("build").configure {
+    dependsOn("generateFluwxHelperFile")
 }

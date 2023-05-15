@@ -16,14 +16,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="fluwx_example">
 
-        <meta-data
-            android:name="weChatAppId"
-            android:value="12345678" />
-
-        <meta-data
-            android:name="handleWeChatRequestByFluwx"
-            android:value="true" />
-
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"

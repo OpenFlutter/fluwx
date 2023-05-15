@@ -13,10 +13,6 @@
     <application>
 
         <meta-data
-            android:name="WeChatAppId"
-            android:value="${WeChatAppId}" />
-
-        <meta-data
             android:name="InterruptWeChatRequestByFluwx"
             android:value="${InterruptWeChatRequestByFluwx}" />
 

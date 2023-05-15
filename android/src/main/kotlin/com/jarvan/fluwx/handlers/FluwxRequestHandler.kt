@@ -29,6 +29,7 @@ import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_BUNDLE
 import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_EXT_MSG
 import com.jarvan.fluwx.utils.startFlutterActivity
 import com.tencent.mm.opensdk.modelbase.BaseReq
+import com.tencent.mm.opensdk.modelmsg.LaunchFromWX
 import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import java.security.cert.Extension
 
@@ -42,6 +43,8 @@ object FluwxRequestHandler {
             val type = getInt("_wxapi_command_type", -9999)
             if (type == 4) {
                 handleShowMessageFromWXBundle(this)
+            } else if (type == 6) {
+                handleWXLaunchFromWXBundle(this)
             }
         }
     }
@@ -49,45 +52,65 @@ object FluwxRequestHandler {
     private fun handleShowMessageFromWXBundle(bundle: Bundle) =
         handleWXShowMessageFromWX(ShowMessageFromWX.Req(bundle))
 
+    private fun handleWXLaunchFromWXBundle(bundle: Bundle) =
+        handleWXLaunchFromWX(LaunchFromWX.Req(bundle))
+
     private fun handleRequest(req: BaseReq) {
         when (req) {
             is ShowMessageFromWX.Req -> handleWXShowMessageFromWX(req)
+            is LaunchFromWX.Req -> handleWXLaunchFromWX(req)
         }
     }
 
     private fun handleWXShowMessageFromWX(req: ShowMessageFromWX.Req) {
         val result = mapOf(
-            "extMsg" to req.message.messageExt
+            "extMsg" to req.message.messageExt,
+            "messageAction" to req.message.messageAction,
+            "description" to req.message.description,
+            "lang" to req.lang,
+            "description" to req.country,
         )
-        FluwxPlugin.extMsg = req.message.messageExt;
+
+        FluwxPlugin.extMsg = req.message.messageExt
         FluwxPlugin.callingChannel?.invokeMethod("onWXShowMessageFromWX", result)
+    }
+
+    private fun handleWXLaunchFromWX(req: LaunchFromWX.Req) {
+        val result = mapOf(
+            "extMsg" to req.messageExt,
+            "messageAction" to req.messageAction,
+            "lang" to req.lang,
+            "country" to req.country,
+        )
+
+        FluwxPlugin.callingChannel?.invokeMethod("onWXLaunchFromWX", result)
     }
 
     private fun defaultOnReqDelegate(baseReq: BaseReq, activity: Activity) {
         // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
         // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
-        if (baseReq.type == 4) {
-            // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
-            if (!WXAPiHandler.coolBoot) {
-                handleRequest(baseReq)
-                activity.startFlutterActivity()
-            } else {
-                when (baseReq) {
-                    is ShowMessageFromWX.Req -> {
-                        activity.startFlutterActivity(
-                            wxRequestBundle = Bundle().apply {
-                                baseReq.toBundle(this)
-                            },
-                            bundle = Bundle().apply {
-                                putString(
-                                    KEY_FLUWX_REQUEST_INFO_EXT_MSG,
-                                    baseReq.message.messageExt
-                                )
-                            })
-                        WXAPiHandler.coolBoot = false
-                    }
+
+        // com.tencent.mm.opensdk.constants.ConstantsAPI.COMMAND_SHOWMESSAGE_FROM_WX = 4
+        if (!WXAPiHandler.coolBoot) {
+            handleRequest(baseReq)
+            activity.startFlutterActivity()
+        } else {
+            when (baseReq) {
+                is ShowMessageFromWX.Req -> {
+                    activity.startFlutterActivity(
+                        wxRequestBundle = Bundle().apply {
+                            baseReq.toBundle(this)
+                        },
+                        bundle = Bundle().apply {
+                            putString(
+                                KEY_FLUWX_REQUEST_INFO_EXT_MSG,
+                                baseReq.message.messageExt
+                            )
+                        })
+                    WXAPiHandler.coolBoot = false
                 }
             }
+
         }
     }
 

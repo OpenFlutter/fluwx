@@ -69,7 +69,7 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
   end
 
   s.subspec 'no_pay' do |sp|
-    sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2+1'
+    sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2+2'
     sp.frameworks = 'CoreGraphics', 'Security', 'WebKit'
     sp.libraries = 'c++', 'z', 'sqlite3.0'
     if debug_logging

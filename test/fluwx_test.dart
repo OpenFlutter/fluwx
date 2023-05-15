@@ -90,6 +90,12 @@ class MockFluwxPlatform
     throw UnimplementedError();
   }
 
+  @override
+  Future<void> attemptToResumeMsgFromWx() {
+    // TODO: implement attemptToResumeMsgFromWx
+    throw UnimplementedError();
+  }
+
 }
 
 void main() {

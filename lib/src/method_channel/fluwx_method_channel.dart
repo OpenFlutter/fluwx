@@ -183,9 +183,7 @@ class MethodChannelFluwx extends FluwxPlatform {
     switch (which) {
       case Payment():
         return await methodChannel.invokeMethod(
-          'payWithFluwx',
-          which.arguments
-        );
+            'payWithFluwx', which.arguments);
       case HongKongWallet():
         return await methodChannel.invokeMethod(
             'payWithHongKongWallet', which.arguments);
@@ -203,6 +201,11 @@ class MethodChannelFluwx extends FluwxPlatform {
   @override
   Future<bool> stopAuthByQRCode() async {
     return await methodChannel.invokeMethod('stopAuthByQRCode');
+  }
+
+  @override
+  Future<void> attemptToResumeMsgFromWx() async {
+    return await methodChannel.invokeMethod("attemptToResumeMsgFromWx");
   }
 
   @override

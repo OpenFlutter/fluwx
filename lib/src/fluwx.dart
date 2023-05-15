@@ -94,6 +94,12 @@ class Fluwx {
     return FluwxPlatform.instance.pay(which);
   }
 
+  /// Try to reload data from cold boot. For example, the app is launched by mini program and
+  /// we can get ext message by calling this.
+  Future<void> attemptToResumeMsgFromWx() async {
+    return FluwxPlatform.instance.attemptToResumeMsgFromWx();
+  }
+
   /// Subscribe responses from WeChat
   subscribeResponse(Function(WeChatResponse response) listener) {
     _responseListeners.add(listener);

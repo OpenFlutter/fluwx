@@ -48,6 +48,8 @@ Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {
       WeChatOpenBusinessViewResponse.fromMap(argument),
   "onOpenWechatInvoiceResponse": (Map argument) =>
       WeChatOpenInvoiceResponse.fromMap(argument),
+  "onWXLaunchFromWX": (Map argument) =>
+      WeChatLaunchFromWXRequest.fromMap(argument),
 };
 
 sealed class WeChatResponse {
@@ -213,8 +215,32 @@ class WeChatQRCodeScannedResponse extends WeChatResponse {
 
 // 获取微信打开App时携带的参数
 class WeChatShowMessageFromWXRequest extends WeChatResponse {
+  final String? country;
+  final String? lang;
+  final String? messageAction;
+  final String? description;
+
   WeChatShowMessageFromWXRequest.fromMap(Map map)
       : extMsg = map['extMsg'],
+        country = map['country'],
+        messageAction = map['messageAction'],
+        description = map["description"],
+        lang = map["lang"],
+        super._(0, '');
+
+  final String? extMsg;
+}
+
+class WeChatLaunchFromWXRequest extends WeChatResponse {
+  final String? country;
+  final String? lang;
+  final String? messageAction;
+
+  WeChatLaunchFromWXRequest.fromMap(Map map)
+      : extMsg = map['extMsg'],
+        country = map['country'],
+        messageAction = map['messageAction'],
+        lang = map["lang"],
         super._(0, '');
 
   final String? extMsg;

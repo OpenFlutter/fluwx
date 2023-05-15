@@ -29,6 +29,8 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.flutter.plugin.common.PluginRegistry
+import java.util.concurrent.atomic.AtomicBoolean
+
 
 /** FluwxPlugin */
 class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
@@ -47,6 +49,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     private var fluwxChannel: MethodChannel? = null
 
     private var context: Context? = null
+    private val attemptToResumeMsgFromWxFlag = AtomicBoolean(false)
+
+    private var activityPluginBinding: ActivityPluginBinding? = null
 
     private fun handelIntent(intent: Intent) {
         intent.getStringExtra(KEY_FLUWX_REQUEST_INFO_EXT_MSG)?.let {
@@ -96,7 +101,19 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             call.method == "openWeChatInvoice" -> openWeChatInvoice(call, result)
             call.method == "openUrl" -> openUrl(call, result)
             call.method == "openRankList" -> openRankList(result)
+            call.method == "attemptToResumeMsgFromWx" -> attemptToResumeMsgFromWx(result)
             else -> result.notImplemented()
+        }
+    }
+
+    private fun attemptToResumeMsgFromWx(result: Result) {
+        if (attemptToResumeMsgFromWxFlag.compareAndSet(false, true)) {
+            activityPluginBinding?.activity?.intent?.let {
+                FluwxRequestHandler.handleRequestInfoFromIntent(it)
+            }
+            result.success(null)
+        } else {
+            result.error("attemptToResumeMsgFromWx error", null, null)
         }
     }
 
@@ -127,6 +144,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         shareHandler?.onDestroy()
         authHandler?.removeAllListeners()
+        activityPluginBinding = null
     }
 
     override fun onDetachedFromActivity() {
@@ -141,6 +159,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
 //        WXAPiHandler.setContext(binding.activity.applicationContext)
+        activityPluginBinding = binding
         handelIntent(binding.activity.intent)
         FluwxRequestHandler.handleRequestInfoFromIntent(binding.activity.intent)
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
@@ -287,6 +306,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             result.success(false)
         }
     }
+
     private fun openRankList(result: Result) {
         val req = OpenRankList.Req()
         WXAPiHandler.wxApi?.sendReq(req, SendReqCallback {

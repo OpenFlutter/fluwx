@@ -33,7 +33,7 @@ android {
     compileSdk 31
 
     sourceSets {
-        main.java.srcDirs += ['src/main/kotlin',"${buildDir}/generated/main/kotlin"]
+        main.java.srcDirs += ['src/main/kotlin',"${buildDir}/generated/src/kotlin"]
         test.java.srcDirs += 'src/test/kotlin'
     }
 
@@ -118,7 +118,7 @@ tasks.register("generateFluwxHelperFile") {
         File generateFolder = new File("${buildDir}/generated/src/kotlin/com/jarvan/fluwx")
         String template = "package com.jarvan.fluwx\n" +
                 "// auto generated\n" +
-                "internal object FluwxHelper {\n" +
+                "object FluwxHelper {\n" +
                 "    val appId:String =\"&&PLACEHOLDER&&\";\n" +
                 "}"
         if (!generateFolder.exists()) {
@@ -131,7 +131,8 @@ tasks.register("generateFluwxHelperFile") {
 
 }
 
-
-tasks.named("build").configure {
-    dependsOn("generateFluwxHelperFile")
+tasks.withType(JavaCompile) { javaCompile ->
+    javaCompile.configure {
+        dependsOn("generateFluwxHelperFile")
+    }
 }

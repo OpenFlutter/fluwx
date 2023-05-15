@@ -1,3 +1,6 @@
+# 4.1.1+1
+* Fix Android compile issue
+
 # 4.1.1
 * 重构Android app_id处理
 

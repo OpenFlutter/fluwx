@@ -12,8 +12,6 @@
 [WeChatSDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) native APIs.
 
 
-> Fluwx 4.0 is coming with powerful enhancements!
-
 > Join QQ Group now: 1003811176
 
 ![QQGroup](https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/flutter.png)
@@ -68,6 +66,8 @@ for more details.
 - debug_logging. Optional. Enable logs by setting it `true`.
 - flutter_activity. Optional. This is usually used by cold boot from WeChat on Android. `Fluwx` will try to launch launcher activity if not set.
 - universal_link. Required for iOS. It'll be used to generate universal link on your projects.
+
+> If you are failing `cannot load such file -- plist` on iOS, please run `sudo gem install plist` first.
 
 ## Register WxAPI
 

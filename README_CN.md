@@ -67,6 +67,9 @@ dependencies:
 - flutter_activity. 可选. 这个通常是用于Android的冷启动。如果不设置任何值，`Fluwx`将尝试启动launcher activity.
 - universal_link. iOS 必填. 它将用自动配置universal_link。
 
+> 如果你在iOS端遇到了`cannot load such file -- plist`问题, 请先运行`sudo gem install plist`。
+
+
 ## 注册 WxAPI
 
 通过 `fluwx` 注册WxApi.

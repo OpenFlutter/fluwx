@@ -67,16 +67,24 @@ BOOL handleOpenURLByFluwx = YES;
 NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 
-- (instancetype)initWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar methodChannel:(FlutterMethodChannel *)flutterMethodChannel {
++ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
+    FlutterMethodChannel *channel =
+        [FlutterMethodChannel methodChannelWithName:@"com.jarvanmo/fluwx"
+                                    binaryMessenger:[registrar messenger]];
+    FluwxPlugin *instance = [[FluwxPlugin alloc] initWithChannel:channel];
+    [registrar addApplicationDelegate:instance];
+    [registrar addMethodCallDelegate:instance channel:channel];
+}
+
+- (instancetype)initWithChannel:(FlutterMethodChannel *)channel {
     self = [super init];
     if (self) {
-        _fluwxRegistrar = registrar;
-        _isRunning = NO;
+        _channel = channel;
         _qrauth = [[WechatAuthSDK alloc] init];
         _qrauth.delegate = self;
+        _isRunning = NO;
         thumbnailWidth = 150;
-        _channel = flutterMethodChannel;
-        _attemptToResumeMsgFromWxFlag = false;
+        _attemptToResumeMsgFromWxFlag = NO;
 #if WECHAT_LOGGING
         [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
             [self logToFlutterWithDetail:log];
@@ -88,7 +96,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     _isRunning = YES;
-    
+
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
     } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
@@ -157,16 +165,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 }
 
-+ (void)registerWithRegistrar:(nonnull NSObject<FlutterPluginRegistrar> *)registrar {
-    <#code#>
-}
-
-
-+ (void)registerWithRegistrar:(nonnull NSObject<FlutterPluginRegistrar> *)registrar {
-    <#code#>
-}
-
-
 - (void)openWeChatInvoice:(FlutterMethodCall *)call result:(FlutterResult)result {
 
     NSString *appId = call.arguments[@"appId"];
@@ -209,7 +207,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
-    
+
 #if WECHAT_LOGGING
     if(isWeChatRegistered) {
         [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
@@ -219,7 +217,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
 #endif
-    
+
     result(@(isWeChatRegistered));
 }
 
@@ -230,8 +228,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)openWeChatCustomerServiceChat:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *url = call.arguments[@"url"];
     NSString *corpId = call.arguments[@"corpId"];
-    
-    
+
+
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];
     req.corpid = corpId;    //企业ID
     req.url = url;         //客服URL
@@ -271,7 +269,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     req.timeStamp = timeStamp;
     req.package = packageValue;
     req.sign = sign;
-    
+
     [WXApi sendReq:req completion:^(BOOL done) {
         result(@(done));
     }];
@@ -305,7 +303,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         miniProgramType = WXMiniProgramTypePreview;
     }
 
-    
+
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     launchMiniProgramReq.userName = userName;
     launchMiniProgramReq.path = (path == (id) [NSNull null]) ? nil : path;
@@ -834,7 +832,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 @"state": [FluwxStringUtil nilToEmpty:authResp.state]
 
         };
-        
+
         if(_channel != nil){
             [_channel invokeMethod:@"onAuthResponse" arguments:result];
         }
@@ -845,29 +843,29 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     } else if ([resp isKindOfClass:[WXChooseInvoiceResp class]]) {
         //TODO 处理发票返回，并回调Dart
-        
+
         WXChooseInvoiceResp *chooseInvoiceResp = (WXChooseInvoiceResp *) resp;
-    
-        
+
+
         NSArray *array =  chooseInvoiceResp.cardAry;
-        
+
         NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:array.count];
 
-        
+
         for (int i = 0; i< array.count; i++) {
             WXInvoiceItem *item =  array[i];
-            
-            
+
+
             NSDictionary *dict = @{@"app_id":item.appID, @"encrypt_code":item.encryptCode, @"card_id":item.cardId};
             [mutableArray addObject:dict];
         }
-        
+
         NSError *error = nil;
-        
+
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableArray options:NSJSONWritingPrettyPrinted error: &error];
-        
+
         NSString *cardItemList = @"";
-        
+
         if ([jsonData length] && error == nil) {
             cardItemList = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
@@ -879,11 +877,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                     type: @(chooseInvoiceResp.type),
                     @"cardItemList":cardItemList
             };
-        
+
         if(_channel != nil){
-    
+
             [_channel invokeMethod:@"onOpenWechatInvoiceResponse" arguments:result];
-        
+
         }
     } else if ([resp isKindOfClass:[WXSubscribeMsgResp class]]) {
 
@@ -893,22 +891,22 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         if(openid != nil && openid != NULL && ![openid isKindOfClass:[NSNull class]]){
            result[@"openid"] = openid;
         }
-        
+
         NSString *templateId = subscribeMsgResp.templateId;
         if(templateId != nil && templateId != NULL && ![templateId isKindOfClass:[NSNull class]]){
            result[@"templateId"] = templateId;
         }
-        
+
         NSString *action = subscribeMsgResp.action;
         if(action != nil && action != NULL && ![action isKindOfClass:[NSNull class]]){
             result[@"action"] = action;
         }
-        
+
         NSString *reserved = subscribeMsgResp.action;
         if(reserved != nil && reserved != NULL && ![reserved isKindOfClass:[NSNull class]]){
           result[@"reserved"] = reserved;
         }
-        
+
         UInt32 scene = subscribeMsgResp.scene;
         result[@"scene"] = @(scene);
         if(_channel != nil){
@@ -934,7 +932,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 
 //        @"extMsg":miniProgramResp.extMsg == nil?@"":miniProgramResp.extMsg
-            
+
         if(_channel != nil){
             [_channel invokeMethod:@"onLaunchMiniProgramResponse" arguments:result];
 
@@ -959,7 +957,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     } else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]])
     {
-        
+
         WXOpenCustomerServiceResp *customerResp = (WXOpenCustomerServiceResp *) resp;
         NSDictionary *result = @{
                 description: [FluwxStringUtil nilToEmpty:customerResp.description],
@@ -975,7 +973,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
      // 相关错误信息
     }else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]])
     {
-        
+
         WXOpenBusinessViewResp *openBusinessViewResp = (WXOpenBusinessViewResp *) resp;
         NSDictionary *result = @{
                 description: [FluwxStringUtil nilToEmpty:openBusinessViewResp.description],
@@ -1011,7 +1009,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             [_channel invokeMethod:@"onPayResponse" arguments:result];
         }
     } else if ([resp isKindOfClass:[WXNontaxPayResp class]]) {
- 
+
     }
 #endif
 }
@@ -1023,7 +1021,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 //onWXLaunchFromWX
         ShowMessageFromWXReq *showMessageFromWXReq = (ShowMessageFromWXReq *) req;
         WXMediaMessage *wmm = showMessageFromWXReq.message;
-        
+
 
         NSDictionary *result = @{
                 @"extMsg": wmm.messageExt,
@@ -1033,7 +1031,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         };
 
         [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
-        
+
         if (_isRunning) {
             [_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
         } else {
@@ -1047,7 +1045,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
         LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
         WXMediaMessage *wmm = launchFromWXReq.message;
-        
+
 
         NSDictionary *result = @{
                 @"extMsg": wmm.messageExt,
@@ -1057,7 +1055,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         };
 
         [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
-        
+
         if (_isRunning) {
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
         } else {
@@ -1068,8 +1066,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             };
         }
 
-        if(channel != nil){
-            [channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
+        if(_channel != nil){
+            [_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
         }
     }
 

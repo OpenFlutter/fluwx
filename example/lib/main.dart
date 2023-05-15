@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fluwx/fluwx.dart';
+import 'package:fluwx_example/pages/cold_boot_page.dart';
 
 import 'pages/auth_by_qr_code_page.dart';
 import 'pages/launch_mini_program_page.dart';
@@ -64,6 +65,7 @@ class _MyAppState extends State<MyApp> {
         'subscribeMessage': (ctx) => const SubscribeMessagePage(),
         'AuthByQRCode': (ctx) => const AuthByQRCodePage(),
         'AutoDeduct': (ctx) => const SignAutoDeductPage(),
+        'coldBoot': (ctx) => const ColdBootPage(),
       },
       home: Scaffold(
         appBar: AppBar(title: const Text('Fluwx sample')),
@@ -172,6 +174,15 @@ class ShareSelectorPage extends StatelessWidget {
                 Navigator.of(context).pushNamed('launchMiniProgram');
               },
               child: const Text('Launch MiniProgram'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('coldBoot');
+              },
+              child: const Text('Open app from WeChat'),
             ),
           ),
           Padding(

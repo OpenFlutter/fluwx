@@ -118,7 +118,7 @@ tasks.register("generateFluwxHelperFile") {
         File generateFolder = new File("${buildDir}/generated/main/kotlin/com/jarvan/fluwx")
         String template = "package com.jarvan.fluwx\n" +
                 "// auto generated\n" +
-                "object FluwxHelper {\n" +
+                "internal object FluwxHelper {\n" +
                 "    val appId:String =\"&&PLACEHOLDER&&\";\n" +
                 "}"
         if (!generateFolder.exists()) {

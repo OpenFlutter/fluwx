@@ -17,67 +17,24 @@ package com.jarvan.fluwx.wxapi
 
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import com.jarvan.fluwx.FluwxHelper
-import com.jarvan.fluwx.handlers.FluwxResponseHandler
-import com.jarvan.fluwx.handlers.FluwxRequestHandler
-import com.jarvan.fluwx.handlers.WXAPiHandler
-import com.jarvan.fluwx.utils.flutterActivityIntent
 import com.jarvan.fluwx.utils.startFlutterActivity
-import com.tencent.mm.opensdk.modelbase.BaseReq
-import com.tencent.mm.opensdk.modelbase.BaseResp
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
-import io.flutter.Log
 
 
-open class FluwxWXEntryActivity : Activity(), IWXAPIEventHandler {
+open class FluwxWXEntryActivity : Activity() {
 
     // IWXAPI 是第三方app和微信通信的openapi接口
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        try {
-            if (!WXAPiHandler.wxApiRegistered) {
-                val wechatAppId = FluwxHelper.appId
-                if (wechatAppId.isNotBlank()) {
-                    WXAPiHandler.setupWxApi(wechatAppId,this)
-                    WXAPiHandler.coolBoot = true
-                } else {
-                    Log.w("fluwx","can't load meta-data weChatAppId")
-                }
-            }
-            WXAPiHandler.wxApi?.handleIntent(intent, this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            this.startFlutterActivity()
-        }
+        startFlutterActivity(intent)
+        finish()
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-
-        setIntent(intent)
-
-        try {
-            WXAPiHandler.wxApi?.handleIntent(intent, this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            this.startFlutterActivity()
-        }
-    }
-
-
-    override fun onReq(baseReq: BaseReq) {
-        // FIXME: 可能是官方的Bug，从微信拉起APP的Intent类型不对，无法跳转回Flutter Activity
-        // 稳定复现场景：微信版本为7.0.5，小程序SDK为2.7.7
-       FluwxRequestHandler.onReq(baseReq,this)
-    }
-
-    // 第三方应用发送到微信的请求处理后的响应结果，会回调到该方法
-    override fun onResp(resp: BaseResp) {
-        FluwxResponseHandler.handleResponse(resp)
+        startFlutterActivity(intent)
         finish()
     }
+
 }

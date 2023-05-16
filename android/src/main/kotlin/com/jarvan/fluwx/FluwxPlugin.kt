@@ -11,6 +11,9 @@ import com.jarvan.fluwx.handlers.PermissionHandler
 import com.jarvan.fluwx.handlers.WXAPiHandler
 import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_EXT_MSG
 import com.jarvan.fluwx.utils.WXApiUtils
+import com.jarvan.fluwx.utils.readWeChatCallbackIntent
+import com.tencent.mm.opensdk.modelbase.BaseReq
+import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelbiz.ChooseCardFromWXCardPackage
 import com.tencent.mm.opensdk.modelbiz.OpenRankList
 import com.tencent.mm.opensdk.modelbiz.OpenWebview
@@ -19,8 +22,15 @@ import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessView
 import com.tencent.mm.opensdk.modelbiz.WXOpenBusinessWebview
 import com.tencent.mm.opensdk.modelbiz.WXOpenCustomerServiceChat
+import com.tencent.mm.opensdk.modelmsg.LaunchFromWX
+import com.tencent.mm.opensdk.modelmsg.SendAuth
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
+import com.tencent.mm.opensdk.modelmsg.ShowMessageFromWX
 import com.tencent.mm.opensdk.modelpay.PayReq
+import com.tencent.mm.opensdk.modelpay.PayResp
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import com.tencent.mm.opensdk.openapi.SendReqCallback
+import com.tencent.mm.opensdk.utils.ILog
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -34,14 +44,39 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /** FluwxPlugin */
 class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
-    PluginRegistry.NewIntentListener {
+    PluginRegistry.NewIntentListener, IWXAPIEventHandler {
     companion object {
-        var callingChannel: MethodChannel? = null
-
         // 主动获取的启动参数
         var extMsg: String? = null
     }
 
+    private val errStr = "errStr"
+    private val errCode = "errCode"
+    private val openId = "openId"
+    private val type = "type"
+
+    private val weChatLogger = object : ILog {
+
+        override fun d(p0: String?, p1: String?) {
+            logToFlutter(p0, p1)
+        }
+
+        override fun i(p0: String?, p1: String?) {
+            logToFlutter(p0, p1)
+        }
+
+        override fun e(p0: String?, p1: String?) {
+            logToFlutter(p0, p1)
+        }
+
+        override fun v(p0: String?, p1: String?) {
+            logToFlutter(p0, p1)
+        }
+
+        override fun w(p0: String?, p1: String?) {
+            logToFlutter(p0, p1)
+        }
+    }
     private var shareHandler: FluwxShareHandler? = null
 
     private var authHandler: FluwxAuthHandler? = null
@@ -53,16 +88,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
 
     private var activityPluginBinding: ActivityPluginBinding? = null
 
-    private fun handelIntent(intent: Intent) {
-        intent.getStringExtra(KEY_FLUWX_REQUEST_INFO_EXT_MSG)?.let {
-            extMsg = it
-        }
-    }
-
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         val channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.jarvanmo/fluwx")
         channel.setMethodCallHandler(this)
-        val applicationContext = flutterPluginBinding.applicationContext
         fluwxChannel = channel
         context = flutterPluginBinding.applicationContext
         authHandler = FluwxAuthHandler(channel)
@@ -72,9 +100,14 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        callingChannel = fluwxChannel
         when {
-            call.method == "registerApp" -> WXAPiHandler.registerApp(call, result, context)
+            call.method == "registerApp" -> {
+                WXAPiHandler.registerApp(call, result, context)
+                if (FluwxConfigurations.enableLogging) {
+                    WXAPiHandler.wxApi?.setLogImpl(weChatLogger)
+                }
+            }
+
             call.method == "sendAuth" -> authHandler?.sendAuth(call, result)
             call.method == "authByQRCode" -> authHandler?.authByQRCode(call, result)
             call.method == "stopAuthByQRCode" -> authHandler?.stopAuthByQRCode(result)
@@ -109,7 +142,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     private fun attemptToResumeMsgFromWx(result: Result) {
         if (attemptToResumeMsgFromWxFlag.compareAndSet(false, true)) {
             activityPluginBinding?.activity?.intent?.let {
-                FluwxRequestHandler.handleRequestInfoFromIntent(it)
+                letWeChatHandleIntent(it)
             }
             result.success(null)
         } else {
@@ -141,7 +174,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
         }
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         shareHandler?.onDestroy()
         authHandler?.removeAllListeners()
         activityPluginBinding = null
@@ -153,15 +186,12 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
-        handelIntent(binding.activity.intent)
-        FluwxRequestHandler.handleRequestInfoFromIntent(binding.activity.intent)
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
 //        WXAPiHandler.setContext(binding.activity.applicationContext)
         activityPluginBinding = binding
-        handelIntent(binding.activity.intent)
-        FluwxRequestHandler.handleRequestInfoFromIntent(binding.activity.intent)
+        binding.addOnNewIntentListener(this)
         shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
 
@@ -317,8 +347,197 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     }
 
     override fun onNewIntent(intent: Intent): Boolean {
-        handelIntent(intent)
-        return false
+        return letWeChatHandleIntent(intent)
     }
+
+    private fun letWeChatHandleIntent(intent: Intent): Boolean =
+        intent.readWeChatCallbackIntent()?.let {
+            WXAPiHandler.wxApi?.handleIntent(it, this) ?: false
+        } ?: run {
+            false
+        }
+
+    override fun onReq(req: BaseReq?) {
+        activityPluginBinding?.activity?.let { activity ->
+            req?.let {
+                if (FluwxConfigurations.interruptWeChatRequestByFluwx) {
+                    when (req) {
+                        is ShowMessageFromWX.Req -> handleWXShowMessageFromWX(req)
+                        is LaunchFromWX.Req -> handleWXLaunchFromWX(req)
+                        else -> {}
+                    }
+                } else {
+                    FluwxRequestHandler.customOnReqDelegate?.invoke(req, activity)
+                }
+            }
+        }
+    }
+
+
+    private fun handleWXShowMessageFromWX(req: ShowMessageFromWX.Req) {
+        val result = mapOf(
+            "extMsg" to req.message.messageExt,
+            "messageAction" to req.message.messageAction,
+            "description" to req.message.description,
+            "lang" to req.lang,
+            "description" to req.country,
+        )
+
+        extMsg = req.message.messageExt
+        fluwxChannel?.invokeMethod("onWXShowMessageFromWX", result)
+    }
+
+    private fun handleWXLaunchFromWX(req: LaunchFromWX.Req) {
+        val result = mapOf(
+            "extMsg" to req.messageExt,
+            "messageAction" to req.messageAction,
+            "lang" to req.lang,
+            "country" to req.country,
+        )
+
+        fluwxChannel?.invokeMethod("onWXLaunchFromWX", result)
+    }
+
+    override fun onResp(response: BaseResp?) {
+        when (response) {
+            is SendAuth.Resp -> handleAuthResponse(response)
+            is SendMessageToWX.Resp -> handleSendMessageResp(response)
+            is PayResp -> handlePayResp(response)
+            is WXLaunchMiniProgram.Resp -> handleLaunchMiniProgramResponse(response)
+            is SubscribeMessage.Resp -> handleSubscribeMessage(response)
+            is WXOpenBusinessWebview.Resp -> handlerWXOpenBusinessWebviewResponse(response)
+            is WXOpenCustomerServiceChat.Resp -> handlerWXOpenCustomerServiceChatResponse(response)
+            is WXOpenBusinessView.Resp -> handleWXOpenBusinessView(response)
+            is ChooseCardFromWXCardPackage.Resp -> handleWXOpenInvoiceResponse(response)
+            else -> {}
+        }
+    }
+
+    private fun handleWXOpenInvoiceResponse(response: ChooseCardFromWXCardPackage.Resp) {
+        val result = mapOf(
+            "cardItemList" to response.cardItemList,
+            "transaction" to response.transaction,
+            "openid" to response.openId,
+            errStr to response.errStr,
+            type to response.type,
+            errCode to response.errCode
+        )
+
+        fluwxChannel?.invokeMethod("onOpenWechatInvoiceResponse", result)
+    }
+
+    private fun handleWXOpenBusinessView(response: WXOpenBusinessView.Resp) {
+        val result = mapOf(
+            "openid" to response.openId,
+            "extMsg" to response.extMsg,
+            "businessType" to response.businessType,
+            errStr to response.errStr,
+            type to response.type,
+            errCode to response.errCode
+        )
+
+        fluwxChannel?.invokeMethod("onOpenBusinessViewResponse", result)
+    }
+
+    private fun handleSubscribeMessage(response: SubscribeMessage.Resp) {
+        val result = mapOf(
+            "openid" to response.openId,
+            "templateId" to response.templateID,
+            "action" to response.action,
+            "reserved" to response.reserved,
+            "scene" to response.scene,
+            type to response.type
+        )
+
+        fluwxChannel?.invokeMethod("onSubscribeMsgResp", result)
+    }
+
+    private fun handleLaunchMiniProgramResponse(response: WXLaunchMiniProgram.Resp) {
+        val result = mutableMapOf(
+            errStr to response.errStr,
+            type to response.type,
+            errCode to response.errCode,
+            openId to response.openId
+        )
+
+        response.extMsg?.let {
+            result["extMsg"] = response.extMsg
+        }
+
+        fluwxChannel?.invokeMethod("onLaunchMiniProgramResponse", result)
+    }
+
+    private fun handlePayResp(response: PayResp) {
+        val result = mapOf(
+            "prepayId" to response.prepayId,
+            "returnKey" to response.returnKey,
+            "extData" to response.extData,
+            errStr to response.errStr,
+            type to response.type,
+            errCode to response.errCode
+        )
+        fluwxChannel?.invokeMethod("onPayResponse", result)
+    }
+
+    private fun handleSendMessageResp(response: SendMessageToWX.Resp) {
+        val result = mapOf(
+            errStr to response.errStr,
+            type to response.type,
+            errCode to response.errCode,
+            openId to response.openId
+        )
+
+        fluwxChannel?.invokeMethod("onShareResponse", result)
+    }
+
+    private fun handleAuthResponse(response: SendAuth.Resp) {
+        val result = mapOf(
+            errCode to response.errCode,
+            "code" to response.code,
+            "state" to response.state,
+            "lang" to response.lang,
+            "country" to response.country,
+            errStr to response.errStr,
+            openId to response.openId,
+            "url" to response.url,
+            type to response.type
+        )
+
+        fluwxChannel?.invokeMethod("onAuthResponse", result)
+    }
+
+
+    private fun handlerWXOpenBusinessWebviewResponse(response: WXOpenBusinessWebview.Resp) {
+        val result = mapOf(
+            errCode to response.errCode,
+            "businessType" to response.businessType,
+            "resultInfo" to response.resultInfo,
+            errStr to response.errStr,
+            openId to response.openId,
+            type to response.type
+        )
+
+        fluwxChannel?.invokeMethod("onWXOpenBusinessWebviewResponse", result)
+    }
+
+    private fun handlerWXOpenCustomerServiceChatResponse(response: WXOpenCustomerServiceChat.Resp) {
+        val result = mapOf(
+            errCode to response.errCode,
+            errStr to response.errStr,
+            openId to response.openId,
+            type to response.type
+        )
+
+        fluwxChannel?.invokeMethod("onWXOpenCustomerServiceChatResponse", result)
+    }
+
+    private fun logToFlutter(tag: String?, message: String?) {
+        fluwxChannel?.invokeMethod(
+            "wechatLog", mapOf(
+                "detail" to "$tag : $message"
+            )
+        )
+    }
+
 
 }

@@ -12,17 +12,6 @@
 
     <application>
 
-        <meta-data
-            android:name="InterruptWeChatRequestByFluwx"
-            android:value="${InterruptWeChatRequestByFluwx}" />
-
-        <meta-data
-            android:name="WeChatDebugLogging"
-            android:value="${WeChatDebugLogging}" />
-        <meta-data
-            android:name="FluwxFlutterActivity"
-            android:value="${FluwxFlutterActivity}" />
-
         <activity
             android:name=".wxapi.FluwxWXEntryActivity"
             android:exported="false"

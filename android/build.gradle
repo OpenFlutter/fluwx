@@ -33,14 +33,13 @@ android {
     compileSdk 31
 
     sourceSets {
-        main.java.srcDirs += ['src/main/kotlin',"${buildDir}/generated/src/kotlin"]
+        main.java.srcDirs += ['src/main/kotlin', "${buildDir}/generated/src/kotlin"]
         test.java.srcDirs += 'src/test/kotlin'
     }
 
     defaultConfig {
         minSdkVersion 16
         consumerProguardFiles 'consumer-proguard-rules.txt'
-        manifestPlaceholders = loadManifestPlaceholder(projectYaml)
     }
 
     dependencies {
@@ -75,36 +74,6 @@ Map loadPubspec() {
     return projectConfig
 }
 
-static def loadManifestPlaceholder(Map projectConfig) {
-    String interruptWxRequest = "true"
-    String flutterActivity = ""
-    String debugLogging = "disabled"
-    Map fluwx = (Map) projectConfig.get("fluwx")
-    if (fluwx) {
-        Map android = (Map) fluwx.get("android")
-        if (android) {
-            def iwr = android.get("interrupt_wx_request")
-            if (iwr) {
-                interruptWxRequest = (String) iwr
-            }
-
-            def activity = android.get("flutter_activity")
-            if (activity) {
-                flutterActivity = (String) activity
-            }
-        }
-
-        def logging = fluwx.get("debug_logging")
-        if (logging && logging == "true") {
-            debugLogging = "true"
-        }
-
-    }
-
-    return ["InterruptWeChatRequestByFluwx": interruptWxRequest,
-            "FluwxFlutterActivity"         : flutterActivity,
-            "WeChatDebugLogging"           : debugLogging]
-}
 
 tasks.register("generateFluwxHelperFile") {
     Map config = loadPubspec()
@@ -116,16 +85,44 @@ tasks.register("generateFluwxHelperFile") {
             appId = ""
         }
         File generateFolder = new File("${buildDir}/generated/src/kotlin/com/jarvan/fluwx")
+        String enableLogging = "false"
+        String interruptWeChatRequestByFluwx = "true"
+        String flutterActivity = ""
+        Map android = (Map) fluwx.get("android")
+        if (android) {
+            def iwr = android.get("interrupt_wx_request")
+            if (iwr && iwr == "true" || iwr == "false") {
+                interruptWeChatRequestByFluwx = (String) iwr
+            }
+
+            def activity = android.get("flutter_activity")
+            if (activity) {
+                flutterActivity = (String) activity
+            }
+        }
+
+        def logging = fluwx.get("debug_logging")
+        if (logging && logging == "true" || logging == "false") {
+            enableLogging = (String) logging
+        }
+
+
         String template = "package com.jarvan.fluwx\n" +
+                "\n" +
                 "// auto generated\n" +
-                "object FluwxHelper {\n" +
-                "    val appId:String =\"&&PLACEHOLDER&&\";\n" +
+                "internal object FluwxConfigurations {\n" +
+                "    val flutterActivity: String = \"&&flutterActivity&&\"\n" +
+                "    val enableLogging: Boolean = &&enableLogging&&\n" +
+                "    val interruptWeChatRequestByFluwx: Boolean = &&interruptWeChatRequestByFluwx&&\n" +
                 "}"
         if (!generateFolder.exists()) {
             generateFolder.mkdirs()
         }
 
-        file("${generateFolder.absolutePath}/FluwxHelper.kt").text = template.replace("&&PLACEHOLDER&&", appId)
+        String source = template.replace("&&interruptWeChatRequestByFluwx&&", interruptWeChatRequestByFluwx)
+                .replace("&&flutterActivity&&", flutterActivity)
+                .replace("&&enableLogging&&", enableLogging)
+        file("${generateFolder.absolutePath}/FluwxConfigurations.kt").text = source
 
     }
 

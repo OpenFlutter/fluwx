@@ -62,7 +62,7 @@ dependencies:
 > V4开始，iOS中的url_scheme，universal_link, LSApplicationQueriesSchemes可以不必开发者手动配动。只需在`pubspec.yaml`
 > 中填写即可。
 
-- app_id. 必填. 它将用于生成iOS的url_scheme以及在Android端冷启动时，重新初始化WxApi。
+- app_id. 可选但推荐填写. 它将用于生成iOS的url_scheme以及在Android端冷启动时，重新初始化WxApi。
 - debug_logging. 可选. 把它设置成`true`可以开启日志。
 - flutter_activity. 可选. 这个通常是用于Android的冷启动。如果不设置任何值，`Fluwx`将尝试启动launcher activity.
 - universal_link. iOS 必填. 它将用自动配置universal_link。

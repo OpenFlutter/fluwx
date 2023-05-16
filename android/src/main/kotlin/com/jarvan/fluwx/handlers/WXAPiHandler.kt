@@ -30,7 +30,7 @@ import com.tencent.mm.opensdk.utils.ILog
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 
-object WXAPiHandler : ILog {
+object WXAPiHandler  {
 
     var wxApi: IWXAPI? = null
 
@@ -57,16 +57,6 @@ object WXAPiHandler : ILog {
 
     fun registerApp(call: MethodCall, result: MethodChannel.Result, context: Context?) {
 
-        context?.let {
-            with(it) {
-                val appInfo =
-                    packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-                val enableLogging = appInfo.metaData.getString("WeChatDebugLogging", "")
-                if (enableLogging == "true" && BuildConfig.DEBUG) {
-                    startLog()
-                }
-            }
-        }
         if (call.argument<Boolean?>("android") == false) {
             return
         }
@@ -118,49 +108,11 @@ object WXAPiHandler : ILog {
     }
 
     private fun registerWxAPIInternal(appId: String, context: Context) {
-        with(context) {
-            val appInfo =
-                packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
-            val enableLogging = appInfo.metaData.getString("WeChatDebugLogging", "")
-            if (enableLogging == "true" && BuildConfig.DEBUG) {
-                startLog()
-            }
-        }
-
         val api = WXAPIFactory.createWXAPI(context.applicationContext, appId)
         registered = api.registerApp(appId)
         wxApi = api
     }
 
-    fun startLog() {
-        wxApi?.setLogImpl(this)
-    }
-
-    override fun d(p0: String?, p1: String?) {
-        logToFlutter(p0,p1)
-    }
-
-    override fun i(p0: String?, p1: String?) {
-        logToFlutter(p0,p1)
-    }
-
-    override fun e(p0: String?, p1: String?) {
-        logToFlutter(p0,p1)
-    }
-
-    override fun v(p0: String?, p1: String?) {
-        logToFlutter(p0,p1)
-    }
-
-    override fun w(p0: String?, p1: String?) {
-        logToFlutter(p0,p1)
-    }
-
-    private fun logToFlutter(tag:String?,message:String?){
-        FluwxPlugin.callingChannel?.invokeMethod("wechatLog", mapOf(
-            "detail" to "$tag : $message"
-        ))
-    }
 }
 
 

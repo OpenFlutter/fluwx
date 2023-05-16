@@ -1,7 +1,7 @@
 # 4.2.0
 * 修复ios上微信唤醒app崩溃的问题
 * Android端重构
-
+* app_id不再必填
 
 # 4.1.1+1
 * Fix Android compile issue

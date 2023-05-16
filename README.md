@@ -62,7 +62,7 @@ for more details.
 > For iOS, some configurations, such as url_scheme，universal_link, LSApplicationQueriesSchemes, can be configured by `fluwx`,
 > what you need to do is to fill configurations in `pubspec.yaml`
 
-- app_id. Required. It'll be used to generate scheme on iOS and register WxApi on Android side if app is cold boot.
+- app_id. Optional but recommend. It'll be used to generate scheme on iOS and register WxApi on Android side if app is cold boot.
 - debug_logging. Optional. Enable logs by setting it `true`.
 - flutter_activity. Optional. This is usually used by cold boot from WeChat on Android. `Fluwx` will try to launch launcher activity if not set.
 - universal_link. Required for iOS. It'll be used to generate universal link on your projects.

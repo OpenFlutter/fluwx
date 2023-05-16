@@ -79,14 +79,16 @@ project.targets.each do |target|
                 result["CFBundleURLTypes"] = urlTypes
             end
             isUrlTypeExist = urlTypes.any? { |urlType| urlType["CFBundleURLSchemes"] && (urlType["CFBundleURLSchemes"].include? app_id) }
-            if !isUrlTypeExist
-                urlTypes << {
+            if !app_id.nil? && !app_id.empty? && !isUrlTypeExist
+               print("writing app id\n ")
+               urlTypes << {
                     "CFBundleTypeRole": "Editor",
                     "CFBundleURLName": "weixin",
                     "CFBundleURLSchemes": [ app_id ]
                 }
                 File.write(infoplistFile, Plist::Emit.dump(result))
             end
+
             queriesSchemes = result["LSApplicationQueriesSchemes"]
             if !queriesSchemes
                 queriesSchemes = []

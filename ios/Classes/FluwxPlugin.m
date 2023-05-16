@@ -1022,13 +1022,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         ShowMessageFromWXReq *showMessageFromWXReq = (ShowMessageFromWXReq *) req;
         WXMediaMessage *wmm = showMessageFromWXReq.message;
 
-
-        NSDictionary *result = @{
-                @"extMsg": wmm.messageExt,
-                @"messageAction": wmm.messageAction,
-                @"lang": showMessageFromWXReq.lang,
-                @"country": showMessageFromWXReq.country,
-        };
+        NSMutableDictionary *result = [NSMutableDictionary dictionary];
+        [result setValue:wmm.messageAction forKey:@"messageAction"];
+        [result setValue:wmm.messageExt forKey:@"extMsg"];
+        [result setValue:showMessageFromWXReq.lang forKey:@"lang"];
+        [result setValue:showMessageFromWXReq.country forKey:@"country"];
 
         [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 
@@ -1046,13 +1044,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
         WXMediaMessage *wmm = launchFromWXReq.message;
 
-
-        NSDictionary *result = @{
-                @"extMsg": wmm.messageExt,
-                @"messageAction": wmm.messageAction,
-                @"lang": launchFromWXReq.lang,
-                @"country": launchFromWXReq.country,
-        };
+        NSMutableDictionary *result = [NSMutableDictionary dictionary];
+        [result setValue:wmm.messageAction forKey:@"messageAction"];
+        [result setValue:wmm.messageExt forKey:@"extMsg"];
+        [result setValue:launchFromWXReq.lang forKey:@"lang"];
+        [result setValue:launchFromWXReq.country forKey:@"country"];
 
         [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 

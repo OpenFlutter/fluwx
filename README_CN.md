@@ -34,8 +34,7 @@
 `Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1).  
  然后你才知道怎么生成签名，怎么使用universal link以及怎么添加URL schema等.
 
-> [收费视频教程点这里](https://study.163.com/course/introduction.htm?share=2&shareId=480000001896427&courseId=1209174838&_trace_c_p_k2_=e72467dc0df540579287a8ea996344a4)
->
+
 ## 安装
 
 在`pubspec.yaml` 文件中添加`fluwx`依赖:

@@ -84,7 +84,7 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
 
 fluwx:
-  #  app_id: 123456
+  app_id: 123456
   # only debug in debug mode
   debug_logging: true
   android:

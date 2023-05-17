@@ -62,13 +62,21 @@ dependencies:
 > V4开始，iOS中的url_scheme，universal_link, LSApplicationQueriesSchemes可以不必开发者手动配动。只需在`pubspec.yaml`
 > 中填写即可。
 
-- app_id. 可选但推荐填写. 它将用于生成iOS的url_scheme以及在Android端冷启动时，重新初始化WxApi。
+- app_id. 推荐. 它将用于生成iOS的url_scheme。这并不会替你初始化微信SDK，所以你还是自己调用`fluwx.registerApi`。
 - debug_logging. 可选. 把它设置成`true`可以开启日志。
 - flutter_activity. 可选. 这个通常是用于Android的冷启动。如果不设置任何值，`Fluwx`将尝试启动launcher activity.
 - universal_link. iOS 必填. 它将用自动配置universal_link。
 
-> 如果你在iOS端遇到了`cannot load such file -- plist`问题, 请先运行`sudo gem install plist`。
-
+* For iOS
+如果你在iOS上遇到了 `cannot load such file -- plist`, 请按照以下步骤进行操作：
+```shell
+# step.1 安装必要依赖
+sudo gem install plist
+# step.2 进行iOS文件夹(example/ios/,ios/)
+cd example/ios/
+# step.3 执行脚本
+pod install
+```
 
 ## 注册 WxAPI
 
@@ -84,6 +92,8 @@ fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.unive
 
 对于Android, 可以查看[本文](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html)以便了解怎么获取app签名.
 然后你需要知道release和debug时，app签名有什么区别。如果签名不对，你会得一个错误 `errCode = -1`.
+
+建议越早注册越好。
 
 ## 能力文档
 
@@ -105,6 +115,10 @@ fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.unive
 
 ## 关注公众号
 ![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)
+
+## 关注趋势
+
+![stars](https://starchart.cc/OpenFlutter/fluwx.svg)
 
 ## LICENSE
 

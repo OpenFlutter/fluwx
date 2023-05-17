@@ -62,13 +62,21 @@ for more details.
 > For iOS, some configurations, such as url_scheme，universal_link, LSApplicationQueriesSchemes, can be configured by `fluwx`,
 > what you need to do is to fill configurations in `pubspec.yaml`
 
-- app_id. Optional but recommend. It'll be used to generate scheme on iOS and register WxApi on Android side if app is cold boot.
+- app_id. Recommend. It'll be used to generate scheme on iOS。This is not used to init WeChat SDK so you still need to call `fluwx.registerApi` manually.
 - debug_logging. Optional. Enable logs by setting it `true`.
 - flutter_activity. Optional. This is usually used by cold boot from WeChat on Android. `Fluwx` will try to launch launcher activity if not set.
 - universal_link. Required for iOS. It'll be used to generate universal link on your projects.
 
-> If you are failing `cannot load such file -- plist` on iOS, please run `sudo gem install plist` first.
-
+* For iOS
+ If you are failing `cannot load such file -- plist` on iOS, please do the following steps:
+```shell
+# step.1 install missing dependencies
+sudo gem install plist
+# step.2 enter iOS folder(example/ios/,ios/)
+cd example/ios/
+# step.3 execute
+pod install
+```
 ## Register WxAPI
 
 Register your app via `fluwx` if necessary.
@@ -82,6 +90,8 @@ how to create universalLink. You can also learn how to add URL schema, how to ad
 
 For Android, you shall know to how generate signature for your app in [this page](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html).
 And you have to understand the difference between debug signature and release signature. Once the signature is incorrect, then you'll get `errCode = -1`.
+
+It' better to register your API as early as possible.
 
 ## Capability Document
 
@@ -105,10 +115,15 @@ Buy the writer a cup of coffee。
 ## Subscribe Us On WeChat
 ![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)
 
+
+## Start history
+
+![stars](https://starchart.cc/OpenFlutter/fluwx.svg)
+
 ## LICENSE
 
 
-    Copyright 2018 OpenFlutter Project
+    Copyright 2023 OpenFlutter Project
 
     Licensed to the Apache Software Foundation (ASF) under one or more contributor
     license agreements.  See the NOTICE file distributed with this work for

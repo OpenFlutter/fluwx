@@ -96,6 +96,12 @@ class MockFluwxPlatform
     throw UnimplementedError();
   }
 
+  @override
+  Future<void> selfCheck() {
+    // TODO: implement selfCheck
+    throw UnimplementedError();
+  }
+
 }
 
 void main() {

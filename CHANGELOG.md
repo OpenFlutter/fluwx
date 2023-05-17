@@ -1,6 +1,9 @@
 # 4.2.2
-* 删除iOS在registerApi并且开启logging时自动自检
+* 删除iOS在registerApi并且开启debug_logging时自动自检
 * 为iOS增加自检方法selfCheck
+* subscribeResponse, unsubscribeResponse已废弃。
+* 新增addSubscriber, removeSubscriber
+* addSubscriber会返回Cancelable对象，可以直接调用cancel()函数。
 
 # 4.2.1
 * 支持选用scene_delegate.

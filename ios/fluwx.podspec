@@ -16,10 +16,21 @@ calling_dir = File.dirname(__FILE__)
 project_dir = calling_dir.slice(0..(calling_dir.index('/.symlinks')))
 flutter_project_dir = calling_dir.slice(0..(calling_dir.index('/ios/.symlinks')))
 cfg = YAML.load_file(File.join(flutter_project_dir, 'pubspec.yaml'))
-debug_logging = false
+logging_status = "WECHAT_LOGGING=0"
+
 if cfg['fluwx'] && cfg['fluwx']['debug_logging'] == true
-  debug_logging = true
+    logging_status = 'WECHAT_LOGGING=1'
+else
+    logging_status = 'WECHAT_LOGGING=0'
 end
+
+scene_delegate = ''
+if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['scene_delegate'] == true
+    scene_delegate = 'SCENE_DELEGATE=1'
+else
+    scene_delegate = ''
+end
+
 
 if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['no_pay'] == true
     fluwx_subspec = 'no_pay'
@@ -33,6 +44,7 @@ app_id = nil
 if cfg['fluwx'] && cfg['fluwx']['app_id']
     app_id = cfg['fluwx']['app_id']
 end
+
 
 if cfg['fluwx'] && (cfg['fluwx']['ios']  && cfg['fluwx']['ios']['universal_link'])
     universal_link = cfg['fluwx']['ios']['universal_link']
@@ -70,11 +82,8 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
   s.subspec 'pay' do |sp|
     sp.dependency 'WechatOpenSDK-XCFramework','~> 2.0.2'
 
-    if debug_logging
-        pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WECHAT_LOGGING=1'
-    else
-        pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) WECHAT_LOGGING=0'
-    end
+    pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "$(inherited) #{logging_status} #{scene_delegate}"
+
     sp.pod_target_xcconfig = pod_target_xcconfig
   end
 
@@ -82,12 +91,8 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
     sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.2+2'
     sp.frameworks = 'CoreGraphics', 'Security', 'WebKit'
     sp.libraries = 'c++', 'z', 'sqlite3.0'
-    if debug_logging
-      pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) NO_PAY=1 WECHAT_LOGGING=1'
-    else
-      pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = '$(inherited) NO_PAY=1 WECHAT_LOGGING=0'
-    end
-      sp.pod_target_xcconfig = pod_target_xcconfig
+    pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "$(inherited) NO_PAY=1 #{logging_status} #{scene_delegate}"
+    sp.pod_target_xcconfig = pod_target_xcconfig
   end
 
   # Flutter.framework does not contain a i386 slice.

@@ -390,12 +390,17 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     return [WXApi handleOpenURL:url delegate:self];
 }
 
+#ifndef SCENE_DELEGATE
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
         return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
+#endif
+
+#ifdef SCENE_DELEGATE
 - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
     [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
+#endif
 
 - (void)handleOpenUrlCall:(FlutterMethodCall *)call
                    result:(FlutterResult)result {

@@ -1,3 +1,6 @@
+# 4.2.1
+* 支持选用scene_delegate.
+
 # 4.2.0
 * 修复ios上微信唤醒app崩溃的问题
 * Android端重构

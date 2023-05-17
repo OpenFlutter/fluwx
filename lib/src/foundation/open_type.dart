@@ -15,6 +15,7 @@ class Browser extends OpenType {
   Map<String, dynamic> get arguments => {'url': url};
 }
 
+/// Rank list
 class RankList extends OpenType {}
 
 /// see * https://pay.weixin.qq.com/wiki/doc/apiv3_partner/Offline/apis/chapter6_2_1.shtml

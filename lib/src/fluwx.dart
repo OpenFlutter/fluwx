@@ -91,6 +91,7 @@ class Fluwx {
     return FluwxPlatform.instance.getExtMsg();
   }
 
+  /// Pay with WeChat. See [PayType]
   Future<bool> pay({required PayType which}) async {
     return FluwxPlatform.instance.pay(which);
   }

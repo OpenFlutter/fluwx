@@ -66,6 +66,7 @@ for more details.
 - debug_logging. Optional. Enable logs by setting it `true`.
 - flutter_activity. Optional. This is usually used by cold boot from WeChat on Android. `Fluwx` will try to launch launcher activity if not set.
 - universal_link. Required for iOS. It'll be used to generate universal link on your projects.
+- scene_delegate. Optional. Use `AppDelegate` or `SceneDelegate`. See [official documents](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) for more details.
 
 * For iOS
  If you are failing `cannot load such file -- plist` on iOS, please do the following steps:

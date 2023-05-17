@@ -66,6 +66,7 @@ dependencies:
 - debug_logging. 可选. 把它设置成`true`可以开启日志。
 - flutter_activity. 可选. 这个通常是用于Android的冷启动。如果不设置任何值，`Fluwx`将尝试启动launcher activity.
 - universal_link. iOS 必填. 它将用自动配置universal_link。
+- scene_delegate. iOS 可选. 使用 `AppDelegate` 还是使用 `SceneDelegate`. 查阅[官方文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html)了解更多.
 
 * For iOS
 如果你在iOS上遇到了 `cannot load such file -- plist`, 请按照以下步骤进行操作：

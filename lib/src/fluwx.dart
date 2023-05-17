@@ -100,6 +100,13 @@ class Fluwx {
     return FluwxPlatform.instance.attemptToResumeMsgFromWx();
   }
 
+  /// Only works on iOS in debug mode.
+  /// Check if your app can work with WeChat correctly.
+  /// Please make sure [registerApi] returns true before self check.
+  Future<void> selfCheck() async{
+    return FluwxPlatform.instance.selfCheck();
+  }
+
   /// Subscribe responses from WeChat
   subscribeResponse(Function(WeChatResponse response) listener) {
     _responseListeners.add(listener);

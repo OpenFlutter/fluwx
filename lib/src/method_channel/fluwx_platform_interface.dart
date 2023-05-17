@@ -114,7 +114,11 @@ abstract class FluwxPlatform extends PlatformInterface {
   }
 
   Future<void> attemptToResumeMsgFromWx() {
-    throw UnimplementedError('authBy() has not been implemented.');
+    throw UnimplementedError('attemptToResumeMsgFromWx() has not been implemented.');
+  }
+
+  Future<void> selfCheck(){
+    throw UnimplementedError('selfCheck() has not been implemented.');
   }
 
   Future<bool> get isSupportOpenBusinessView async {

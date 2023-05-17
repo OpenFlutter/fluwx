@@ -203,6 +203,12 @@ class MethodChannelFluwx extends FluwxPlatform {
     return await methodChannel.invokeMethod('stopAuthByQRCode');
   }
 
+  ///Only works on iOS in debug mode.
+  @override
+  Future<void> selfCheck() async{
+    return await methodChannel.invokeMethod('selfCheck');
+  }
+
   @override
   Future<void> attemptToResumeMsgFromWx() async {
     return await methodChannel.invokeMethod("attemptToResumeMsgFromWx");

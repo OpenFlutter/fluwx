@@ -135,6 +135,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             call.method == "openUrl" -> openUrl(call, result)
             call.method == "openRankList" -> openRankList(result)
             call.method == "attemptToResumeMsgFromWx" -> attemptToResumeMsgFromWx(result)
+            call.method == "selfCheck" -> result.success(null)
             else -> result.notImplemented()
         }
     }

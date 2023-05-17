@@ -135,7 +135,15 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [self handleOpenUrlCall:call result:result];
     } else if([@"openWeChatInvoice" isEqualToString:call.method]) {
         [self openWeChatInvoice:call result:result];
-    } else if([@"" isEqualToString:call.method]){
+    } else if([@"selfCheck" isEqualToString:call.method]) {
+        #ifndef __OPTIMIZE__
+        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+            NSString *log = [NSString stringWithFormat:@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion];
+            [self logToFlutterWithDetail:log];
+        }];
+        #endif
+        result(nil);
+    } else if([@"attemptToResumeMsgFromWx" isEqualToString:call.method]){
         if (!_attemptToResumeMsgFromWxFlag) {
             _attemptToResumeMsgFromWxFlag = YES;
             if (_attemptToResumeMsgFromWxRunnable != nil) {
@@ -207,16 +215,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
-
-#if WECHAT_LOGGING
-    if(isWeChatRegistered) {
-        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
-            NSString *log = [NSString stringWithFormat:@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion];
-            [self logToFlutterWithDetail:log];
-        }];
-    }
-
-#endif
 
     result(@(isWeChatRegistered));
 }

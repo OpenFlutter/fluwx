@@ -1,3 +1,7 @@
+# 4.2.2
+* 删除iOS在registerApi并且开启logging时自动自检
+* 为iOS增加自检方法selfCheck
+
 # 4.2.1
 * 支持选用scene_delegate.
 

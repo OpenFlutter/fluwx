@@ -20,7 +20,7 @@ class _PayPageState extends State<PayPage> {
   @override
   void dispose() {
     super.dispose();
-    fluwx.unsubscribeResponse(responseListener);
+    fluwx.removeSubscriber(responseListener);
   }
 
   @override
@@ -33,7 +33,7 @@ class _PayPageState extends State<PayPage> {
         });
       }
     };
-    fluwx.subscribeResponse(responseListener);
+    fluwx.addSubscriber(responseListener);
   }
 
   @override

@@ -5,17 +5,25 @@ Actually, almost every result from functions like `share` or `pay` which call `s
 So if you want get the real result you shall do like this:
 
 ```dart
-    fluwx.subscribeResponse((response) {
+    var listener = (response) {
       if (response is WeChatAuthResponse) {
 
       }
-    }); 
+    };
+    fluwx.addSubscriber(listener); // subscribe response from WeChat
+    fluwx.removeSubscriber(listener);// unsubscribe response from WeChat
+```
+
+Or 
+```dart
+    var cancelable = fluwx.addSubscriber(listener);
+    cancelable.cancel(); // unsubscribe response from WeChat
 ```
 Take a look at subclasses of `WeChatResponse` for help.
 
 > NOTE: If you get `errCode = -1`, please read the WeChatSDK document for help. There are to many cases lead to that.
 
-You can also unsubscribe response by calling `fluwx.subscribeResponse`.
+
 
 ### Images in WeChat
 

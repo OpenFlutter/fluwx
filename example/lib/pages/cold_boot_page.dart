@@ -39,7 +39,7 @@ class _ColdBootPageState extends State<ColdBootPage> {
       }
     };
 
-    fluwx.subscribeResponse(responseListener);
+    fluwx.addSubscriber(responseListener);
   }
   @override
   Widget build(BuildContext context) {

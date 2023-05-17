@@ -12,6 +12,22 @@ class _ShareTextPageState extends State<ShareTextPage> {
   String _text = 'share text from fluwx';
   WeChatScene scene = WeChatScene.session;
   Fluwx fluwx = Fluwx();
+  late FluwxCancelable cancelable;
+
+  @override
+  void initState() {
+    super.initState();
+
+    cancelable = fluwx.addSubscriber((response) {
+      debugPrint("response is ${response.isSuccessful}");
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cancelable.cancel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +36,10 @@ class _ShareTextPageState extends State<ShareTextPage> {
         title: const Text('ShareText'),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white),
-            onPressed: _shareText,
+            icon: const Icon(Icons.share, color: Colors.white),
+            onPressed: (){
+              _shareText();
+            },
           ),
         ],
       ),

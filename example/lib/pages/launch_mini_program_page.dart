@@ -17,7 +17,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
   void dispose() {
     super.dispose();
     _result = null;
-    fluwx.unsubscribeResponse(responseListener);
+    fluwx.removeSubscriber(responseListener);
   }
 
   @override
@@ -33,7 +33,7 @@ class _LaunchMiniProgramPageState extends State<LaunchMiniProgramPage> {
       }
     };
 
-    fluwx.subscribeResponse(responseListener);
+    fluwx.addSubscriber(responseListener);
   }
 
   @override

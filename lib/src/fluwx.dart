@@ -20,6 +20,7 @@
 import 'dart:async';
 
 import 'foundation/arguments.dart';
+import 'foundation/cancelable.dart';
 import 'method_channel/fluwx_platform_interface.dart';
 import 'response/wechat_response.dart';
 
@@ -27,7 +28,7 @@ class Fluwx {
   late final WeakReference<void Function(WeChatResponse event)>
       responseListener;
 
-  final List<Function(WeChatResponse response)> _responseListeners = [];
+  final List<WeChatResponseSubscriber> _responseListeners = [];
 
   Fluwx() {
     responseListener = WeakReference((event) {
@@ -103,17 +104,37 @@ class Fluwx {
   /// Only works on iOS in debug mode.
   /// Check if your app can work with WeChat correctly.
   /// Please make sure [registerApi] returns true before self check.
-  Future<void> selfCheck() async{
+  Future<void> selfCheck() async {
     return FluwxPlatform.instance.selfCheck();
   }
 
   /// Subscribe responses from WeChat
-  subscribeResponse(Function(WeChatResponse response) listener) {
+  @Deprecated("use [addSubscriber] instead")
+  FluwxCancelable subscribeResponse(WeChatResponseSubscriber listener) {
+    return addSubscriber(listener);
+  }
+
+  /// Add a subscriber to subscribe responses from WeChat
+  FluwxCancelable addSubscriber(WeChatResponseSubscriber listener) {
     _responseListeners.add(listener);
+    return FluwxCancelableImpl(onCancel: () {
+      removeSubscriber(listener);
+    });
   }
 
   /// Unsubscribe responses from WeChat
-  unsubscribeResponse(Function(WeChatResponse response) listener) {
+  @Deprecated("use [removeSubscriber] instead")
+  unsubscribeResponse(WeChatResponseSubscriber listener) {
+    removeSubscriber(listener);
+  }
+
+  /// remove your subscriber from WeChat
+  removeSubscriber(WeChatResponseSubscriber listener) {
     _responseListeners.remove(listener);
+  }
+
+  /// remove all existing
+  clearSubscribers() {
+    _responseListeners.clear();
   }
 }

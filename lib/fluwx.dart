@@ -25,6 +25,7 @@ library fluwx;
 
 export 'src/fluwx.dart';
 export 'src/foundation/arguments.dart';
+export 'src/foundation/cancelable.dart' hide FluwxCancelableImpl;
 export 'src/response/wechat_response.dart';
 export 'src/wechat_enums.dart';
 export 'src/wechat_file.dart' hide FileSchema;

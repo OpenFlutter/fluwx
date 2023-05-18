@@ -1,3 +1,6 @@
+# 4.2.2+1
+* 更新iOS冷启动处理
+
 # 4.2.2
 * 删除iOS在registerApi并且开启debug_logging时自动自检
 * 为iOS增加自检方法selfCheck

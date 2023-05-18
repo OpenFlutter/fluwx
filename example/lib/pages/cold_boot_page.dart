@@ -16,13 +16,12 @@ class _ColdBootPageState extends State<ColdBootPage> {
   void dispose() {
     super.dispose();
     _result = "";
-    fluwx.unsubscribeResponse(responseListener);
+    fluwx.removeSubscriber(responseListener);
   }
 
   @override
   void initState() {
     super.initState();
-    fluwx.attemptToResumeMsgFromWx();
     responseListener = (response) {
       if (response is WeChatShowMessageFromWXRequest ) {
         if (mounted) {
@@ -40,6 +39,8 @@ class _ColdBootPageState extends State<ColdBootPage> {
     };
 
     fluwx.addSubscriber(responseListener);
+
+    fluwx.attemptToResumeMsgFromWx();
   }
   @override
   Widget build(BuildContext context) {

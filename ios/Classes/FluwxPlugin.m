@@ -95,7 +95,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-    _isRunning = YES;
 
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
@@ -215,6 +214,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
+    _isRunning = isWeChatRegistered;
 
     result(@(isWeChatRegistered));
 }
@@ -380,6 +380,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return [WXApi handleOpenURL:url delegate:self];
 }
 
@@ -1053,7 +1057,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:launchFromWXReq.lang forKey:@"lang"];
         [result setValue:launchFromWXReq.country forKey:@"country"];
 
-        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 
         if (_isRunning) {
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
@@ -1065,9 +1068,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             };
         }
 
-        if(_channel != nil){
-            [_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
-        }
+
     }
 
 }

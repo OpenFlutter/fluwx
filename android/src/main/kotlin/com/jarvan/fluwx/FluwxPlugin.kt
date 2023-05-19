@@ -392,7 +392,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             "lang" to req.lang,
             "country" to req.country,
         )
-        extMsg = req.message.messageExt
+        extMsg = req.messageExt
 
         fluwxChannel?.invokeMethod("onWXLaunchFromWX", result)
     }

@@ -2,14 +2,12 @@ package com.jarvan.fluwx
 
 import android.content.Context
 import android.content.Intent
-import androidx.annotation.NonNull
 import com.jarvan.fluwx.handlers.FluwxAuthHandler
 import com.jarvan.fluwx.handlers.FluwxRequestHandler
 import com.jarvan.fluwx.handlers.FluwxShareHandler
 import com.jarvan.fluwx.handlers.FluwxShareHandlerEmbedding
 import com.jarvan.fluwx.handlers.PermissionHandler
 import com.jarvan.fluwx.handlers.WXAPiHandler
-import com.jarvan.fluwx.utils.KEY_FLUWX_REQUEST_INFO_EXT_MSG
 import com.jarvan.fluwx.utils.WXApiUtils
 import com.jarvan.fluwx.utils.readWeChatCallbackIntent
 import com.tencent.mm.opensdk.modelbase.BaseReq
@@ -362,8 +360,8 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             req?.let {
                 if (FluwxConfigurations.interruptWeChatRequestByFluwx) {
                     when (req) {
-                        is ShowMessageFromWX.Req -> handleWXShowMessageFromWX(req)
-                        is LaunchFromWX.Req -> handleWXLaunchFromWX(req)
+                        is ShowMessageFromWX.Req -> handleShowMessageFromWX(req)
+                        is LaunchFromWX.Req -> handleLaunchFromWX(req)
                         else -> {}
                     }
                 } else {
@@ -374,7 +372,7 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     }
 
 
-    private fun handleWXShowMessageFromWX(req: ShowMessageFromWX.Req) {
+    private fun handleShowMessageFromWX(req: ShowMessageFromWX.Req) {
         val result = mapOf(
             "extMsg" to req.message.messageExt,
             "messageAction" to req.message.messageAction,
@@ -387,13 +385,14 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
         fluwxChannel?.invokeMethod("onWXShowMessageFromWX", result)
     }
 
-    private fun handleWXLaunchFromWX(req: LaunchFromWX.Req) {
+    private fun handleLaunchFromWX(req: LaunchFromWX.Req) {
         val result = mapOf(
             "extMsg" to req.messageExt,
             "messageAction" to req.messageAction,
             "lang" to req.lang,
             "country" to req.country,
         )
+        extMsg = req.message.messageExt
 
         fluwxChannel?.invokeMethod("onWXLaunchFromWX", result)
     }

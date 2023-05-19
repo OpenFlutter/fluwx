@@ -58,10 +58,6 @@ const NSString *lang = @"lang";
 const NSString *country = @"country";
 const NSString *description = @"description";
 
-
-FluwxWXReqRunnable _initialWXReqRunnable;
-
-
 BOOL handleOpenURLByFluwx = YES;
 
 NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
@@ -1036,7 +1032,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             [_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
         } else {
             __weak typeof(self) weakSelf = self;
-            _initialWXReqRunnable = ^() {
+            _attemptToResumeMsgFromWxRunnable = ^() {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [strongSelf->_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
             };

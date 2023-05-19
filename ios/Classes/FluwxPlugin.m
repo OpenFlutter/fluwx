@@ -143,16 +143,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         #endif
         result(nil);
     } else if([@"attemptToResumeMsgFromWx" isEqualToString:call.method]){
-        if (!_attemptToResumeMsgFromWxFlag) {
-            _attemptToResumeMsgFromWxFlag = YES;
-            if (_attemptToResumeMsgFromWxRunnable != nil) {
-                _attemptToResumeMsgFromWxRunnable();
-                _attemptToResumeMsgFromWxRunnable = nil;
-            }
-            result(nil);
-        } else {
-            result([FlutterError errorWithCode:@"attemptToResumeMsgFromWx error" message:nil details:nil]);
-        }
+        if (_attemptToResumeMsgFromWxRunnable != nil) {
+            _attemptToResumeMsgFromWxRunnable();
+            _attemptToResumeMsgFromWxRunnable = nil;
+         }
+         result(nil);
     }
     else if ([@"payWithFluwx" isEqualToString:call.method]) {
 #ifndef NO_PAY
@@ -1062,7 +1057,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
         } else {
             __weak typeof(self) weakSelf = self;
-            _initialWXReqRunnable = ^() {
+            _attemptToResumeMsgFromWxRunnable = ^() {
                 __strong typeof(weakSelf) strongSelf = weakSelf;
                 [strongSelf->_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
             };

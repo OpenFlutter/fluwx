@@ -145,10 +145,9 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
             activityPluginBinding?.activity?.intent?.let {
                 letWeChatHandleIntent(it)
             }
-            result.success(null)
-        } else {
-            result.error("attemptToResumeMsgFromWx error", null, null)
+
         }
+        result.success(null)
     }
 
     private fun openWeChatInvoice(call: MethodCall, result: Result) {

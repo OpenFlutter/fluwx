@@ -78,16 +78,10 @@ Map loadPubspec() {
 tasks.register("generateFluwxHelperFile") {
     Map config = loadPubspec()
     Map fluwx = (Map) config.get("fluwx")
-
+    String enableLogging = "false"
+    String interruptWeChatRequestByFluwx = "true"
+    String flutterActivity = ""
     if (fluwx) {
-        String appId = (String) fluwx.get("app_id")
-        if (appId == null) {
-            appId = ""
-        }
-        File generateFolder = new File("${buildDir}/generated/src/kotlin/com/jarvan/fluwx")
-        String enableLogging = "false"
-        String interruptWeChatRequestByFluwx = "true"
-        String flutterActivity = ""
         Map android = (Map) fluwx.get("android")
         if (android) {
             def iwr = android.get("interrupt_wx_request")
@@ -105,27 +99,30 @@ tasks.register("generateFluwxHelperFile") {
         if (logging && logging == "true" || logging == "false") {
             enableLogging = (String) logging
         }
-
-
-        String template = "package com.jarvan.fluwx\n" +
-                "\n" +
-                "// auto generated\n" +
-                "internal object FluwxConfigurations {\n" +
-                "    val flutterActivity: String = \"&&flutterActivity&&\"\n" +
-                "    val enableLogging: Boolean = &&enableLogging&&\n" +
-                "    val interruptWeChatRequestByFluwx: Boolean = &&interruptWeChatRequestByFluwx&&\n" +
-                "}"
-        if (!generateFolder.exists()) {
-            generateFolder.mkdirs()
-        }
-
-        String source = template.replace("&&interruptWeChatRequestByFluwx&&", interruptWeChatRequestByFluwx)
-                .replace("&&flutterActivity&&", flutterActivity)
-                .replace("&&enableLogging&&", enableLogging)
-        file("${generateFolder.absolutePath}/FluwxConfigurations.kt").text = source
-
     }
 
+    generateFluwxConfigurations(interruptWeChatRequestByFluwx, flutterActivity, enableLogging)
+}
+
+def generateFluwxConfigurations(String interruptWeChatRequestByFluwx, String flutterActivity, String enableLogging) {
+    File generateFolder = new File("${buildDir}/generated/src/kotlin/com/jarvan/fluwx")
+
+    String template = "package com.jarvan.fluwx\n" +
+            "\n" +
+            "// auto generated\n" +
+            "internal object FluwxConfigurations {\n" +
+            "    val flutterActivity: String = \"&&flutterActivity&&\"\n" +
+            "    val enableLogging: Boolean = &&enableLogging&&\n" +
+            "    val interruptWeChatRequestByFluwx: Boolean = &&interruptWeChatRequestByFluwx&&\n" +
+            "}"
+    if (!generateFolder.exists()) {
+        generateFolder.mkdirs()
+    }
+
+    String source = template.replace("&&interruptWeChatRequestByFluwx&&", interruptWeChatRequestByFluwx)
+            .replace("&&flutterActivity&&", flutterActivity)
+            .replace("&&enableLogging&&", enableLogging)
+    file("${generateFolder.absolutePath}/FluwxConfigurations.kt").text = source
 }
 
 tasks.withType(JavaCompile) { javaCompile ->

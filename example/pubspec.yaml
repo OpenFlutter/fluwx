@@ -88,10 +88,10 @@ fluwx:
   # only debug in debug mode
   debug_logging: true
   android:
-  #    interrupt_wx_request: true # default is true
-  #    flutter_activity: MainActivity #Default to launch app's launcher
+#      interrupt_wx_request: true # default is true
+#      flutter_activity: MainActivity #Default to launch app's launcher
   ios:
     universal_link: https://testdomain.com
-    scene_delegate: true #default false
-# payment is enabled by default
+#    scene_delegate: true #default false
+  # payment is enabled by default
 #    no_pay: true

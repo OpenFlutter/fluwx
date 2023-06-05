@@ -15,7 +15,15 @@ current_dir = Dir.pwd
 calling_dir = File.dirname(__FILE__)
 project_dir = calling_dir.slice(0..(calling_dir.index('/.symlinks')))
 flutter_project_dir = calling_dir.slice(0..(calling_dir.index('/ios/.symlinks')))
-cfg = YAML.load_file(File.join(flutter_project_dir, 'pubspec.yaml'))
+
+puts Psych::VERSION
+psych_version_gte_500 = Gem::Version.new(Psych::VERSION) >= Gem::Version.new('5.0.0')
+if psych_version_gte_500 == true
+    cfg = YAML.load_file(File.join(flutter_project_dir, 'pubspec.yaml'), aliases: true)
+else
+    cfg = YAML.load_file(File.join(flutter_project_dir, 'pubspec.yaml'))
+end
+
 logging_status = "WECHAT_LOGGING=0"
 
 if cfg['fluwx'] && cfg['fluwx']['debug_logging'] == true

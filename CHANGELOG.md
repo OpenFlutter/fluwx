@@ -1,3 +1,7 @@
+# 4.2.6
+
+* Fix #549
+
 # 4.2.5
 
 * iOS支持解析包含Anchors & Alias的Yaml

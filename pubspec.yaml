@@ -43,7 +43,7 @@ flutter:
         pluginClass: FluwxPlugin
       web:
         pluginClass: FluwxWeb
-        fileName: fluwx_web.dart
+        fileName: src/fluwx_web.dart
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

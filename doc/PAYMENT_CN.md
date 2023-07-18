@@ -14,22 +14,6 @@ fluwx.pay(
       sign: result['sign'].toString(),
 ));
 
-* 使用
-
-  ```dart
-  await fluwx.registerWxApi(
-            appId: "wx84cfexxxxxx",
-            universalLink: "https://www.xxxx.cn/app/");
-  
-  fluwx.payWithWeChat(
-    appId: result['appid'],
-    partnerId: result['partnerid'],
-    prepayId: result['prepayid'],
-    packageValue: result['package'],
-    nonceStr: result['noncestr'],
-    timeStamp: result['timestamp'],
-    sign: result['sign'],
-  )
   ```
 
   
@@ -43,25 +27,6 @@ fluwx.pay(
 * 根据`应用包名`生成`应用签名` [点击这里下载应用签名工具](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html), 安装好签名工具后，输入应用包名就可以生成应用签名了
 
 ![image-20210523133551034](https://gitee.com/inkkk0516/typora/raw/master/image-20210523133551034.png)
-
-
-* 使用
-
-  ```dart
-  // 注册
-  await fluwx.registerWxApi(
-            appId: "wx84cxxxxxx",
-            universalLink: "https://www.xxxx.cn/app/");
-  
-  // 监听支付结果
-  fluwx.weChatResponseEventHandler.listen((event) async {
-    print(event.errCode);
-  	// 支付成功  
-    if (event.errCode == 0) {
-    }
-    // 关闭弹窗
-  });
-  ```
 
   
 

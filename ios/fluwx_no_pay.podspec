@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 A new Flutter plugin for Wechat SDK.
                        DESC
-  s.homepage         = 'https://github.com/OpenFlutter/fluwx'
+  s.homepage         = 'https://github.com/VVennn/gm_fluwx.git'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'JarvanMo' => 'jarvan.mo@gmail.com' }
   s.source           = { :path => '.' }
@@ -23,7 +23,7 @@ A new Flutter plugin for Wechat SDK.
 #  s.xcconfig = { 'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/#{s.name}" }
   s.frameworks = ["SystemConfiguration", "CoreTelephony","WebKit"]
   s.libraries = ["z", "sqlite3.0", "c++"]
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '11.0'
   s.vendored_frameworks   = 'WeChat/WechatOpenSDK-XCFramework.xcframework'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.

@@ -14,7 +14,12 @@ library_version = pubspec['version'].gsub('+', '-')
 current_dir = Dir.pwd
 calling_dir = File.dirname(__FILE__)
 project_dir = calling_dir.slice(0..(calling_dir.index('/.symlinks')))
-flutter_project_dir = calling_dir.slice(0..(calling_dir.index('/ios/.symlinks')))
+symlinks_index = calling_dir.index('/ios/.symlinks')
+if !symlinks_index
+    symlinks_index = calling_dir.index('/.ios/.symlinks')
+end
+
+flutter_project_dir = calling_dir.slice(0..(symlinks_index))
 
 puts Psych::VERSION
 psych_version_gte_500 = Gem::Version.new(Psych::VERSION) >= Gem::Version.new('5.0.0')

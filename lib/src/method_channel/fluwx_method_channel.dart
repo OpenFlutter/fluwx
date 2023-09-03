@@ -80,6 +80,22 @@ class MethodChannelFluwx extends FluwxPlatform {
     return await methodChannel.invokeMethod('isWeChatInstalled');
   }
 
+  /// The OpenType has various types, which are:
+  /// WeChatApp
+  /// Browser
+  /// RankList
+  /// BusinessView
+  /// Invoice
+  /// CustomerServiceChat
+  /// MiniProgram
+  /// SubscribeMessage
+  /// How to use:
+  ///  Fluwx().open(
+  ///  target: CustomerServiceChat(
+  ///    url: 'URL',
+  ///    corpId: 'ID',
+  ///    ),
+  /// );
   @override
   Future<bool> open(OpenType target) async {
     switch (target) {
@@ -205,7 +221,7 @@ class MethodChannelFluwx extends FluwxPlatform {
 
   ///Only works on iOS in debug mode.
   @override
-  Future<void> selfCheck() async{
+  Future<void> selfCheck() async {
     return await methodChannel.invokeMethod('selfCheck');
   }
 

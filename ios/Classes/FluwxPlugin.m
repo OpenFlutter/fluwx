@@ -1016,7 +1016,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     if ([req isKindOfClass:[GetMessageFromWXReq class]]) {
 
     } else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
-//onWXLaunchFromWX
+        // ShowMessageFromWXReq -- android spec
         ShowMessageFromWXReq *showMessageFromWXReq = (ShowMessageFromWXReq *) req;
         WXMediaMessage *wmm = showMessageFromWXReq.message;
 
@@ -1026,6 +1026,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:showMessageFromWXReq.lang forKey:@"lang"];
         [result setValue:showMessageFromWXReq.country forKey:@"country"];
 
+        // Cache extMsg for later use (by calling 'getExtMsg')
         [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 
         if (_isRunning) {
@@ -1039,6 +1040,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         }
 
     } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
+        // ShowMessageFromWXReq -- ios spec
         LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
         WXMediaMessage *wmm = launchFromWXReq.message;
 
@@ -1048,6 +1050,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:launchFromWXReq.lang forKey:@"lang"];
         [result setValue:launchFromWXReq.country forKey:@"country"];
 
+        // Cache extMsg for later use (by calling 'getExtMsg')
+        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 
         if (_isRunning) {
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
@@ -1058,8 +1062,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 [strongSelf->_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
             };
         }
-
-
     }
 
 }

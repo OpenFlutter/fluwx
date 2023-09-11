@@ -48,6 +48,8 @@ typedef void(^FluwxWXReqRunnable)(void);
     BOOL _isRunning;
     BOOL _attemptToResumeMsgFromWxFlag;
     FluwxWXReqRunnable _attemptToResumeMsgFromWxRunnable;
+    // cache open url request when WXApi is not registered, and handle it once WXApi is registered
+    FluwxWXReqRunnable _cachedOpenUrlRequest;
 }
 
 const NSString *errStr = @"errStr";
@@ -205,6 +207,28 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
+
+    // If registration fails, we can return immediately
+    if(!isWeChatRegistered){
+        result(@(isWeChatRegistered));
+        _isRunning = NO;
+        return;
+    }
+
+    // Otherwise, since WXApi is now registered successfully,
+    // we can (and should) immediately handle the previously cached `app:openURL` event (if any)
+    if (_cachedOpenUrlRequest != nil) {
+        _cachedOpenUrlRequest();
+        _cachedOpenUrlRequest = nil;
+    }
+
+    // Set `_isRunning` after calling `_cachedOpenUrlRequest` to ensure that
+    // the `onReq` triggered by this call to `_cachedOpenUrlRequest` will
+    // be stored in `_attemptToResumeMsgFromWxRunnable` which can be obtained
+    // by triggering `attemptToResumeMsgFromWx`.
+    //
+    // At the same time, this also coincides with the approach on the Android side:
+    // cold start events are cached and triggered through `attemptToResumeMsgFromWx`
     _isRunning = isWeChatRegistered;
 
     result(@(isWeChatRegistered));
@@ -370,27 +394,55 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 
+// Deprecated since iOS 9
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623073-application?language=objc
+// Use `application:openURL:options:` instead.
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
     return [WXApi handleOpenURL:url delegate:self];
 }
 
+// Deprecated since iOS 9
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622964-application?language=objc
+// Use `application:openURL:options:` instead.
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
     return [WXApi handleOpenURL:url delegate:self];
 }
 
-// NOTE: 9.0以后使用新API接口
+// Available on iOS 9.0 and later
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
-    return [WXApi handleOpenURL:url delegate:self];
+    // ↓ previous solution -- according to document, this may fail if the WXApi hasn't registered yet.
+    // return [WXApi handleOpenURL:url delegate:self];
+
+    if (_isRunning) {
+        // registered -- directly handle open url request by WXApi
+        return [WXApi handleOpenURL:url delegate:self];
+    }else {
+        // unregistered -- cache open url request and handle it once WXApi is registered
+        __weak typeof(self) weakSelf = self;
+        _cachedOpenUrlRequest = ^() {
+          __strong typeof(weakSelf) strongSelf = weakSelf;
+          [WXApi handleOpenURL:url delegate:strongSelf];
+        };
+
+
+        // simply return YES to indicate that we can handle open url request later
+        return YES;
+    }
 }
 
 #ifndef SCENE_DELEGATE
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
-        return [WXApi handleOpenUniversalLink:userActivity delegate:self];
+    // TODO: (if need) cache userActivity and handle it once WXApi is registered
+    return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 #endif
 
 #ifdef SCENE_DELEGATE
 - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
+    // TODO: (if need) cache userActivity and handle it once WXApi is registered
     [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 #endif
@@ -1016,7 +1068,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     if ([req isKindOfClass:[GetMessageFromWXReq class]]) {
 
     } else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
-//onWXLaunchFromWX
+        // ShowMessageFromWXReq -- android spec
         ShowMessageFromWXReq *showMessageFromWXReq = (ShowMessageFromWXReq *) req;
         WXMediaMessage *wmm = showMessageFromWXReq.message;
 
@@ -1026,6 +1078,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:showMessageFromWXReq.lang forKey:@"lang"];
         [result setValue:showMessageFromWXReq.country forKey:@"country"];
 
+        // Cache extMsg for later use (by calling 'getExtMsg')
         [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 
         if (_isRunning) {
@@ -1039,6 +1092,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         }
 
     } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
+        // ShowMessageFromWXReq -- ios spec
         LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
         WXMediaMessage *wmm = launchFromWXReq.message;
 
@@ -1048,6 +1102,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:launchFromWXReq.lang forKey:@"lang"];
         [result setValue:launchFromWXReq.country forKey:@"country"];
 
+        // Cache extMsg for later use (by calling 'getExtMsg')
+        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
 
         if (_isRunning) {
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
@@ -1058,8 +1114,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 [strongSelf->_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
             };
         }
-
-
     }
 
 }
@@ -1067,7 +1121,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)sendText:(NSString *)text
          InScene:(enum WXScene)scene
       completion:(void (^ __nullable)(BOOL success))completion {
-    
+
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
       req.scene = scene;
       req.bText = YES;

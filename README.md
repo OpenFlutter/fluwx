@@ -115,7 +115,7 @@ Buy the writer a cup of coffee。
 ![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)
 
 
-## Start history
+## Star history
 
 ![stars](https://starchart.cc/OpenFlutter/fluwx.svg)
 

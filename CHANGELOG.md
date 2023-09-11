@@ -1,3 +1,7 @@
+# 4.3.0
+* Android minSdkVersion升级至19
+* 主要解决了 iOS 端的冷启动参数传递问题
+
 # 4.2.7
 
 * 修复在Flutter module中编译不过的问题

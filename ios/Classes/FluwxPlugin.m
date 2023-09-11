@@ -421,9 +421,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         return [WXApi handleOpenURL:url delegate:self];
     }else {
         // unregistered -- cache open url request and handle it once WXApi is registered
+        __weak typeof(self) weakSelf = self;
         _cachedOpenUrlRequest = ^() {
-            [WXApi handleOpenURL:url delegate:self];
+          __strong typeof(weakSelf) strongSelf = weakSelf;
+          [WXApi handleOpenURL:url delegate:strongSelf];
         };
+
 
         // simply return YES to indicate that we can handle open url request later
         return YES;

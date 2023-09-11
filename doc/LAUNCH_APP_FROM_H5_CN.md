@@ -8,18 +8,6 @@
 - 安卓端 **微信唤起App** 的事件类型为 `WeChatShowMessageFromWXRequest`
 - IOS端 **微信唤起App** 的事件类型为 `WeChatLaunchFromWXRequest`
 
-> ### iOS 特定配置
-
-请在你的`AppDelegate`中主动注册`WXApi`
-
-```oc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //向微信注册
-[[FluwxDelegate defaultManager] registerWxAPI:@"" universalLink:@""];
-    return YES;
-}
-```
-
 ## 示例
 
 ```dart

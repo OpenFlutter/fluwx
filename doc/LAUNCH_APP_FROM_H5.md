@@ -8,18 +8,6 @@
 - The event type of **Launch-App-From-H5** on Android is `WeChatShowMessageFromWXRequest`
 - The event type of **Launch-App-From-H5** on IOS is `WeChatLaunchFromWXRequest`
 
-> ### iOS specific configuration
-
-Please register your WXApi in your `AppDelegate`:
-
-```oc
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //向微信注册
-[[FluwxDelegate defaultManager] registerWxAPI:@"" universalLink:@""];
-    return YES;
-}
-```
-
 ## Example
 
 ```dart

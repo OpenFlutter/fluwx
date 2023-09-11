@@ -48,6 +48,8 @@ typedef void(^FluwxWXReqRunnable)(void);
     BOOL _isRunning;
     BOOL _attemptToResumeMsgFromWxFlag;
     FluwxWXReqRunnable _attemptToResumeMsgFromWxRunnable;
+    // cache open url request when WXApi is not registered, and handle it once WXApi is registered
+    FluwxWXReqRunnable _cachedOpenUrlRequest;
 }
 
 const NSString *errStr = @"errStr";
@@ -208,6 +210,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     _isRunning = isWeChatRegistered;
 
     result(@(isWeChatRegistered));
+
+    // handle the cached open url request (if any) immediately
+    if (_cachedOpenUrlRequest != nil) {
+        _cachedOpenUrlRequest();
+        _cachedOpenUrlRequest = nil;
+    }
 }
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -370,27 +378,52 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 
+// Deprecated since iOS 9
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623073-application?language=objc
+// Use `application:openURL:options:` instead.
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
     return [WXApi handleOpenURL:url delegate:self];
 }
 
+// Deprecated since iOS 9
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622964-application?language=objc
+// Use `application:openURL:options:` instead.
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
     return [WXApi handleOpenURL:url delegate:self];
 }
 
-// NOTE: 9.0以后使用新API接口
+// Available on iOS 9.0 and later
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc
 - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
-    return [WXApi handleOpenURL:url delegate:self];
+    // ↓ previous solution -- according to document, this may fail if the WXApi hasn't registered yet.
+    // return [WXApi handleOpenURL:url delegate:self];
+
+    if (_isRunning) {
+        // registered -- directly handle open url request by WXApi
+        return [WXApi handleOpenURL:url delegate:self];
+    }else {
+        // unregistered -- cache open url request and handle it once WXApi is registered
+        _cachedOpenUrlRequest = ^() {
+            [WXApi handleOpenURL:url delegate:self];
+        };
+
+        // simply return YES to indicate that we can handle open url request later
+        return YES;
+    }
 }
 
 #ifndef SCENE_DELEGATE
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
-        return [WXApi handleOpenUniversalLink:userActivity delegate:self];
+    // TODO: (if need) cache userActivity and handle it once WXApi is registered
+    return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 #endif
 
 #ifdef SCENE_DELEGATE
 - (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
+    // TODO: (if need) cache userActivity and handle it once WXApi is registered
     [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 #endif
@@ -1069,7 +1102,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)sendText:(NSString *)text
          InScene:(enum WXScene)scene
       completion:(void (^ __nullable)(BOOL success))completion {
-    
+
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
       req.scene = scene;
       req.bText = YES;

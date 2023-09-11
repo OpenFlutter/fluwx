@@ -207,15 +207,31 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
-    _isRunning = isWeChatRegistered;
 
-    result(@(isWeChatRegistered));
+    // If registration fails, we can return immediately
+    if(!isWeChatRegistered){
+        result(@(isWeChatRegistered));
+        _isRunning = NO;
+        return;
+    }
 
-    // handle the cached open url request (if any) immediately
+    // Otherwise, since WXApi is now registered successfully,
+    // we can (and should) immediately handle the previously cached `app:openURL` event (if any)
     if (_cachedOpenUrlRequest != nil) {
         _cachedOpenUrlRequest();
         _cachedOpenUrlRequest = nil;
     }
+
+    // Set `_isRunning` after calling `_cachedOpenUrlRequest` to ensure that
+    // the `onReq` triggered by this call to `_cachedOpenUrlRequest` will
+    // be stored in `_attemptToResumeMsgFromWxRunnable` which can be obtained
+    // by triggering `attemptToResumeMsgFromWx`.
+    //
+    // At the same time, this also coincides with the approach on the Android side:
+    // cold start events are cached and triggered through `attemptToResumeMsgFromWx`
+    _isRunning = isWeChatRegistered;
+
+    result(@(isWeChatRegistered));
 }
 
 - (void)checkWeChatInstallation:(FlutterMethodCall *)call result:(FlutterResult)result {

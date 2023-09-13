@@ -67,7 +67,7 @@ if cfg['fluwx'] && (cfg['fluwx']['ios']  && cfg['fluwx']['ios']['universal_link'
         system("ruby #{current_dir}/wechat_setup.rb -a #{app_id} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
     end
 else
-    abort("required values:[auniversal_link] are missing. Please add them in pubspec.yaml:\nfluwx:\n \nios:\nuniversal_link: https://${applinks domain}/universal_link/${example_app}/wechat/\n")
+    abort("required values:[universal_link] are missing. Please add them in pubspec.yaml:\nfluwx:\n \nios:\nuniversal_link: https://${applinks domain}/universal_link/${example_app}/wechat/\n")
 end
 
 Pod::Spec.new do |s|

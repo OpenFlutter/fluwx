@@ -31,7 +31,7 @@
 
 [迁移到V4指南](./doc/MIGRATE_TO_V4_CN.md)
 
-`Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1).  
+`Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html).  
  然后你才知道怎么生成签名，怎么使用universal link以及怎么添加URL schema等.
 
 

@@ -30,7 +30,7 @@
 
 [Migrate to V4 now](./doc/MIGRATE_TO_V4_CN.md)
 
-`Fluwx` is good but not God. You'd better read [official documents](https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1) before
+`Fluwx` is good but not God. You'd better read [official documents](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) before
 integrating `Fluwx`. Then you'll understand how to generate Android signature, what's universal link for iOS, how to add URL schema for iOS and so on.
 
 ## Install

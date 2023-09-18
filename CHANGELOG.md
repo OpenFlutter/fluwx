@@ -1,3 +1,6 @@
+# 4.3.1
+* Merge #574
+
 # 4.3.0
 * Android minSdkVersion升级至19
 * 主要解决了 iOS 端的冷启动参数传递问题

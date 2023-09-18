@@ -79,6 +79,9 @@ class Fluwx {
     return FluwxPlatform.instance.authBy(which);
   }
 
+  /// Stop QR service
+  Future<bool> stopAuthByQRCode() => FluwxPlatform.instance.stopAuthByQRCode();
+
   /// please read * [official docs](https://pay.weixin.qq.com/wiki/doc/api/wxpay_v2/papay/chapter3_2.shtml).
   Future<bool> autoDeduct({required AutoDeduct data}) async {
     return FluwxPlatform.instance.autoDeduct(data);

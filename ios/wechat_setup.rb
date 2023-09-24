@@ -24,6 +24,10 @@ OptionParser.new do |options|
         options_dict[:project_name] = name
     end
 
+    options.on("-i", "--ignoreSecurity", "Ignore modifying NSAppTransportSecurity") do |opts|
+        options_dict[:ignore_security] = true
+    end
+
     options.on("-a", "--appId=APPID", String, "App ID for Wechat") do |opts|
         options_dict[:app_id] = opts
     end
@@ -103,18 +107,20 @@ project.targets.each do |target|
                 end
                 File.write(infoplistFile, Plist::Emit.dump(result))
             end
-            security = result["NSAppTransportSecurity"]
-            if !security
-                security = {}
-                result["NSAppTransportSecurity"] = security
-            end
-            if security["NSAllowsArbitraryLoads"] != true
-                security["NSAllowsArbitraryLoads"] = true
-                File.write(infoplistFile, Plist::Emit.dump(result))
-            end
-            if security["NSAllowsArbitraryLoadsInWebContent"] != true
-                security["NSAllowsArbitraryLoadsInWebContent"] = true
-                File.write(infoplistFile, Plist::Emit.dump(result))
+            if !options_dict[:ignore_security]
+                security = result["NSAppTransportSecurity"]
+                if !security
+                    security = {}
+                    result["NSAppTransportSecurity"] = security
+                end
+                if security["NSAllowsArbitraryLoads"] != true
+                    security["NSAllowsArbitraryLoads"] = true
+                    File.write(infoplistFile, Plist::Emit.dump(result))
+                end
+                if security["NSAllowsArbitraryLoadsInWebContent"] != true
+                    security["NSAllowsArbitraryLoadsInWebContent"] = true
+                    File.write(infoplistFile, Plist::Emit.dump(result))
+                end
             end
         end
         sectionObject.build_configurations.each do |config|

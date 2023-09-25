@@ -58,13 +58,18 @@ if cfg['fluwx'] && cfg['fluwx']['app_id']
     app_id = cfg['fluwx']['app_id']
 end
 
+ignore_security = ''
+if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['ignore_security'] == true
+    ignore_security = '-i'
+end
+Pod::UI.puts "ignore_security: #{ignore_security}"
 
 if cfg['fluwx'] && (cfg['fluwx']['ios']  && cfg['fluwx']['ios']['universal_link'])
     universal_link = cfg['fluwx']['ios']['universal_link']
     if app_id.nil?
-        system("ruby #{current_dir}/wechat_setup.rb -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
+        system("ruby #{current_dir}/wechat_setup.rb #{ignore_security} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
     else
-        system("ruby #{current_dir}/wechat_setup.rb -a #{app_id} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
+        system("ruby #{current_dir}/wechat_setup.rb #{ignore_security} -a #{app_id} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
     end
 else
     abort("required values:[universal_link] are missing. Please add them in pubspec.yaml:\nfluwx:\n \nios:\nuniversal_link: https://${applinks domain}/universal_link/${example_app}/wechat/\n")

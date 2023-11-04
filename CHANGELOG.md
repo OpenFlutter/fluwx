@@ -1,3 +1,6 @@
+# 4.4.0
+* universal_link 不再是必选项
+
 # 4.3.2
 * iOS新增ignore_security选项，详见#576
 

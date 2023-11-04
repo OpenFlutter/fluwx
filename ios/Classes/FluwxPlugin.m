@@ -55,7 +55,7 @@ typedef void(^FluwxWXReqRunnable)(void);
 const NSString *errStr = @"errStr";
 const NSString *errCode = @"errCode";
 const NSString *openId = @"openId";
-const NSString *type = @"type";
+const NSString *fluwxType = @"type";
 const NSString *lang = @"lang";
 const NSString *country = @"country";
 const NSString *description = @"description";
@@ -860,7 +860,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 description: messageResp.description == nil ? @"" : messageResp.description,
                 errStr: messageResp.errStr == nil ? @"" : messageResp.errStr,
                 errCode: @(messageResp.errCode),
-                type: @(messageResp.type),
+                fluwxType: @(messageResp.type),
                 country: messageResp.country == nil ? @"" : messageResp.country,
                 lang: messageResp.lang == nil ? @"" : messageResp.lang};
         if(_channel != nil){
@@ -875,7 +875,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 description: authResp.description == nil ? @"" : authResp.description,
                 errStr: authResp.errStr == nil ? @"" : authResp.errStr,
                 errCode: @(authResp.errCode),
-                type: @(authResp.type),
+                fluwxType: @(authResp.type),
                 country: authResp.country == nil ? @"" : authResp.country,
                 lang: authResp.lang == nil ? @"" : authResp.lang,
                 @"code": [FluwxStringUtil nilToEmpty:authResp.code],
@@ -924,7 +924,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                     description: chooseInvoiceResp.description == nil ? @"" : chooseInvoiceResp.description,
                     errStr: chooseInvoiceResp.errStr == nil ? @"" : chooseInvoiceResp.errStr,
                     errCode: @(chooseInvoiceResp.errCode),
-                    type: @(chooseInvoiceResp.type),
+                    fluwxType: @(chooseInvoiceResp.type),
                     @"cardItemList":cardItemList
             };
 
@@ -972,7 +972,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 description: miniProgramResp.description == nil ? @"" : miniProgramResp.description,
                 errStr: miniProgramResp.errStr == nil ? @"" : miniProgramResp.errStr,
                 errCode: @(miniProgramResp.errCode),
-                type: @(miniProgramResp.type),
+                fluwxType: @(miniProgramResp.type),
         };
 
         NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:commonResult];
@@ -997,7 +997,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 description: [FluwxStringUtil nilToEmpty:businessResp.description],
                 errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(businessResp.errCode),
-                type: @(businessResp.type),
+                fluwxType: @(businessResp.type),
                 @"resultInfo": [FluwxStringUtil nilToEmpty:businessResp.result],
                 @"businessType": @(businessResp.businessType),
         };
@@ -1013,7 +1013,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 description: [FluwxStringUtil nilToEmpty:customerResp.description],
                 errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(customerResp.errCode),
-                type: @(customerResp.type),
+                fluwxType: @(customerResp.type),
                 @"extMsg":[FluwxStringUtil nilToEmpty:customerResp.extMsg]
         };
         if(_channel != nil){
@@ -1030,7 +1030,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(openBusinessViewResp.errCode),
                 @"businessType":openBusinessViewResp.businessType,
-                type: @(openBusinessViewResp.type),
+                fluwxType: @(openBusinessViewResp.type),
                 @"extMsg":[FluwxStringUtil nilToEmpty:openBusinessViewResp.extMsg]
         };
         if(_channel != nil){
@@ -1050,7 +1050,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 description: [FluwxStringUtil nilToEmpty:payResp.description],
                 errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
                 errCode: @(payResp.errCode),
-                type: @(payResp.type),
+                fluwxType: @(payResp.type),
                 @"extData": [FluwxStringUtil nilToEmpty:[FluwxDelegate defaultManager].extData],
                 @"returnKey": [FluwxStringUtil nilToEmpty:payResp.returnKey],
         };

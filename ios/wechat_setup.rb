@@ -55,7 +55,11 @@ project.targets.each do |target|
     if target.name == "Runner"
         app_id = options_dict[:app_id]
         universal_link = options_dict[:universal_link]
-        applinks = "applinks:#{URI.parse(universal_link).host}"
+        applinks = ''
+
+        if (!app_id.nil? && !app_id.empty?)
+           applinks = "applinks:#{URI.parse(universal_link).host}"
+        end
 
         sectionObject = {}
         project.objects.each do |object|

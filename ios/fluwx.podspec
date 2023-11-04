@@ -52,7 +52,7 @@ else
 end
 Pod::UI.puts "using sdk with #{fluwx_subspec}"
 
-app_id = nil
+app_id = ''
 
 if cfg['fluwx'] && cfg['fluwx']['app_id']
     app_id = cfg['fluwx']['app_id']
@@ -63,17 +63,13 @@ if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['ignore_security']
     ignore_security = '-i'
 end
 Pod::UI.puts "ignore_security: #{ignore_security}"
-
+universal_link = ''
 if cfg['fluwx'] && (cfg['fluwx']['ios']  && cfg['fluwx']['ios']['universal_link'])
     universal_link = cfg['fluwx']['ios']['universal_link']
-    if app_id.nil?
-        system("ruby #{current_dir}/wechat_setup.rb #{ignore_security} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
-    else
-        system("ruby #{current_dir}/wechat_setup.rb #{ignore_security} -a #{app_id} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
-    end
-else
-    abort("required values:[universal_link] are missing. Please add them in pubspec.yaml:\nfluwx:\n \nios:\nuniversal_link: https://${applinks domain}/universal_link/${example_app}/wechat/\n")
 end
+
+Pod::UI.puts "app_id: #{app_id} universal_link: #{universal_link}"
+system("ruby #{current_dir}/wechat_setup.rb #{ignore_security} -a #{app_id} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
 
 Pod::Spec.new do |s|
   s.name             = 'fluwx'

@@ -229,7 +229,7 @@
 				KnownAssetTags = (
 					New,
 				);
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					331C80F0294D02FB00263BE5 = {

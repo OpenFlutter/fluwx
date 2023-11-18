@@ -405,10 +405,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 // Deprecated since iOS 9
 // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1622964-application?language=objc
 // Use `application:openURL:options:` instead.
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
-    return [WXApi handleOpenURL:url delegate:self];
-}
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+//    // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
+//    return [WXApi handleOpenURL:url delegate:self];
+//}
 
 // Available on iOS 9.0 and later
 // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc
@@ -429,7 +429,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 
         // simply return YES to indicate that we can handle open url request later
-        return YES;
+        return NO;
     }
 }
 

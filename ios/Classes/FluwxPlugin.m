@@ -426,7 +426,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
           __strong typeof(weakSelf) strongSelf = weakSelf;
           [WXApi handleOpenURL:url delegate:strongSelf];
         };
-
+// Let's hold this until the PR contributor send feedback.
+//        if ([url.absoluteString contains:[self fetchWeChatAppId]]){
+//            return YES;
+//        } else {
+//            return NO;
+//        }
 
         // simply return YES to indicate that we can handle open url request later
         return NO;
@@ -1607,4 +1612,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     return req;
 }
 
+-(NSString*)fetchWeChatAppId{
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    NSArray* types = infoDic[@"CFBundleURLTypes"];
+    for(NSDictionary* dic in types){
+        if([@"weixin" isEqualToString:dic[@"CFBundleURLName"]]){
+            return dic[@"CFBundleURLSchemes"][0];
+        }
+    }
+    return nil;
+}
 @end

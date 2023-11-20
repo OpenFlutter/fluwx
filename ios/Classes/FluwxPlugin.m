@@ -66,6 +66,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
+    _fluwxRegistrar = registrar;
     FlutterMethodChannel *channel =
         [FlutterMethodChannel methodChannelWithName:@"com.jarvanmo/fluwx"
                                     binaryMessenger:[registrar messenger]];

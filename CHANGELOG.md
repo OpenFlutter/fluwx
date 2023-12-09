@@ -1,3 +1,7 @@
+# 4.4.7
+* Response里asRecord更名为toRecord.
+* Response相关实体类的内容比较应该对比toRecord结果
+
 # 4.4.6
 * Response里asString更名为asRecord.
 

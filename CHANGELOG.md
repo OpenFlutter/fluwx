@@ -1,3 +1,6 @@
+# 4.4.4
+* Android重写onReattachedToActivityForConfigChanges
+
 # 4.4.3
 * Fix #584 缩略图不显示问题
 

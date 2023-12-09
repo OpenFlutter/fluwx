@@ -68,6 +68,11 @@ sealed class WeChatResponse {
   final String? errStr;
 
   bool get isSuccessful => errCode == 0;
+
+  Record asString() {
+    return ();
+  }
+
 }
 
 class WeChatOpenInvoiceResponse extends WeChatResponse {
@@ -76,6 +81,11 @@ class WeChatOpenInvoiceResponse extends WeChatResponse {
   WeChatOpenInvoiceResponse.fromMap(Map map)
       : cardItemList = map["cardItemList"],
         super._(map[_errCode], map[_errStr]);
+
+  @override
+  Record asString() {
+    return (errCode: errCode, errStr: errStr, cardItemList: cardItemList);
+  }
 }
 
 class WeChatShareResponse extends WeChatResponse {
@@ -84,6 +94,11 @@ class WeChatShareResponse extends WeChatResponse {
         super._(map[_errCode], map[_errStr]);
 
   final int type;
+
+  @override
+  Record asString() {
+    return (errCode: errCode, errStr: errStr, type: type);
+  }
 }
 
 class WeChatAuthResponse extends WeChatResponse {
@@ -102,20 +117,17 @@ class WeChatAuthResponse extends WeChatResponse {
   final String? state;
 
   @override
-  bool operator ==(other) {
-    return other is WeChatAuthResponse &&
-        code == other.code &&
-        country == other.country &&
-        lang == other.lang &&
-        state == other.state;
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      type: type,
+      country: country,
+      lang: lang,
+      code: code,
+      state: state
+    );
   }
-
-  @override
-  int get hashCode =>
-      super.hashCode + errCode.hashCode &
-      1345 + errStr.hashCode &
-      15 + (code ?? '').hashCode &
-      1432;
 }
 
 class WeChatLaunchMiniProgramResponse extends WeChatResponse {
@@ -126,6 +138,11 @@ class WeChatLaunchMiniProgramResponse extends WeChatResponse {
 
   final int? type;
   final String? extMsg;
+
+  @override
+  Record asString() {
+    return (errCode: errCode, errStr: errStr, type: type, extMsg: extMsg);
+  }
 }
 
 class WeChatPaymentResponse extends WeChatResponse {
@@ -136,6 +153,11 @@ class WeChatPaymentResponse extends WeChatResponse {
 
   final int type;
   final String? extData;
+
+  @override
+  Record asString() {
+    return (errCode: errCode, errStr: errStr, type: type, extData: extData);
+  }
 }
 
 class WeChatOpenCustomerServiceChatResponse extends WeChatResponse {
@@ -144,6 +166,11 @@ class WeChatOpenCustomerServiceChatResponse extends WeChatResponse {
         super._(map[_errCode], map[_errStr]);
 
   final String? extMsg;
+
+  @override
+  Record asString() {
+    return (errCode: errCode, errStr: errStr, extMsg: extMsg);
+  }
 }
 
 class WeChatOpenBusinessViewResponse extends WeChatResponse {
@@ -158,6 +185,18 @@ class WeChatOpenBusinessViewResponse extends WeChatResponse {
         businessType = map["businessType"],
         type = map["type"],
         super._(map[_errCode], map[_errStr]);
+
+  @override
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      type: type,
+      extMsg: extMsg,
+      openid: openid,
+      businessType: businessType
+    );
+  }
 }
 
 class WeChatSubscribeMsgResponse extends WeChatResponse {
@@ -174,6 +213,19 @@ class WeChatSubscribeMsgResponse extends WeChatResponse {
   final String? action;
   final String? reserved;
   final int scene;
+
+  @override
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      openid: openid,
+      templateId: templateId,
+      action: action,
+      reserved: reserved,
+      scene: scene
+    );
+  }
 }
 
 class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
@@ -186,6 +238,17 @@ class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
   final int? type;
   final int? businessType;
   final String resultInfo;
+
+  @override
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      type: type,
+      businessType: businessType,
+      resultInfo: resultInfo
+    );
+  }
 }
 
 class WeChatAuthByQRCodeFinishedResponse extends WeChatResponse {
@@ -197,6 +260,16 @@ class WeChatAuthByQRCodeFinishedResponse extends WeChatResponse {
 
   final String? authCode;
   final AuthByQRCodeErrorCode? qrCodeErrorCode;
+
+  @override
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      authCode: authCode,
+      qrCodeErrorCode: qrCodeErrorCode,
+    );
+  }
 }
 
 ///[qrCode] in memory.
@@ -229,6 +302,19 @@ class WeChatShowMessageFromWXRequest extends WeChatResponse {
         super._(0, '');
 
   final String? extMsg;
+
+  @override
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      country: country,
+      lang: lang,
+      messageAction: messageAction,
+      description: description,
+      extMsg: extMsg,
+    );
+  }
 }
 
 class WeChatLaunchFromWXRequest extends WeChatResponse {
@@ -244,6 +330,18 @@ class WeChatLaunchFromWXRequest extends WeChatResponse {
         super._(0, '');
 
   final String? extMsg;
+
+  @override
+  Record asString() {
+    return (
+      errCode: errCode,
+      errStr: errStr,
+      country: country,
+      lang: lang,
+      messageAction: messageAction,
+      extMsg: extMsg,
+    );
+  }
 }
 
 enum AuthByQRCodeErrorCode {

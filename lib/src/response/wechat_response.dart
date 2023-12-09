@@ -69,7 +69,7 @@ sealed class WeChatResponse {
 
   bool get isSuccessful => errCode == 0;
 
-  Record asRecord() {
+  Record toRecord() {
     return ();
   }
 }
@@ -82,7 +82,7 @@ class WeChatOpenInvoiceResponse extends WeChatResponse {
         super._(map[_errCode], map[_errStr]);
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (errCode: errCode, errStr: errStr, cardItemList: cardItemList);
   }
 }
@@ -95,7 +95,7 @@ class WeChatShareResponse extends WeChatResponse {
   final int type;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (errCode: errCode, errStr: errStr, type: type);
   }
 }
@@ -116,7 +116,7 @@ class WeChatAuthResponse extends WeChatResponse {
   final String? state;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,
@@ -139,7 +139,7 @@ class WeChatLaunchMiniProgramResponse extends WeChatResponse {
   final String? extMsg;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (errCode: errCode, errStr: errStr, type: type, extMsg: extMsg);
   }
 }
@@ -154,7 +154,7 @@ class WeChatPaymentResponse extends WeChatResponse {
   final String? extData;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (errCode: errCode, errStr: errStr, type: type, extData: extData);
   }
 }
@@ -167,7 +167,7 @@ class WeChatOpenCustomerServiceChatResponse extends WeChatResponse {
   final String? extMsg;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (errCode: errCode, errStr: errStr, extMsg: extMsg);
   }
 }
@@ -186,7 +186,7 @@ class WeChatOpenBusinessViewResponse extends WeChatResponse {
         super._(map[_errCode], map[_errStr]);
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,
@@ -214,7 +214,7 @@ class WeChatSubscribeMsgResponse extends WeChatResponse {
   final int scene;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,
@@ -239,7 +239,7 @@ class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
   final String resultInfo;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,
@@ -261,7 +261,7 @@ class WeChatAuthByQRCodeFinishedResponse extends WeChatResponse {
   final AuthByQRCodeErrorCode? qrCodeErrorCode;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,
@@ -278,11 +278,21 @@ class WeChatAuthGotQRCodeResponse extends WeChatResponse {
         super._(map[_errCode], map[_errStr]);
 
   final Uint8List? qrCode;
+
+  @override
+  Record toRecord() {
+    return (qrCode: qrCode);
+  }
 }
 
 class WeChatQRCodeScannedResponse extends WeChatResponse {
   WeChatQRCodeScannedResponse.fromMap(Map map)
       : super._(map[_errCode], map[_errStr]);
+
+  @override
+  Record toRecord() {
+    return (errCode: errCode, errStr: errStr);
+  }
 }
 
 // 获取微信打开App时携带的参数
@@ -303,7 +313,7 @@ class WeChatShowMessageFromWXRequest extends WeChatResponse {
   final String? extMsg;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,
@@ -331,7 +341,7 @@ class WeChatLaunchFromWXRequest extends WeChatResponse {
   final String? extMsg;
 
   @override
-  Record asRecord() {
+  Record toRecord() {
     return (
       errCode: errCode,
       errStr: errStr,

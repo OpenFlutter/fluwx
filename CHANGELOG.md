@@ -1,3 +1,6 @@
+# 4.4.6
+* Response里asString更名为asRecord.
+
 # 4.4.5
 * Response相关实体类增加asString方法，以方便debug.
 

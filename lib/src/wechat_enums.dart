@@ -26,6 +26,7 @@ enum WXMiniProgramType {
   preview(2);
 
   final int value;
+
   const WXMiniProgramType(this.value);
 }
 

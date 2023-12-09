@@ -21,9 +21,13 @@ import '../wechat_enums.dart';
 import '../wechat_file.dart';
 
 part 'auth_type.dart';
+
 part 'auto_deduct.dart';
+
 part 'open_type.dart';
+
 part 'pay_type.dart';
+
 part 'share_models.dart';
 
 mixin _Argument {

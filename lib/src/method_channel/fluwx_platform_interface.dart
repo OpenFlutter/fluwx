@@ -114,10 +114,11 @@ abstract class FluwxPlatform extends PlatformInterface {
   }
 
   Future<void> attemptToResumeMsgFromWx() {
-    throw UnimplementedError('attemptToResumeMsgFromWx() has not been implemented.');
+    throw UnimplementedError(
+        'attemptToResumeMsgFromWx() has not been implemented.');
   }
 
-  Future<void> selfCheck(){
+  Future<void> selfCheck() {
     throw UnimplementedError('selfCheck() has not been implemented.');
   }
 

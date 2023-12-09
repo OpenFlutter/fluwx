@@ -72,7 +72,6 @@ sealed class WeChatResponse {
   Record asString() {
     return ();
   }
-
 }
 
 class WeChatOpenInvoiceResponse extends WeChatResponse {

@@ -76,32 +76,34 @@ Map loadPubspec() {
 
 
 tasks.register("generateFluwxHelperFile") {
-    Map config = loadPubspec()
-    Map fluwx = (Map) config.get("fluwx")
-    String enableLogging = "false"
-    String interruptWeChatRequestByFluwx = "true"
-    String flutterActivity = ""
-    if (fluwx) {
-        Map android = (Map) fluwx.get("android")
-        if (android) {
-            def iwr = android.get("interrupt_wx_request")
-            if (iwr && iwr == "true" || iwr == "false") {
-                interruptWeChatRequestByFluwx = (String) iwr
-            }
+   doFirst {
+       Map config = loadPubspec()
+       Map fluwx = (Map) config.get("fluwx")
+       String enableLogging = "false"
+       String interruptWeChatRequestByFluwx = "true"
+       String flutterActivity = ""
+       if (fluwx) {
+           Map android = (Map) fluwx.get("android")
+           if (android) {
+               def iwr = android.get("interrupt_wx_request")
+               if (iwr && iwr == "true" || iwr == "false") {
+                   interruptWeChatRequestByFluwx = (String) iwr
+               }
 
-            def activity = android.get("flutter_activity")
-            if (activity) {
-                flutterActivity = (String) activity
-            }
-        }
+               def activity = android.get("flutter_activity")
+               if (activity) {
+                   flutterActivity = (String) activity
+               }
+           }
 
-        def logging = fluwx.get("debug_logging")
-        if (logging && logging == "true" || logging == "false") {
-            enableLogging = (String) logging
-        }
-    }
+           def logging = fluwx.get("debug_logging")
+           if (logging && logging == "true" || logging == "false") {
+               enableLogging = (String) logging
+           }
+       }
 
-    generateFluwxConfigurations(interruptWeChatRequestByFluwx, flutterActivity, enableLogging)
+       generateFluwxConfigurations(interruptWeChatRequestByFluwx, flutterActivity, enableLogging)
+   }
 }
 
 def generateFluwxConfigurations(String interruptWeChatRequestByFluwx, String flutterActivity, String enableLogging) {
@@ -125,8 +127,11 @@ def generateFluwxConfigurations(String interruptWeChatRequestByFluwx, String flu
     file("${generateFolder.absolutePath}/FluwxConfigurations.kt").text = source
 }
 
-tasks.withType(JavaCompile) { javaCompile ->
-    javaCompile.configure {
-        dependsOn("generateFluwxHelperFile")
-    }
+//tasks.withType(JavaCompile) { javaCompile ->
+//    javaCompile.configure {
+//        dependsOn("generateFluwxHelperFile")
+//    }
+//}
+android.libraryVariants.configureEach {
+    it.registerGeneratedResFolders(project.files(new File("${buildDir}/generated/src/kotlin/com/jarvan/fluwx")).builtBy(generateFluwxHelperFile))
 }

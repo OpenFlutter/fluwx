@@ -1,3 +1,6 @@
+# 4.4.8
+* Fix #543
+
 # 4.4.7
 * Response里asRecord更名为toRecord.
 * Response相关实体类的内容比较应该对比toRecord结果

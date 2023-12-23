@@ -66,7 +66,8 @@ android {
 }
 
 Map loadPubspec() {
-    def path = rootProject.projectDir.parent + File.separator + "pubspec.yaml"
+    def yamlDir = rootProject.hasProperty('yamlDir') ? rootProject.ext.yamlDir : ''
+    def path = rootProject.projectDir.parent + File.separator +yamlDir +"pubspec.yaml"
     InputStream input = new FileInputStream(new File(path))
     Yaml yaml = new Yaml()
     Map projectConfig = yaml.load(input)

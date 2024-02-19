@@ -29,16 +29,19 @@ allprojects {
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 android {
-    namespace "com.jarvan.fluwx"
-    compileSdk 31
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.jarvan.fluwx'
+    }
+
+    compileSdk 34
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
 
     sourceSets {

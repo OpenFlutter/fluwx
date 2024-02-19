@@ -21,7 +21,6 @@ package com.jarvan.fluwx.handlers
 import android.content.Context
 import android.content.pm.PackageManager
 import android.util.Log
-import com.jarvan.fluwx.BuildConfig
 import com.jarvan.fluwx.FluwxPlugin
 import com.tencent.mm.opensdk.constants.Build
 import com.tencent.mm.opensdk.openapi.IWXAPI

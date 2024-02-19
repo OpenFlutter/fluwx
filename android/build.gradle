@@ -32,6 +32,15 @@ android {
     namespace "com.jarvan.fluwx"
     compileSdk 31
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
     sourceSets {
         main.java.srcDirs += ['src/main/kotlin', "${buildDir}/generated/src/kotlin"]
         test.java.srcDirs += 'src/test/kotlin'

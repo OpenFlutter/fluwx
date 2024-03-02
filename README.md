@@ -30,6 +30,8 @@
 
 [Migrate to V4 now](./doc/MIGRATE_TO_V4_CN.md)
 
+> Breaking changes ：*Fluwx* won't request permission(WRITE_EXTERNAL_STORAGE) since 4.5.0. That means you will need to handle permission when sharing images, if FileProvider is not supported.
+
 `Fluwx` is good but not God. You'd better read [official documents](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html) before
 integrating `Fluwx`. Then you'll understand how to generate Android signature, what's universal link for iOS, how to add URL schema for iOS and so on.
 

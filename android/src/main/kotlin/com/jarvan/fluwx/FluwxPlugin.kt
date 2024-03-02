@@ -179,7 +179,6 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     }
 
     override fun onDetachedFromActivity() {
-        shareHandler?.permissionHandler = null
     }
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
@@ -190,7 +189,6 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
 //        WXAPiHandler.setContext(binding.activity.applicationContext)
         activityPluginBinding = binding
         binding.addOnNewIntentListener(this)
-        shareHandler?.permissionHandler = PermissionHandler(binding.activity)
     }
 
     override fun onDetachedFromActivityForConfigChanges() {

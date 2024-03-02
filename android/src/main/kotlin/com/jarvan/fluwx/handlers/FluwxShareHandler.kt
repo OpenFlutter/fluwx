@@ -39,7 +39,6 @@ internal class FluwxShareHandlerEmbedding(private val flutterAssets: FlutterPlug
 
     override val job: Job = Job()
 
-    override var permissionHandler: PermissionHandler? = null
 }
 
 internal interface FluwxShareHandler : CoroutineScope {
@@ -119,11 +118,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                         if (supportFileProvider && targetHigherThanN) {
                             setImagePath(getFileContentUri(sourceByteArray.toCacheFile(context, sourceImage.suffix)))
                         } else {
-                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                                setImagePath(sourceByteArray.toExternalCacheFile(context, sourceImage.suffix)?.absolutePath)
-                            } else {
-                                permissionHandler?.requestStoragePermission()
-                            }
+                            setImagePath(sourceByteArray.toExternalCacheFile(context, sourceImage.suffix)?.absolutePath)
                         }
                     }
                 }
@@ -228,11 +223,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                 if (supportFileProvider && targetHigherThanN) {
                     setFilePath(getFileContentUri(sourceByteArray.toCacheFile(context, sourceFile.suffix)))
                 } else {
-                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        filePath = sourceByteArray.toExternalCacheFile(context, sourceFile.suffix)?.absolutePath
-                    } else {
-                        permissionHandler?.requestStoragePermission()
-                    }
+                    filePath = sourceByteArray.toExternalCacheFile(context, sourceFile.suffix)?.absolutePath
                 }
             }
 
@@ -311,8 +302,6 @@ internal interface FluwxShareHandler : CoroutineScope {
         get() = Dispatchers.Main + job
 
     val job: Job
-
-    var permissionHandler: PermissionHandler?
 
     fun onDestroy() = job.cancel()
 }

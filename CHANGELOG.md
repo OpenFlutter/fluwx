@@ -1,5 +1,5 @@
 # 4.5.1
-* Fix #602: 增加iOS privacy manifest
+* Merge #602: 增加iOS privacy manifest
 
 # 4.5.0
 * Fix #599

@@ -1,3 +1,7 @@
+# 4.5.2
+* Android WechatSdk->6.8.28
+* iOS WeChatSdk->2.0.4
+
 # 4.5.1
 * Merge #602: 增加iOS privacy manifest
 

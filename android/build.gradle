@@ -55,7 +55,7 @@ android {
     }
 
     dependencies {
-        api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.24'
+        api 'com.tencent.mm.opensdk:wechat-sdk-android:6.8.28'
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
         implementation 'id.zelory:compressor:3.0.1'

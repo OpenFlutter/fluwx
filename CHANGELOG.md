@@ -1,3 +1,6 @@
+# 4.5.1
+* Fix #602: 增加iOS rivacy manifest
+
 # 4.5.0
 * Fix #599
 * 破坏性更新：从4.5.0起，当分享图片到微信时，如果不支持FileProvider方式分享，Fluwx不再尝试申请WRITE_EXTERNAL_STORAGE权限，这意味着你需要自己处理权限问题。

@@ -19,11 +19,7 @@ jobs:
         with:
           channel: stable
       - run: flutter pub get
-      - run: cd example
-      - run: cd ios
-      - run: pod update WechatOpenSDK-XCFramework
-      - run: cd ..
-      - run: flutter build ios --no-codesign
+      - run: cd example; flutter build ios --no-codesign
 
   test_iOS_No_Pay:
     name: Test iOS no_pay on ${{ matrix.os }}
@@ -40,9 +36,6 @@ jobs:
       - run: |
              cd example
              sed -i.bak0 's/#    no_pay: true/    no_pay: true/' pubspec.yaml
-             cd ios
-             pod update OpenWeChatSDKNoPay
-             cd ..
              flutter build ios --no-codesign
 
   test_android:

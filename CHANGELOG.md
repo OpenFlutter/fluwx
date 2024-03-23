@@ -1,3 +1,6 @@
+# 4.5.3
+* Merge #605
+
 # 4.5.2
 * Android WechatSdk->6.8.28
 * iOS WeChatSdk->2.0.4

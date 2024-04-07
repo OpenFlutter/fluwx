@@ -85,7 +85,7 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
   s.source_files = 'Classes/**/*'
   s.public_header_files = 'Classes/**/*.h'
   s.dependency 'Flutter'
-  s.platform = :ios, '11.0'
+  s.platform = :ios, '12.0'
   s.static_framework = true
   s.resource_bundles = {'fluwx_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
   s.default_subspec = fluwx_subspec

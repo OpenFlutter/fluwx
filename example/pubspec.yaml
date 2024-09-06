@@ -16,7 +16,7 @@ fluwx:
   ios:
     universal_link: https://testdomain.com
 #    scene_delegate: true # Defaults to false.
-#    no_pay: false # Set to false to disable payment.
+#    no_pay: false # Set to true to disable payment.
 #    ignore_security: true # Set to true to disable security seetings.
 
 # Dependencies specify other packages that your package needs in order to work.

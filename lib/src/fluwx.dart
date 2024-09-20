@@ -129,17 +129,17 @@ class Fluwx {
 
   /// Unsubscribe responses from WeChat
   @Deprecated("use [removeSubscriber] instead")
-  unsubscribeResponse(WeChatResponseSubscriber listener) {
+  void unsubscribeResponse(WeChatResponseSubscriber listener) {
     removeSubscriber(listener);
   }
 
   /// remove your subscriber from WeChat
-  removeSubscriber(WeChatResponseSubscriber listener) {
+  void removeSubscriber(WeChatResponseSubscriber listener) {
     _responseListeners.remove(listener);
   }
 
   /// remove all existing
-  clearSubscribers() {
+  void clearSubscribers() {
     _responseListeners.clear();
   }
 }

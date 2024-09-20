@@ -25,20 +25,21 @@ import 'method_channel/fluwx_platform_interface.dart';
 import 'response/wechat_response.dart';
 
 class Fluwx {
-  late final WeakReference<void Function(WeChatResponse event)>
-      responseListener;
-
-  final List<WeChatResponseSubscriber> _responseListeners = [];
-
   Fluwx() {
-    responseListener = WeakReference((event) {
-      for (var listener in _responseListeners) {
-        listener(event);
-      }
-    });
-    final target = responseListener.target;
-    if (target != null) {
-      FluwxPlatform.instance.responseEventHandler.listen(target);
+    _responseSubscription = FluwxPlatform.instance.responseEventHandler.listen(
+      _responseEventListener,
+      onDone: () {
+        _responseSubscription?.cancel();
+      },
+    );
+  }
+
+  final _responseListeners = <WeChatResponseSubscriber>[];
+  StreamSubscription? _responseSubscription;
+
+  void _responseEventListener(WeChatResponse event) {
+    for (final listener in _responseListeners.toList()) {
+      listener(event);
     }
   }
 

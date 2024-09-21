@@ -17,20 +17,19 @@
  * the License.
  */
 
-import '../response/wechat_response.dart';
+import 'package:flutter/foundation.dart';
 
-typedef WeChatResponseSubscriber = Function(WeChatResponse response);
 mixin FluwxCancelable {
-  cancel();
+  void cancel();
 }
 
 class FluwxCancelableImpl implements FluwxCancelable {
-  final Function onCancel;
+  const FluwxCancelableImpl({required this.onCancel});
 
-  FluwxCancelableImpl({required this.onCancel});
+  final VoidCallback onCancel;
 
   @override
-  cancel() {
+  void cancel() {
     onCancel();
   }
 }

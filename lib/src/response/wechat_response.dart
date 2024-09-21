@@ -22,6 +22,7 @@ import 'dart:typed_data';
 const String _errCode = 'errCode';
 const String _errStr = 'errStr';
 
+typedef WeChatResponseSubscriber = void Function(WeChatResponse response);
 typedef _WeChatResponseInvoker = WeChatResponse Function(Map argument);
 
 Map<String, _WeChatResponseInvoker> _nameAndResponseMapper = {

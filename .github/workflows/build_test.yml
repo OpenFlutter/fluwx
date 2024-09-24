@@ -36,6 +36,7 @@ jobs:
       - run: |
              cd example
              sed -i.bak0 's/#    no_pay: true/    no_pay: true/' pubspec.yaml
+             cat pubspec.yaml
              flutter build ios --no-codesign
 
   test_android:

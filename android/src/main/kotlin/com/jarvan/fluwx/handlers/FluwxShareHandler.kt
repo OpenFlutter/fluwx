@@ -261,6 +261,14 @@ internal interface FluwxShareHandler : CoroutineScope {
         call.argument<String?>("msgSignature")?.let {
             msg.msgSignature = it
         }
+        call.argument<ByteArray?>("thumbData")?.let {
+            msg.thumbData = it
+        }
+
+        call.argument<String?>("thumbDataHash")?.let {
+            msg.thumbDataHash = it
+        }
+
         msg.messageExt = call.argument("messageExt")
         msg.mediaTagName = call.argument("mediaTagName")
         msg.title = call.argument(keyTitle)

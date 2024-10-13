@@ -17,6 +17,8 @@
  * the License.
  */
 
+import 'dart:typed_data';
+
 import '../wechat_enums.dart';
 import '../wechat_file.dart';
 

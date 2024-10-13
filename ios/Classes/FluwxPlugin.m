@@ -15,6 +15,8 @@ NSString *const fluwxKeyImageData = @ "imageData";
 NSString *const fluwxKeyThumbnail = @"thumbnail";
 NSString *const fluwxKeyDescription = @"description";
 NSString *const fluwxKeyMsgSignature = @"msgSignature";
+NSString *const fluwxKeyThumbData = @"thumbData";
+NSString *const fluwxKeyThumbDataHash = @"thumbDataHash";
 
 NSString *const fluwxKeyPackage = @"?package=";
 
@@ -538,7 +540,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-
+            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            NSData *thumbData = nil;
+          
+            if (flutterThumbData != nil){
+                thumbData = flutterThumbData.data;
+            }
+        
             NSNumber *scene = call.arguments[fluwxKeyScene];
             [self sendImageData:sourceImageData
                                        TagName:call.arguments[fluwxKeyMediaTagName]
@@ -549,6 +557,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                          title:call.arguments[fluwxKeyTitle]
                                    description:call.arguments[fluwxKeyDescription]
                                   MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                      ThumbData:thumbData
+                  ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                     completion:^(BOOL done) {
                                         result(@(done));
                                     }
@@ -570,6 +580,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             NSString *webPageUrl = call.arguments[@"webPage"];
             NSNumber *scene = call.arguments[fluwxKeyScene];
 
+            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            NSData *thumbData = nil;
+          
+            if (flutterThumbData != nil){
+                thumbData = flutterThumbData.data;
+            }
+        
             [self sendLinkURL:webPageUrl
                                      TagName:call.arguments[fluwxKeyMediaTagName]
                                        Title:call.arguments[fluwxKeyTitle]
@@ -579,6 +596,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                MessageAction:call.arguments[fluwxKeyMessageAction]
                                      InScene:[self intToWeChatScene:scene]
                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                    ThumbData:thumbData
+                ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                   completion:^(BOOL done) {
                                       result(@(done));
                                   }];
@@ -594,7 +613,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         UIImage *thumbnailImage = [self getCommonThumbnail:call];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-
+            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            NSData *thumbData = nil;
+          
+            if (flutterThumbData != nil){
+                thumbData = flutterThumbData.data;
+            }
+        
             NSNumber *scene = call.arguments[fluwxKeyScene];
             [self sendMusicURL:call.arguments[@"musicUrl"]
                                       dataURL:call.arguments[@"musicDataUrl"]
@@ -608,6 +633,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                       TagName:call.arguments[fluwxKeyMediaTagName]
                                       InScene:[self intToWeChatScene:scene]
                                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                     ThumbData:thumbData
+                 ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                    completion:^(BOOL done) {
                                        result(@(done));
                                    }
@@ -625,7 +652,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSNumber *scene = call.arguments[fluwxKeyScene];
-
+            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            NSData *thumbData = nil;
+          
+            if (flutterThumbData != nil){
+                thumbData = flutterThumbData.data;
+            }
+            
             [self sendVideoURL:call.arguments[@"videoUrl"]
                               VideoLowBandUrl:call.arguments[@"videoLowBandUrl"]
                                         Title:call.arguments[fluwxKeyTitle]
@@ -636,7 +669,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                       TagName:call.arguments[fluwxKeyMediaTagName]
                                       InScene:[self intToWeChatScene:scene]
                                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
-
+                     ThumbData:thumbData
+                 ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                    completion:^(BOOL done) {
                                        result(@(done));
                                    }];
@@ -661,6 +695,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             NSNumber *scene = call.arguments[fluwxKeyScene];
+            
+            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            NSData *thumbData = nil;
+          
+            if (flutterThumbData != nil){
+                thumbData = flutterThumbData.data;
+            }
+            
             [self sendFileData:data
                                 fileExtension:fileExtension
                                         Title:call.arguments[fluwxKeyTitle]
@@ -668,7 +710,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                    ThumbImage:thumbnailImage
                                       InScene:[self intToWeChatScene:scene]
                                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
-
+                     ThumbData:thumbData
+                 ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                    completion:^(BOOL success) {
                                        result(@(success));
                                    }];
@@ -700,6 +743,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
         dispatch_async(dispatch_get_main_queue(), ^{
 
+            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            NSData *thumbData = nil;
+          
+            if (flutterThumbData != nil){
+                thumbData = flutterThumbData.data;
+            }
+            
             NSNumber *scene = call.arguments[fluwxKeyScene];
 
             NSNumber *typeInt = call.arguments[@"miniProgramType"];
@@ -724,6 +774,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                    TagName:call.arguments[fluwxKeyMediaTagName]
                                                    InScene:[self intToWeChatScene:scene]
                                               MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                                  ThumbData:thumbData
+                              ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                                 completion:^(BOOL done) {
                                                     result(@(done));
                                                 }
@@ -1145,6 +1197,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 title:(NSString *)title
           description:(NSString *)description
          MsgSignature:(NSString *)msgSignature
+            ThumbData:(NSData *)thumbData
+        ThumbDataHash:(NSString*)thumbDataHash
            completion:(void (^ __nullable)(BOOL success))completion {
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
@@ -1157,6 +1211,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                     ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData: thumbData
+                                       ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
 
     ];;
 
@@ -1177,6 +1233,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
       MessageAction:(NSString *)messageAction
             InScene:(enum WXScene)scene
        MsgSignature:(NSString *)msgSignature
+          ThumbData:(NSData *)thumbData
+      ThumbDataHash:(NSString*)thumbDataHash
          completion:(void (^ __nullable)(BOOL success))completion {
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = urlString;
@@ -1189,6 +1247,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                     ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData: thumbData
+                                       ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
     ];
 
     SendMessageToWXReq *req = [self requestWithText:nil
@@ -1210,6 +1270,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene
         MsgSignature:(NSString *)msgSignature
+           ThumbData:(NSData *)thumbData
+       ThumbDataHash:(NSString*)thumbDataHash
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMusicObject *ext = [WXMusicObject object];
 
@@ -1230,6 +1292,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                     ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData: thumbData
+                                       ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
     ];
 
     SendMessageToWXReq *req = [self requestWithText:nil
@@ -1250,6 +1314,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
              TagName:(NSString *)tagName
              InScene:(enum WXScene)scene
         MsgSignature:(NSString *)msgSignature
+           ThumbData:(NSData *)thumbData
+       ThumbDataHash:(NSString*)thumbDataHash
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = (title == (id) [NSNull null]) ? nil : title;
@@ -1278,6 +1344,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
              ThumbImage:(UIImage *)thumbImage
                 InScene:(enum WXScene)scene
            MsgSignature:(NSString *)msgSignature
+              ThumbData:(NSData *)thumbData
+          ThumbDataHash:(NSString*)thumbDataHash
              completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     [message setThumbImage:thumbImage];
@@ -1306,6 +1374,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
           ThumbImage:(UIImage *)thumbImage
              InScene:(enum WXScene)scene
         MsgSignature:(NSString *)msgSignature
+           ThumbData:(NSData *)thumbData
+       ThumbDataHash:(NSString*)thumbDataHash
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
@@ -1344,6 +1414,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                           TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene
                      MsgSignature:(NSString *)msgSignature
+                        ThumbData:(NSData *)thumbData
+                    ThumbDataHash:(NSString*)thumbDataHash
                        completion:(void (^ __nullable)(BOOL success))completion {
     WXMiniProgramObject *ext = [WXMiniProgramObject object];
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
@@ -1362,6 +1434,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                     ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData: thumbData
+                                       ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
 
     ];
 
@@ -1383,6 +1457,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 ThumbImage:(UIImage *)thumbImage
                    InScene:(enum WXScene)scene
               MsgSignature:(NSString *)msgSignature
+                 ThumbData:(NSData *)thumbData
+             ThumbDataHash:(NSString*)thumbDataHash
                 completion:(void (^ __nullable)(BOOL success))completion {
     WXAppExtendObject *ext = [WXAppExtendObject object];
     ext.extInfo = info;
@@ -1397,6 +1473,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                     ThumbImage:thumbImage
                                                       MediaTag:nil
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData: thumbData
+                                       ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
     ];
 
     SendMessageToWXReq *req = [self requestWithText:nil
@@ -1584,7 +1662,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                        MessageAction:(NSString *)action
                           ThumbImage:(UIImage *)thumbImage
                             MediaTag:(NSString *)tagName
-                        MsgSignature:(NSString *)msgSignature {
+                        MsgSignature:(NSString *)msgSignature
+                           ThumbData:(NSData *)thumbData
+                       ThumbDataHash:(NSString*)thumbDataHash
+{
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
     message.description = description;
@@ -1592,6 +1673,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     message.messageExt = messageExt;
     message.messageAction = action;
     message.mediaTagName = tagName;
+    message.thumbData = thumbData;
+    message.thumbDataHash = thumbDataHash;
     if(msgSignature != nil ){
         message.msgSignature = msgSignature;
     }

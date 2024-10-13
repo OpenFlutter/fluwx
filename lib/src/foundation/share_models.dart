@@ -29,8 +29,23 @@ const String _mediaTagName = "mediaTagName";
 const String _messageAction = "messageAction";
 const String _compressThumbnail = "compressThumbnail";
 const String _msgSignature = "msgSignature";
+const String _thumbData = "thumbData";
+const String _thumbDataHash = "thumbDataHash";
 
-sealed class WeChatShareModel with _Argument {}
+sealed class WeChatShareModel with _Argument {
+  final String? title;
+  final String? description;
+  final Uint8List? thumbData;
+  final String? thumbDataHash;
+  final String? msgSignature;
+
+  WeChatShareModel(
+      {required this.title,
+      required this.description,
+      required this.thumbData,
+      required this.thumbDataHash,
+      required this.msgSignature});
+}
 
 /// [source] the text you want to send to WeChat
 /// [scene] the target you want to send
@@ -41,20 +56,21 @@ class WeChatShareTextModel extends WeChatShareModel {
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
-    this.msgSignature,
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
     String? description,
     String? title,
-  })  : title = title ?? source,
-        description = description ?? source;
+  }) : super(
+          title: title ?? source,
+          description: description ?? source,
+        );
 
   final String source;
   final WeChatScene scene;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
-  final String? title;
-  final String? description;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -65,7 +81,9 @@ class WeChatShareTextModel extends WeChatShareModel {
         _mediaTagName: mediaTagName,
         _title: title,
         _description: description,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }
 
@@ -73,22 +91,24 @@ class WeChatShareTextModel extends WeChatShareModel {
 /// [hdImagePath] only works on iOS, not sure the relationship
 /// between [thumbnail] and [hdImagePath].
 class WeChatShareMiniProgramModel extends WeChatShareModel {
-  WeChatShareMiniProgramModel(
-      {required this.webPageUrl,
-      this.miniProgramType = WXMiniProgramType.release,
-      required this.userName,
-      this.path = "/",
-      this.title,
-      this.description,
-      this.withShareTicket = false,
-      required this.thumbnail,
-      this.hdImagePath,
-      this.mediaTagName,
-      this.messageAction,
-      this.messageExt,
-      this.compressThumbnail = true,
-      this.msgSignature})
-      : assert(webPageUrl.isNotEmpty),
+  WeChatShareMiniProgramModel({
+    required this.webPageUrl,
+    this.miniProgramType = WXMiniProgramType.release,
+    required this.userName,
+    this.path = "/",
+    super.title,
+    super.description,
+    this.withShareTicket = false,
+    required this.thumbnail,
+    this.hdImagePath,
+    this.mediaTagName,
+    this.messageAction,
+    this.messageExt,
+    this.compressThumbnail = true,
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
+  })  : assert(webPageUrl.isNotEmpty),
         assert(userName.isNotEmpty),
         assert(path.isNotEmpty);
 
@@ -97,15 +117,12 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   final String userName;
   final String path;
   final WeChatImage? hdImagePath;
-  final String? title;
-  final String? description;
   final WeChatImage thumbnail;
   final bool withShareTicket;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -121,7 +138,9 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         _messageAction: messageAction,
         _mediaTagName: mediaTagName,
         _compressThumbnail: compressThumbnail,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }
 
@@ -129,28 +148,28 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
 /// [scene] the target you want to send
 /// [thumbnail] the preview of your image, will be created from [scene] if null.
 class WeChatShareImageModel extends WeChatShareModel {
-  WeChatShareImageModel(this.source,
-      {WeChatImage? thumbnail,
-      this.title,
-      this.scene = WeChatScene.session,
-      this.description,
-      this.mediaTagName,
-      this.messageAction,
-      this.messageExt,
-      this.compressThumbnail = true,
-      this.msgSignature})
-      : thumbnail = thumbnail ?? source;
+  WeChatShareImageModel(
+    this.source, {
+    WeChatImage? thumbnail,
+    super.title,
+    this.scene = WeChatScene.session,
+    super.description,
+    this.mediaTagName,
+    this.messageAction,
+    this.messageExt,
+    this.compressThumbnail = true,
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
+  }) : thumbnail = thumbnail ?? source;
 
   final WeChatImage source;
   final WeChatImage thumbnail;
-  final String? title;
   final WeChatScene scene;
-  final String? description;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -162,7 +181,9 @@ class WeChatShareImageModel extends WeChatShareModel {
         _messageAction: messageAction,
         _mediaTagName: mediaTagName,
         _compressThumbnail: compressThumbnail,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }
 
@@ -172,8 +193,8 @@ class WeChatShareMusicModel extends WeChatShareModel {
   WeChatShareMusicModel(
       {this.musicUrl,
       this.musicLowBandUrl,
-      this.title = "",
-      this.description = "",
+      super.title = "",
+      super.description = "",
       this.musicDataUrl,
       this.musicLowBandDataUrl,
       this.thumbnail,
@@ -182,7 +203,9 @@ class WeChatShareMusicModel extends WeChatShareModel {
       this.messageExt,
       this.scene = WeChatScene.session,
       this.compressThumbnail = true,
-      this.msgSignature})
+      super.msgSignature,
+      super.thumbData,
+      super.thumbDataHash})
       : assert(musicUrl != null || musicLowBandUrl != null);
 
   final String? musicUrl;
@@ -190,14 +213,11 @@ class WeChatShareMusicModel extends WeChatShareModel {
   final String? musicLowBandUrl;
   final String? musicLowBandDataUrl;
   final WeChatImage? thumbnail;
-  final String? title;
-  final String? description;
   final WeChatScene scene;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -212,39 +232,40 @@ class WeChatShareMusicModel extends WeChatShareModel {
         _messageAction: messageAction,
         _mediaTagName: mediaTagName,
         _compressThumbnail: compressThumbnail,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }
 
 /// if [videoUrl] and [videoLowBandUrl] are both provided,
 /// only [videoUrl] will be used.
 class WeChatShareVideoModel extends WeChatShareModel {
-  WeChatShareVideoModel(
-      {this.scene = WeChatScene.session,
-      this.videoUrl,
-      this.videoLowBandUrl,
-      this.title = "",
-      this.description = "",
-      this.thumbnail,
-      this.mediaTagName,
-      this.messageAction,
-      this.messageExt,
-      this.compressThumbnail = true,
-      this.msgSignature})
-      : assert(videoUrl != null || videoLowBandUrl != null),
+  WeChatShareVideoModel({
+    this.scene = WeChatScene.session,
+    this.videoUrl,
+    this.videoLowBandUrl,
+    super.title = "",
+    super.description = "",
+    this.thumbnail,
+    this.mediaTagName,
+    this.messageAction,
+    this.messageExt,
+    this.compressThumbnail = true,
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
+  })  : assert(videoUrl != null || videoLowBandUrl != null),
         assert(thumbnail != null);
 
   final String? videoUrl;
   final String? videoLowBandUrl;
   final WeChatImage? thumbnail;
-  final String? title;
-  final String? description;
   final WeChatScene scene;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -257,7 +278,9 @@ class WeChatShareVideoModel extends WeChatShareModel {
         _messageAction: messageAction,
         _mediaTagName: mediaTagName,
         _compressThumbnail: compressThumbnail,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }
 
@@ -266,28 +289,26 @@ class WeChatShareVideoModel extends WeChatShareModel {
 class WeChatShareWebPageModel extends WeChatShareModel {
   WeChatShareWebPageModel(
     this.webPage, {
-    this.title = "",
-    String? description,
+    super.title = "",
+    super.description,
     this.thumbnail,
     this.scene = WeChatScene.session,
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
-    this.msgSignature,
     this.compressThumbnail = true,
-  })  : assert(webPage.isNotEmpty),
-        description = description ?? webPage;
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
+  }) : assert(webPage.isNotEmpty);
 
   final String webPage;
   final WeChatImage? thumbnail;
-  final String title;
-  final String description;
   final WeChatScene scene;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -299,7 +320,9 @@ class WeChatShareWebPageModel extends WeChatShareModel {
         _mediaTagName: mediaTagName,
         _description: description,
         _compressThumbnail: compressThumbnail,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }
 
@@ -309,27 +332,26 @@ class WeChatShareWebPageModel extends WeChatShareModel {
 class WeChatShareFileModel extends WeChatShareModel {
   WeChatShareFileModel(
     this.source, {
-    this.title = "",
-    this.description = "",
+    super.title = "",
+    super.description = "",
     this.thumbnail,
     this.scene = WeChatScene.session,
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
-    this.msgSignature,
     this.compressThumbnail = true,
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
   });
 
   final WeChatFile source;
   final WeChatImage? thumbnail;
-  final String title;
-  final String description;
   final WeChatScene scene;
   final String? messageExt;
   final String? messageAction;
   final String? mediaTagName;
   final bool compressThumbnail;
-  final String? msgSignature;
 
   @override
   Map<String, dynamic> get arguments => {
@@ -341,6 +363,8 @@ class WeChatShareFileModel extends WeChatShareModel {
         _messageAction: messageAction,
         _mediaTagName: mediaTagName,
         _compressThumbnail: compressThumbnail,
-        _msgSignature: msgSignature
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
       };
 }

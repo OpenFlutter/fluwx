@@ -1,3 +1,8 @@
+# 5.0.0
+* 使用了多端统一API，详情请点击[这里](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Share_and_Favorites/Android.html)
+* 分享时所有的缩略图请使用`thumbData`字段
+* Fluwx不会再对任何图片进行压缩处理
+
 # 4.6.0
 * Android SDK => 6.8.30
 * 分享新增基础字段:thumbData

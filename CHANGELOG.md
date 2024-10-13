@@ -1,3 +1,8 @@
+# 4.6.0
+* Android SDK => 6.8.30
+* 分享新增基础字段:thumbData
+* 分享新增基础字段:thumbDataHash
+
 # 4.5.6
 * Merge #639
 

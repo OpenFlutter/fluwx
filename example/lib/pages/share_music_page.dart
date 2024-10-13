@@ -129,7 +129,6 @@ class _ShareMusicPageState extends State<ShareMusicPage> {
       musicUrl: _musicUrl,
       scene: scene,
       musicLowBandUrl: _musicLowBandUrl,
-      thumbnail: WeChatImage.network(_thumnail),
     );
 
     _fluwx.share(model);

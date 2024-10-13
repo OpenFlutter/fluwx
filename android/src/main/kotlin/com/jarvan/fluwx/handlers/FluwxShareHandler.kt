@@ -1,12 +1,9 @@
 package com.jarvan.fluwx.handlers
 
-import android.Manifest
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.res.AssetFileDescriptor
 import android.net.Uri
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.jarvan.fluwx.io.*
 import com.tencent.mm.opensdk.modelbase.BaseReq
@@ -93,8 +90,6 @@ internal interface FluwxShareHandler : CoroutineScope {
         msg.description = call.argument(keyDescription)               // 小程序消息desc
 
         launch {
-            msg.thumbData = readThumbnailByteArray(call, length = SHARE_MINI_PROGRAM_THUMB_LENGTH)
-
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
@@ -105,27 +100,24 @@ internal interface FluwxShareHandler : CoroutineScope {
     private fun shareImage(call: MethodCall, result: MethodChannel.Result) {
         launch {
             val map: Map<String, Any> = call.argument("source") ?: mapOf()
-            val sourceImage = WeChatFile.createWeChatFile(map, assetFileDescriptor)
-            val thumbData = readThumbnailByteArray(call)
 
-            val sourceByteArray = sourceImage.readByteArray()
-            val imageObject = when {
-                sourceByteArray.isEmpty() -> {
-                    WXImageObject()
+            val imgHash = call.argument<String?>("imgDataHash")
+            val uint8List = map["uint8List"] as? ByteArray
+            val imageObject = uint8List?.let {
+                WXImageObject().apply {
+                    imageData = it
+                    imgDataHash = imgHash
                 }
-                else -> {
-                    WXImageObject().apply {
-                        if (supportFileProvider && targetHigherThanN) {
-                            setImagePath(getFileContentUri(sourceByteArray.toCacheFile(context, sourceImage.suffix)))
-                        } else {
-                            setImagePath(sourceByteArray.toExternalCacheFile(context, sourceImage.suffix)?.absolutePath)
-                        }
-                    }
+            }?:run {
+                WXImageObject().apply {
+                    imagePath = call.argument<String?>("localImagePath")
+                    imgDataHash = imgHash
                 }
             }
+
+
             val msg = WXMediaMessage()
             msg.mediaObject = imageObject
-            msg.thumbData = thumbData
 
             msg.description = call.argument(keyDescription)
 
@@ -154,8 +146,6 @@ internal interface FluwxShareHandler : CoroutineScope {
         msg.description = call.argument(keyDescription)
 
         launch {
-            msg.thumbData = readThumbnailByteArray(call)
-
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
@@ -177,7 +167,6 @@ internal interface FluwxShareHandler : CoroutineScope {
         msg.description = call.argument(keyDescription)
 
         launch {
-            msg.thumbData = readThumbnailByteArray(call)
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
@@ -195,7 +184,6 @@ internal interface FluwxShareHandler : CoroutineScope {
         msg.description = call.argument(keyDescription)
 
         launch {
-            msg.thumbData = readThumbnailByteArray(call)
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
@@ -227,7 +215,6 @@ internal interface FluwxShareHandler : CoroutineScope {
                 }
             }
 
-            msg.thumbData = readThumbnailByteArray(call)
             val req = SendMessageToWX.Req()
             setCommonArguments(call, req, msg)
             req.message = msg
@@ -237,20 +224,6 @@ internal interface FluwxShareHandler : CoroutineScope {
 
     private suspend fun sendRequestInMain(result: MethodChannel.Result, request: BaseReq) = withContext(Dispatchers.Main) {
         result.success(WXAPiHandler.wxApi?.sendReq(request))
-    }
-
-    private suspend fun readThumbnailByteArray(call: MethodCall, length: Int = SHARE_IMAGE_THUMB_LENGTH): ByteArray? {
-        val thumbnailMap: Map<String, Any>? = call.argument(keyThumbnail)
-        val compress:Boolean = call.argument("compressThumbnail")?:true
-        return thumbnailMap?.run {
-            val thumbnailImage = WeChatFile.createWeChatFile(thumbnailMap, assetFileDescriptor)
-            val thumbnailImageIO = ImagesIOIml(thumbnailImage)
-            if(compress){
-                compressThumbnail(thumbnailImageIO, length)
-            }else{
-                thumbnailImageIO.readByteArray()
-            }
-        }
     }
 
     private suspend fun compressThumbnail(ioIml: ImagesIO, length: Int) = ioIml.compressedByteArray(context, length)

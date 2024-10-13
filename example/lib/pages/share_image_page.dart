@@ -12,8 +12,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
   WeChatScene scene = WeChatScene.session;
   String _response = '';
 
-  WeChatImage? source;
-  WeChatImage? thumbnail;
   Fluwx fluwx = Fluwx();
 
   @override
@@ -57,7 +55,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
                     '&src=http%3A%2F%2Fimg.mp.sohu.com%2Fupload%2F20170516%2F51296b2673704ae2992d0a28c244274c_th.png',
               ),
               onChanged: (value) {
-                source = WeChatImage.network(value);
               },
               keyboardType: TextInputType.multiline,
             ),
@@ -65,7 +62,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
               decoration: InputDecoration(labelText: '缩略地址'),
               controller: TextEditingController(text: '//images/logo.png'),
               onChanged: (value) {
-                thumbnail = WeChatImage.asset(value);
               },
             ),
             Row(
@@ -117,7 +113,6 @@ class _ShareImagePageState extends State<ShareImagePage> {
   }
 
   void _shareImage() {
-    fluwx.share(WeChatShareImageModel(source!, thumbnail: thumbnail));
   }
 
   void handleRadioValueChanged(WeChatScene scene) {

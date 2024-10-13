@@ -97,7 +97,6 @@ class _ShareMiniProgramPageState extends State<ShareMiniProgramPage> {
       title: _title,
       path: _path,
       description: _description,
-      thumbnail: WeChatImage.network(_thumbnail),
     );
     fluwx.share(model);
   }

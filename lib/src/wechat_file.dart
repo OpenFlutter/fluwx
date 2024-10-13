@@ -22,28 +22,6 @@ import 'dart:typed_data';
 const String defaultSuffixJpeg = '.jpeg';
 const String defaultSuffixTxt = '.txt';
 
-class WeChatImage extends WeChatFile {
-  WeChatImage.network(
-    String source, {
-    String suffix = defaultSuffixJpeg,
-  }) : super.network(source, suffix: suffix);
-
-  WeChatImage.asset(
-    String source, {
-    String suffix = defaultSuffixJpeg,
-  }) : super.asset(source, suffix: suffix);
-
-  WeChatImage.file(
-    File source, {
-    String suffix = defaultSuffixJpeg,
-  }) : super.file(source, suffix: suffix);
-
-  WeChatImage.binary(
-    Uint8List source, {
-    String suffix = defaultSuffixJpeg,
-  }) : super.binary(source, suffix: suffix);
-}
-
 class WeChatFile {
   /// [source] must begin with http or https
   WeChatFile.network(

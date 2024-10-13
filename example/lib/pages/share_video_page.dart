@@ -125,7 +125,6 @@ class _ShareVideoPageState extends State<ShareVideoPage> {
     var model = WeChatShareVideoModel(
       videoUrl: _videoUrl,
       videoLowBandUrl: _videoLowBandUrl,
-      thumbnail: WeChatImage.network(_thumnail),
       description: _description,
       scene: scene,
       title: _title,

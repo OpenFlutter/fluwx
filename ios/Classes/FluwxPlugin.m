@@ -525,20 +525,18 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     dispatch_async(globalQueue, ^{
 
         NSDictionary *sourceImage = call.arguments[keySource];
-        NSData *sourceImageData = [self getNsDataFromWeChatFile:sourceImage];
 
-        UIImage *thumbnailImage = [self getCommonThumbnail:call];
-        UIImage *realThumbnailImage;
-        if (thumbnailImage == nil) {
-            NSString *suffix = sourceImage[@"suffix"];
-            BOOL isPNG = [self isPNG:suffix];
-            BOOL compress = [call.arguments[fluwxKeyCompressThumbnail] boolValue];
-
-            realThumbnailImage = [self getThumbnailFromNSData:sourceImageData size:defaultThumbnailSize isPNG:isPNG compress:compress];
-        } else {
-            realThumbnailImage = thumbnailImage;
+        FlutterStandardTypedData *flutterImageData = sourceImage[@"uint8List"];
+        NSData *imageData = nil;
+        
+      
+        if (flutterImageData != nil){
+            imageData = flutterImageData.data;
         }
+    
 
+        NSString * imageDataHash = sourceImage[@"imgDataHash"];
+       
         dispatch_async(dispatch_get_main_queue(), ^{
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
@@ -547,12 +545,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 thumbData = flutterThumbData.data;
             }
         
+            
             NSNumber *scene = call.arguments[fluwxKeyScene];
-            [self sendImageData:sourceImageData
+            [self sendImageData:imageData
+                     ImgDataHash:imageDataHash
                                        TagName:call.arguments[fluwxKeyMediaTagName]
                                     MessageExt:call.arguments[fluwxKeyMessageExt]
                                         Action:call.arguments[fluwxKeyMessageAction]
-                                    ThumbImage:realThumbnailImage
                                        InScene:[self intToWeChatScene:scene]
                                          title:call.arguments[fluwxKeyTitle]
                                    description:call.arguments[fluwxKeyDescription]
@@ -723,23 +722,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
 
-        UIImage *thumbnailImage = [self getCommonThumbnail:call];
-
-        NSData *hdImageData = nil;
-
-        NSDictionary *hdImagePath = call.arguments[@"hdImagePath"];
-        if (hdImagePath != (id) [NSNull null]) {
-            NSData *imageData = [self getNsDataFromWeChatFile:hdImagePath];
-            BOOL compress = [call.arguments[fluwxKeyCompressThumbnail] boolValue];
-
-            hdImageData = [self getThumbnailDataFromNSData:imageData size:120 * 1024 compress:compress];
-//            UIImage *uiImage = [self getThumbnailFromNSData:imageData size:120 * 1024 isPNG:isPNG compress:compress];
-//            if (isPNG) {
-//                hdImageData = UIImagePNGRepresentation(uiImage);
-//            } else {
-//                hdImageData = UIImageJPEGRepresentation(uiImage, 1);
-//            }
-        }
 
         dispatch_async(dispatch_get_main_queue(), ^{
 
@@ -765,8 +747,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                       path:call.arguments[@"path"]
                                                      title:call.arguments[fluwxKeyTitle]
                                                Description:call.arguments[fluwxKeyDescription]
-                                                ThumbImage:thumbnailImage
-                                               hdImageData:hdImageData
                                            withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
                                            miniProgramType:miniProgramType
                                                 MessageExt:call.arguments[fluwxKeyMessageExt]
@@ -1189,10 +1169,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)sendImageData:(NSData *)imageData
+          ImgDataHash:(NSString *) imgDataHash
               TagName:(NSString *)tagName
            MessageExt:(NSString *)messageExt
                Action:(NSString *)action
-           ThumbImage:(UIImage *)thumbImage
               InScene:(enum WXScene)scene
                 title:(NSString *)title
           description:(NSString *)description
@@ -1202,13 +1182,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
            completion:(void (^ __nullable)(BOOL success))completion {
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
+    ext.imgDataHash = (imgDataHash == (id) [NSNull null]) ? nil : imgDataHash;
 
     WXMediaMessage *message = [self messageWithTitle:(title == (id) [NSNull null]) ? nil : title
                                                    Description:(description == (id) [NSNull null]) ? nil : description
                                                         Object:ext
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(action == (id) [NSNull null]) ? nil : action
-                                                    ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
@@ -1244,7 +1224,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                         Object:ext
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
-                                                    ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
@@ -1289,7 +1268,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                         Object:ext
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
-                                                    ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
@@ -1405,8 +1383,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                              path:(NSString *)path
                             title:(NSString *)title
                       Description:(NSString *)description
-                       ThumbImage:(UIImage *)thumbImage
-                      hdImageData:(NSData *)hdImageData
                   withShareTicket:(BOOL)withShareTicket
                   miniProgramType:(WXMiniProgramType)programType
                        MessageExt:(NSString *)messageExt
@@ -1421,7 +1397,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
     ext.userName = (userName == (id) [NSNull null]) ? nil : userName;
     ext.path = (path == (id) [NSNull null]) ? nil : path;
-    ext.hdImageData = (hdImageData == (id) [NSNull null]) ? nil : hdImageData;
+
     ext.withShareTicket = withShareTicket;
 
     ext.miniProgramType = programType;
@@ -1431,7 +1407,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                         Object:ext
                                                     MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
                                                  MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
-                                                    ThumbImage:thumbImage
                                                       MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
@@ -1470,7 +1445,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                         Object:ext
                                                     MessageExt:messageExt
                                                  MessageAction:action
-                                                    ThumbImage:thumbImage
                                                       MediaTag:nil
                                                   MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
@@ -1660,7 +1634,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                               Object:(id)mediaObject
                           MessageExt:(NSString *)messageExt
                        MessageAction:(NSString *)action
-                          ThumbImage:(UIImage *)thumbImage
                             MediaTag:(NSString *)tagName
                         MsgSignature:(NSString *)msgSignature
                            ThumbData:(NSData *)thumbData
@@ -1678,7 +1651,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     if(msgSignature != nil ){
         message.msgSignature = msgSignature;
     }
-    [message setThumbImage:thumbImage];
     return message;
 }
 

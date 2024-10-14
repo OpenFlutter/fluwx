@@ -1,3 +1,6 @@
+# 5.0.1
+* Fix #642
+
 # 5.0.0
 * 使用了多端统一API，详情请点击[这里](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Share_and_Favorites/Android.html)
 * 分享时所有的缩略图请使用`thumbData`字段

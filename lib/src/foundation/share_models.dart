@@ -338,10 +338,15 @@ class WeChatImageToShare with _Argument {
   /// [uint8List] is available on both  iOS and Android
   /// [localImagePath] only available on  Android, if [uint8List] is null, [localImagePath] must not be null;
   /// if [uint8List] and [localImagePath] are both provided on android, [uint8List] will be used.
-  WeChatImageToShare(this.uint8List, this.localImagePath, this.imgDataHash)
-      : assert(Platform.isIOS && uint8List != null),
-        assert(Platform.isAndroid &&
-            (uint8List != null || localImagePath != null));
+  WeChatImageToShare(this.uint8List, this.localImagePath, this.imgDataHash) {
+    if (Platform.isIOS) {
+      assert(uint8List != null);
+    }
+
+    if (Platform.isAndroid) {
+      assert(uint8List != null && localImagePath != null);
+    }
+  }
 
   @override
   Map<String, dynamic> get arguments => {

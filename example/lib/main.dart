@@ -71,6 +71,7 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(title: const Text('Fluwx sample')),
         body: ShareSelectorPage(),
       ),
+      theme: ThemeData.light(useMaterial3: true),
     );
   }
 }

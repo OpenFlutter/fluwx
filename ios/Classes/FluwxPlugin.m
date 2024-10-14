@@ -538,13 +538,16 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         NSString * imageDataHash = sourceImage[@"imgDataHash"];
        
         dispatch_async(dispatch_get_main_queue(), ^{
+
+            
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
           
-            if (flutterThumbData != nil){
+            
+            if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
-        
+            
             
             NSNumber *scene = call.arguments[fluwxKeyScene];
             [self sendImageData:imageData
@@ -582,7 +585,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
           
-            if (flutterThumbData != nil){
+            
+            if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
         
@@ -612,13 +616,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         UIImage *thumbnailImage = [self getCommonThumbnail:call];
 
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
           
-            if (flutterThumbData != nil){
+            
+            if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
-        
             NSNumber *scene = call.arguments[fluwxKeyScene];
             [self sendMusicURL:call.arguments[@"musicUrl"]
                                       dataURL:call.arguments[@"musicDataUrl"]
@@ -651,10 +656,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         dispatch_async(dispatch_get_main_queue(), ^{
 
             NSNumber *scene = call.arguments[fluwxKeyScene];
+            
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
           
-            if (flutterThumbData != nil){
+            
+            if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
             
@@ -698,10 +705,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
           
-            if (flutterThumbData != nil){
+            
+            if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
-            
             [self sendFileData:data
                                 fileExtension:fileExtension
                                         Title:call.arguments[fluwxKeyTitle]
@@ -725,10 +732,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
         dispatch_async(dispatch_get_main_queue(), ^{
 
+            
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
           
-            if (flutterThumbData != nil){
+            
+            if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
             

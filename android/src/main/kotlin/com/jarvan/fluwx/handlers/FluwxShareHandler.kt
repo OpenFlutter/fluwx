@@ -110,7 +110,7 @@ internal interface FluwxShareHandler : CoroutineScope {
                 }
             }?:run {
                 WXImageObject().apply {
-                    imagePath = call.argument<String?>("localImagePath")
+                    imagePath = map["localImagePath"] as？String
                     imgDataHash = imgHash
                 }
             }

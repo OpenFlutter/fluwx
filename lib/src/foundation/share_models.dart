@@ -344,7 +344,7 @@ class WeChatImageToShare with _Argument {
     }
 
     if (Platform.isAndroid) {
-      assert(uint8List != null && localImagePath != null);
+      assert(uint8List == null && localImagePath == null);
     }
   }
 

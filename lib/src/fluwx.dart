@@ -113,24 +113,12 @@ class Fluwx {
     return FluwxPlatform.instance.selfCheck();
   }
 
-  /// Subscribe responses from WeChat
-  @Deprecated("use [addSubscriber] instead")
-  FluwxCancelable subscribeResponse(WeChatResponseSubscriber listener) {
-    return addSubscriber(listener);
-  }
-
   /// Add a subscriber to subscribe responses from WeChat
   FluwxCancelable addSubscriber(WeChatResponseSubscriber listener) {
     _responseListeners.add(listener);
     return FluwxCancelableImpl(onCancel: () {
       removeSubscriber(listener);
     });
-  }
-
-  /// Unsubscribe responses from WeChat
-  @Deprecated("use [removeSubscriber] instead")
-  void unsubscribeResponse(WeChatResponseSubscriber listener) {
-    removeSubscriber(listener);
   }
 
   /// remove your subscriber from WeChat

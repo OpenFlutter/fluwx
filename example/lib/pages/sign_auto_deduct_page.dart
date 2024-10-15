@@ -29,7 +29,7 @@ class _SignAutoDeductPageState extends State<SignAutoDeductPage> {
   @override
   void initState() {
     super.initState();
-    fluwx.subscribeResponse((resp) {
+    fluwx.addSubscriber((resp) {
       print('resp = ${resp.isSuccessful}');
     });
   }

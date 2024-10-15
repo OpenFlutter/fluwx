@@ -15,7 +15,7 @@ class _SendAuthPageState extends State<SendAuthPage> {
   @override
   void initState() {
     super.initState();
-    fluwx.subscribeResponse((response) {
+    fluwx.addSubscriber((response) {
       if (response is WeChatAuthResponse) {
         setState(() {
           _result = 'state :${response.state} \n code:${response.code}';

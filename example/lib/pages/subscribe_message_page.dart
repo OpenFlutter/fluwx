@@ -21,7 +21,7 @@ class _SubscribeMessagePageState extends State<SubscribeMessagePage> {
   @override
   void initState() {
     super.initState();
-    fluwx.subscribeResponse((resp) {
+    fluwx.addSubscriber((resp) {
       debugPrint('resp = $resp');
     });
   }

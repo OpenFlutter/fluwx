@@ -1,3 +1,6 @@
+# 5.0.2
+* 删除subscribeResponse, unsubscribeResponse
+
 # 5.0.1
 * Fix #642
 

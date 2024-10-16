@@ -1,6 +1,6 @@
 # 5.0.3
 * 优化localImagePath处理，减轻非Android开发者的上手难度：localImagePath是以content://开头，则默认你已经挂载了相关路径的权限，
-否则请务必保证，可以直接读取到该文件，以方便fluwx将文件拷贝到指定可用目录。
+否则请务必保证该路径是文件实际保存路径，即Android层可以直接读取到该文件，以方便fluwx将文件拷贝到指定可用目录。
 
 # 5.0.2
 * 删除subscribeResponse, unsubscribeResponse

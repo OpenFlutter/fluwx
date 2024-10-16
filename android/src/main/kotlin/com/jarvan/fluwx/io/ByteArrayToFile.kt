@@ -15,7 +15,7 @@ import java.util.*
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
 
-private const val cachePathName = "fluwxSharedData"
+internal const val cachePathName = "fluwxSharedData"
 
 internal suspend fun ByteArray.toExternalCacheFile(context: Context, suffix: String): File? {
     var file: File? = null
@@ -67,4 +67,17 @@ private suspend fun saveToLocal(byteArray: ByteArray, file: File): File? {
 
         file
     }
+}
+
+@Throws(IOException::class)
+internal fun copyFile(sourceFilePath: String, destinationDirPath: String):File {
+    val sourceFile = File(sourceFilePath)
+    val destinationDir = File(destinationDirPath)
+
+    if (!destinationDir.exists()) {
+        destinationDir.mkdirs()
+    }
+
+    val destinationFile = File(destinationDir, sourceFile.name)
+   return sourceFile.copyTo(destinationFile, overwrite = true)
 }

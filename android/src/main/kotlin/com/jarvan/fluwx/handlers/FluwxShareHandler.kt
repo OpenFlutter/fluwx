@@ -13,6 +13,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.*
 import java.io.File
+import java.io.IOException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
 
@@ -22,7 +23,10 @@ import kotlin.coroutines.CoroutineContext
  * 冷风如刀，以大地为砧板，视众生为鱼肉。
  * 万里飞雪，将穹苍作烘炉，熔万物为白银。
  **/
-internal class FluwxShareHandlerEmbedding(private val flutterAssets: FlutterPlugin.FlutterAssets, override val context: Context) : FluwxShareHandler {
+internal class FluwxShareHandlerEmbedding(
+    private val flutterAssets: FlutterPlugin.FlutterAssets,
+    override val context: Context
+) : FluwxShareHandler {
     override val assetFileDescriptor: (String) -> AssetFileDescriptor = {
         val uri = Uri.parse(it)
         val packageName = uri.getQueryParameter("package")
@@ -108,9 +112,36 @@ internal interface FluwxShareHandler : CoroutineScope {
                     imageData = it
                     imgDataHash = imgHash
                 }
-            }?:run {
+            } ?: run {
                 WXImageObject().apply {
-                    imagePath = map["localImagePath"] as? String
+                    val localImagePath = map["localImagePath"] as? String
+                    localImagePath?.also {
+                        if (supportFileProvider && targetHigherThanN) {
+                            if (localImagePath.startsWith("content://")) {
+                                imagePath = localImagePath
+                            } else {
+                                val tempFile = File(localImagePath)
+                                val ecd = context.externalCacheDir ?: return@also
+                                val desPath =
+                                    ecd.absolutePath + File.separator + cachePathName
+                                if (tempFile.exists()) {
+                                    val target = if (isFileInDirectory(
+                                            file = tempFile,
+                                            directory = File(desPath)
+                                        )
+                                    ) {
+                                        tempFile
+                                    } else {
+                                        withContext(Dispatchers.IO) {
+                                            copyFile(tempFile.absolutePath, desPath)
+                                        }
+                                    }
+
+                                    imagePath = getFileContentUri(target)
+                                }
+                            }
+                        }
+                    }
                     imgDataHash = imgHash
                 }
             }
@@ -209,9 +240,19 @@ internal interface FluwxShareHandler : CoroutineScope {
 
             wxFileObject.apply {
                 if (supportFileProvider && targetHigherThanN) {
-                    setFilePath(getFileContentUri(sourceByteArray.toCacheFile(context, sourceFile.suffix)))
+                    setFilePath(
+                        getFileContentUri(
+                            sourceByteArray.toCacheFile(
+                                context,
+                                sourceFile.suffix
+                            )
+                        )
+                    )
                 } else {
-                    filePath = sourceByteArray.toExternalCacheFile(context, sourceFile.suffix)?.absolutePath
+                    filePath = sourceByteArray.toExternalCacheFile(
+                        context,
+                        sourceFile.suffix
+                    )?.absolutePath
                 }
             }
 
@@ -222,14 +263,20 @@ internal interface FluwxShareHandler : CoroutineScope {
         }
     }
 
-    private suspend fun sendRequestInMain(result: MethodChannel.Result, request: BaseReq) = withContext(Dispatchers.Main) {
-        result.success(WXAPiHandler.wxApi?.sendReq(request))
-    }
+    private suspend fun sendRequestInMain(result: MethodChannel.Result, request: BaseReq) =
+        withContext(Dispatchers.Main) {
+            result.success(WXAPiHandler.wxApi?.sendReq(request))
+        }
 
-    private suspend fun compressThumbnail(ioIml: ImagesIO, length: Int) = ioIml.compressedByteArray(context, length)
+    private suspend fun compressThumbnail(ioIml: ImagesIO, length: Int) =
+        ioIml.compressedByteArray(context, length)
 
     //    SESSION, TIMELINE, FAVORITE
-    private fun setCommonArguments(call: MethodCall, req: SendMessageToWX.Req, msg: WXMediaMessage) {
+    private fun setCommonArguments(
+        call: MethodCall,
+        req: SendMessageToWX.Req,
+        msg: WXMediaMessage
+    ) {
         msg.messageAction = call.argument("messageAction")
         call.argument<String?>("msgSignature")?.let {
             msg.msgSignature = it
@@ -260,19 +307,24 @@ internal interface FluwxShareHandler : CoroutineScope {
         if (file == null || !file.exists())
             return null
 
-        val contentUri = FileProvider.getUriForFile(context,
-                "${context.packageName}.fluwxprovider",  // 要与`AndroidManifest.xml`里配置的`authorities`一致，假设你的应用包名为com.example.app
-                file)
+        val contentUri = FileProvider.getUriForFile(
+            context,
+            "${context.packageName}.fluwxprovider",  // 要与`AndroidManifest.xml`里配置的`authorities`一致，假设你的应用包名为com.example.app
+            file
+        )
 
         // 授权给微信访问路径
-        context.grantUriPermission("com.tencent.mm",  // 这里填微信包名
-                contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        context.grantUriPermission(
+            "com.tencent.mm",  // 这里填微信包名
+            contentUri, Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
 
         return contentUri.toString() // contentUri.toString() 即是以"content://"开头的用于共享的路径
 
     }
 
-    private val supportFileProvider: Boolean get() = (WXAPiHandler.wxApi?.wxAppSupportAPI ?: 0) >= 0x27000D00
+    private val supportFileProvider: Boolean
+        get() = (WXAPiHandler.wxApi?.wxAppSupportAPI ?: 0) >= 0x27000D00
     private val targetHigherThanN: Boolean get() = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N
 
     val context: Context
@@ -287,3 +339,12 @@ internal interface FluwxShareHandler : CoroutineScope {
     fun onDestroy() = job.cancel()
 }
 
+private fun isFileInDirectory(file: File, directory: File): Boolean {
+    return try {
+        val filePath = file.canonicalPath
+        val dirPath = directory.canonicalPath
+        filePath.startsWith(dirPath)
+    } catch (e: IOException) {
+        false
+    }
+}

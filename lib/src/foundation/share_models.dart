@@ -338,6 +338,9 @@ class WeChatImageToShare with _Argument {
   /// [uint8List] is available on both  iOS and Android
   /// [localImagePath] only available on  Android, if [uint8List] is null, [localImagePath] must not be null;
   /// if [uint8List] and [localImagePath] are both provided on android, [uint8List] will be used.
+  /// If [localImagePath] starts with content://, it will be treated as a content provider uri and please ensure
+  /// you have already granted the app the permission to read the content. Otherwise, please ensure the file is
+  /// accessible by the app.
   WeChatImageToShare({this.uint8List, this.localImagePath, this.imgDataHash}) {
     if (Platform.isIOS) {
       assert(uint8List != null);

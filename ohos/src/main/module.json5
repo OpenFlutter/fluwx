@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "fluwx",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}

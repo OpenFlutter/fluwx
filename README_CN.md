@@ -1,14 +1,21 @@
 # Fluwx
-![pub package](https://img.shields.io/pub/v/fluwx.svg)
+
+[![pub package](https://img.shields.io/pub/v/fluwx.svg)](https://pub.dartlang.org/packages/fluwx)
 ![Build status](https://github.com/OpenFlutter/fluwx/actions/workflows/build_test.yml/badge.svg)
-======
+[![GitHub stars](https://img.shields.io/github/stars/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/network)
+[![GitHub license](https://img.shields.io/github/license/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/issues)
+<a target="_blank" href="https://qm.qq.com/q/TJ29rkzywM"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="OpenFlutter" title="OpenFlutter"></a>
+
+---
 
 ![logo](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/fluwx_logo.png)
 
 ## 什么是Fluwx
-`Fluwx` 是一个[微信SDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html)插件，它允许开发者调用
-[微信原生SDK ](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html).
 
+`Fluwx` 是一个[微信SDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html)插件，它允许开发者调用
+[微信原生SDK](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html).
 
 > 加入我们的QQ群: 1003811176
 
@@ -30,10 +37,8 @@
 
 > 破坏性更新 ：从4.5.0起，当分享图片到微信时，如果不支持FileProvider方式分享，Fluwx不再尝试申请WRITE_EXTERNAL_STORAGE权限，这意味着你需要自己处理权限问题。
 
-
 `Fluwx` 可以做很多工作但不是所有. 在集成之前，最好读一下[官方文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Resource_Center_Homepage.html).  
  然后你才知道怎么生成签名，怎么使用universal link以及怎么添加URL schema等.
-
 
 ## 安装
 
@@ -45,6 +50,7 @@
 dependencies:
   fluwx: ^${latestVersion}
 ```
+
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
 不带支付的`Fluwx`:
@@ -67,8 +73,9 @@ dependencies:
 - universal_link. iOS 推荐. 它将用自动配置universal_link。
 - scene_delegate. iOS 可选. 使用 `AppDelegate` 还是使用 `SceneDelegate`. 查阅[官方文档](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html)了解更多.
 
-* For iOS
+- For iOS
 如果你在iOS上遇到了 `cannot load such file -- plist`, 请按照以下步骤进行操作：
+
 ```shell
 # step.1 安装必要依赖
 sudo gem install plist
@@ -76,6 +83,18 @@ sudo gem install plist
 cd example/ios/
 # step.3 执行脚本
 pod install
+```
+
+- 在 OpenHarmony 上，要检查微信是否已安装，请在项目的 module.json5 中添加以下内容
+
+```json5
+{
+  "module": {
+    "querySchemes": [
+      "weixin"
+    ],
+  }
+}
 ```
 
 ## 注册 WxAPI
@@ -109,11 +128,13 @@ fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.unive
 [这些问题可能对你有帮助](./doc/QA_CN.md)
 
 ## 捐助
+
 开源不易，请作者喝杯咖啡。
 
 <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/wx.jpeg" height="300">  <img src="https://gitee.com/OpenFlutter/resoures-repository/raw/master/common/ali.jpeg" height="300">
 
 ## 关注公众号
+
 ![subscribe](https://gitee.com/OpenFlutter/resoures-repository/raw/master/fluwx/wx_subscription.png)
 
 ## 关注趋势
@@ -138,8 +159,3 @@ fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.unive
     WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
     License for the specific language governing permissions and limitations under
     the License.
-
-
-
-
-

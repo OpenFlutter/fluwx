@@ -1,3 +1,7 @@
+# 5.2.0
+* 为iOS分享小程序增加hdImageData选项
+* 优化Android图片分享逻辑，优先把LocalImagePath以最大限度保证图片质量
+
 # 5.1.0
 * 试验性支持harmonyOS，目前受限于native sdk，只支持部分功能
 

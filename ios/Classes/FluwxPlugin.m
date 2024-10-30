@@ -734,12 +734,20 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
             
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+            FlutterStandardTypedData *hdImageDataPayload = call.arguments[@"hdImageData"];
+            
             NSData *thumbData = nil;
           
+            NSData *hdImageData = nil;
             
             if (![flutterThumbData isKindOfClass:[NSNull class]]){
                 thumbData = flutterThumbData.data;
             }
+            
+            if (![hdImageDataPayload isKindOfClass:[NSNull class]]){
+                hdImageData = hdImageDataPayload.data;
+            }
+        
             
             NSNumber *scene = call.arguments[fluwxKeyScene];
 
@@ -763,6 +771,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                                    TagName:call.arguments[fluwxKeyMediaTagName]
                                                    InScene:[self intToWeChatScene:scene]
                                               MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                                HdImageData:hdImageData
                                   ThumbData:thumbData
                               ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                                 completion:^(BOOL done) {
@@ -1399,6 +1408,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                           TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene
                      MsgSignature:(NSString *)msgSignature
+                      HdImageData:(NSData *)hdImageData
                         ThumbData:(NSData *)thumbData
                     ThumbDataHash:(NSString*)thumbDataHash
                        completion:(void (^ __nullable)(BOOL success))completion {
@@ -1406,8 +1416,10 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
     ext.userName = (userName == (id) [NSNull null]) ? nil : userName;
     ext.path = (path == (id) [NSNull null]) ? nil : path;
-
+    
     ext.withShareTicket = withShareTicket;
+    
+    ext.hdImageData = hdImageData;
 
     ext.miniProgramType = programType;
 

@@ -85,6 +85,7 @@ class WeChatShareTextModel extends WeChatShareModel {
       };
 }
 
+/// [hdImageData] only works on iOS, not sure the relationship
 /// the default value is [MINI_PROGRAM_TYPE_RELEASE]
 class WeChatShareMiniProgramModel extends WeChatShareModel {
   WeChatShareMiniProgramModel({
@@ -98,6 +99,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
     this.mediaTagName,
     this.messageAction,
     this.messageExt,
+    this.hdImageData,
     super.msgSignature,
     super.thumbData,
     super.thumbDataHash,
@@ -105,6 +107,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         assert(userName.isNotEmpty),
         assert(path.isNotEmpty);
 
+  final Uint8List? hdImageData;
   final String webPageUrl;
   final WXMiniProgramType miniProgramType;
   final String userName;
@@ -128,6 +131,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         _msgSignature: msgSignature,
         _thumbData: thumbData,
         _thumbDataHash: thumbDataHash,
+        "hdImageData": hdImageData,
       };
 }
 

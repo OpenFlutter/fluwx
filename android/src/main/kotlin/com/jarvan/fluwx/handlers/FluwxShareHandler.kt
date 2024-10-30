@@ -106,43 +106,46 @@ internal interface FluwxShareHandler : CoroutineScope {
             val map: Map<String, Any> = call.argument("source") ?: mapOf()
 
             val imgHash = call.argument<String?>("imgDataHash")
-            val uint8List = map["uint8List"] as? ByteArray
-            val imageObject = uint8List?.let {
+            val localImagePath = map["localImagePath"] as? String
+            val imageObject = localImagePath?.let {
                 WXImageObject().apply {
-                    imageData = it
+                    if (supportFileProvider && targetHigherThanN) {
+                        if (localImagePath.startsWith("content://")) {
+                            imagePath = localImagePath
+                        } else {
+                            val tempFile = File(localImagePath)
+                            val ecd = context.externalCacheDir ?: return@apply
+                            val desPath =
+                                ecd.absolutePath + File.separator + cachePathName
+                            if (tempFile.exists()) {
+                                val target = if (isFileInDirectory(
+                                        file = tempFile,
+                                        directory = File(desPath)
+                                    )
+                                ) {
+                                    tempFile
+                                } else {
+                                    withContext(Dispatchers.IO) {
+                                        copyFile(tempFile.absolutePath, desPath)
+                                    }
+                                }
+
+                                imagePath = getFileContentUri(target)
+                            }
+                        }
+                    } else {
+                        imagePath = localImagePath
+                    }
+
                     imgDataHash = imgHash
                 }
             } ?: run {
                 WXImageObject().apply {
-                    val localImagePath = map["localImagePath"] as? String
-                    localImagePath?.also {
-                        if (supportFileProvider && targetHigherThanN) {
-                            if (localImagePath.startsWith("content://")) {
-                                imagePath = localImagePath
-                            } else {
-                                val tempFile = File(localImagePath)
-                                val ecd = context.externalCacheDir ?: return@also
-                                val desPath =
-                                    ecd.absolutePath + File.separator + cachePathName
-                                if (tempFile.exists()) {
-                                    val target = if (isFileInDirectory(
-                                            file = tempFile,
-                                            directory = File(desPath)
-                                        )
-                                    ) {
-                                        tempFile
-                                    } else {
-                                        withContext(Dispatchers.IO) {
-                                            copyFile(tempFile.absolutePath, desPath)
-                                        }
-                                    }
-
-                                    imagePath = getFileContentUri(target)
-                                }
-                            }
-                        }
+                    val uint8List = map["uint8List"] as? ByteArray
+                    uint8List?.let {
+                        imageData = it
+                        imgDataHash = imgHash
                     }
-                    imgDataHash = imgHash
                 }
             }
 

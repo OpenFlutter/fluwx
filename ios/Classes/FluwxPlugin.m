@@ -4,6 +4,7 @@
 #import <fluwx/ThumbnailHelper.h>
 #import <fluwx/FluwxStringUtil.h>
 #import <fluwx/NSStringWrapper.h>
+#import <CommonCrypto/CommonDigest.h>
 #import <WXApi.h>
 #import <WXApiObject.h>
 #import <WechatAuthSDK.h>
@@ -542,8 +543,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         dispatch_async(dispatch_get_main_queue(), ^{
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
-          
-            if (flutterThumbData != nil){
+            if (flutterThumbData != nil && ![flutterThumbData isKindOfClass:[NSNull class]]) {
                 thumbData = flutterThumbData.data;
             }
         
@@ -582,8 +582,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
-          
-            if (flutterThumbData != nil){
+            if (flutterThumbData != nil && ![flutterThumbData isKindOfClass:[NSNull class]]) {
                 thumbData = flutterThumbData.data;
             }
         
@@ -615,8 +614,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         dispatch_async(dispatch_get_main_queue(), ^{
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
-          
-            if (flutterThumbData != nil){
+            if (flutterThumbData != nil && ![flutterThumbData isKindOfClass:[NSNull class]]) {
                 thumbData = flutterThumbData.data;
             }
         
@@ -650,12 +648,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         UIImage *thumbnailImage = [self getCommonThumbnail:call];
 
         dispatch_async(dispatch_get_main_queue(), ^{
-
             NSNumber *scene = call.arguments[fluwxKeyScene];
+            
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
-          
-            if (flutterThumbData != nil){
+            if (flutterThumbData != nil && ![flutterThumbData isKindOfClass:[NSNull class]]) {
                 thumbData = flutterThumbData.data;
             }
             
@@ -698,8 +695,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
-          
-            if (flutterThumbData != nil){
+            if (flutterThumbData != nil && ![flutterThumbData isKindOfClass:[NSNull class]]) {
                 thumbData = flutterThumbData.data;
             }
             
@@ -742,11 +738,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-
             FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
             NSData *thumbData = nil;
-          
-            if (flutterThumbData != nil){
+            if (flutterThumbData != nil && ![flutterThumbData isKindOfClass:[NSNull class]]) {
                 thumbData = flutterThumbData.data;
             }
             
@@ -1673,12 +1667,20 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     message.messageExt = messageExt;
     message.messageAction = action;
     message.mediaTagName = tagName;
-    message.thumbData = thumbData;
-    message.thumbDataHash = thumbDataHash;
+    if (thumbImage != nil) {
+        [message setThumbImage:thumbImage];
+        // FIXME: setThumbImage still exists. Use the below code when it's not.
+        //NSData *data = UIImageJPEGRepresentation(thumbImage, 1.0);
+        //NSString *hash = [self sha256HashForData:data];
+        //message.thumbData = data;
+        //message.thumbDataHash = hash;
+    } else {
+        message.thumbData = thumbData;
+        message.thumbDataHash = thumbDataHash;
+    }
     if(msgSignature != nil ){
         message.msgSignature = msgSignature;
     }
-    [message setThumbImage:thumbImage];
     return message;
 }
 
@@ -1706,4 +1708,16 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
     return nil;
 }
+
+- (NSString *)sha256HashForData:(NSData *)data {
+    uint8_t hash[CC_SHA256_DIGEST_LENGTH];
+    CC_SHA256(data.bytes, (CC_LONG)data.length, hash);
+
+    NSMutableString *hashString = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH * 2];
+    for (int i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [hashString appendFormat:@"%02x", hash[i]];
+    }
+    return [hashString copy];
+}
+
 @end

@@ -1,3 +1,6 @@
+# 4.6.1
+* 修复 iOS 使用 thumbnail 字段分享的问题
+
 # 4.6.0
 * Android SDK => 6.8.30
 * 分享新增基础字段:thumbData

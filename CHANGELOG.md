@@ -1,3 +1,6 @@
+# 5.2.1
+* Merge #658
+
 # 5.2.0
 * 为iOS分享小程序增加hdImageData选项
 * 优化Android图片分享逻辑，优先把LocalImagePath以最大限度保证图片质量

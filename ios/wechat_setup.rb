@@ -55,10 +55,14 @@ project.targets.each do |target|
     if target.name == "Runner"
         app_id = options_dict[:app_id]
         universal_link = options_dict[:universal_link]
-        applinks = ''
 
-        if (!app_id.nil? && !app_id.empty?)
-           applinks = "applinks:#{URI.parse(universal_link).host}"
+        applinks = ''
+        if (!app_id.nil? && !app_id.empty? && !universal_link.nil? && !universal_link.empty?)
+            begin
+                applinks = "applinks:#{URI.parse(universal_link).host}"
+            rescue URI::InvalidURIError
+                applinks = nil
+            end
         end
 
         sectionObject = {}

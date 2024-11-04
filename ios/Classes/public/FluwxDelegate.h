@@ -15,4 +15,5 @@
 + (instancetype)defaultManager;
 
 - (void)registerWxAPI:(NSString *)appId universalLink:(NSString *)universalLink;
+
 @end

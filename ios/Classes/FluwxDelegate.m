@@ -20,9 +20,8 @@
     return instance;
 }
 
-- (void) registerWxAPI:(NSString *)appId universalLink:(NSString *)universalLink {
+- (void)registerWxAPI:(NSString *)appId universalLink:(NSString *)universalLink {
     [WXApi registerApp:appId universalLink:universalLink];
 }
-
 
 @end

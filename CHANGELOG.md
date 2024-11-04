@@ -1,3 +1,6 @@
+# 4.6.2
+* 修复 iOS 进行 pod install 时的输出和数据操作
+
 # 4.6.1
 * 修复 iOS 使用 thumbnail 字段分享的问题
 

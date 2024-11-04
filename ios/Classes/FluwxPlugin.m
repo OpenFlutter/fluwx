@@ -43,7 +43,7 @@ NSUInteger defaultThumbnailSize = 32 * 1024;
 
 typedef void(^FluwxWXReqRunnable)(void);
 
-@implementation FluwxPlugin  {
+@implementation FluwxPlugin {
     FlutterMethodChannel *_channel;
     WechatAuthSDK *_qrauth;
     BOOL _isRunning;
@@ -134,7 +134,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [self openWeChatInvoice:call result:result];
     } else if ([@"selfCheck" isEqualToString:call.method]) {
 #ifndef __OPTIMIZE__
-        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult *result) {
             NSString *log = [NSString stringWithFormat:@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion];
             [self logToFlutterWithDetail:log];
         }];
@@ -187,7 +187,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSNumber* doOnIOS =call.arguments[@"iOS"];
+    NSNumber *doOnIOS = call.arguments[@"iOS"];
     
     if (![doOnIOS boolValue]) {
         result(@NO);
@@ -277,7 +277,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     NSString *sign = call.arguments[@"sign"];
     [FluwxDelegate defaultManager].extData = call.arguments[@"extData"];
     
-    NSString * appId = call.arguments[@"appId"];
+    NSString *appId = call.arguments[@"appId"];
     PayReq *req = [[PayReq alloc] init];
     req.openID = (appId == (id) [NSNull null]) ? nil : appId;
     req.partnerId = partnerId;
@@ -393,7 +393,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)handelGetExtMsgWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     result([FluwxDelegate defaultManager].extMsg);
-    [FluwxDelegate defaultManager].extMsg=nil;
+    [FluwxDelegate defaultManager].extMsg = nil;
 }
 
 
@@ -443,14 +443,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 #ifndef SCENE_DELEGATE
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler{
     // TODO: (if need) cache userActivity and handle it once WXApi is registered
     return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 #endif
 
 #ifdef SCENE_DELEGATE
-- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)) {
+- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity API_AVAILABLE(ios(13.0)) {
     // TODO: (if need) cache userActivity and handle it once WXApi is registered
     [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
@@ -532,7 +532,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         imageData = flutterImageData.data;
     }
     
-    NSString * imageDataHash = sourceImage[@"imgDataHash"];
+    NSString *imageDataHash = sourceImage[@"imgDataHash"];
     
     FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
     NSData *thumbData = nil;
@@ -1030,7 +1030,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:showMessageFromWXReq.country forKey:@"country"];
         
         // Cache extMsg for later use (by calling 'getExtMsg')
-        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
+        [FluwxDelegate defaultManager].extMsg = wmm.messageExt;
         
         if (_isRunning) {
             [_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
@@ -1053,7 +1053,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [result setValue:launchFromWXReq.country forKey:@"country"];
         
         // Cache extMsg for later use (by calling 'getExtMsg')
-        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
+        [FluwxDelegate defaultManager].extMsg = wmm.messageExt;
         
         if (_isRunning) {
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
@@ -1553,11 +1553,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (NSString*)fetchWeChatAppId {
-    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-    NSArray* types = infoDic[@"CFBundleURLTypes"];
-    for (NSDictionary* dic in types) {
-        if ([@"weixin" isEqualToString:dic[@"CFBundleURLName"]]) {
-            return dic[@"CFBundleURLSchemes"][0];
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSArray *types = infoDict[@"CFBundleURLTypes"];
+    for (NSDictionary *dict in types) {
+        if ([@"weixin" isEqualToString:dict[@"CFBundleURLName"]]) {
+            return dict[@"CFBundleURLSchemes"][0];
         }
     }
     return nil;

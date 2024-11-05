@@ -7,13 +7,13 @@ on:
 
 jobs:
   publish:
+    environment: 'pub.dev'
+    permissions:
+      id-token: write # Required for authentication using OIDC
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-      - name: Publish
-        uses: k-paxian/dart-package-publisher@master
+      - name: 📚 Git Checkout
+        uses: actions/checkout@v4
         with:
-          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
-          flutter: true
-          skipTests: true
+          submodules: recursive
+      - uses: ./.github/actions/publish_flutter_package

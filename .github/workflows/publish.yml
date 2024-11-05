@@ -1,41 +1,19 @@
-name: Publish Flutter package to pub.dev
-description: Publish your Flutter package to pub.dev
+name: Publish to pub.dev
 
-inputs:
-  working-directory:
-    description: directory with-in the repository where the package is located (if not in the repository root)
-    required: false
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
-runs:
-  using: "composite"
-  steps:
-    - name: 📚 Git Checkout
-      uses: actions/checkout@v4
-    - name: 🐦 Setup Flutter
-      uses: subosito/flutter-action@v2
-
-    - name: 🪪 Get Id Token
-      uses: actions/github-script@v6
-      with:
-        script: |
-          let pub_token = await core.getIDToken('https://pub.dev')
-          core.exportVariable('PUB_TOKEN', pub_token)
-
-    - name: 📢 Authenticate
-      shell: ${{ inputs.shell }}
-      run: flutter pub pub token add https://pub.dev --env-var PUB_TOKEN
-
-    - name: 📦 Install dependencies
-      shell: ${{ inputs.shell }}
-      run: flutter pub get
-      working-directory: ${{ inputs.working-directory }}
-
-    - name: 🌵 Dry Run
-      shell: ${{ inputs.shell }}
-      run: flutter pub publish --dry-run
-      working-directory: ${{ inputs.working-directory }}
-
-    - name: 📢 Publish
-      shell: ${{ inputs.shell }}
-      run: flutter pub publish -f
-      working-directory: ${{ inputs.working-directory }}
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Publish
+        uses: k-paxian/dart-package-publisher@master
+        with:
+          credentialJson: ${{ secrets.CREDENTIAL_JSON }}
+          flutter: true
+          skipTests: true

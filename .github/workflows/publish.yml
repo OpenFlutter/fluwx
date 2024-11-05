@@ -6,6 +6,13 @@ on:
       - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
+  steps:
+    - name: Install Flutter
+      run: |
+        git clone https://github.com/flutter/flutter.git -b stable --depth 1
+        export PATH="$PATH:`pwd`/flutter/bin"
+        flutter doctor
+
   publish:
     permissions:
       id-token: write # Required for authentication using OIDC

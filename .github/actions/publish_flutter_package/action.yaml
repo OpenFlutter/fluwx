@@ -30,10 +30,10 @@ runs:
       run: flutter pub get
       working-directory: ${{ inputs.working-directory }}
 
-    - name: 🌵 Dry Run
-      shell: ${{ inputs.shell }}
-      run: flutter pub publish --dry-run
-      working-directory: ${{ inputs.working-directory }}
+#    - name: 🌵 Dry Run
+#      shell: ${{ inputs.shell }}
+#      run: flutter pub publish --dry-run
+#      working-directory: ${{ inputs.working-directory }}
 
     - name: 📢 Publish
       shell: ${{ inputs.shell }}

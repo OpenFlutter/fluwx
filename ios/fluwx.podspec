@@ -76,7 +76,11 @@ if !universal_link.nil? && !universal_link.empty?
     Pod::UI.puts "[fluwx] universal_link: #{universal_link}"
 end
 
-system("ruby #{current_dir}/wechat_setup.rb #{ignore_security} -a #{app_id} -u #{universal_link} -p #{project_dir} -n Runner.xcodeproj")
+command = "ruby #{current_dir}/wechat_setup.rb #{ignore_security}"
+command += " -p #{project_dir} -n Runner.xcodeproj"
+command += " -a #{app_id}" unless app_id.nil? || app_id.empty?
+command += " -u #{universal_link}" unless universal_link.nil? || universal_link.empty?
+system(command)
 
 Pod::Spec.new do |s|
   s.name             = 'fluwx'

@@ -7,6 +7,6 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@ohos/flutter_ohos": "file:./har/flutter.har",
-    "@tencent/wechat_open_sdk": "^1.0.0"
+    "@tencent/wechat_open_sdk": "1.0.3"
   }
 }

@@ -11,9 +11,9 @@
     // Compress by quality
     CGFloat compression = 1;
     NSData *data = imageData;
-    NSLog(@"压缩前 %lu  %lu  ",(unsigned long)data.length,maxLength);
+    NSLog(@"压缩前 %lu %lu", (unsigned long)data.length,maxLength);
     if (data.length < maxLength) return data;
-
+    
     UIImage *image = [UIImage imageWithData:imageData];
     CGFloat max = 1;
     CGFloat min = 0;
@@ -29,20 +29,20 @@
         }
     }
     
-    NSLog(@"压缩第一次 %lu  %lu  ",(unsigned long)data.length,maxLength);
+    NSLog(@"压缩第一次 %lu %lu", (unsigned long)data.length,maxLength);
     if (data.length < maxLength) return data;
     
     UIImage *resultImage;
-
+    
     resultImage = [UIImage imageWithData:data];
-
+    
     // Compress by size
     NSUInteger lastDataLength = 0;
     while (data.length > maxLength && data.length != lastDataLength) {
         lastDataLength = data.length;
         CGFloat ratio = (CGFloat) maxLength / data.length;
         CGSize size = CGSizeMake((NSUInteger) (resultImage.size.width * sqrtf(ratio)),
-                (NSUInteger) (resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
+                                 (NSUInteger) (resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
         UIGraphicsBeginImageContext(size);
         [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
         resultImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -50,7 +50,7 @@
         data = UIImageJPEGRepresentation(resultImage, compression);
     }
     
-    NSLog(@"压缩第二次%lu  %lu  ",(unsigned long)data.length,maxLength);
+    NSLog(@"压缩第二次 %lu %lu", (unsigned long)data.length,maxLength);
     return data;
 }
 
@@ -59,7 +59,7 @@
     CGFloat compression = 1;
     NSData *data = UIImageJPEGRepresentation(image, compression);
     if (data.length < maxLength) return image;
-
+    
     CGFloat max = 1;
     CGFloat min = 0;
     for (int i = 0; i < 6; ++i) {
@@ -73,7 +73,7 @@
             break;
         }
     }
-
+    
     UIImage *resultImage;
     if (isPNG) {
         NSData *tmp = UIImagePNGRepresentation([UIImage imageWithData:data]);
@@ -81,24 +81,24 @@
     } else {
         resultImage = [UIImage imageWithData:data];
     }
-
-
+    
+    
     if (data.length < maxLength) return resultImage;
-
+    
     // Compress by size
     NSUInteger lastDataLength = 0;
     while (data.length > maxLength && data.length != lastDataLength) {
         lastDataLength = data.length;
         CGFloat ratio = (CGFloat) maxLength / data.length;
         CGSize size = CGSizeMake((NSUInteger) (resultImage.size.width * sqrtf(ratio)),
-                (NSUInteger) (resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
+                                 (NSUInteger) (resultImage.size.height * sqrtf(ratio))); // Use NSUInteger to prevent white blank
         UIGraphicsBeginImageContext(size);
         [resultImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
         resultImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         data = UIImageJPEGRepresentation(resultImage, compression);
     }
-
+    
     return resultImage;
 }
 
@@ -107,27 +107,28 @@
     CGSize imageSize = image.size;
     CGFloat width = imageSize.width;
     CGFloat height = imageSize.height;
-
+    
     if (width <= newSize.width && height <= newSize.height) {
         return image;
     }
-
+    
     if (width == 0 || height == 0) {
         return image;
     }
-
+    
     CGFloat widthFactor = newSize.width / width;
     CGFloat heightFactor = newSize.height / height;
     CGFloat scaleFactor = (widthFactor < heightFactor ? widthFactor : heightFactor);
-
+    
     CGFloat scaledWidth = width * scaleFactor;
     CGFloat scaledHeight = height * scaleFactor;
     CGSize targetSize = CGSizeMake(scaledWidth, scaledHeight);
-
+    
     UIGraphicsBeginImageContext(targetSize);
     [image drawInRect:CGRectMake(0, 0, scaledWidth, scaledHeight)];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
 }
+
 @end

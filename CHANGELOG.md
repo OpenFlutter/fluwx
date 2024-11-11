@@ -1,3 +1,28 @@
+# 5.2.6
+* iOS脚本优化
+
+# 5.2.5
+* 测试自动发布脚本
+
+# 5.2.4
+* Fix #663
+
+# 5.2.3
+* Fix #661
+
+# 5.2.2
+* Fix #659，优化iOS脚本，使其更加友好
+
+# 5.2.1
+* Merge #658
+
+# 5.2.0
+* 为iOS分享小程序增加hdImageData选项
+* 优化Android图片分享逻辑，优先把LocalImagePath以最大限度保证图片质量
+
+# 5.1.0
+* 试验性支持harmonyOS，目前受限于native sdk，只支持部分功能
+
 # 5.0.3
 * 优化localImagePath处理，减轻非Android开发者的上手难度：localImagePath如果是以content://开头，则默认你已经挂载了相关路径的权限，
 否则请务必保证该路径是文件实际保存路径，即Android层可以直接读取到该文件，以方便fluwx将文件拷贝到指定可用目录。

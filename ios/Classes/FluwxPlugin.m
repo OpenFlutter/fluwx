@@ -12,7 +12,6 @@
 NSString *const fluwxKeyTitle = @"title";
 NSString *const fluwxKeyImage = @ "image";
 NSString *const fluwxKeyImageData = @ "imageData";
-NSString *const fluwxKeyThumbnail = @"thumbnail";
 NSString *const fluwxKeyDescription = @"description";
 NSString *const fluwxKeyMsgSignature = @"msgSignature";
 NSString *const fluwxKeyThumbData = @"thumbData";
@@ -29,8 +28,6 @@ NSString *const fluwxKeyTimeline = @"timeline";
 NSString *const fluwxKeySession = @"session";
 NSString *const fluwxKeyFavorite = @"favorite";
 
-NSString *const fluwxKeyCompressThumbnail = @"compressThumbnail";
-
 NSString *const keySource = @"source";
 NSString *const keySuffix = @"suffix";
 
@@ -39,12 +36,14 @@ CGFloat thumbnailWidth;
 NSUInteger defaultThumbnailSize = 32 * 1024;
 
 @interface FluwxPlugin()<WXApiDelegate,WechatAuthAPIDelegate>
-@property (strong,nonatomic)NSString *extMsg;
+
+@property (strong, nonatomic)NSString *extMsg;
+
 @end
 
 typedef void(^FluwxWXReqRunnable)(void);
 
-@implementation FluwxPlugin  {
+@implementation FluwxPlugin {
     FlutterMethodChannel *_channel;
     WechatAuthSDK *_qrauth;
     BOOL _isRunning;
@@ -66,12 +65,11 @@ BOOL handleOpenURLByFluwx = YES;
 
 NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
-
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
     _fluwxRegistrar = registrar;
     FlutterMethodChannel *channel =
-        [FlutterMethodChannel methodChannelWithName:@"com.jarvanmo/fluwx"
-                                    binaryMessenger:[registrar messenger]];
+    [FlutterMethodChannel methodChannelWithName:@"com.jarvanmo/fluwx"
+                                binaryMessenger:[registrar messenger]];
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithChannel:channel];
     [registrar addApplicationDelegate:instance];
     [registrar addMethodCallDelegate:instance channel:channel];
@@ -96,7 +94,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
     } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
@@ -119,9 +116,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [self handleautoDeductV2:call result:result];
     } else if ([@"openBusinessView" isEqualToString:call.method]) {
         [self handleOpenBusinessView:call result:result];
-    }else if([@"authByPhoneLogin" isEqualToString:call.method]){
+    } else if ([@"authByPhoneLogin" isEqualToString:call.method]) {
         [self handleAuthByPhoneLogin:call result:result];
-    }else if([@"getExtMsg" isEqualToString:call.method]){
+    } else if ([@"getExtMsg" isEqualToString:call.method]) {
         [self handelGetExtMsgWithCall:call result:result];
     } else if ([call.method hasPrefix:@"share"]) {
         [self handleShare:call result:result];
@@ -133,24 +130,23 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         [self handleOpenRankListCall:call result:result];
     } else if ([@"openUrl" isEqualToString:call.method]) {
         [self handleOpenUrlCall:call result:result];
-    } else if([@"openWeChatInvoice" isEqualToString:call.method]) {
+    } else if ([@"openWeChatInvoice" isEqualToString:call.method]) {
         [self openWeChatInvoice:call result:result];
-    } else if([@"selfCheck" isEqualToString:call.method]) {
-        #ifndef __OPTIMIZE__
-        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult* result) {
+    } else if ([@"selfCheck" isEqualToString:call.method]) {
+#ifndef __OPTIMIZE__
+        [WXApi checkUniversalLinkReady:^(WXULCheckStep step, WXCheckULStepResult *result) {
             NSString *log = [NSString stringWithFormat:@"%@, %u, %@, %@", @(step), result.success, result.errorInfo, result.suggestion];
             [self logToFlutterWithDetail:log];
         }];
-        #endif
+#endif
         result(nil);
-    } else if([@"attemptToResumeMsgFromWx" isEqualToString:call.method]){
+    } else if ([@"attemptToResumeMsgFromWx" isEqualToString:call.method]) {
         if (_attemptToResumeMsgFromWxRunnable != nil) {
             _attemptToResumeMsgFromWxRunnable();
             _attemptToResumeMsgFromWxRunnable = nil;
-         }
-         result(nil);
-    }
-    else if ([@"payWithFluwx" isEqualToString:call.method]) {
+        }
+        result(nil);
+    } else if ([@"payWithFluwx" isEqualToString:call.method]) {
 #ifndef NO_PAY
         [self handlePayment:call result:result];
 #else
@@ -162,21 +158,23 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 #else
         result(@NO);
 #endif
-    }
-    else {
+    } else {
         result(FlutterMethodNotImplemented);
     }
 }
 
 - (void)openWeChatInvoice:(FlutterMethodCall *)call result:(FlutterResult)result {
-
+    
     NSString *appId = call.arguments[@"appId"];
-
+    
     if ([FluwxStringUtil isBlank:appId]) {
-        result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
+        result([FlutterError
+                errorWithCode:@"invalid app id"
+                message:@"are you sure your app id is correct ? "
+                details:appId]);
         return;
     }
-
+    
     WXChooseInvoiceReq *chooseInvoiceReq = [[WXChooseInvoiceReq alloc] init];
     chooseInvoiceReq.appID = appId;
     chooseInvoiceReq.timeStamp = [[NSDate date] timeIntervalSince1970];
@@ -189,42 +187,48 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)registerApp:(FlutterMethodCall *)call result:(FlutterResult)result {
-    NSNumber* doOnIOS =call.arguments[@"iOS"];
-
+    NSNumber *doOnIOS = call.arguments[@"iOS"];
+    
     if (![doOnIOS boolValue]) {
         result(@NO);
         return;
     }
-
+    
     NSString *appId = call.arguments[@"appId"];
     if ([FluwxStringUtil isBlank:appId]) {
-        result([FlutterError errorWithCode:@"invalid app id" message:@"are you sure your app id is correct ? " details:appId]);
+        result([FlutterError
+                errorWithCode:@"invalid app id"
+                message:@"are you sure your app id is correct ? "
+                details:appId]);
         return;
     }
-
+    
     NSString *universalLink = call.arguments[@"universalLink"];
-
+    
     if ([FluwxStringUtil isBlank:universalLink]) {
-        result([FlutterError errorWithCode:@"invalid universal link" message:@"are you sure your universal link is correct ? " details:universalLink]);
+        result([FlutterError
+                errorWithCode:@"invalid universal link"
+                message:@"are you sure your universal link is correct ? "
+                details:universalLink]);
         return;
     }
-
+    
     BOOL isWeChatRegistered = [WXApi registerApp:appId universalLink:universalLink];
-
+    
     // If registration fails, we can return immediately
-    if(!isWeChatRegistered){
+    if (!isWeChatRegistered) {
         result(@(isWeChatRegistered));
         _isRunning = NO;
         return;
     }
-
+    
     // Otherwise, since WXApi is now registered successfully,
     // we can (and should) immediately handle the previously cached `app:openURL` event (if any)
     if (_cachedOpenUrlRequest != nil) {
         _cachedOpenUrlRequest();
         _cachedOpenUrlRequest = nil;
     }
-
+    
     // Set `_isRunning` after calling `_cachedOpenUrlRequest` to ensure that
     // the `onReq` triggered by this call to `_cachedOpenUrlRequest` will
     // be stored in `_attemptToResumeMsgFromWxRunnable` which can be obtained
@@ -233,7 +237,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     // At the same time, this also coincides with the approach on the Android side:
     // cold start events are cached and triggered through `attemptToResumeMsgFromWx`
     _isRunning = isWeChatRegistered;
-
+    
     result(@(isWeChatRegistered));
 }
 
@@ -244,30 +248,27 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)openWeChatCustomerServiceChat:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *url = call.arguments[@"url"];
     NSString *corpId = call.arguments[@"corpId"];
-
-
+    
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];
-    req.corpid = corpId;    //企业ID
-    req.url = url;         //客服URL
+    req.corpid = corpId; //企业ID
+    req.url = url;       //客服URL
     return [WXApi sendReq:req completion:^(BOOL success) {
         result(@(success));
     }];
 }
 
 - (void)checkSupportOpenBusinessView:(FlutterMethodCall *)call result:(FlutterResult)result {
-    if(![WXApi isWXAppInstalled]){
+    if (![WXApi isWXAppInstalled]) {
         result([FlutterError errorWithCode:@"WeChat Not Installed" message:@"Please install the WeChat first" details:nil]);
-    }else {
+    } else {
         result(@(true));
     }
 }
 
 #ifndef NO_PAY
 - (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
-
-
     NSNumber *timestamp = call.arguments[@"timeStamp"];
-
+    
     NSString *partnerId = call.arguments[@"partnerId"];
     NSString *prepayId = call.arguments[@"prepayId"];
     NSString *packageValue = call.arguments[@"packageValue"];
@@ -275,8 +276,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     UInt32 timeStamp = [timestamp unsignedIntValue];
     NSString *sign = call.arguments[@"sign"];
     [FluwxDelegate defaultManager].extData = call.arguments[@"extData"];
-
-    NSString * appId = call.arguments[@"appId"];
+    
+    NSString *appId = call.arguments[@"appId"];
     PayReq *req = [[PayReq alloc] init];
     req.openID = (appId == (id) [NSNull null]) ? nil : appId;
     req.partnerId = partnerId;
@@ -285,16 +286,16 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     req.timeStamp = timeStamp;
     req.package = packageValue;
     req.sign = sign;
-
+    
     [WXApi sendReq:req completion:^(BOOL done) {
         result(@(done));
     }];
-
+    
 }
 
 - (void)handleHongKongWalletPayment:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *partnerId = call.arguments[@"prepayId"];
-
+    
     WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
     req.businessType = 1;
     NSMutableDictionary *queryInfoDic = [NSMutableDictionary dictionary];
@@ -309,8 +310,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)handleLaunchMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *userName = call.arguments[@"userName"];
     NSString *path = call.arguments[@"path"];
-//    WXMiniProgramType *miniProgramType = call.arguments[@"miniProgramType"];
-
+    //WXMiniProgramType *miniProgramType = call.arguments[@"miniProgramType"];
+    
     NSNumber *typeInt = call.arguments[@"miniProgramType"];
     WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
     if ([typeInt isEqualToNumber:@1]) {
@@ -318,13 +319,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     } else if ([typeInt isEqualToNumber:@2]) {
         miniProgramType = WXMiniProgramTypePreview;
     }
-
-
+    
     WXLaunchMiniProgramReq *launchMiniProgramReq = [WXLaunchMiniProgramReq object];
     launchMiniProgramReq.userName = userName;
     launchMiniProgramReq.path = (path == (id) [NSNull null]) ? nil : path;
     launchMiniProgramReq.miniProgramType = miniProgramType;
-
+    
     [WXApi sendReq:launchMiniProgramReq completion:^(BOOL done) {
         result(@(done));
     }];
@@ -337,17 +337,17 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     NSNumber *scene = [params valueForKey:@"scene"];
     NSString *templateId = [params valueForKey:@"templateId"];
     NSString *reserved = [params valueForKey:@"reserved"];
-
+    
     WXSubscribeMsgReq *req = [WXSubscribeMsgReq new];
-    #if __LP64__
-        req.scene = [scene unsignedIntValue];
-    #else
-        req.scene = [scene unsignedLongValue];
-    #endif
+#if __LP64__
+    req.scene = [scene unsignedIntValue];
+#else
+    req.scene = [scene unsignedLongValue];
+#endif
     req.templateId = templateId;
     req.reserved = reserved;
     req.openID = appId;
-
+    
     [WXApi sendReq:req completion:^(BOOL done) {
         result(@(done));
     }];
@@ -367,7 +367,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)handleautoDeductV2:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSMutableDictionary *paramsFromDart = call.arguments[@"queryInfo"];
-//    [paramsFromDart removeObjectForKey:@"businessType"];
+    //    [paramsFromDart removeObjectForKey:@"businessType"];
     WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
     NSNumber *businessType = call.arguments[@"businessType"];
     req.businessType = [businessType unsignedIntValue];
@@ -379,7 +379,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)handleOpenBusinessView:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSDictionary *params = call.arguments;
-
+    
     WXOpenBusinessViewReq *req = [WXOpenBusinessViewReq object];
     NSString *businessType = [params valueForKey:@"businessType"];
     NSString *query = [params valueForKey:@"query"];
@@ -393,14 +393,17 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)handelGetExtMsgWithCall:(FlutterMethodCall *)call result:(FlutterResult)result {
     result([FluwxDelegate defaultManager].extMsg);
-    [FluwxDelegate defaultManager].extMsg=nil;
+    [FluwxDelegate defaultManager].extMsg = nil;
 }
 
 
 // Deprecated since iOS 9
 // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623073-application?language=objc
 // Use `application:openURL:options:` instead.
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
     // Since flutter has minimum iOS version requirement of 11.0, we don't need to change the implementation here.
     return [WXApi handleOpenURL:url delegate:self];
 }
@@ -415,41 +418,39 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 // Available on iOS 9.0 and later
 // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc
-- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options {
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+             options:(NSDictionary<NSString *, id> *)options {
     // ↓ previous solution -- according to document, this may fail if the WXApi hasn't registered yet.
     // return [WXApi handleOpenURL:url delegate:self];
-
+    
     if (_isRunning) {
         // registered -- directly handle open url request by WXApi
         return [WXApi handleOpenURL:url delegate:self];
-    }else {
+    } else {
         // unregistered -- cache open url request and handle it once WXApi is registered
         __weak typeof(self) weakSelf = self;
         _cachedOpenUrlRequest = ^() {
-          __strong typeof(weakSelf) strongSelf = weakSelf;
-          [WXApi handleOpenURL:url delegate:strongSelf];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [WXApi handleOpenURL:url delegate:strongSelf];
         };
-// Let's hold this until the PR contributor send feedback.
-//        if ([url.absoluteString contains:[self fetchWeChatAppId]]){
-//            return YES;
-//        } else {
-//            return NO;
-//        }
-
+        // Let's hold this until the PR contributor send feedback.
+        //return [url.absoluteString contains:[self fetchWeChatAppId]];
+        
         // simply return YES to indicate that we can handle open url request later
         return NO;
     }
 }
 
 #ifndef SCENE_DELEGATE
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nonnull))restorationHandler{
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler{
     // TODO: (if need) cache userActivity and handle it once WXApi is registered
     return [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
 #endif
 
 #ifdef SCENE_DELEGATE
-- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity  API_AVAILABLE(ios(13.0)){
+- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)userActivity API_AVAILABLE(ios(13.0)) {
     // TODO: (if need) cache userActivity and handle it once WXApi is registered
     [WXApi handleOpenUniversalLink:userActivity delegate:self];
 }
@@ -460,18 +461,18 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     OpenWebviewReq *req = [[OpenWebviewReq alloc] init];
     req.url = call.arguments[@"url"];
     [WXApi sendReq:req
-        completion:^(BOOL success){
+        completion:^(BOOL success) {
         result(@(success));
-        }];
+    }];
 }
 
 - (void)handleOpenRankListCall:(FlutterMethodCall *)call
                         result:(FlutterResult)result {
     OpenRankListReq *req = [[OpenRankListReq alloc] init];
     [WXApi sendReq:req
-        completion:^(BOOL success){
+        completion:^(BOOL success) {
         result(@(success));
-        }];
+    }];
 }
 
 - (BOOL)handleOpenURL:(NSNotification *)aNotification {
@@ -485,7 +486,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)logToFlutterWithDetail:(NSString *) detail {
-    if(_channel != nil){
+    if (_channel != nil) {
         NSDictionary *result = @{
             @"detail":detail
         };
@@ -514,291 +515,233 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 - (void)shareText:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *text = call.arguments[@"source"];
     NSNumber *scene = call.arguments[fluwxKeyScene];
-
+    
     [self sendText:text InScene:[self intToWeChatScene:scene] completion:^(BOOL done) {
         result(@(done));
     }];
 }
 
 - (void)shareImage:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSNumber *scene = call.arguments[fluwxKeyScene];
+    
+    NSDictionary *sourceImage = call.arguments[keySource];
+    
+    FlutterStandardTypedData *flutterImageData = sourceImage[@"uint8List"];
+    NSData *imageData = nil;
+    if (flutterImageData != nil) {
+        imageData = flutterImageData.data;
+    }
+    
+    NSString *imageDataHash = sourceImage[@"imgDataHash"];
+    
+    FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+    NSData *thumbData = nil;
+    if (![flutterThumbData isKindOfClass:[NSNull class]]) {
+        thumbData = flutterThumbData.data;
+    }
+    
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-
-        NSDictionary *sourceImage = call.arguments[keySource];
-
-        FlutterStandardTypedData *flutterImageData = sourceImage[@"uint8List"];
-        NSData *imageData = nil;
-        
-      
-        if (flutterImageData != nil){
-            imageData = flutterImageData.data;
-        }
-    
-
-        NSString * imageDataHash = sourceImage[@"imgDataHash"];
-       
         dispatch_async(dispatch_get_main_queue(), ^{
-
-            
-            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
-            NSData *thumbData = nil;
-          
-            
-            if (![flutterThumbData isKindOfClass:[NSNull class]]){
-                thumbData = flutterThumbData.data;
-            }
-            
-            
-            NSNumber *scene = call.arguments[fluwxKeyScene];
             [self sendImageData:imageData
-                     ImgDataHash:imageDataHash
-                                       TagName:call.arguments[fluwxKeyMediaTagName]
-                                    MessageExt:call.arguments[fluwxKeyMessageExt]
-                                        Action:call.arguments[fluwxKeyMessageAction]
-                                       InScene:[self intToWeChatScene:scene]
-                                         title:call.arguments[fluwxKeyTitle]
-                                   description:call.arguments[fluwxKeyDescription]
-                                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                    ImgDataHash:imageDataHash
+                        TagName:call.arguments[fluwxKeyMediaTagName]
+                     MessageExt:call.arguments[fluwxKeyMessageExt]
+                         Action:call.arguments[fluwxKeyMessageAction]
+                        InScene:[self intToWeChatScene:scene]
+                          title:call.arguments[fluwxKeyTitle]
+                    description:call.arguments[fluwxKeyDescription]
+                   MsgSignature:call.arguments[fluwxKeyMsgSignature]
                       ThumbData:thumbData
                   ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
-                                    completion:^(BOOL done) {
-                                        result(@(done));
-                                    }
-            ];
-
+                     completion:^(BOOL done) {
+                result(@(done));
+            }];
         });
-
+        
     });
 }
 
 - (void)shareWebPage:(FlutterMethodCall *)call result:(FlutterResult)result {
-
+    NSString *webPageUrl = call.arguments[@"webPage"];
+    NSNumber *scene = call.arguments[fluwxKeyScene];
+    
+    FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+    NSData *thumbData = nil;
+    if (![flutterThumbData isKindOfClass:[NSNull class]]) {
+        thumbData = flutterThumbData.data;
+    }
+    
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-
-        UIImage *thumbnailImage = [self getCommonThumbnail:call];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *webPageUrl = call.arguments[@"webPage"];
-            NSNumber *scene = call.arguments[fluwxKeyScene];
-
-            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
-            NSData *thumbData = nil;
-          
-            
-            if (![flutterThumbData isKindOfClass:[NSNull class]]){
-                thumbData = flutterThumbData.data;
-            }
-        
             [self sendLinkURL:webPageUrl
-                                     TagName:call.arguments[fluwxKeyMediaTagName]
-                                       Title:call.arguments[fluwxKeyTitle]
-                                 Description:call.arguments[fluwxKeyDescription]
-                                  ThumbImage:thumbnailImage
-                                  MessageExt:call.arguments[fluwxKeyMessageExt]
-                               MessageAction:call.arguments[fluwxKeyMessageAction]
-                                     InScene:[self intToWeChatScene:scene]
-                                MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                      TagName:call.arguments[fluwxKeyMediaTagName]
+                        Title:call.arguments[fluwxKeyTitle]
+                  Description:call.arguments[fluwxKeyDescription]
+                   MessageExt:call.arguments[fluwxKeyMessageExt]
+                MessageAction:call.arguments[fluwxKeyMessageAction]
+                      InScene:[self intToWeChatScene:scene]
+                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
                     ThumbData:thumbData
                 ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
-                                  completion:^(BOOL done) {
-                                      result(@(done));
-                                  }];
+                   completion:^(BOOL done) {
+                result(@(done));
+            }];
         });
-
+        
     });
 }
 
 - (void)shareMusic:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSNumber *scene = call.arguments[fluwxKeyScene];
+    
+    FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+    NSData *thumbData = nil;
+    if (![flutterThumbData isKindOfClass:[NSNull class]]) {
+        thumbData = flutterThumbData.data;
+    }
+    
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-
-        UIImage *thumbnailImage = [self getCommonThumbnail:call];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
-            NSData *thumbData = nil;
-          
-            
-            if (![flutterThumbData isKindOfClass:[NSNull class]]){
-                thumbData = flutterThumbData.data;
-            }
-            NSNumber *scene = call.arguments[fluwxKeyScene];
             [self sendMusicURL:call.arguments[@"musicUrl"]
-                                      dataURL:call.arguments[@"musicDataUrl"]
-                              MusicLowBandUrl:call.arguments[@"musicLowBandUrl"]
-                          MusicLowBandDataUrl:call.arguments[@"musicLowBandDataUrl"]
-                                        Title:call.arguments[fluwxKeyTitle]
-                                  Description:call.arguments[fluwxKeyDescription]
-                                   ThumbImage:thumbnailImage
-                                   MessageExt:call.arguments[fluwxKeyMessageExt]
-                                MessageAction:call.arguments[fluwxKeyMessageAction]
-                                      TagName:call.arguments[fluwxKeyMediaTagName]
-                                      InScene:[self intToWeChatScene:scene]
-                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                       dataURL:call.arguments[@"musicDataUrl"]
+               MusicLowBandUrl:call.arguments[@"musicLowBandUrl"]
+           MusicLowBandDataUrl:call.arguments[@"musicLowBandDataUrl"]
+                         Title:call.arguments[fluwxKeyTitle]
+                   Description:call.arguments[fluwxKeyDescription]
+                    MessageExt:call.arguments[fluwxKeyMessageExt]
+                 MessageAction:call.arguments[fluwxKeyMessageAction]
+                       TagName:call.arguments[fluwxKeyMediaTagName]
+                       InScene:[self intToWeChatScene:scene]
+                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
                      ThumbData:thumbData
                  ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
-                                   completion:^(BOOL done) {
-                                       result(@(done));
-                                   }
-            ];
+                    completion:^(BOOL done) {
+                result(@(done));
+            }];
         });
     });
 }
 
 - (void)shareVideo:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSNumber *scene = call.arguments[fluwxKeyScene];
+    
+    FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+    NSData *thumbData = nil;
+    if (![flutterThumbData isKindOfClass:[NSNull class]]) {
+        thumbData = flutterThumbData.data;
+    }
+    
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-
-        UIImage *thumbnailImage = [self getCommonThumbnail:call];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-
-            NSNumber *scene = call.arguments[fluwxKeyScene];
-            
-            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
-            NSData *thumbData = nil;
-          
-            
-            if (![flutterThumbData isKindOfClass:[NSNull class]]){
-                thumbData = flutterThumbData.data;
-            }
-            
             [self sendVideoURL:call.arguments[@"videoUrl"]
-                              VideoLowBandUrl:call.arguments[@"videoLowBandUrl"]
-                                        Title:call.arguments[fluwxKeyTitle]
-                                  Description:call.arguments[fluwxKeyDescription]
-                                   ThumbImage:thumbnailImage
-                                   MessageExt:call.arguments[fluwxKeyMessageExt]
-                                MessageAction:call.arguments[fluwxKeyMessageAction]
-                                      TagName:call.arguments[fluwxKeyMediaTagName]
-                                      InScene:[self intToWeChatScene:scene]
-                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
+               VideoLowBandUrl:call.arguments[@"videoLowBandUrl"]
+                         Title:call.arguments[fluwxKeyTitle]
+                   Description:call.arguments[fluwxKeyDescription]
+                    MessageExt:call.arguments[fluwxKeyMessageExt]
+                 MessageAction:call.arguments[fluwxKeyMessageAction]
+                       TagName:call.arguments[fluwxKeyMediaTagName]
+                       InScene:[self intToWeChatScene:scene]
+                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
                      ThumbData:thumbData
                  ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
-                                   completion:^(BOOL done) {
-                                       result(@(done));
-                                   }];
+                    completion:^(BOOL done) {
+                result(@(done));
+            }];
         });
     });
 }
 
 - (void)shareFile:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSDictionary *sourceFile = call.arguments[keySource];
+    NSString *fileExtension;
+    NSString *suffix = sourceFile[keySuffix];
+    fileExtension = suffix;
+    if ([suffix hasPrefix:@"."]) {
+        NSRange range = NSMakeRange(0, 1);
+        fileExtension = [suffix stringByReplacingCharactersInRange:range withString:@""];
+    }
+    
+    NSData *data = [self getNsDataFromWeChatFile:sourceFile];
+    NSNumber *scene = call.arguments[fluwxKeyScene];
+    
+    FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+    NSData *thumbData = nil;
+    if (![flutterThumbData isKindOfClass:[NSNull class]]) {
+        thumbData = flutterThumbData.data;
+    }
+    
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-        NSDictionary *sourceFile = call.arguments[keySource];
-        UIImage *thumbnailImage = [self getCommonThumbnail:call];
-        NSString *fileExtension;
-        NSString *suffix = sourceFile[keySuffix];
-        fileExtension = suffix;
-        if ([suffix hasPrefix:@"."]) {
-            NSRange range = NSMakeRange(0, 1);
-            fileExtension = [suffix stringByReplacingCharactersInRange:range withString:@""];
-        }
-
-        NSData *data = [self getNsDataFromWeChatFile:sourceFile];
-
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSNumber *scene = call.arguments[fluwxKeyScene];
-            
-            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
-            NSData *thumbData = nil;
-          
-            
-            if (![flutterThumbData isKindOfClass:[NSNull class]]){
-                thumbData = flutterThumbData.data;
-            }
             [self sendFileData:data
-                                fileExtension:fileExtension
-                                        Title:call.arguments[fluwxKeyTitle]
-                                  Description:call.arguments[fluwxKeyDescription]
-                                   ThumbImage:thumbnailImage
-                                      InScene:[self intToWeChatScene:scene]
-                                 MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                 fileExtension:fileExtension
+                         Title:call.arguments[fluwxKeyTitle]
+                   Description:call.arguments[fluwxKeyDescription]
+                       InScene:[self intToWeChatScene:scene]
+                  MsgSignature:call.arguments[fluwxKeyMsgSignature]
                      ThumbData:thumbData
                  ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
-                                   completion:^(BOOL success) {
-                                       result(@(success));
-                                   }];
+                    completion:^(BOOL success) {
+                result(@(success));
+            }];
         });
     });
 }
 
 - (void)shareMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
+    NSNumber *scene = call.arguments[fluwxKeyScene];
+    
+    FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
+    NSData *thumbData = nil;
+    if (![flutterThumbData isKindOfClass:[NSNull class]]) {
+        thumbData = flutterThumbData.data;
+    }
+    
+    FlutterStandardTypedData *hdImageDataPayload = call.arguments[@"hdImageData"];
+    NSData *hdImageData = nil;
+    if (![hdImageDataPayload isKindOfClass:[NSNull class]]) {
+        hdImageData = hdImageDataPayload.data;
+    }
+    
+    NSNumber *typeInt = call.arguments[@"miniProgramType"];
+    WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
+    if ([typeInt isEqualToNumber:@1]) {
+        miniProgramType = WXMiniProgramTypeTest;
+    } else if ([typeInt isEqualToNumber:@2]) {
+        miniProgramType = WXMiniProgramTypePreview;
+    }
     dispatch_queue_t globalQueue = dispatch_get_global_queue(0, 0);
     dispatch_async(globalQueue, ^{
-
-
         dispatch_async(dispatch_get_main_queue(), ^{
-
-            
-            FlutterStandardTypedData *flutterThumbData = call.arguments[fluwxKeyThumbData];
-            NSData *thumbData = nil;
-          
-            
-            if (![flutterThumbData isKindOfClass:[NSNull class]]){
-                thumbData = flutterThumbData.data;
-            }
-            
-            NSNumber *scene = call.arguments[fluwxKeyScene];
-
-            NSNumber *typeInt = call.arguments[@"miniProgramType"];
-            WXMiniProgramType miniProgramType = WXMiniProgramTypeRelease;
-            if ([typeInt isEqualToNumber:@1]) {
-                miniProgramType = WXMiniProgramTypeTest;
-            } else if ([typeInt isEqualToNumber:@2]) {
-                miniProgramType = WXMiniProgramTypePreview;
-            }
-
             [self sendMiniProgramWebpageUrl:call.arguments[@"webPageUrl"]
-                                                  userName:call.arguments[@"userName"]
-                                                      path:call.arguments[@"path"]
-                                                     title:call.arguments[fluwxKeyTitle]
-                                               Description:call.arguments[fluwxKeyDescription]
-                                           withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
-                                           miniProgramType:miniProgramType
-                                                MessageExt:call.arguments[fluwxKeyMessageExt]
-                                             MessageAction:call.arguments[fluwxKeyMessageAction]
-                                                   TagName:call.arguments[fluwxKeyMediaTagName]
-                                                   InScene:[self intToWeChatScene:scene]
-                                              MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                                   userName:call.arguments[@"userName"]
+                                       path:call.arguments[@"path"]
+                                      title:call.arguments[fluwxKeyTitle]
+                                Description:call.arguments[fluwxKeyDescription]
+                            withShareTicket:[call.arguments[@"withShareTicket"] boolValue]
+                            miniProgramType:miniProgramType
+                                 MessageExt:call.arguments[fluwxKeyMessageExt]
+                              MessageAction:call.arguments[fluwxKeyMessageAction]
+                                    TagName:call.arguments[fluwxKeyMediaTagName]
+                                    InScene:[self intToWeChatScene:scene]
+                               MsgSignature:call.arguments[fluwxKeyMsgSignature]
+                                HdImageData:hdImageData
                                   ThumbData:thumbData
                               ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
-                                                completion:^(BOOL done) {
-                                                    result(@(done));
-                                                }
-            ];
-
+                                 completion:^(BOOL done) {
+                result(@(done));
+            }];
         });
-
     });
 }
 
-
-- (UIImage *)getCommonThumbnail:(FlutterMethodCall *)call {
-    NSDictionary *thumbnail = call.arguments[fluwxKeyThumbnail];
-    if (thumbnail == nil || thumbnail == (id) [NSNull null]) {
-        return nil;
-    }
-
-    NSString *suffix = thumbnail[@"suffix"];
-    NSNumber *compress = call.arguments[fluwxKeyCompressThumbnail];
-
-    NSData *thumbnailData = [self getNsDataFromWeChatFile:thumbnail];
-    UIImage *thumbnailImage = [self getThumbnailFromNSData:thumbnailData size:defaultThumbnailSize isPNG:[self isPNG:suffix] compress:[compress boolValue]];
-    return thumbnailImage;
-}
-
-//enum ImageSchema {
-//    NETWORK,
-//    ASSET,
-//    FILE,
-//    BINARY,
-//}
 - (NSData *)getNsDataFromWeChatFile:(NSDictionary *)weChatFile {
     NSNumber *schema = weChatFile[@"schema"];
-
+    
     if ([schema isEqualToNumber:@0]) {
         NSString *source = weChatFile[keySource];
         NSURL *imageURL = [NSURL URLWithString:source];
@@ -820,10 +763,11 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (UIImage *)getThumbnailFromNSData:(NSData *)data size:(NSUInteger)size isPNG:(BOOL)isPNG compress:(BOOL)compress {
     UIImage *uiImage = [UIImage imageWithData:data];
-    if (compress)
+    if (compress) {
         return [ThumbnailHelper compressImage:uiImage toByte:size isPNG:isPNG];
-    else
+    } else {
         return uiImage;
+    }
 }
 
 - (NSData *)getThumbnailDataFromNSData:(NSData *)data size:(NSUInteger)size compress:(BOOL)compress {
@@ -842,7 +786,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     } else {
         key = [_fluwxRegistrar lookupKeyForAsset:array[0] fromPackage:array[1]];
     }
-
+    
     return [[NSBundle mainBundle] pathForResource:key ofType:nil];
 }
 
@@ -851,7 +795,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     NSString *packageName = @"";
     NSString *pathWithoutSchema = originPath;
     NSInteger indexOfPackage = [pathWithoutSchema lastIndexOfString:@"?package="];
-
+    
     if (indexOfPackage != JavaNotFound) {
         path = [pathWithoutSchema substringFromIndex:0 toIndex:indexOfPackage];
         NSInteger begin = indexOfPackage + [fluwxKeyPackage length];
@@ -859,7 +803,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     } else {
         path = pathWithoutSchema;
     }
-
+    
     return @[path, packageName];
 }
 
@@ -868,7 +812,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (enum WXScene)intToWeChatScene:(NSNumber *)value {
-//    enum WeChatScene { SESSION, TIMELINE, FAVORITE }
+    //    enum WeChatScene { SESSION, TIMELINE, FAVORITE }
     if ([value isEqual:@0]) {
         return WXSceneSession;
     } else if ([value isEqual:@1]) {
@@ -880,254 +824,214 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 }
 
-
 - (void)managerDidRecvLaunchFromWXReq:(LaunchFromWXReq *)request {
     [FluwxDelegate defaultManager].extMsg = request.message.messageExt;
-//    LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *)request;
-//
-//           if (_isRunning) {
-//               [FluwxDelegate defaultManager].extMsg = request.message.messageExt;
-//           } else {
-//               __weak typeof(self) weakSelf = self;
-//               _initialWXReqRunnable = ^() {
-//                   __strong typeof(weakSelf) strongSelf = weakSelf;
-//                   [FluwxDelegate defaultManager].extMsg = request.message.messageExt
-//               };
-//           }
+    //    LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *)request;
+    //
+    //           if (_isRunning) {
+    //               [FluwxDelegate defaultManager].extMsg = request.message.messageExt;
+    //           } else {
+    //               __weak typeof(self) weakSelf = self;
+    //               _initialWXReqRunnable = ^() {
+    //                   __strong typeof(weakSelf) strongSelf = weakSelf;
+    //                   [FluwxDelegate defaultManager].extMsg = request.message.messageExt
+    //               };
+    //           }
 }
-
 
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
-
         SendMessageToWXResp *messageResp = (SendMessageToWXResp *) resp;
-
-
         NSDictionary *result = @{
-                description: messageResp.description == nil ? @"" : messageResp.description,
-                errStr: messageResp.errStr == nil ? @"" : messageResp.errStr,
-                errCode: @(messageResp.errCode),
-                fluwxType: @(messageResp.type),
-                country: messageResp.country == nil ? @"" : messageResp.country,
-                lang: messageResp.lang == nil ? @"" : messageResp.lang};
-        if(_channel != nil){
+            description: messageResp.description == nil ? @"" : messageResp.description,
+            errStr: messageResp.errStr == nil ? @"" : messageResp.errStr,
+            errCode: @(messageResp.errCode),
+            fluwxType: @(messageResp.type),
+            country: messageResp.country == nil ? @"" : messageResp.country,
+            lang: messageResp.lang == nil ? @"" : messageResp.lang};
+        if (_channel != nil) {
             [_channel invokeMethod:@"onShareResponse" arguments:result];
         }
-
-
     } else if ([resp isKindOfClass:[SendAuthResp class]]) {
-
         SendAuthResp *authResp = (SendAuthResp *) resp;
         NSDictionary *result = @{
-                description: authResp.description == nil ? @"" : authResp.description,
-                errStr: authResp.errStr == nil ? @"" : authResp.errStr,
-                errCode: @(authResp.errCode),
-                fluwxType: @(authResp.type),
-                country: authResp.country == nil ? @"" : authResp.country,
-                lang: authResp.lang == nil ? @"" : authResp.lang,
-                @"code": [FluwxStringUtil nilToEmpty:authResp.code],
-                @"state": [FluwxStringUtil nilToEmpty:authResp.state]
-
+            description: authResp.description == nil ? @"" : authResp.description,
+            errStr: authResp.errStr == nil ? @"" : authResp.errStr,
+            errCode: @(authResp.errCode),
+            fluwxType: @(authResp.type),
+            country: authResp.country == nil ? @"" : authResp.country,
+            lang: authResp.lang == nil ? @"" : authResp.lang,
+            @"code": [FluwxStringUtil nilToEmpty:authResp.code],
+            @"state": [FluwxStringUtil nilToEmpty:authResp.state]
+            
         };
-
-        if(_channel != nil){
+        
+        if (_channel != nil) {
             [_channel invokeMethod:@"onAuthResponse" arguments:result];
         }
-
     } else if ([resp isKindOfClass:[AddCardToWXCardPackageResp class]]) {
-
+        // pass
     } else if ([resp isKindOfClass:[WXChooseCardResp class]]) {
-
+        // pass
     } else if ([resp isKindOfClass:[WXChooseInvoiceResp class]]) {
         //TODO 处理发票返回，并回调Dart
-
+        
         WXChooseInvoiceResp *chooseInvoiceResp = (WXChooseInvoiceResp *) resp;
-
-
         NSArray *array =  chooseInvoiceResp.cardAry;
-
         NSMutableArray *mutableArray = [NSMutableArray arrayWithCapacity:array.count];
-
-
         for (int i = 0; i< array.count; i++) {
             WXInvoiceItem *item =  array[i];
-
-
             NSDictionary *dict = @{@"app_id":item.appID, @"encrypt_code":item.encryptCode, @"card_id":item.cardId};
             [mutableArray addObject:dict];
         }
-
+        
         NSError *error = nil;
-
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableArray options:NSJSONWritingPrettyPrinted error: &error];
-
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableArray
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error: &error];
         NSString *cardItemList = @"";
-
         if ([jsonData length] && error == nil) {
             cardItemList = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         }
-
-            NSDictionary *result = @{
-                    description: chooseInvoiceResp.description == nil ? @"" : chooseInvoiceResp.description,
-                    errStr: chooseInvoiceResp.errStr == nil ? @"" : chooseInvoiceResp.errStr,
-                    errCode: @(chooseInvoiceResp.errCode),
-                    fluwxType: @(chooseInvoiceResp.type),
-                    @"cardItemList":cardItemList
-            };
-
-        if(_channel != nil){
-
+        
+        NSDictionary *result = @{
+            description: chooseInvoiceResp.description == nil ? @"" : chooseInvoiceResp.description,
+            errStr: chooseInvoiceResp.errStr == nil ? @"" : chooseInvoiceResp.errStr,
+            errCode: @(chooseInvoiceResp.errCode),
+            fluwxType: @(chooseInvoiceResp.type),
+            @"cardItemList":cardItemList
+        };
+        
+        if (_channel != nil) {
             [_channel invokeMethod:@"onOpenWechatInvoiceResponse" arguments:result];
-
         }
     } else if ([resp isKindOfClass:[WXSubscribeMsgResp class]]) {
-
         WXSubscribeMsgResp *subscribeMsgResp = (WXSubscribeMsgResp *) resp;
         NSMutableDictionary *result = [NSMutableDictionary dictionary];
         NSString *openid = subscribeMsgResp.openId;
-        if(openid != nil && openid != NULL && ![openid isKindOfClass:[NSNull class]]){
-           result[@"openid"] = openid;
+        if (openid != nil && openid != NULL && ![openid isKindOfClass:[NSNull class]]) {
+            result[@"openid"] = openid;
         }
-
+        
         NSString *templateId = subscribeMsgResp.templateId;
-        if(templateId != nil && templateId != NULL && ![templateId isKindOfClass:[NSNull class]]){
-           result[@"templateId"] = templateId;
+        if (templateId != nil && templateId != NULL && ![templateId isKindOfClass:[NSNull class]]) {
+            result[@"templateId"] = templateId;
         }
-
+        
         NSString *action = subscribeMsgResp.action;
-        if(action != nil && action != NULL && ![action isKindOfClass:[NSNull class]]){
+        if (action != nil && action != NULL && ![action isKindOfClass:[NSNull class]]) {
             result[@"action"] = action;
         }
-
+        
         NSString *reserved = subscribeMsgResp.action;
-        if(reserved != nil && reserved != NULL && ![reserved isKindOfClass:[NSNull class]]){
-          result[@"reserved"] = reserved;
+        if (reserved != nil && reserved != NULL && ![reserved isKindOfClass:[NSNull class]]) {
+            result[@"reserved"] = reserved;
         }
-
+        
         UInt32 scene = subscribeMsgResp.scene;
         result[@"scene"] = @(scene);
-        if(_channel != nil){
+        if (_channel != nil) {
             [_channel invokeMethod:@"onSubscribeMsgResp" arguments:result];
         }
-
     } else if ([resp isKindOfClass:[WXLaunchMiniProgramResp class]]) {
-
         WXLaunchMiniProgramResp *miniProgramResp = (WXLaunchMiniProgramResp *) resp;
-
-
         NSDictionary *commonResult = @{
-                description: miniProgramResp.description == nil ? @"" : miniProgramResp.description,
-                errStr: miniProgramResp.errStr == nil ? @"" : miniProgramResp.errStr,
-                errCode: @(miniProgramResp.errCode),
-                fluwxType: @(miniProgramResp.type),
+            description: miniProgramResp.description == nil ? @"" : miniProgramResp.description,
+            errStr: miniProgramResp.errStr == nil ? @"" : miniProgramResp.errStr,
+            errCode: @(miniProgramResp.errCode),
+            fluwxType: @(miniProgramResp.type),
         };
-
+        
         NSMutableDictionary *result = [NSMutableDictionary dictionaryWithDictionary:commonResult];
         if (miniProgramResp.extMsg != nil) {
             result[@"extMsg"] = miniProgramResp.extMsg;
         }
-
-
-//        @"extMsg":miniProgramResp.extMsg == nil?@"":miniProgramResp.extMsg
-
-        if(_channel != nil){
+        if (_channel != nil) {
             [_channel invokeMethod:@"onLaunchMiniProgramResponse" arguments:result];
-
         }
-
     } else if ([resp isKindOfClass:[WXInvoiceAuthInsertResp class]]) {
-
+        // pass
     } else if ([resp isKindOfClass:[WXOpenBusinessWebViewResp class]]) {
         WXOpenBusinessWebViewResp *businessResp = (WXOpenBusinessWebViewResp *) resp;
-
         NSDictionary *result = @{
-                description: [FluwxStringUtil nilToEmpty:businessResp.description],
-                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
-                errCode: @(businessResp.errCode),
-                fluwxType: @(businessResp.type),
-                @"resultInfo": [FluwxStringUtil nilToEmpty:businessResp.result],
-                @"businessType": @(businessResp.businessType),
+            description: [FluwxStringUtil nilToEmpty:businessResp.description],
+            errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+            errCode: @(businessResp.errCode),
+            fluwxType: @(businessResp.type),
+            @"resultInfo": [FluwxStringUtil nilToEmpty:businessResp.result],
+            @"businessType": @(businessResp.businessType),
         };
-        if(_channel != nil){
+        if (_channel != nil) {
             [_channel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
         }
-
-    } else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]])
-    {
-
+    } else if ([resp isKindOfClass:[WXOpenCustomerServiceResp class]]) {
         WXOpenCustomerServiceResp *customerResp = (WXOpenCustomerServiceResp *) resp;
         NSDictionary *result = @{
-                description: [FluwxStringUtil nilToEmpty:customerResp.description],
-                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
-                errCode: @(customerResp.errCode),
-                fluwxType: @(customerResp.type),
-                @"extMsg":[FluwxStringUtil nilToEmpty:customerResp.extMsg]
+            description: [FluwxStringUtil nilToEmpty:customerResp.description],
+            errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+            errCode: @(customerResp.errCode),
+            fluwxType: @(customerResp.type),
+            @"extMsg":[FluwxStringUtil nilToEmpty:customerResp.extMsg]
         };
-        if(_channel != nil){
+        if (_channel != nil) {
             [_channel invokeMethod:@"onWXOpenBusinessWebviewResponse" arguments:result];
         }
-
-     // 相关错误信息
-    }else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]])
-    {
-
+        // 相关错误信息
+    } else if ([resp isKindOfClass:[WXOpenBusinessViewResp class]]) {
         WXOpenBusinessViewResp *openBusinessViewResp = (WXOpenBusinessViewResp *) resp;
         NSDictionary *result = @{
-                description: [FluwxStringUtil nilToEmpty:openBusinessViewResp.description],
-                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
-                errCode: @(openBusinessViewResp.errCode),
-                @"businessType":openBusinessViewResp.businessType,
-                fluwxType: @(openBusinessViewResp.type),
-                @"extMsg":[FluwxStringUtil nilToEmpty:openBusinessViewResp.extMsg]
+            description: [FluwxStringUtil nilToEmpty:openBusinessViewResp.description],
+            errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+            errCode: @(openBusinessViewResp.errCode),
+            @"businessType":openBusinessViewResp.businessType,
+            fluwxType: @(openBusinessViewResp.type),
+            @"extMsg":[FluwxStringUtil nilToEmpty:openBusinessViewResp.extMsg]
         };
-        if(_channel != nil){
+        if (_channel != nil) {
             [_channel invokeMethod:@"onOpenBusinessViewResponse" arguments:result];
         }
-
-     // 相关错误信息
+        // 相关错误信息
     }
 #ifndef NO_PAY
     else if ([resp isKindOfClass:[WXPayInsuranceResp class]]) {
-
-   } else if ([resp isKindOfClass:[PayResp class]]) {
-
+        // pass
+    } else if ([resp isKindOfClass:[PayResp class]]) {
         PayResp *payResp = (PayResp *) resp;
-
         NSDictionary *result = @{
-                description: [FluwxStringUtil nilToEmpty:payResp.description],
-                errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
-                errCode: @(payResp.errCode),
-                fluwxType: @(payResp.type),
-                @"extData": [FluwxStringUtil nilToEmpty:[FluwxDelegate defaultManager].extData],
-                @"returnKey": [FluwxStringUtil nilToEmpty:payResp.returnKey],
+            description: [FluwxStringUtil nilToEmpty:payResp.description],
+            errStr: [FluwxStringUtil nilToEmpty:resp.errStr],
+            errCode: @(payResp.errCode),
+            fluwxType: @(payResp.type),
+            @"extData": [FluwxStringUtil nilToEmpty:[FluwxDelegate defaultManager].extData],
+            @"returnKey": [FluwxStringUtil nilToEmpty:payResp.returnKey],
         };
         [FluwxDelegate defaultManager].extData = nil;
-        if(_channel != nil){
+        if (_channel != nil) {
             [_channel invokeMethod:@"onPayResponse" arguments:result];
         }
     } else if ([resp isKindOfClass:[WXNontaxPayResp class]]) {
-
+        // pass
     }
 #endif
 }
 
 - (void)onReq:(BaseReq *)req {
     if ([req isKindOfClass:[GetMessageFromWXReq class]]) {
-
+        // pass
     } else if ([req isKindOfClass:[ShowMessageFromWXReq class]]) {
         // ShowMessageFromWXReq -- android spec
         ShowMessageFromWXReq *showMessageFromWXReq = (ShowMessageFromWXReq *) req;
         WXMediaMessage *wmm = showMessageFromWXReq.message;
-
+        
         NSMutableDictionary *result = [NSMutableDictionary dictionary];
         [result setValue:wmm.messageAction forKey:@"messageAction"];
         [result setValue:wmm.messageExt forKey:@"extMsg"];
         [result setValue:showMessageFromWXReq.lang forKey:@"lang"];
         [result setValue:showMessageFromWXReq.country forKey:@"country"];
-
+        
         // Cache extMsg for later use (by calling 'getExtMsg')
-        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
-
+        [FluwxDelegate defaultManager].extMsg = wmm.messageExt;
+        
         if (_isRunning) {
             [_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
         } else {
@@ -1137,21 +1041,20 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                 [strongSelf->_channel invokeMethod:@"onWXShowMessageFromWX" arguments:result];
             };
         }
-
     } else if ([req isKindOfClass:[LaunchFromWXReq class]]) {
         // ShowMessageFromWXReq -- ios spec
         LaunchFromWXReq *launchFromWXReq = (LaunchFromWXReq *) req;
         WXMediaMessage *wmm = launchFromWXReq.message;
-
+        
         NSMutableDictionary *result = [NSMutableDictionary dictionary];
         [result setValue:wmm.messageAction forKey:@"messageAction"];
         [result setValue:wmm.messageExt forKey:@"extMsg"];
         [result setValue:launchFromWXReq.lang forKey:@"lang"];
         [result setValue:launchFromWXReq.country forKey:@"country"];
-
+        
         // Cache extMsg for later use (by calling 'getExtMsg')
-        [FluwxDelegate defaultManager].extMsg= wmm.messageExt;
-
+        [FluwxDelegate defaultManager].extMsg = wmm.messageExt;
+        
         if (_isRunning) {
             [_channel invokeMethod:@"onWXLaunchFromWX" arguments:result];
         } else {
@@ -1162,19 +1065,16 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             };
         }
     }
-
 }
 
 - (void)sendText:(NSString *)text
          InScene:(enum WXScene)scene
       completion:(void (^ __nullable)(BOOL success))completion {
-
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
-      req.scene = scene;
-      req.bText = YES;
-      req.text = text;
-      [WXApi sendReq:req
-          completion:completion];
+    req.scene = scene;
+    req.bText = YES;
+    req.text = text;
+    [WXApi sendReq:req completion:completion];
 }
 
 - (void)sendImageData:(NSData *)imageData
@@ -1192,24 +1092,24 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     WXImageObject *ext = [WXImageObject object];
     ext.imageData = imageData;
     ext.imgDataHash = (imgDataHash == (id) [NSNull null]) ? nil : imgDataHash;
-
+    
     WXMediaMessage *message = [self messageWithTitle:(title == (id) [NSNull null]) ? nil : title
-                                                   Description:(description == (id) [NSNull null]) ? nil : description
-                                                        Object:ext
-                                                    MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
-                                                 MessageAction:(action == (id) [NSNull null]) ? nil : action
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
-                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                         Description:(description == (id) [NSNull null]) ? nil : description
+                                              Object:ext
+                                          MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
+                                       MessageAction:(action == (id) [NSNull null]) ? nil : action
+                                            MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                        MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
                                        ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
-
+                               
     ];;
-
+    
     SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
-
+                                     OrMediaMessage:message
+                                              bText:NO
+                                            InScene:scene];
+    
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1217,7 +1117,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
             TagName:(NSString *)tagName
               Title:(NSString *)title
         Description:(NSString *)description
-         ThumbImage:(UIImage *)thumbImage
          MessageExt:(NSString *)messageExt
       MessageAction:(NSString *)messageAction
             InScene:(enum WXScene)scene
@@ -1227,22 +1126,22 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
          completion:(void (^ __nullable)(BOOL success))completion {
     WXWebpageObject *ext = [WXWebpageObject object];
     ext.webpageUrl = urlString;
-
+    
     WXMediaMessage *message = [self messageWithTitle:(title == (id) [NSNull null]) ? nil :title
-                                                   Description:(description == (id) [NSNull null]) ? nil : description
-                                                        Object:ext
-                                                    MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
-                                                 MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
-                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                         Description:(description == (id) [NSNull null]) ? nil : description
+                                              Object:ext
+                                          MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
+                                       MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
+                                            MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                        MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
                                        ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
     ];
-
+    
     SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
+                                     OrMediaMessage:message
+                                              bText:NO
+                                            InScene:scene];
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1252,7 +1151,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
  MusicLowBandDataUrl:(NSString *)musicLowBandDataUrl
                Title:(NSString *)title
          Description:(NSString *)description
-          ThumbImage:(UIImage *)thumbImage
           MessageExt:(NSString *)messageExt
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
@@ -1262,7 +1160,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
        ThumbDataHash:(NSString*)thumbDataHash
           completion:(void (^ __nullable)(BOOL success))completion {
     WXMusicObject *ext = [WXMusicObject object];
-
+    
     if ([FluwxStringUtil isBlank:musicURL]) {
         ext.musicLowBandUrl = musicLowBandUrl;
         ext.musicLowBandDataUrl = (musicLowBandDataUrl == (id) [NSNull null]) ? nil : musicLowBandDataUrl;
@@ -1270,24 +1168,24 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         ext.musicUrl = musicURL;
         ext.musicDataUrl = (dataURL == (id) [NSNull null]) ? nil : dataURL;
     }
-
-
+    
+    
     WXMediaMessage *message = [self messageWithTitle:(title == (id) [NSNull null]) ? nil : title
-                                                   Description:description
-                                                        Object:ext
-                                                    MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
-                                                 MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
-                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                         Description:description
+                                              Object:ext
+                                          MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
+                                       MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
+                                            MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                        MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
                                            ThumbData: thumbData
                                        ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
     ];
-
+    
     SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
-
+                                     OrMediaMessage:message
+                                              bText:NO
+                                            InScene:scene];
+    
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1295,7 +1193,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
      VideoLowBandUrl:(NSString *)videoLowBandUrl
                Title:(NSString *)title
          Description:(NSString *)description
-          ThumbImage:(UIImage *)thumbImage
           MessageExt:(NSString *)messageExt
        MessageAction:(NSString *)messageAction
              TagName:(NSString *)tagName
@@ -1310,8 +1207,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     message.messageExt = (messageExt == (id) [NSNull null]) ? nil : messageExt;
     message.messageAction = (messageAction == (id) [NSNull null]) ? nil : messageAction;
     message.mediaTagName = (tagName == (id) [NSNull null]) ? nil : tagName;
-    [message setThumbImage:thumbImage];
-
+    message.thumbData = (thumbData == (id) [NSNull null]) ? nil : thumbData;
+    message.thumbDataHash = (thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash;
+    
     WXVideoObject *ext = [WXVideoObject object];
     if ([FluwxStringUtil isBlank:videoURL]) {
         ext.videoLowBandUrl = videoLowBandUrl;
@@ -1319,38 +1217,31 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         ext.videoUrl = videoURL;
     }
     message.mediaObject = ext;
-
-    SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
+    
+    SendMessageToWXReq *req = [self requestWithText:nil OrMediaMessage:message bText:NO InScene:scene];
     [WXApi sendReq:req completion:completion];
 }
 
 - (void)sendEmotionData:(NSData *)emotionData
-             ThumbImage:(UIImage *)thumbImage
                 InScene:(enum WXScene)scene
            MsgSignature:(NSString *)msgSignature
               ThumbData:(NSData *)thumbData
           ThumbDataHash:(NSString*)thumbDataHash
              completion:(void (^ __nullable)(BOOL success))completion {
     WXMediaMessage *message = [WXMediaMessage message];
-    [message setThumbImage:thumbImage];
-
+    message.thumbData = (thumbData == (id) [NSNull null]) ? nil : thumbData;
+    message.thumbDataHash = (thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash;
+    
     WXEmoticonObject *ext = [WXEmoticonObject object];
     ext.emoticonData = emotionData;
-
     message.mediaObject = ext;
-
+    
     NSString *signature = (msgSignature == (id) [NSNull null]) ? nil : msgSignature;
     if (signature != nil) {
         message.msgSignature = signature;
     }
-
-    SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
+    
+    SendMessageToWXReq *req = [self requestWithText:nil OrMediaMessage:message bText:NO InScene:scene];
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1358,7 +1249,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
        fileExtension:(NSString *)extension
                Title:(NSString *)title
          Description:(NSString *)description
-          ThumbImage:(UIImage *)thumbImage
              InScene:(enum WXScene)scene
         MsgSignature:(NSString *)msgSignature
            ThumbData:(NSData *)thumbData
@@ -1367,23 +1257,20 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
     message.description = description;
-    [message setThumbImage:thumbImage];
-
+    message.thumbData = (thumbData == (id) [NSNull null]) ? nil : thumbData;
+    message.thumbDataHash = (thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash;
+    
     WXFileObject *ext = [WXFileObject object];
     ext.fileExtension = extension;
     ext.fileData = fileData;
-
     message.mediaObject = ext;
-
+    
     NSString *signature = (msgSignature == (id) [NSNull null]) ? nil : msgSignature;
     if (signature != nil) {
         message.msgSignature = signature;
     }
-
-    SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
+    
+    SendMessageToWXReq *req = [self requestWithText:nil OrMediaMessage:message bText:NO InScene:scene];
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1399,6 +1286,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                           TagName:(NSString *)tagName
                           InScene:(enum WXScene)scene
                      MsgSignature:(NSString *)msgSignature
+                      HdImageData:(NSData *)hdImageData
                         ThumbData:(NSData *)thumbData
                     ThumbDataHash:(NSString*)thumbDataHash
                        completion:(void (^ __nullable)(BOOL success))completion {
@@ -1406,28 +1294,22 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     ext.webpageUrl = (webpageUrl == (id) [NSNull null]) ? nil : webpageUrl;
     ext.userName = (userName == (id) [NSNull null]) ? nil : userName;
     ext.path = (path == (id) [NSNull null]) ? nil : path;
-
     ext.withShareTicket = withShareTicket;
-
+    ext.hdImageData = hdImageData;
     ext.miniProgramType = programType;
-
+    
     WXMediaMessage *message = [self messageWithTitle:(title == (id) [NSNull null]) ? nil : title
-                                                   Description:(description == (id) [NSNull null]) ? nil : description
-                                                        Object:ext
-                                                    MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
-                                                 MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
-                                                      MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
-                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
-                                           ThumbData: thumbData
+                                         Description:(description == (id) [NSNull null]) ? nil : description
+                                              Object:ext
+                                          MessageExt:(messageExt == (id) [NSNull null]) ? nil : messageExt
+                                       MessageAction:(messageAction == (id) [NSNull null]) ? nil : messageAction
+                                            MediaTag:(tagName == (id) [NSNull null]) ? nil : tagName
+                                        MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData:(thumbData == (id) [NSNull null] ? nil : thumbData)
                                        ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
-
     ];
-
-    SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
-
+    
+    SendMessageToWXReq *req = [self requestWithText:nil OrMediaMessage:message bText:NO InScene:scene];
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1438,7 +1320,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                Description:(NSString *)description
                 MessageExt:(NSString *)messageExt
              MessageAction:(NSString *)action
-                ThumbImage:(UIImage *)thumbImage
                    InScene:(enum WXScene)scene
               MsgSignature:(NSString *)msgSignature
                  ThumbData:(NSData *)thumbData
@@ -1448,27 +1329,24 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     ext.extInfo = info;
     ext.url = url;
     ext.fileData = data;
-
+    
     WXMediaMessage *message = [self messageWithTitle:title
-                                                   Description:description
-                                                        Object:ext
-                                                    MessageExt:messageExt
-                                                 MessageAction:action
-                                                      MediaTag:nil
-                                                  MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
-                                           ThumbData: thumbData
+                                         Description:description
+                                              Object:ext
+                                          MessageExt:messageExt
+                                       MessageAction:action
+                                            MediaTag:nil
+                                        MsgSignature:(msgSignature == (id) [NSNull null]) ? nil : msgSignature
+                                           ThumbData:(thumbData == (id) [NSNull null]) ? nil : thumbData
                                        ThumbDataHash:(thumbDataHash == (id) [NSNull null]) ? nil : thumbDataHash
     ];
-
-    SendMessageToWXReq *req = [self requestWithText:nil
-                                                   OrMediaMessage:message
-                                                            bText:NO
-                                                          InScene:scene];
+    
+    SendMessageToWXReq *req = [self requestWithText:nil OrMediaMessage:message bText:NO InScene:scene];
     [WXApi sendReq:req completion:completion];
-
 }
 
-- (void)addCardsToCardPackage:(NSArray *)cardIds cardExts:(NSArray *)cardExts
+- (void)addCardsToCardPackage:(NSArray *)cardIds
+                     cardExts:(NSArray *)cardExts
                    completion:(void (^ __nullable)(BOOL success))completion {
     NSMutableArray *cardItems = [NSMutableArray array];
     for (NSString *cardId in cardIds) {
@@ -1477,13 +1355,13 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         item.appID = @"wxf8b4f85f3a794e77";
         [cardItems addObject:item];
     }
-
+    
     for (NSInteger index = 0; index < cardItems.count; index++) {
         WXCardItem *item = cardItems[index];
         NSString *ext = cardExts[index];
         item.extMsg = ext;
     }
-
+    
     AddCardToWXCardPackageReq *req = [[AddCardToWXCardPackageReq alloc] init];
     req.cardAry = cardItems;
     [WXApi sendReq:req completion:completion];
@@ -1502,9 +1380,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     chooseCardReq.signType = signType;
     chooseCardReq.timeStamp = timestamp;
     [WXApi sendReq:chooseCardReq completion:completion];
-
 }
-
 
 - (void)sendAuthRequestScope:(NSString *)scope
                        State:(NSString *)state
@@ -1515,8 +1391,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     req.scope = scope; // @"post_timeline,sns"
     req.state = state;
     req.openID = openID;
-
-
+    
     return [WXApi sendAuthReq:req
                viewController:viewController
                      delegate:self
@@ -1534,9 +1409,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     req.state = state;
     req.openID = openID;
     req.nonautomatic = nonAutomatic;
-
+    
     [WXApi sendReq:req completion:completion];
-
+    
 }
 
 
@@ -1558,17 +1433,17 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     chooseInvoiceReq.cardSign = cardSign;
     chooseInvoiceReq.nonceStr = nonceStr;
     chooseInvoiceReq.signType = signType;
-//    chooseCardReq.cardType = @"INVOICE";
+    //    chooseCardReq.cardType = @"INVOICE";
     chooseInvoiceReq.timeStamp = timestamp;
-//    chooseCardReq.canMultiSelect = 1;
+    //    chooseCardReq.canMultiSelect = 1;
     [WXApi sendReq:chooseInvoiceReq completion:completion];
 }
 
 
 - (void)openCustomerService:(NSString *)url CorpId:(NSString *)corpId completion:(void (^)(BOOL))completion {
     WXOpenCustomerServiceReq *req = [[WXOpenCustomerServiceReq alloc] init];
-    req.corpid = corpId;    //企业ID
-    req.url = url;            //客服URL
+    req.corpid = corpId; //企业ID
+    req.url = url;       //客服URL
     [WXApi sendReq:req completion:completion];
 }
 
@@ -1584,14 +1459,14 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 - (void)handleAuth:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *openId = call.arguments[@"openId"];
-
+    
     [self sendAuthRequestScope:call.arguments[@"scope"]
-                                        State:(call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"]
-                                       OpenID:(openId == (id) [NSNull null]) ? nil : openId
-                                 NonAutomatic:[call.arguments[@"nonAutomatic"] boolValue]
-                                   completion:^(BOOL done) {
-                                       result(@(done));
-                                   }];
+                         State:(call.arguments[@"state"] == (id) [NSNull null]) ? nil : call.arguments[@"state"]
+                        OpenID:(openId == (id) [NSNull null]) ? nil : openId
+                  NonAutomatic:[call.arguments[@"nonAutomatic"] boolValue]
+                    completion:^(BOOL done) {
+        result(@(done));
+    }];
 }
 
 - (void)authByQRCode:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -1601,7 +1476,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     NSString *timeStamp = call.arguments[@"timeStamp"];
     NSString *signature = call.arguments[@"signature"];
     NSString *schemeData = (call.arguments[@"schemeData"] == (id) [NSNull null]) ? nil : call.arguments[@"schemeData"];
-
+    
     BOOL done = [_qrauth Auth:appId nonceStr:nonceStr timeStamp:timeStamp scope:scope signature:signature schemeData:schemeData];
     result(@(done));
 }
@@ -1612,19 +1487,19 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)onQrcodeScanned {
-    if(_channel != nil){
-      [_channel invokeMethod:@"onQRCodeScanned" arguments:@{@"errCode": @0}];
+    if (_channel != nil) {
+        [_channel invokeMethod:@"onQRCodeScanned" arguments:@{@"errCode": @0}];
     }
 }
 
 - (void)onAuthGotQrcode:(UIImage *)image {
     NSData *imageData = UIImagePNGRepresentation(image);
-//    if (imageData == nil) {
-//        imageData = UIImageJPEGRepresentation(image, 1);
-//    }
-  if(_channel != nil){
-    [_channel invokeMethod:@"onAuthGotQRCode" arguments:@{@"errCode": @0, @"qrCode": imageData}];
-  }
+    //    if (imageData == nil) {
+    //        imageData = UIImageJPEGRepresentation(image, 1);
+    //    }
+    if (_channel != nil) {
+        [_channel invokeMethod:@"onAuthGotQRCode" arguments:@{@"errCode": @0, @"qrCode": imageData}];
+    }
 }
 
 - (void)onAuthFinish:(int)errCode AuthCode:(nullable NSString *)authCode {
@@ -1633,8 +1508,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     if (authCode != nil) {
         result[@"authCode"] = authCode;
     }
-    if(_channel != nil){
-    [_channel invokeMethod:@"onAuthByQRCodeFinished" arguments:result];
+    if (_channel != nil) {
+        [_channel invokeMethod:@"onAuthByQRCodeFinished" arguments:result];
     }
 }
 
@@ -1646,8 +1521,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                             MediaTag:(NSString *)tagName
                         MsgSignature:(NSString *)msgSignature
                            ThumbData:(NSData *)thumbData
-                       ThumbDataHash:(NSString*)thumbDataHash
-{
+                       ThumbDataHash:(NSString*)thumbDataHash {
     WXMediaMessage *message = [WXMediaMessage message];
     message.title = title;
     message.description = description;
@@ -1657,7 +1531,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     message.mediaTagName = tagName;
     message.thumbData = thumbData;
     message.thumbDataHash = thumbDataHash;
-    if(msgSignature != nil ){
+    if (msgSignature != nil) {
         message.msgSignature = msgSignature;
     }
     return message;
@@ -1670,21 +1544,23 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
     req.bText = bText;
     req.scene = scene;
-    if (bText)
+    if (bText) {
         req.text = text;
-    else
+    } else {
         req.message = message;
+    }
     return req;
 }
 
--(NSString*)fetchWeChatAppId{
-    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-    NSArray* types = infoDic[@"CFBundleURLTypes"];
-    for(NSDictionary* dic in types){
-        if([@"weixin" isEqualToString:dic[@"CFBundleURLName"]]){
-            return dic[@"CFBundleURLSchemes"][0];
+- (NSString*)fetchWeChatAppId {
+    NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSArray *types = infoDict[@"CFBundleURLTypes"];
+    for (NSDictionary *dict in types) {
+        if ([@"weixin" isEqualToString:dict[@"CFBundleURLName"]]) {
+            return dict[@"CFBundleURLSchemes"][0];
         }
     }
     return nil;
 }
+
 @end

@@ -55,10 +55,14 @@ project.targets.each do |target|
     if target.name == "Runner"
         app_id = options_dict[:app_id]
         universal_link = options_dict[:universal_link]
-        applinks = ''
 
-        if (!app_id.nil? && !app_id.empty?)
-           applinks = "applinks:#{URI.parse(universal_link).host}"
+        applinks = nil
+        if (!app_id.nil? && !app_id.empty? && !universal_link.nil? && !universal_link.empty?)
+            begin
+                applinks = "applinks:#{URI.parse(universal_link).host}"
+            rescue URI::InvalidURIError
+                applinks = nil
+            end
         end
 
         sectionObject = {}
@@ -155,7 +159,7 @@ project.targets.each do |target|
                 result["com.apple.developer.associated-domains"] = domains
             end
             isApplinksExist = domains.include? applinks
-            if !isApplinksExist
+            if !isApplinksExist && !applinks.nil?
                 domains << applinks
                 File.write(codeSignEntitlementsFile, Plist::Emit.dump(result))
             end

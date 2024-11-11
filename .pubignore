@@ -1,4 +1,4 @@
-example/android/gradle/wrapper/gradle-wrapper.jar
+example/
 .DS_Store
 .dart_tool/
 
@@ -13,28 +13,5 @@ build/
 .flutter-plugins-dependencies
 flutter_export_environment.sh
 
-android/.classpath
-android/.project
-android/.settings/org.eclipse.buildship.core.prefs
-example/android/.project
-example/android/.settings/org.eclipse.buildship.core.prefs
-example/android/app/.classpath
-example/android/app/.project
-example/android/app/.settings/org.eclipse.buildship.core.prefs
-example/ios/.symlinks
-example/Podfile.lock
 .last_build_id
 
-example/
-
-example/build
-example/.dart_tool
-
-example/.flutter-plugins
-example/.flutter-plugins-dependencies
-example/.packages
-example/.pub-cache/
-example/.pub/
-example/build/
-example
-example/android/app/debug.keystore

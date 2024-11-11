@@ -93,8 +93,7 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
         result.notImplemented();
         break;
       case "launchMiniProgram":
-        // TODO
-        result.notImplemented();
+        this.launchMiniProgram(call, result);
         break;
       case "subscribeMsg":
         // TODO
@@ -174,6 +173,11 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
       this.onPayResp(resp);
       return;
     }
+
+    if (resp instanceof wechatSDK.LaunchMiniProgramResp) {
+      this.onLaunchMiniProgramResp(resp);
+      return;
+    }
   }
 
   // 微信回调 end
@@ -215,6 +219,20 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
     this.channel?.invokeMethod("onPayResponse", _result);
   }
 
+  onLaunchMiniProgramResp(resp: wechatSDK.LaunchMiniProgramResp) {
+    const _result: Map<string, ESObject> = new Map();
+    _result.set(KEY_ERR_CODE, resp.errCode);
+    _result.set(KEY_ERR_STR, resp.errStr);
+    _result.set(KEY_TYPE, resp.type);
+    _result.set(KEY_OPEN_ID, resp.openId);
+
+    if (resp.extMsg) {
+      _result.set("extMsg", resp.extMsg);
+    }
+
+    this.channel?.invokeMethod("onLaunchMiniProgramResponse", _result);
+  }
+
   async handlePay(call: MethodCall, result: MethodResult) {
     if (!WXAPiHandler.wxApi) {
       result.error("Unassigned WxApi", "please config wxapi first", null);
@@ -239,5 +257,17 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
 
   attemptToResumeMsgFromWx(result: MethodResult) {
     WXAPiHandler.wxApi?.handleWant(this.binding?.getAbility().launchWant, this)
+  }
+
+  async launchMiniProgram(call: MethodCall, result: MethodResult) {
+    const request = new wechatSDK.LaunchMiniProgramReq();
+    request.userName = call.argument("userName");
+    request.path = call.argument("path");
+    // sdk 内当前没 type 常量, 直接使用传入的参数
+    request.miniprogramType = call.argument("miniprogramType") ?? 0;
+
+    const done = await WXAPiHandler.wxApi?.sendReq(this.uiContext, request);
+
+    result.success(done);
   }
 }

@@ -47,7 +47,7 @@ export class FluwxAuthHandler implements OAuthCallback {
     return this.diffDevOauth;
   }
 
-  sendAuth(call: MethodCall, result: MethodResult) {
+  async sendAuth(call: MethodCall, result: MethodResult) {
     const req = new SendAuthReq();
     req.isOption1 = false;
     req.scope = call.argument("scope");
@@ -57,10 +57,10 @@ export class FluwxAuthHandler implements OAuthCallback {
       req.openId = openid;
     }
     req.nonAutomatic = call.argument("nonAutomatic") ?? false;
-    result.success(WXAPiHandler.wxApi?.sendReq(
-      WXAPiHandler.uiContext,
-      req
-    ))
+
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+
+    result.success(done);
   }
 
   authByQRCode(call: MethodCall, result: MethodResult) {

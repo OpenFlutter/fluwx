@@ -54,7 +54,9 @@ export class FluwxShareHandler {
     const req = new wechatSDK.SendMessageToWXReq();
     req.message = mediaMsg;
 
-    result.success(WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req))
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+
+    result.success(done)
   }
 
   async shareImage(call: MethodCall, result: MethodResult) {
@@ -80,6 +82,7 @@ export class FluwxShareHandler {
     const req = new wechatSDK.SendMessageToWXReq();
     req.message = mediaMsg;
 
-    result.success(WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req));
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+    result.success(done);
   }
 }

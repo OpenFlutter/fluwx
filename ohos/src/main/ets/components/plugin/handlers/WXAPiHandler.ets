@@ -1,6 +1,6 @@
 import * as wechatOpenSDK from "@tencent/wechat_open_sdk"
 import { MethodCall, MethodResult } from '@ohos/flutter_ohos'
-import { bundle, bundleManager, common } from '@kit.AbilityKit'
+import { bundleManager, common } from '@kit.AbilityKit'
 
 export class WXAPiHandler {
   static wxApi: wechatOpenSDK.WXApi | null = null

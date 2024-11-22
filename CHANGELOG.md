@@ -1,3 +1,6 @@
+# 5.3.1
+* JVM target降低至11
+
 # 5.3.0
 * 升级kotlin、gradle相关
 * 更新progurad规则(#672)

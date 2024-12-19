@@ -254,7 +254,7 @@ class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
 class WeChatAuthByQRCodeFinishedResponse extends WeChatResponse {
   WeChatAuthByQRCodeFinishedResponse.fromMap(Map map)
       : authCode = map['authCode'],
-        qrCodeErrorCode = (_authByQRCodeErrorCodes[_errCode] ??
+        qrCodeErrorCode = (_authByQRCodeErrorCodes[map[_errCode]] ??
             AuthByQRCodeErrorCode.unknown),
         super._(map[_errCode], map[_errStr]);
 

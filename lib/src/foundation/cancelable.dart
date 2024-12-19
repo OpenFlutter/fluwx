@@ -19,6 +19,7 @@
 
 import 'package:flutter/foundation.dart';
 
+/// A mixin that provides a method to cancel an operation.
 mixin FluwxCancelable {
   void cancel();
 }

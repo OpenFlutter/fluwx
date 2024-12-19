@@ -1,5 +1,6 @@
 part of 'arguments.dart';
 
+/// Auto Deduct
 class AutoDeduct with _Argument {
   final Map<String, String> queryInfo;
   final int businessType;

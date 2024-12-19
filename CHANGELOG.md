@@ -1,3 +1,8 @@
+# 6.0.0
+* JVM target升级至17
+* 修复Lint问题
+* 删除web相关的
+
 # 5.3.1
 * JVM target降低至11
 

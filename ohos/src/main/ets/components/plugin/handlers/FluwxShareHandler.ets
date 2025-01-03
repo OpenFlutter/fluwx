@@ -16,8 +16,7 @@ export class FluwxShareHandler {
         this.shareText(call, result);
         break;
       case "shareMiniProgram":
-        // TODO
-        result.notImplemented();
+        this.shareMiniProgram(call, result);
         break;
       case "shareImage":
         this.shareImage(call, result);
@@ -31,8 +30,7 @@ export class FluwxShareHandler {
         result.notImplemented();
         break;
       case "shareWebPage":
-        // TODO
-        result.notImplemented();
+        this.shareWebPage(call, result);
         break;
       case "shareFile":
         // TODO
@@ -84,5 +82,55 @@ export class FluwxShareHandler {
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
     result.success(done);
+  }
+
+  async shareWebPage(call: MethodCall, result: MethodResult) {
+    const webpageObject = new wxopensdk.WXWebpageObject()
+    webpageObject.webpageUrl = call.argument("webPage")
+
+    const mediaMessage = new wxopensdk.WXMediaMessage()
+    mediaMessage.mediaObject = webpageObject
+    mediaMessage.title = call.argument("title")
+    mediaMessage.description = call.argument("description")
+
+    const bytes: Uint8Array | null = call.args.get("uint8List");
+    if (bytes) {
+      const buff: buffer.Buffer = buffer.from(bytes.buffer);
+      mediaMessage.thumbData = buff.toString("base64", 0, buff.length);
+    }
+
+    const req = new wxopensdk.SendMessageToWXReq()
+    req.scene = wxopensdk.SendMessageToWXReq.WXSceneSession
+    req.message = mediaMessage
+
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+
+    result.success(done)
+  }
+
+  async shareMiniProgram(call: MethodCall, result: MethodResult) {
+    const miniProgramObject = new wxopensdk.WXMiniProgramObject()
+    miniProgramObject.userName = call.argument("userName")
+    miniProgramObject.path = call.argument("path")
+    miniProgramObject.miniprogramType = wxopensdk.WXMiniProgramType.RELEASE
+
+    const mediaMessage = new wxopensdk.WXMediaMessage()
+    mediaMessage.mediaObject = miniProgramObject
+    mediaMessage.title = call.argument("title")
+    mediaMessage.description = call.argument("description")
+
+    const bytes: Uint8Array | null = call.args.get("uint8List");
+    if (bytes) {
+      const buff: buffer.Buffer = buffer.from(bytes.buffer);
+      mediaMessage.thumbData = buff.toString("base64", 0, buff.length);
+    }
+
+    const req = new wxopensdk.SendMessageToWXReq()
+    req.scene = wxopensdk.SendMessageToWXReq.WXSceneSession
+    req.message = mediaMessage
+
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+
+    result.success(done)
   }
 }

@@ -1,8 +1,8 @@
 import { Any, MethodCall, MethodResult } from "@ohos/flutter_ohos"
-import * as wechatSDK from "@tencent/wechat_open_sdk"
-import { WXAPiHandler } from "./WXAPiHandler"
 import { buffer } from "@kit.ArkTS"
 import { fileUri } from "@kit.CoreFileKit"
+import * as wxopensdk from '@tencent/wechat_open_sdk';
+import { WXAPiHandler } from "./WXAPiHandler"
 
 export class FluwxShareHandler {
   share(call: MethodCall, result: MethodResult) {
@@ -43,13 +43,13 @@ export class FluwxShareHandler {
   }
 
   async shareText(call: MethodCall, result: MethodResult) {
-    const textObj = new wechatSDK.WXTextObject();
+    const textObj = new wxopensdk.WXTextObject();
     textObj.text = call.argument("source");
 
-    const mediaMsg = new wechatSDK.WXMediaMessage();
+    const mediaMsg = new wxopensdk.WXMediaMessage();
     mediaMsg.mediaObject = textObj;
 
-    const req = new wechatSDK.SendMessageToWXReq();
+    const req = new wxopensdk.SendMessageToWXReq();
     req.message = mediaMsg;
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
@@ -62,7 +62,7 @@ export class FluwxShareHandler {
     // const imageHash: string | null = call.argument("imgDataHash");
     const bytes: Uint8Array | null = map.get("uint8List");
 
-    const imageObj = new wechatSDK.WXImageObject();
+    const imageObj = new wxopensdk.WXImageObject();
 
     if (bytes) {
       const buff: buffer.Buffer = buffer.from(bytes.buffer);
@@ -74,10 +74,10 @@ export class FluwxShareHandler {
       }
     }
 
-    const mediaMsg = new wechatSDK.WXMediaMessage();
+    const mediaMsg = new wxopensdk.WXMediaMessage();
     mediaMsg.mediaObject = imageObj;
 
-    const req = new wechatSDK.SendMessageToWXReq();
+    const req = new wxopensdk.SendMessageToWXReq();
     req.message = mediaMsg;
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
@@ -93,10 +93,9 @@ export class FluwxShareHandler {
     mediaMessage.title = call.argument("title")
     mediaMessage.description = call.argument("description")
 
-    const bytes: Uint8Array | null = call.args.get("uint8List");
-    if (bytes) {
-      const buff: buffer.Buffer = buffer.from(bytes.buffer);
-      mediaMessage.thumbData = buff.toString("base64", 0, buff.length);
+    const thumbData: Uint8Array | null = call.argument("thumbData");
+    if (thumbData) {
+      mediaMessage.thumbData = thumbData;
     }
 
     const req = new wxopensdk.SendMessageToWXReq()
@@ -119,10 +118,9 @@ export class FluwxShareHandler {
     mediaMessage.title = call.argument("title")
     mediaMessage.description = call.argument("description")
 
-    const bytes: Uint8Array | null = call.args.get("uint8List");
-    if (bytes) {
-      const buff: buffer.Buffer = buffer.from(bytes.buffer);
-      mediaMessage.thumbData = buff.toString("base64", 0, buff.length);
+    const thumbData: Uint8Array | null = call.argument("thumbData");
+    if (thumbData) {
+      mediaMessage.thumbData = thumbData;
     }
 
     const req = new wxopensdk.SendMessageToWXReq()

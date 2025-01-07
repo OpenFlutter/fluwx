@@ -1,3 +1,6 @@
+# 5.4.1
+* Android替换过时方法toLowerCase()为lowercase()
+
 # 5.4.0
 * 增加鸿蒙分享网页和小程序，微信sdk升级1.0.6
 

@@ -102,7 +102,7 @@ class ImagesIOIml(override val image: WeChatFile) : ImagesIO {
 
         val byteArrayOutputStream = ByteArrayOutputStream()
         var format = CompressFormat.PNG
-        if (suffix.toLowerCase(Locale.US) == ".jpg" || suffix.toLowerCase(Locale.US) == ".jpeg") {
+        if (suffix.lowercase(Locale.US) == ".jpg" || suffix.lowercase(Locale.US) == ".jpeg") {
             format = CompressFormat.JPEG
         }
         bitmap.compress(format, 100, byteArrayOutputStream)

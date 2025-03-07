@@ -1,3 +1,6 @@
+# 5.4.2
+* 更新一下API文档
+
 # 5.4.1
 * Android替换过时方法toLowerCase()为lowercase()
 

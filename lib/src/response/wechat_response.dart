@@ -87,7 +87,7 @@ class WeChatOpenInvoiceResponse extends WeChatResponse {
     return (errCode: errCode, errStr: errStr, cardItemList: cardItemList);
   }
 }
-
+/// The response when sharing finished.
 class WeChatShareResponse extends WeChatResponse {
   WeChatShareResponse.fromMap(Map map)
       : type = map['type'],
@@ -101,6 +101,7 @@ class WeChatShareResponse extends WeChatResponse {
   }
 }
 
+/// The response when auth finished.
 class WeChatAuthResponse extends WeChatResponse {
   WeChatAuthResponse.fromMap(Map map)
       : type = map['type'],
@@ -130,6 +131,7 @@ class WeChatAuthResponse extends WeChatResponse {
   }
 }
 
+/// The response when launching mini program finished.
 class WeChatLaunchMiniProgramResponse extends WeChatResponse {
   WeChatLaunchMiniProgramResponse.fromMap(Map map)
       : type = map['type'],
@@ -145,6 +147,7 @@ class WeChatLaunchMiniProgramResponse extends WeChatResponse {
   }
 }
 
+/// The response when payment finished.
 class WeChatPaymentResponse extends WeChatResponse {
   WeChatPaymentResponse.fromMap(Map map)
       : type = map['type'],
@@ -160,6 +163,7 @@ class WeChatPaymentResponse extends WeChatResponse {
   }
 }
 
+/// The response when customer service chat finished.
 class WeChatOpenCustomerServiceChatResponse extends WeChatResponse {
   WeChatOpenCustomerServiceChatResponse.fromMap(Map map)
       : extMsg = map['extMsg'],
@@ -173,6 +177,8 @@ class WeChatOpenCustomerServiceChatResponse extends WeChatResponse {
   }
 }
 
+
+/// The response when open business view finished.
 class WeChatOpenBusinessViewResponse extends WeChatResponse {
   final String? extMsg;
   final String? openid;
@@ -199,6 +205,7 @@ class WeChatOpenBusinessViewResponse extends WeChatResponse {
   }
 }
 
+/// The response when subscribe message finished.
 class WeChatSubscribeMsgResponse extends WeChatResponse {
   WeChatSubscribeMsgResponse.fromMap(Map map)
       : openid = map['openid'],
@@ -228,6 +235,7 @@ class WeChatSubscribeMsgResponse extends WeChatResponse {
   }
 }
 
+///   The response when open business webview finished.
 class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
   WeChatOpenBusinessWebviewResponse.fromMap(Map map)
       : type = map['type'],
@@ -250,7 +258,7 @@ class WeChatOpenBusinessWebviewResponse extends WeChatResponse {
     );
   }
 }
-
+/// The response when auth by QRCode finished.
 class WeChatAuthByQRCodeFinishedResponse extends WeChatResponse {
   WeChatAuthByQRCodeFinishedResponse.fromMap(Map map)
       : authCode = map['authCode'],
@@ -296,7 +304,7 @@ class WeChatQRCodeScannedResponse extends WeChatResponse {
   }
 }
 
-// 获取微信打开App时携带的参数
+/// 获取微信打开App时携带的参数
 class WeChatShowMessageFromWXRequest extends WeChatResponse {
   final String? country;
   final String? lang;
@@ -327,6 +335,7 @@ class WeChatShowMessageFromWXRequest extends WeChatResponse {
   }
 }
 
+/// 获取微信打开App时携带的参数
 class WeChatLaunchFromWXRequest extends WeChatResponse {
   final String? country;
   final String? lang;
@@ -354,6 +363,7 @@ class WeChatLaunchFromWXRequest extends WeChatResponse {
   }
 }
 
+/// The error code returned by Wechat SDK.
 enum AuthByQRCodeErrorCode {
   ok, // WechatAuth_Err_OK(0)
   normalErr, // WechatAuth_Err_NormalErr(-1)

@@ -1,5 +1,6 @@
 part of 'arguments.dart';
 
+/// The base class for all AuthType
 sealed class AuthType with _Argument {}
 
 /// The WeChat-Login is under Auth-2.0

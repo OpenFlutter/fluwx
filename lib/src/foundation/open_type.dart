@@ -31,6 +31,7 @@ class BusinessView extends OpenType {
       {"businessType": businessType, "query": query};
 }
 
+/// Inovice
 class Invoice extends OpenType {
   final String appId;
   final String cardType;

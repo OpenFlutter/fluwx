@@ -123,8 +123,7 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
         result.notImplemented();
         break;
       case "openBusinessView":
-        // TODO
-        result.notImplemented();
+        this.openBusinessView(call, result);
         break;
       case "openWeChatInvoice":
         // TODO
@@ -273,6 +272,17 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
     request.path = call.argument("path");
     // sdk 内当前没 type 常量, 直接使用传入的参数
     request.miniprogramType = call.argument("miniprogramType") ?? 0;
+
+    const done = await WXAPiHandler.wxApi?.sendReq(this.uiContext, request);
+
+    result.success(done);
+  }
+
+  async openBusinessView(call: MethodCall, result: MethodResult) {
+    const request = new wechatSDK.OpenBusinessViewReq();
+    request.businessType = call.argument("businessType");
+    request.query = call.argument("query");
+    request.extInfo = `{"miniProgramType": 0}`;
 
     const done = await WXAPiHandler.wxApi?.sendReq(this.uiContext, request);
 

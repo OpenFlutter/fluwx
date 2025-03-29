@@ -1,3 +1,6 @@
+#5.5.0
+* 更新鸿蒙sdk，支持openBusinessView,onWXLaunchFromWX
+* 
 # 5.4.2
 * 更新一下API文档
 

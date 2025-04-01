@@ -271,7 +271,7 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
     request.userName = call.argument("userName");
     request.path = call.argument("path");
     // sdk 内当前没 type 常量, 直接使用传入的参数
-    request.miniprogramType = call.argument("miniprogramType") ?? 0;
+    request.miniprogramType = call.argument("miniProgramType") ?? 0;
 
     const done = await WXAPiHandler.wxApi?.sendReq(this.uiContext, request);
 

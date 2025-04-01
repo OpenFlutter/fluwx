@@ -1,6 +1,9 @@
-#5.5.0
+# 5.5.1
+* 鸿蒙端bug修复，详见[PR](https://github.com/OpenFlutter/fluwx/pull/700)
+
+# 5.5.0
 * 更新鸿蒙sdk，支持openBusinessView,onWXLaunchFromWX
-* 
+
 # 5.4.2
 * 更新一下API文档
 

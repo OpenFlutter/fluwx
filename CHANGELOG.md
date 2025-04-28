@@ -1,3 +1,6 @@
+# 5.5.2
+* Fix [#703](https://github.com/OpenFlutter/fluwx/issues/703)
+
 # 5.5.1
 * 鸿蒙端bug修复，详见[PR](https://github.com/OpenFlutter/fluwx/pull/700)
 

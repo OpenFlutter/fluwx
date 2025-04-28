@@ -102,7 +102,9 @@ class MethodChannelFluwx extends FluwxPlatform {
       case WeChatApp():
         return await methodChannel.invokeMethod('openWXApp') ?? false;
       case Browser():
-        return await methodChannel.invokeMethod('openUrl') ?? false;
+        return await methodChannel.invokeMethod(
+                "openUrl", target.arguments) ??
+            false;
       case RankList():
         return await methodChannel.invokeMethod("openRankList") ?? false;
       case BusinessView():

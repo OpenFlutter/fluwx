@@ -261,7 +261,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     if (![WXApi isWXAppInstalled]) {
         result([FlutterError errorWithCode:@"WeChat Not Installed" message:@"Please install the WeChat first" details:nil]);
     } else {
-        result(@(true));
+        result(@(YES));
     }
 }
 

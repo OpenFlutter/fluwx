@@ -1,3 +1,6 @@
+# 5.5.3
+* Fix [#706](https://github.com/OpenFlutter/fluwx/issues/706)
+
 # 5.5.2
 * Fix [#703](https://github.com/OpenFlutter/fluwx/issues/703)
 

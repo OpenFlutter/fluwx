@@ -55,5 +55,6 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+      - run: flutter doctor    
       - run: flutter pub get
       - run: cd example; flutter build apk --debug

@@ -88,6 +88,7 @@ class WeChatShareTextModel extends WeChatShareModel {
 
 /// [hdImageData] only works on iOS, not sure the relationship
 /// the default value is [MINI_PROGRAM_TYPE_RELEASE]
+/// [scene] on supports [WeChatScene.session] for mini program sharing.
 class WeChatShareMiniProgramModel extends WeChatShareModel {
   WeChatShareMiniProgramModel({
     required this.webPageUrl,
@@ -101,6 +102,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
     this.messageAction,
     this.messageExt,
     this.hdImageData,
+    this.scene = WeChatScene.session,
     super.msgSignature,
     super.thumbData,
     super.thumbDataHash,
@@ -111,6 +113,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
   final Uint8List? hdImageData;
   final String webPageUrl;
   final WXMiniProgramType miniProgramType;
+  final WeChatScene scene;
   final String userName;
   final String path;
   final bool withShareTicket;
@@ -133,6 +136,7 @@ class WeChatShareMiniProgramModel extends WeChatShareModel {
         _thumbData: thumbData,
         _thumbDataHash: thumbDataHash,
         "hdImageData": hdImageData,
+        _scene: scene.index,
       };
 }
 

@@ -1,3 +1,6 @@
+# 5.5.4
+* 分享到小程序时，增加scene字段，尽管微信只支持分享小程序到会话.
+
 # 5.5.3
 * Fix [#706](https://github.com/OpenFlutter/fluwx/issues/706)
 

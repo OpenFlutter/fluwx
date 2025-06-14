@@ -26,8 +26,7 @@ export class FluwxShareHandler {
         result.notImplemented();
         break;
       case "shareVideo":
-        // TODO
-        result.notImplemented();
+        this.shareVideo(call, result);
         break;
       case "shareWebPage":
         this.shareWebPage(call, result);
@@ -50,6 +49,7 @@ export class FluwxShareHandler {
     mediaMsg.mediaObject = textObj;
 
     const req = new wxopensdk.SendMessageToWXReq();
+    this.setCommonArgs(call, req, mediaMsg);
     req.message = mediaMsg;
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
@@ -78,6 +78,7 @@ export class FluwxShareHandler {
     mediaMsg.mediaObject = imageObj;
 
     const req = new wxopensdk.SendMessageToWXReq();
+    this.setCommonArgs(call, req, mediaMsg);
     req.message = mediaMsg;
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
@@ -99,7 +100,7 @@ export class FluwxShareHandler {
     }
 
     const req = new wxopensdk.SendMessageToWXReq()
-    req.scene = wxopensdk.SendMessageToWXReq.WXSceneSession
+    this.setCommonArgs(call, req, mediaMessage)
     req.message = mediaMessage
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
@@ -124,11 +125,60 @@ export class FluwxShareHandler {
     }
 
     const req = new wxopensdk.SendMessageToWXReq()
-    req.scene = wxopensdk.SendMessageToWXReq.WXSceneSession
+    this.setCommonArgs(call, req, mediaMessage)
     req.message = mediaMessage
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
 
     result.success(done)
+  }
+
+  async shareVideo(call: MethodCall, result: MethodResult) {
+    const videoObject = new wxopensdk.WXVideoObject()
+    const videoUrl: string | undefined = call.argument("videoUrl");
+    const videoLowBandUrl: string | undefined = call.argument("videoLowBandUrl");
+
+    if (videoUrl) {
+      videoObject.videoUrl = videoUrl;
+    } else {
+      videoObject.videoLowBandUrl = videoLowBandUrl;
+    }
+
+    const mediaMessage = new wxopensdk.WXMediaMessage()
+    mediaMessage.mediaObject = videoObject
+    mediaMessage.title = call.argument("title") || ""
+    mediaMessage.description = call.argument("description") || ""
+
+    const req = new wxopensdk.SendMessageToWXReq()
+    this.setCommonArgs(call, req, mediaMessage)
+    req.message = mediaMessage
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+    result.success(done)
+  }
+
+  setCommonArgs(call: MethodCall, req: wxopensdk.SendMessageToWXReq, msg: wxopensdk.WXMediaMessage) {
+    const thumbData: Uint8Array | undefined = call.argument("thumbData");
+    const messageAction: string | undefined = call.argument("messageAction");
+
+    if (thumbData) {
+      msg.thumbData = thumbData;
+    }
+
+    if (messageAction) {
+      msg.messageAction = messageAction;
+    }
+
+    const sceneIndex: number = call.argument("scene")
+    switch (sceneIndex) {
+      case 0:
+        req.scene = wxopensdk.SendMessageToWXReq.WXSceneSession
+        break
+      case 1:
+        req.scene = wxopensdk.SendMessageToWXReq.WXSceneTimeline
+        break
+      default:
+        req.scene = wxopensdk.SendMessageToWXReq.WXSceneSession
+        break
+    }
   }
 }

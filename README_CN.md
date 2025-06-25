@@ -53,12 +53,13 @@ dependencies:
 
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
-不带支付的`Fluwx`:
+> [!NOTE]
+> 不带支付的`Fluwx`:<br/>
+> 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在 pubspec.yaml 中设置 `no_pay: true` 来去除支付能力。<br/>
+> 参考文件：[example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
 
-> 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在[pubspec.yaml](./example/pubspec.yaml).
-![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)中开启`no_pay`。
-
-> NOTE: 别忘记替换 ^${latestVersion} ！！！！
+> [!WARNING]
+> 别忘记替换 ^${latestVersion} ！！！！
 
 ## 配置
 

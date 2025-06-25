@@ -56,7 +56,7 @@ dependencies:
 > [!NOTE]
 > 不带支付的`Fluwx`:<br/>
 > 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在 pubspec.yaml 中设置 `no_pay: true` 来去除支付能力。<br/>
-> 参考文件：[example/pubspec.yaml](./example/pubspec.yaml)<br/>
+> 参考文件：[example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
 
 > [!WARNING]
 > 别忘记替换 ^${latestVersion} ！！！！

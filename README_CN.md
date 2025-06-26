@@ -30,6 +30,7 @@
 - 订阅消息.
 - 打开微信.
 - 从微信标签打开应用
+- APP拉起客服微信
 
 ## 准备
 
@@ -122,6 +123,7 @@ fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.unive
 - [支付](./doc/PAYMENT_CN.md)
 - [登录](./doc/AUTH_CN.md)
 - [从微信标签打开应用](./doc/LAUNCH_APP_FROM_H5_CN.md)
+- [APP拉起客服微信](/doc/Customer_Service_CN.md)
 对于更多功能，可以查看源码。
 
 ## QA

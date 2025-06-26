@@ -32,6 +32,7 @@
 - Subscribe Message.
 - Just open WeChat app.
 - Launch app From wechat link.
+- Open Customer Service
 
 ## Preparation
 
@@ -125,6 +126,7 @@ It' better to register your API as early as possible.
 - [Payment](./doc/PAYMENT.md)
 - [Auth](./doc/AUTH.md)
 - [Launch app from h5](./doc/LAUNCH_APP_FROM_H5.md)
+- [Open Customer Service](/doc/Customer_Service.md)
 
 For more capabilities, you can read the public functions of `fluwx`.
 

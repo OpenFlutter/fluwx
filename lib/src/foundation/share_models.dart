@@ -339,6 +339,32 @@ class WeChatShareFileModel extends WeChatShareModel {
       };
 }
 
+class WeChatShareEmojiModel extends WeChatShareModel {
+  final WeChatImageToShare emoji;
+  final WeChatScene scene;
+
+  WeChatShareEmojiModel(
+    this.emoji, {
+    this.scene = WeChatScene.session,
+    super.title,
+    super.description,
+    super.msgSignature,
+    super.thumbData,
+    super.thumbDataHash,
+  });
+
+  @override
+  Map<String, dynamic> get arguments => {
+        _scene: scene.index,
+        _source: emoji.arguments,
+        _title: title,
+        _description: description,
+        _msgSignature: msgSignature,
+        _thumbData: thumbData,
+        _thumbDataHash: thumbDataHash,
+      };
+}
+
 class WeChatImageToShare with _Argument {
   final Uint8List? uint8List;
   final String? localImagePath;

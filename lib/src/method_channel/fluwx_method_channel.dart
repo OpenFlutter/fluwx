@@ -45,6 +45,7 @@ class MethodChannelFluwx extends FluwxPlatform {
     WeChatShareWebPageModel: 'shareWebPage',
     WeChatShareMiniProgramModel: 'shareMiniProgram',
     WeChatShareFileModel: 'shareFile',
+    WeChatShareEmojiModel: 'shareEmoji',
   };
 
   final StreamController<WeChatResponse> _responseEventHandler =
@@ -100,9 +101,12 @@ class MethodChannelFluwx extends FluwxPlatform {
   Future<bool> open(OpenType target) async {
     switch (target) {
       case WeChatApp():
-        return await methodChannel.invokeMethod('openWXApp', target.arguments) ?? false;
+        return await methodChannel.invokeMethod(
+                'openWXApp', target.arguments) ??
+            false;
       case Browser():
-        return await methodChannel.invokeMethod('openUrl', target.arguments) ?? false;
+        return await methodChannel.invokeMethod('openUrl', target.arguments) ??
+            false;
       case RankList():
         return await methodChannel.invokeMethod("openRankList") ?? false;
       case BusinessView():

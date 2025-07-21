@@ -30,6 +30,7 @@
 - 订阅消息.
 - 打开微信.
 - 从微信标签打开应用
+- APP拉起客服微信
 
 ## 准备
 
@@ -53,12 +54,13 @@ dependencies:
 
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
-不带支付的`Fluwx`:
+> [!NOTE]
+> 不带支付的`Fluwx`:<br/>
+> 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在 pubspec.yaml 中设置 `no_pay: true` 来去除支付能力。<br/>
+> 参考文件：[example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
 
-> 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在[pubspec.yaml](./example/pubspec.yaml).
-![pub package](https://img.shields.io/pub/v/fluwx_no_pay.svg)中开启`no_pay`。
-
-> NOTE: 别忘记替换 ^${latestVersion} ！！！！
+> [!WARNING]
+> 别忘记替换 ^${latestVersion} ！！！！
 
 ## 配置
 
@@ -121,6 +123,7 @@ fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.unive
 - [支付](./doc/PAYMENT_CN.md)
 - [登录](./doc/AUTH_CN.md)
 - [从微信标签打开应用](./doc/LAUNCH_APP_FROM_H5_CN.md)
+- [APP拉起客服微信](/doc/Customer_Service_CN.md)
 对于更多功能，可以查看源码。
 
 ## QA

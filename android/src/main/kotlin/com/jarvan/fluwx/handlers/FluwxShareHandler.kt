@@ -16,6 +16,8 @@ import java.io.File
 import java.io.IOException
 import java.util.*
 import kotlin.coroutines.CoroutineContext
+import android.os.Build
+import io.flutter.plugin.common.MethodChannel.Result
 
 
 /***
@@ -65,6 +67,7 @@ internal interface FluwxShareHandler : CoroutineScope {
             "shareVideo" -> shareVideo(call, result)
             "shareWebPage" -> shareWebPage(call, result)
             "shareFile" -> shareFile(call, result)
+            "shareEmoji" -> shareEmoji(call, result)
             else -> {
                 result.notImplemented()
             }
@@ -266,6 +269,39 @@ internal interface FluwxShareHandler : CoroutineScope {
         }
     }
 
+    private fun shareEmoji(call: MethodCall, result: Result) {
+
+        val scene = call.argument<Int>("scene") ?: 0
+        val title = call.argument<String>("title")
+        val desc  = call.argument<String>("description")
+        val thumbData = call.argument<ByteArray>("thumbData")
+
+        val emojiMap = call.argument<Map<String, Any?>>("source")
+            ?: run { result.error("ARG", "emoji is null", null); return }
+
+        val emojiObj = WXEmojiObject().apply {
+            when {
+                emojiMap["uint8List"] != null -> emojiData = emojiMap["uint8List"] as ByteArray
+                emojiMap["path"]      != null -> emojiPath = ensurePublicPath(emojiMap["path"] as String)
+                else -> { result.error("ARG", "gif source missing", null); return }
+            }
+        }
+
+        val msg = WXMediaMessage(emojiObj).apply {
+            this.thumbData = thumbData
+            this.title = title
+            this.description = desc
+        }
+
+        val req = SendMessageToWX.Req().apply {
+            transaction = "emoji${System.currentTimeMillis()}"
+            message = msg
+            this.scene = scene
+        }
+
+        result.success(WXAPiHandler.wxApi?.sendReq(req))
+    }
+
     private suspend fun sendRequestInMain(result: MethodChannel.Result, request: BaseReq) =
         withContext(Dispatchers.Main) {
             result.success(WXAPiHandler.wxApi?.sendReq(request))
@@ -324,6 +360,17 @@ internal interface FluwxShareHandler : CoroutineScope {
 
         return contentUri.toString() // contentUri.toString() 即是以"content://"开头的用于共享的路径
 
+    }
+
+    private fun loadBytesFromFlutterAsset(assetKey: String): ByteArray =
+        context.assets.open(assetKey.removePrefix("flutterassets/")).use { it.readBytes() }
+
+    private fun ensurePublicPath(original: String): String {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return original
+        val src = File(original)
+        val dst = File(context.externalCacheDir, src.name)
+        if (!dst.exists()) src.copyTo(dst, overwrite = true)
+        return dst.path
     }
 
     private val supportFileProvider: Boolean

@@ -78,14 +78,25 @@ android {
 }
 
 Map loadPubspec() {
+    File pubspecFile
     def yamlDir = rootProject.hasProperty('yamlDir') ? rootProject.ext.yamlDir : ''
-    def path = rootProject.projectDir.parent + File.separator +yamlDir +"pubspec.yaml"
-    InputStream input = new FileInputStream(new File(path))
+    def pubspecPath = rootProject.projectDir.parent + File.separator +yamlDir +"pubspec.yaml"
+    if(file(pubspecPath).exists()) {
+        pubspecFile = new File(pubspecPath)
+    } else {
+        def currentGradleFileDir = file(".").absolutePath // 当前 build.gradle 所在目录
+        def parentDir = new File(currentGradleFileDir).getParentFile() // 获取父目录
+        pubspecFile = new File(parentDir, "pubspec.yaml") // 构建 pubspec.yaml 路径
+    }
+
+
+    InputStream input = new FileInputStream(pubspecFile)
     Yaml yaml = new Yaml()
     Map projectConfig = yaml.load(input)
 
     return projectConfig
 }
+
 
 
 tasks.register("generateFluwxHelperFile") {
@@ -100,7 +111,7 @@ tasks.register("generateFluwxHelperFile") {
            if (android) {
                def iwr = android.get("interrupt_wx_request")
                if (iwr && iwr == "true" || iwr == "false") {
-                   interruptWeChatRequestByFluwx = (String) iwr
+                   interruptWeChatRequestByFluwx = (String)
                }
 
                def activity = android.get("flutter_activity")
@@ -110,8 +121,8 @@ tasks.register("generateFluwxHelperFile") {
            }
 
            def logging = fluwx.get("debug_logging")
-           if (logging && logging == "true" || logging == "false") {
-               enableLogging = (String) logging
+           if ("${logging}" == "true" || "${logging}" == "false") {
+               enableLogging = "${logging}"
            }
        }
 

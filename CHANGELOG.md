@@ -1,3 +1,7 @@
+# 5.7.1
+* iOS SDK升级至2.0.5
+* Android SDK升级至6.8.34
+
 # 5.7.0
 * 修复debug_logging在Android端不生效的问题
 * Fix #716

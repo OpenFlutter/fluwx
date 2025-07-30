@@ -4,10 +4,9 @@
 #import <fluwx/ThumbnailHelper.h>
 #import <fluwx/FluwxStringUtil.h>
 #import <fluwx/NSStringWrapper.h>
-#import <WXApi.h>
-#import <WXApiObject.h>
-#import <WechatAuthSDK.h>
-#import <WXApi.h>
+#import <WechatOpenSDK/WXApi.h>
+#import <WechatOpenSDK/WXApiObject.h>
+#import <WechatOpenSDK/WechatAuthSDK.h>
 
 NSString *const fluwxKeyTitle = @"title";
 NSString *const fluwxKeyImage = @ "image";

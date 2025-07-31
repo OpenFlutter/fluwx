@@ -34,7 +34,6 @@ jobs:
         with:
           channel: stable
       - run: flutter pub get
-      - run: cd example/ios; pod update OpenWeChatSDKNoPay; cd ../..
       - run: |
              cd example
              sed -i.bak0 's/#    no_pay: true/    no_pay: true/' pubspec.yaml

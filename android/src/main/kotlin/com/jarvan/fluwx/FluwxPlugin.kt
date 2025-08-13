@@ -528,11 +528,13 @@ class FluwxPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     }
 
     private fun logToFlutter(tag: String?, message: String?) {
-        fluwxChannel?.invokeMethod(
-            "wechatLog", mapOf(
-                "detail" to "$tag : $message"
+        activityPluginBinding?.activity?.runOnUiThread {
+            fluwxChannel?.invokeMethod(
+                "wechatLog", mapOf(
+                    "detail" to "$tag : $message"
+                )
             )
-        )
+        }
     }
 
 

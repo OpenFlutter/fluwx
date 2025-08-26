@@ -43,9 +43,7 @@
 
 ## 安装
 
-在`pubspec.yaml` 文件中添加`fluwx`依赖:
-
-`Fluwx`，带支付:
+在`pubspec.yaml` 文件中添加 `fluwx` 依赖（默认带支付功能）:
 
 ```yaml
 dependencies:
@@ -54,13 +52,14 @@ dependencies:
 
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
-> [!NOTE]
-> 不带支付的`Fluwx`:<br/>
-> 一些开发者并不需要在iOS端使用支付能力，此时您可以通过在 pubspec.yaml 中设置 `no_pay: true` 来去除支付能力。<br/>
-> 参考文件：[example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
-
 > [!WARNING]
-> 别忘记替换 ^${latestVersion} ！为 `fluwx` 的发布版本！（参考 pub.dev 上的 [versions](https://pub-web.flutter-io.cn/packages/fluwx/versions)）
+> 别忘记替换 ^${latestVersion} ！为 `fluwx` 的发布版本！<br />
+> （参考上面的版本号，或pub.dev 上的 [versions](https://pub-web.flutter-io.cn/packages/fluwx/versions)）
+
+> [!NOTE]
+> 不带支付的 `fluwx`:<br/>
+> 一些开发者并不需要在 iOS 端使用支付能力，此时您只需要在 pubspec.yaml 的 `fluwx` 部分设置 `no_pay: true` 来去除支付能力。<br/>
+> 参考文件：[example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
 
 ## 配置
 

@@ -62,7 +62,7 @@ dependencies:
 > See the example: [example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
 
 > [!WARNING]
-> Never forget to replace ^${latestVersion} with an actual version!
+> Never forget to replace ^${latestVersion} with an actual version! (See [versions](https://pub.dev/packages/fluwx/versions) on pub.dev)
 
 ## Configurations
 

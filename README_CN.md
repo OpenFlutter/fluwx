@@ -60,7 +60,7 @@ dependencies:
 > 参考文件：[example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
 
 > [!WARNING]
-> 别忘记替换 ^${latestVersion} ！！！！
+> 别忘记替换 ^${latestVersion} ！为 `fluwx` 的发布版本！（参考 pub.dev 上的 [versions](https://pub-web.flutter-io.cn/packages/fluwx/versions)）
 
 ## 配置
 

@@ -45,9 +45,9 @@ integrating `Fluwx`. Then you'll understand how to generate Android signature, w
 
 ## Install
 
-Add the following dependencies in your `pubspec.yaml` file:
+Add the `fluwx` package (with payment feature by default) in your `pubspec.yaml` file:
 
-`Fluwx` with pay:
+`fluwx` with pay:
 
 ```yaml
 dependencies:
@@ -56,13 +56,14 @@ dependencies:
 
 ![pub package](https://img.shields.io/pub/v/fluwx.svg)
 
+> [!WARNING]
+> Never forget to replace ^${latestVersion} with an actual version!<br />
+> (See the above version, or go to [versions](https://pub.dev/packages/fluwx/versions) on pub.dev)
+
 > [!NOTE]
 > `fluwx` without pay:<br/>
-> Developers who need to exclude payment for iOS can set `no_pay: true` in pubspec.yaml.<br/>
+> Developers who need to exclude payment for iOS can set `no_pay: true` in the `fluwx` section of `pubspec.yaml`.<br/>
 > See the example: [example/pubspec.yaml](./example/pubspec.yaml#L19)<br/>
-
-> [!WARNING]
-> Never forget to replace ^${latestVersion} with an actual version! (See [versions](https://pub.dev/packages/fluwx/versions) on pub.dev)
 
 ## Configurations
 

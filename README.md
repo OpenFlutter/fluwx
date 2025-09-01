@@ -1,6 +1,6 @@
 # Fluwx
 
-[![pub package](https://img.shields.io/pub/v/fluwx.svg)](https://pub.dartlang.org/packages/fluwx)
+[![pub package](https://img.shields.io/pub/v/fluwx.svg)](https://pub.dev/packages/fluwx)
 ![Build status](https://github.com/OpenFlutter/fluwx/actions/workflows/build_test.yml/badge.svg)
 [![GitHub stars](https://img.shields.io/github/stars/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/network)

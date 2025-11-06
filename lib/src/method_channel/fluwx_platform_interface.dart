@@ -16,9 +16,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-import 'package:fluwx/fluwx.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import '../../fluwx.dart';
 import 'fluwx_method_channel.dart';
 
 abstract class FluwxPlatform extends PlatformInterface {

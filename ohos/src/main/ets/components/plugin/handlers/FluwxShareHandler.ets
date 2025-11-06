@@ -112,7 +112,17 @@ export class FluwxShareHandler {
     const miniProgramObject = new wxopensdk.WXMiniProgramObject()
     miniProgramObject.userName = call.argument("userName")
     miniProgramObject.path = call.argument("path")
-    miniProgramObject.miniprogramType = wxopensdk.WXMiniProgramType.RELEASE
+
+    let miniProgramType = wxopensdk.WXMiniProgramType.RELEASE
+
+    let miniProgramTypeInt: number = call.argument("miniProgramType")
+    if (miniProgramTypeInt === 1) {
+      miniProgramType = wxopensdk.WXMiniProgramType.TEST
+    } else if (miniProgramType === 2) {
+      miniProgramType = wxopensdk.WXMiniProgramType.PREVIEW
+    }
+
+    miniProgramObject.miniprogramType = miniprogramType
 
     const mediaMessage = new wxopensdk.WXMediaMessage()
     mediaMessage.mediaObject = miniProgramObject

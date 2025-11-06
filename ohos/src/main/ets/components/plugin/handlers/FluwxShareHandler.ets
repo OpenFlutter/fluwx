@@ -122,7 +122,7 @@ export class FluwxShareHandler {
       miniProgramType = wxopensdk.WXMiniProgramType.PREVIEW
     }
 
-    miniProgramObject.miniprogramType = miniprogramType
+    miniProgramObject.miniprogramType = miniProgramType
 
     const mediaMessage = new wxopensdk.WXMediaMessage()
     mediaMessage.mediaObject = miniProgramObject

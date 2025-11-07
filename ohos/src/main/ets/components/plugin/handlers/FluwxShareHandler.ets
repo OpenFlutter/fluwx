@@ -1,6 +1,6 @@
 import { Any, MethodCall, MethodResult } from "@ohos/flutter_ohos"
 import { buffer } from "@kit.ArkTS"
-import { fileUri } from "@kit.CoreFileKit"
+import { fileUri, fileIo as fs } from "@kit.CoreFileKit"
 import * as wxopensdk from '@tencent/wechat_open_sdk';
 import { WXAPiHandler } from "./WXAPiHandler"
 
@@ -32,8 +32,7 @@ export class FluwxShareHandler {
         this.shareWebPage(call, result);
         break;
       case "shareFile":
-        // TODO
-        result.notImplemented();
+        this.shareFile(call, result);
         break;
       default:
         result.notImplemented();
@@ -108,6 +107,54 @@ export class FluwxShareHandler {
     result.success(done)
   }
 
+  async shareFile(call: MethodCall, result: MethodResult) {
+    const source: Map<string, Any> = call.argument("source") ?? new Map();
+    const schemaIndex: number = source.get("schema")
+    let filePath: string = ""
+
+    // check schema is file or binary
+    if (schemaIndex < 2) {
+      result.error("ARG", "currently only file or binary schema is supported on ohos", null);
+      return;
+    }
+
+    // case schema is file
+    if(schemaIndex == 2) {
+      filePath = source.get("source")
+      if (filePath.startsWith("file://")) {
+        filePath = filePath;
+      } else {
+        filePath = fileUri.getUriFromPath(filePath);
+      }
+    } else {
+      // case schema is binary, write to temp file first
+      const bytes: Uint8Array = source.get("source");
+      const suffix: string = source.get("suffix") ?? ".tmp";
+      const fileName = `share_temp_${new Date().getTime()}${suffix}`;
+      const tempFilePath = `${WXAPiHandler.uiContext?.tempDir}/${fileName}`;
+      const tempFile = fs.openSync(tempFilePath, fs.OpenMode.READ_WRITE || fs.OpenMode.CREATE);
+      await fs.write(tempFile.fd, bytes.buffer);
+      await fs.close(tempFile.fd);
+      filePath = fileUri.getUriFromPath(tempFilePath);
+    }
+
+    const fileObject = new wxopensdk.WXFileObject()
+    fileObject.fileUri = filePath
+
+    const mediaMessage = new wxopensdk.WXMediaMessage()
+    mediaMessage.mediaObject = fileObject
+    mediaMessage.title = call.argument("title") || ""
+    mediaMessage.description = call.argument("description") || ""
+
+    const req = new wxopensdk.SendMessageToWXReq()
+    this.setCommonArgs(call, req, mediaMessage)
+    req.message = mediaMessage
+
+    const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
+
+    result.success(done)
+  }
+
   async shareMiniProgram(call: MethodCall, result: MethodResult) {
     const miniProgramObject = new wxopensdk.WXMiniProgramObject()
     miniProgramObject.userName = call.argument("userName")
@@ -118,7 +165,7 @@ export class FluwxShareHandler {
     let miniProgramTypeInt: number = call.argument("miniProgramType")
     if (miniProgramTypeInt === 1) {
       miniProgramType = wxopensdk.WXMiniProgramType.TEST
-    } else if (miniProgramType === 2) {
+    } else if (miniProgramTypeInt === 2) {
       miniProgramType = wxopensdk.WXMiniProgramType.PREVIEW
     }
 

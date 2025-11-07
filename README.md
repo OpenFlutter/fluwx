@@ -103,6 +103,8 @@ pod install
 }
 ```
 
+> HarmonyOS Debugging Notice: Do not use the IDE's automatic signing. You must manually apply for a debug certificate for signing and debugging.
+
 ## Register WxAPI
 
 Register your app via `fluwx` if necessary.

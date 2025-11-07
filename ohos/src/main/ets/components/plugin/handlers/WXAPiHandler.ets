@@ -37,9 +37,25 @@ export class WXAPiHandler {
   }
 
   static checkWeChatInstallation(result: MethodResult) {
-    const isInstalled = bundleManager.canOpenLink("weixin://")
-    result.success(isInstalled)
+    const isInstalled = bundleManager.canOpenLink("weixin://") || WXAPiHandler.wxApi?.isWXAppInstalled() === true;
+    result.success(isInstalled);
   }
+
+  static checkSupportOpenBusinessView(result: MethodResult) {
+    if (!WXAPiHandler.wxApi) {
+      result.error("Unassigned WxApi", "please config wxapi first", null);
+      return;
+    }
+
+    const isInstalled = bundleManager.canOpenLink("weixin://") || WXAPiHandler.wxApi?.isWXAppInstalled() === true;
+    if (!isInstalled) {
+      result.error("WeChat Not Installed", "Please install the WeChat first", null);
+      return;
+    }
+
+    result.success(true);
+  }
+
 
   private static registerWxAPIInternal(appId: string) {
     let api = wechatOpenSDK.WXAPIFactory.createWXAPI(appId)

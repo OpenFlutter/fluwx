@@ -115,12 +115,10 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
         this.extMsg = null;
         break;
       case "openWeChatCustomerServiceChat":
-        // TODO
-        result.notImplemented();
+        this.openWeChatCustomerServiceChat(call, result);
         break;
       case "checkSupportOpenBusinessView":
-        // TODO
-        result.notImplemented();
+        WXAPiHandler.checkSupportOpenBusinessView(result);
         break;
       case "openBusinessView":
         this.openBusinessView(call, result);
@@ -283,6 +281,16 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
     request.businessType = call.argument("businessType");
     request.query = call.argument("query");
     request.extInfo = `{"miniProgramType": 0}`;
+
+    const done = await WXAPiHandler.wxApi?.sendReq(this.uiContext, request);
+
+    result.success(done);
+  }
+
+  async openWeChatCustomerServiceChat(call: MethodCall, result: MethodResult) {
+    const request = new wechatSDK.OpenCustomerServiceChatReq();
+    request.corpId = call.argument("corpId") ?? "";
+    request.url = call.argument("url") ?? "";
 
     const done = await WXAPiHandler.wxApi?.sendReq(this.uiContext, request);
 

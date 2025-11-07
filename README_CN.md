@@ -98,6 +98,8 @@ pod install
 }
 ```
 
+> HarmonyOS 调试须知：不要使用 IDE 的自动签名，务必手动申请调试证书进行签名并调试
+
 ## 注册 WxAPI
 
 通过 `fluwx` 注册WxApi.

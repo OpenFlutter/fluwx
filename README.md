@@ -111,16 +111,48 @@ Register your app via `fluwx` if necessary.
 
 ```dart
 Fluwx fluwx = Fluwx();
-fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
+final success = fluwx.registerApi(appId: "wxd930ea5d5a228f5f",universalLink: "https://your.univerallink.com/link/");
+print("register API success: $success");
+```
+### iOS
+The parameter `universalLink` only works with iOS. You can read [this document](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) to learn
+how to create universalLink and what additional configuration is needed on iOS. In what follows is a summary: 
+
+1. A valid iOS universal link for this app is needed. 
+
+2. Make sure the app has the entitlement Associated domains enabled
+
+3. Add or modify `LSApplicationQueriesSchemes` in Info.plist in your iOS project. This is essential. The following strings should be added: `weixin`, `wechat`, `weixinULAPI` and `weixinURLParamsAPI`.
+
+4. Add or modify `CFBundleURLTypes` in Info.plist in your iOS project. Add a URL type with name `weixin` and role `editor`. Put your WeChat App ID in URL Schemes. 
+Example how this looks like in Info.plist after modifying via XCode:
+```xml
+<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>weixin</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx123456789</string>
+			</array>
+		</dict>
+	</array>
 ```
 
-The param `universalLink` only works with iOS. You can read [this document](https://developers.weixin.qq.com/doc/oplatform/Mobile_App/Access_Guide/iOS.html) to learn
-how to create universalLink. You can also learn how to add URL schema, how to add `LSApplicationQueriesSchemes` in your iOS project. This is essential.
 
-For Android, you shall know to how generate signature for your app in [this page](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html).
-And you have to understand the difference between debug signature and release signature. Once the signature is incorrect, then you'll get `errCode = -1`.
+### Android
+Make sure the MD5 fingerprint of the signature of your app 
+is registered at WeChat. You can extract this signature from your `keystore` using Java's keytool. 
 
-It' better to register your API as early as possible.
+In debug mode your app is signed with a debug key from the development machine which will not be recognized by WeChat and you'll get `errCode = -1`. If you want to test in debug mode you will have to modify your debug key 
+
+You can read more about it on [this page](https://developers.weixin.qq.com/doc/oplatform/Downloads/Android_Resource.html).
+
+
+It's better to register your API as early as possible.
 
 ## Capability Document
 

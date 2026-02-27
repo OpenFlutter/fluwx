@@ -1,4 +1,4 @@
 #import <Flutter/Flutter.h>
 
-@interface FluwxPlugin : NSObject<FlutterPlugin>
+@interface FluwxPlugin : NSObject<FlutterPlugin,  FlutterSceneLifeCycleDelegate>
 @end

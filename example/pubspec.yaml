@@ -15,7 +15,6 @@ fluwx:
 #    flutter_activity: 'MainActivity' # Defaults to app's launcher
   ios:
     universal_link: https://testdomain.com
-#    scene_delegate: true # Defaults to false.
 #    no_pay: true # Set to true to disable payment.
 #    ignore_security: true # Set to true to disable security seetings.
 

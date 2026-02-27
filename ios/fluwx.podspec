@@ -37,13 +37,6 @@ else
     logging_status = 'WECHAT_LOGGING=0'
 end
 
-scene_delegate = ''
-if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['scene_delegate'] == true
-    scene_delegate = 'SCENE_DELEGATE=1'
-else
-    scene_delegate = ''
-end
-
 
 if cfg['fluwx'] && cfg['fluwx']['ios'] && cfg['fluwx']['ios']['no_pay'] == true
     fluwx_subspec = 'no_pay'
@@ -100,6 +93,7 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
   s.static_framework = true
   s.resource_bundles = {'fluwx_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
   s.default_subspec = fluwx_subspec
+  s.swift_version = '5.0'
 
   pod_target_xcconfig = {
       'OTHER_LDFLAGS' => '$(inherited) -ObjC -all_load'
@@ -108,16 +102,17 @@ The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers ca
   s.subspec 'pay' do |sp|
     sp.dependency 'WechatOpenSDK-XCFramework','~> 2.0.5'
 
-    pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "$(inherited) #{logging_status} #{scene_delegate}"
+    pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "$(inherited) #{logging_status}"
 
     sp.pod_target_xcconfig = pod_target_xcconfig
+
   end
 
   s.subspec 'no_pay' do |sp|
     sp.dependency 'OpenWeChatSDKNoPay','~> 2.0.5'
     sp.frameworks = 'CoreGraphics', 'Security', 'WebKit'
     sp.libraries = 'c++', 'z', 'sqlite3.0'
-    pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "$(inherited) NO_PAY=1 #{logging_status} #{scene_delegate}"
+    pod_target_xcconfig["GCC_PREPROCESSOR_DEFINITIONS"] = "$(inherited) NO_PAY=1 #{logging_status}"
     sp.pod_target_xcconfig = pod_target_xcconfig
   end
 

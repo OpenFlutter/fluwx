@@ -21,7 +21,7 @@ fluwx.share(WeChatShareWebPageModel("https://www.",title: "标题",description: 
     ));
 ```
 
-绝大部分分享可以分享到会话，朋友圈，收藏（小程序目前只能分享到会话）。默认分享到会话。
+绝大部分分享可以分享到会话，朋友圈，收藏。默认分享到会话。
 
 ```dart
     ///[WeChatScene.session]会话

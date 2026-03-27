@@ -442,6 +442,32 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 }
 
+// Available on iOS 9.0 and later
+// See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options {
+    // ↓ previous solution -- according to document, this may fail if the WXApi hasn't registered yet.
+    // return [WXApi handleOpenURL:url delegate:self];
+
+    if (_isRunning) {
+        // registered -- directly handle open url request by WXApi
+        return [WXApi handleOpenURL:url delegate:self];
+    } else {
+        // unregistered -- cache open url request and handle it once WXApi is registered
+        __weak typeof(self) weakSelf = self;
+        _cachedOpenUrlRequest = ^() {
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            [WXApi handleOpenURL:url delegate:strongSelf];
+        };
+        // Let's hold this until the PR contributor send feedback.
+        //return [url.absoluteString contains:[self fetchWeChatAppId]];
+
+        // simply return YES to indicate that we can handle open url request later
+        return NO;
+    }
+}
+
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler{
     // TODO: (if need) cache userActivity and handle it once WXApi is registered
     return [WXApi handleOpenUniversalLink:userActivity delegate:self];

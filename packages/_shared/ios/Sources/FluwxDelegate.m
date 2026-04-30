@@ -21,9 +21,7 @@
 }
 
 - (void)registerWxAPI:(NSString *)appId universalLink:(NSString *)universalLink {
-#ifdef FLUWX_WITH_PAY
     [WXApi registerApp:appId universalLink:universalLink];
-#endif
 }
 
 @end

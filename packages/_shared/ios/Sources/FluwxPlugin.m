@@ -1021,7 +1021,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         }
         // 相关错误信息
     }
-#ifdef FLUWX_NO_PAY
+#ifndef FLUWX_NO_PAY
     else if ([resp isKindOfClass:[WXPayInsuranceResp class]]) {
         // pass
     } else if ([resp isKindOfClass:[PayResp class]]) {

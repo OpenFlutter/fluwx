@@ -15,7 +15,12 @@ let package = Package(
     products: [
         .library(name: "fluwx-no-pay", targets: ["fluwx_no_pay"])
     ],
-    dependencies: [],
+    dependencies: [
+        .package(
+            url: "https://github.com/JarvanMo/WechatOpenSDK-NoPay-SPM", //
+            from: "2.0.5"
+        )
+    ],
     targets: [
         .target(
             name: "fluwx_no_pay",

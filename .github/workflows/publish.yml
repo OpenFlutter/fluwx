@@ -17,7 +17,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
 
       - name: Install Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 7.5.1
 
       - name: Bootstrap
         run: melos bootstrap
@@ -26,7 +26,15 @@ jobs:
         run: dart tools/sync_version.dart --check
 
       - name: Verify symlinks
-        run: melos run symlinks:check
+        run: |
+          test -L packages/fluwx_no_pay/lib                                || (echo "❌ fluwx_no_pay/lib symlink missing" && exit 1)
+          test -L packages/fluwx/ios/fluwx/Sources/fluwx                   || (echo "❌ fluwx iOS Sources symlink missing" && exit 1)
+          test -L packages/fluwx_no_pay/ios/fluwx_no_pay/Sources/fluwx_no_pay || (echo "❌ fluwx_no_pay iOS Sources symlink missing" && exit 1)
+          test -L packages/fluwx/android/src/main/kotlin                   || (echo "❌ fluwx Android kotlin symlink missing" && exit 1)
+          test -L packages/fluwx_no_pay/android/src/main/kotlin            || (echo "❌ fluwx_no_pay Android kotlin symlink missing" && exit 1)
+          test -L packages/fluwx/ohos                                      || (echo "❌ fluwx/ohos symlink missing" && exit 1)
+          test -L packages/fluwx_no_pay/ohos                               || (echo "❌ fluwx_no_pay/ohos symlink missing" && exit 1)
+          echo "✅ 所有 symlink 完好"
 
       - name: Setup pub credentials
         run: |

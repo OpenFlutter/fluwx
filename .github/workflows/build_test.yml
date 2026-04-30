@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main,spm-migration]
+    branches: [main, spm-migration]
   pull_request:
 
 jobs:
@@ -17,19 +17,27 @@ jobs:
           channel: stable
 
       - name: Install Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 7.5.1
 
       - name: Bootstrap
         run: melos bootstrap
 
       - name: Verify symlinks
-        run: melos run symlinks:check
+        run: |
+          test -L packages/fluwx_no_pay/lib                                || (echo "❌ fluwx_no_pay/lib symlink missing" && exit 1)
+          test -L packages/fluwx/ios/fluwx/Sources/fluwx                   || (echo "❌ fluwx iOS Sources symlink missing" && exit 1)
+          test -L packages/fluwx_no_pay/ios/fluwx_no_pay/Sources/fluwx_no_pay || (echo "❌ fluwx_no_pay iOS Sources symlink missing" && exit 1)
+          test -L packages/fluwx/android/src/main/kotlin                   || (echo "❌ fluwx Android kotlin symlink missing" && exit 1)
+          test -L packages/fluwx_no_pay/android/src/main/kotlin            || (echo "❌ fluwx_no_pay Android kotlin symlink missing" && exit 1)
+          test -L packages/fluwx/ohos                                      || (echo "❌ fluwx/ohos symlink missing" && exit 1)
+          test -L packages/fluwx_no_pay/ohos                               || (echo "❌ fluwx_no_pay/ohos symlink missing" && exit 1)
+          echo "✅ 所有 symlink 完好"
 
       - name: Analyze
-        run: melos run analyze
+        run: melos exec -- flutter analyze
 
       - name: Test
-        run: melos run test
+        run: melos exec -- flutter test
 
   # ──────────────────────────────────────────────
   ios_fluwx:
@@ -45,7 +53,7 @@ jobs:
         run: flutter config --enable-swift-package-manager
 
       - name: Install Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 7.5.1
 
       - name: Bootstrap
         run: melos bootstrap
@@ -69,7 +77,7 @@ jobs:
         run: flutter config --enable-swift-package-manager
 
       - name: Install Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 7.5.1
 
       - name: Bootstrap
         run: melos bootstrap
@@ -81,15 +89,19 @@ jobs:
 
       - name: Verify — no WechatOpenSDK symbols in binary
         run: |
-          BINARY=$(find ~/Library/Developer/Xcode/DerivedData \
-            -name "fluwx_no_pay" -type f 2>/dev/null | head -1)
-          if [ -z "$BINARY" ]; then
-            echo "⚠️  Binary not found，跳过符号检查"
+          ARCHIVE=$(find ~/Library/Developer/Xcode/DerivedData \
+            -name "libfluwx_no_pay.a" 2>/dev/null | head -1)
+          OBJECTS=$(find ~/Library/Developer/Xcode/DerivedData \
+            -path "*/fluwx_no_pay.build/*.o" 2>/dev/null | head -1)
+          TARGET="${ARCHIVE:-$OBJECTS}"
+          if [ -z "$TARGET" ]; then
+            echo "⚠️  未找到编译产物，跳过符号检查"
             exit 0
           fi
-          if nm "$BINARY" | grep -qE "^[^ ]+ [tT] _WX|WechatOpenSDK"; then
+          echo "检查目标: $TARGET"
+          if nm "$TARGET" 2>/dev/null | grep -qE "WX[A-Z]|WechatOpenSDK"; then
             echo "❌ fluwx_no_pay binary 中发现 WechatOpenSDK 符号！合规检查失败"
-            nm "$BINARY" | grep -E "WX[A-Z]|WechatOpenSDK" | head -20
+            nm "$TARGET" | grep -E "WX[A-Z]|WechatOpenSDK" | head -20
             exit 1
           fi
           echo "✅ Binary 无微信 SDK 符号，合规通过"
@@ -105,13 +117,17 @@ jobs:
           channel: stable
 
       - name: Install Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 7.5.1
 
       - name: Bootstrap
         run: melos bootstrap
 
       - name: Pod lint
-        run: melos run pod:lint
+        run: |
+          cd packages/fluwx
+          pod lib lint ios/fluwx.podspec --skip-tests --use-modular-headers
+          cd ../fluwx_no_pay
+          pod lib lint ios/fluwx_no_pay.podspec --skip-tests --use-modular-headers
 
   # ──────────────────────────────────────────────
   android:
@@ -129,7 +145,7 @@ jobs:
           channel: stable
 
       - name: Install Melos
-        run: dart pub global activate melos
+        run: dart pub global activate melos 7.5.1
 
       - name: Bootstrap
         run: melos bootstrap

@@ -99,12 +99,20 @@ jobs:
             exit 0
           fi
           echo "检查目标: $TARGET"
-          if nm "$TARGET" 2>/dev/null | grep -qE "WX[A-Z]|WechatOpenSDK"; then
-            echo "❌ fluwx_no_pay binary 中发现 WechatOpenSDK 符号！合规检查失败"
-            nm "$TARGET" | grep -E "WX[A-Z]|WechatOpenSDK" | head -20
+
+          SYMBOLS=$(nm -gjU "$TARGET" 2>/dev/null || nm "$TARGET" 2>/dev/null | awk '{print $NF}')
+
+          if printf '%s\n' "$SYMBOLS" | grep -Fxq "_OBJC_CLASS_\$_PayResp" \
+            || printf '%s\n' "$SYMBOLS" | grep -Fxq "_OBJC_CLASS_\$_WXNontaxPayResp" \
+            || printf '%s\n' "$SYMBOLS" | grep -Fxq "_OBJC_CLASS_\$_WXPayInsuranceResp"; then
+            echo "❌ fluwx_no_pay binary 中发现支付相关符号！合规检查失败"
+            printf '%s\n' "$SYMBOLS" | grep -Fx \
+              -e "_OBJC_CLASS_\$_PayResp" \
+              -e "_OBJC_CLASS_\$_WXNontaxPayResp" \
+              -e "_OBJC_CLASS_\$_WXPayInsuranceResp" | head -20
             exit 1
           fi
-          echo "✅ Binary 无微信 SDK 符号，合规通过"
+          echo "✅ Binary 无支付相关符号，合规通过"
 
   # ──────────────────────────────────────────────
   ios_fluwx_pod:
@@ -125,7 +133,7 @@ jobs:
       - name: Bootstrap
         run: melos bootstrap
 
-      - name: Build fluwx_no_pay example (SPM)
+      - name: Build fluwx example (CocoaPods)
         run: |
           cd packages/fluwx_no_pay/example
           flutter build ios --no-codesign
@@ -149,7 +157,7 @@ jobs:
       - name: Bootstrap
         run: melos bootstrap
 
-      - name: Build fluwx_no_pay example (SPM)
+      - name: Build fluwx_no_pay example (CocoaPods)
         run: |
           cd packages/fluwx_no_pay/example
           flutter build ios --no-codesign

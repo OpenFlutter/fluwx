@@ -65,7 +65,7 @@ jobs:
 
   # ──────────────────────────────────────────────
   ios_fluwx_no_pay:
-    name: iOS build — fluwx_no_pay (no SDK, SPM)
+    name: iOS build — fluwx_no_pay (no pay, SPM)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
@@ -116,7 +116,7 @@ jobs:
 
   # ──────────────────────────────────────────────
   ios_fluwx_pod:
-    name: iOS build — fluwx (no SDK, CocoaPods)
+    name: iOS build — fluwx (no pay, CocoaPods)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
@@ -140,7 +140,7 @@ jobs:
 
   # ──────────────────────────────────────────────
   ios_fluwx_no_pay_pod:
-    name: iOS build — fluwx_no_pay (no SDK, CocoaPods)
+    name: iOS build — fluwx_no_pay (no pay, CocoaPods)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6

@@ -3,6 +3,7 @@ library_version = pubspec['version'].gsub('+', '-')
 
 Pod::Spec.new do |s|
   s.name             = 'fluwx_no_pay'
+  s.module_name      = 'fluwx_no_pay'
   s.version          = library_version
   s.summary          = 'WeChat SDK Flutter plugin without payment — passes App Store payment compliance review.'
   s.description      = <<-DESC

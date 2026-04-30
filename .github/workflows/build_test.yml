@@ -61,6 +61,7 @@ jobs:
       - name: Build fluwx example (SPM)
         run: |
           cd packages/fluwx/example
+          flutter pub get
           flutter build ios --no-codesign
 
   # ──────────────────────────────────────────────
@@ -85,6 +86,7 @@ jobs:
       - name: Build fluwx_no_pay example (SPM)
         run: |
           cd packages/fluwx_no_pay/example
+          flutter pub get
           flutter build ios --no-codesign
 
       - name: Verify — no WechatOpenSDK symbols in binary
@@ -136,6 +138,7 @@ jobs:
       - name: Build fluwx example (CocoaPods)
         run: |
           cd packages/fluwx/example
+          flutter pub get
           flutter build ios --no-codesign
 
   # ──────────────────────────────────────────────
@@ -160,6 +163,7 @@ jobs:
       - name: Build fluwx_no_pay example (CocoaPods)
         run: |
           cd packages/fluwx_no_pay/example
+          flutter pub get
           flutter build ios --no-codesign
   # ──────────────────────────────────────────────
   android:

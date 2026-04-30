@@ -77,6 +77,7 @@ system(command)
 
 Pod::Spec.new do |s|
   s.name             = 'fluwx'
+  s.module_name      = 'fluwx'
   s.version          = '0.0.1'
   s.summary          = 'The capability of implementing WeChat SDKs in Flutter. With Fluwx, developers can use WeChatSDK easily, such as sharing, payment, lanuch mini program and etc.'
   s.description      = <<-DESC

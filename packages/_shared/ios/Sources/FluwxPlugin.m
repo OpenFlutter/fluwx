@@ -158,7 +158,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     } else {
         result(FlutterMethodNotImplemented);
     }
-#endif
 }
 
 - (void)openWeChatInvoice:(FlutterMethodCall *)call result:(FlutterResult)result {

@@ -25,13 +25,14 @@ Pod::Spec.new do |s|
   }
   s.swift_version = '5.0'
 
-  # ✅ 无任何微信 SDK 依赖
+  # ✅ 依赖 OpenWeChatSDKNoPay（无支付符号版），通过 FLUWX_NO_PAY 宏屏蔽支付代码
   s.frameworks  = 'CoreGraphics', 'Security', 'WebKit'
   s.libraries   = 'c++', 'z', 'sqlite3.0'
 
   s.pod_target_xcconfig = {
     'DEFINES_MODULE'                      => 'YES',
     'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
-    'GCC_PREPROCESSOR_DEFINITIONS'        => '$(inherited) FLUWX_NO_PAY=1'
+    'GCC_PREPROCESSOR_DEFINITIONS'        => '$(inherited) FLUWX_NO_PAY=1',
+    'OTHER_LDFLAGS'                       => '$(inherited) -ObjC -all_load'
   }
 end

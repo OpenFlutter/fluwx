@@ -135,7 +135,7 @@ jobs:
 
       - name: Build fluwx example (CocoaPods)
         run: |
-          cd packages/fluwx_no_pay/example
+          cd packages/fluwx/example
           flutter build ios --no-codesign
 
   # ──────────────────────────────────────────────

@@ -1,0 +1,36 @@
+pubspec = YAML.load_file(File.join('..', 'pubspec.yaml'))
+library_version = pubspec['version'].gsub('+', '-')
+
+Pod::Spec.new do |s|
+  s.name             = 'fluwx_no_pay'
+  s.version          = library_version
+  s.summary          = 'WeChat SDK Flutter plugin without payment — passes App Store payment compliance review.'
+  s.description      = <<-DESC
+    fluwx_no_pay provides the same API as fluwx but the iOS binary contains NO WechatOpenSDK symbols.
+    Calling payment methods returns MissingPluginException at runtime.
+    Use this package when your app must pass App Store payment compliance review.
+  DESC
+  s.homepage         = 'https://github.com/OpenFlutter/fluwx'
+  s.license          = { :file => '../LICENSE' }
+  s.author           = { 'OpenFlutter' => 'openflutter@gmail.com' }
+  s.source           = { :path => '.' }
+  s.source_files     = 'fluwx_no_pay/Sources/fluwx_no_pay/**/*'
+  s.public_header_files = 'fluwx_no_pay/Sources/fluwx_no_pay/include/**/*.h'
+  s.dependency 'Flutter'
+  s.platform         = :ios, '12.0'
+  s.static_framework = true
+  s.resource_bundles = {
+    'fluwx_no_pay_privacy' => ['fluwx_no_pay/Sources/fluwx_no_pay/Resources/PrivacyInfo.xcprivacy']
+  }
+  s.swift_version = '5.0'
+
+  # ✅ 无任何微信 SDK 依赖
+  s.frameworks  = 'CoreGraphics', 'Security', 'WebKit'
+  s.libraries   = 'c++', 'z', 'sqlite3.0'
+
+  s.pod_target_xcconfig = {
+    'DEFINES_MODULE'                      => 'YES',
+    'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386',
+    'GCC_PREPROCESSOR_DEFINITIONS'        => '$(inherited) FLUWX_NO_PAY=1'
+  }
+end

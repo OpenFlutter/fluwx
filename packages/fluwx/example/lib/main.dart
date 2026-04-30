@@ -1,0 +1,1 @@
+../../../_shared/example/lib/main.dart

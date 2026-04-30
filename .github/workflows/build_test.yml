@@ -108,7 +108,7 @@ jobs:
 
   # ──────────────────────────────────────────────
   ios_fluwx_pod:
-    name: iOS build — fluwx_no_pay (no SDK, CocoaPods)
+    name: iOS build — fluwx (no SDK, CocoaPods)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -117,7 +117,7 @@ jobs:
           channel: stable
 
       - name: Disable SPM
-        run: flutter config --no--enable-swift-package-manager
+        run: flutter config --no-enable-swift-package-manager
 
       - name: Install Melos
         run: dart pub global activate melos 7.5.1
@@ -141,7 +141,7 @@ jobs:
           channel: stable
 
       - name: Disable SPM
-        run: flutter config --no--enable-swift-package-manager
+        run: flutter config --no-enable-swift-package-manager
 
       - name: Install Melos
         run: dart pub global activate melos 7.5.1

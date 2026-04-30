@@ -1,9 +1,8 @@
-#import <fluwx/FluwxPlugin.h>
-#import <fluwx/FluwxStringUtil.h>
-#import <fluwx/FluwxDelegate.h>
-#import <fluwx/ThumbnailHelper.h>
-#import <fluwx/FluwxStringUtil.h>
-#import <fluwx/NSStringWrapper.h>
+#import "FluwxPlugin.h"
+#import "FluwxStringUtil.h"
+#import "FluwxDelegate.h"
+#import "ThumbnailHelper.h"
+#import "NSStringWrapper.h"
 #import <WechatOpenSDK/WXApi.h>
 #import <WechatOpenSDK/WXApiObject.h>
 #import <WechatOpenSDK/WechatAuthSDK.h>

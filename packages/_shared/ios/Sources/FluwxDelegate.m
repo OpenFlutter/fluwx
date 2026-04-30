@@ -7,9 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "FluwxDelegate.h"
-#ifdef FLUWX_WITH_PAY
 #import <WechatOpenSDK/WXApi.h>
-#endif
 
 @implementation FluwxDelegate
 

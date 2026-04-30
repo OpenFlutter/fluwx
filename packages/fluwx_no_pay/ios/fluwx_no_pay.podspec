@@ -17,6 +17,7 @@ Pod::Spec.new do |s|
   s.source_files     = 'fluwx_no_pay/Sources/fluwx_no_pay/**/*'
   s.public_header_files = 'fluwx_no_pay/Sources/fluwx_no_pay/include/**/*.h'
   s.dependency 'Flutter'
+  s.dependency 'OpenWeChatSDKNoPay', '~> 2.0.5'
   s.platform         = :ios, '12.0'
   s.static_framework = true
   s.resource_bundles = {

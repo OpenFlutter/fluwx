@@ -3,11 +3,9 @@
 #import "FluwxDelegate.h"
 #import "ThumbnailHelper.h"
 #import "NSStringWrapper.h"
-#ifdef FLUWX_WITH_PAY
 #import <WechatOpenSDK/WXApi.h>
 #import <WechatOpenSDK/WXApiObject.h>
 #import <WechatOpenSDK/WechatAuthSDK.h>
-#endif
 
 NSString *const fluwxKeyTitle = @"title";
 NSString *const fluwxKeyImage = @ "image";
@@ -37,20 +35,14 @@ NSUInteger defaultThumbnailSize = 32 * 1024;
 
 typedef void(^FluwxWXReqRunnable)(void);
 
-#ifdef FLUWX_WITH_PAY
-@interface FluwxPlugin()<WXApiDelegate,WechatAuthAPIDelegate>
-@property (strong, nonatomic)NSString *extMsg;
+@interface FluwxPlugin () <WXApiDelegate, WechatAuthAPIDelegate>
+@property(strong, nonatomic) NSString *extMsg;
 @end
-#else
-@interface FluwxPlugin()
-@end
-#endif
+
 
 @implementation FluwxPlugin {
     FlutterMethodChannel *_channel;
-#ifdef FLUWX_WITH_PAY
     WechatAuthSDK *_qrauth;
-#endif
     BOOL _isRunning;
     BOOL _attemptToResumeMsgFromWxFlag;
     FluwxWXReqRunnable _attemptToResumeMsgFromWxRunnable;
@@ -69,11 +61,11 @@ BOOL handleOpenURLByFluwx = YES;
 
 NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
-+ (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar> *)registrar {
++ (void)registerWithRegistrar:(NSObject <FlutterPluginRegistrar> *)registrar {
     _fluwxRegistrar = registrar;
     FlutterMethodChannel *channel =
-    [FlutterMethodChannel methodChannelWithName:@"com.jarvanmo/fluwx"
-                                binaryMessenger:[registrar messenger]];
+            [FlutterMethodChannel methodChannelWithName:@"com.jarvanmo/fluwx"
+                                        binaryMessenger:[registrar messenger]];
     FluwxPlugin *instance = [[FluwxPlugin alloc] initWithChannel:channel];
     [registrar addApplicationDelegate:instance];
     [registrar addSceneDelegate:instance];
@@ -84,14 +76,12 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     self = [super init];
     if (self) {
         _channel = channel;
-#ifdef FLUWX_WITH_PAY
         _qrauth = [[WechatAuthSDK alloc] init];
         _qrauth.delegate = self;
-#endif
         _isRunning = NO;
         thumbnailWidth = 150;
         _attemptToResumeMsgFromWxFlag = NO;
-#if defined(FLUWX_WITH_PAY) && defined(WECHAT_LOGGING)
+#ifdef WECHAT_LOGGING
         [WXApi startLogByLevel:WXLogLevelDetail logBlock:^(NSString *log) {
             [self logToFlutterWithDetail:log];
         }];
@@ -101,11 +91,6 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
-#ifndef FLUWX_WITH_PAY
-    // fluwx_no_pay: WechatOpenSDK is not linked on iOS — all WeChat operations are no-ops.
-    result(@NO);
-    return;
-#else
     if ([@"registerApp" isEqualToString:call.method]) {
         [self registerApp:call result:result];
     } else if ([@"isWeChatInstalled" isEqualToString:call.method]) {
@@ -125,7 +110,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     } else if ([@"autoDeduct" isEqualToString:call.method]) {
         [self handleAutoDeductWithCall:call result:result];
     } else if ([@"autoDeductV2" isEqualToString:call.method]) {
-        [self handleautoDeductV2:call result:result];
+        [self handleAutoDeductV2:call result:result];
     } else if ([@"openBusinessView" isEqualToString:call.method]) {
         [self handleOpenBusinessView:call result:result];
     } else if ([@"authByPhoneLogin" isEqualToString:call.method]) {
@@ -159,16 +144,22 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         }
         result(nil);
     } else if ([@"payWithFluwx" isEqualToString:call.method]) {
+#ifdef FLUWX_NO_PAY
+        result(@NO);
+#else
         [self handlePayment:call result:result];
+#endif
     } else if ([@"payWithHongKongWallet" isEqualToString:call.method]) {
+#ifdef FLUWX_NO_PAY
+        result(@NO);
+#else
         [self handleHongKongWalletPayment:call result:result];
+#endif
     } else {
         result(FlutterMethodNotImplemented);
     }
 #endif
 }
-
-#ifdef FLUWX_WITH_PAY
 
 - (void)openWeChatInvoice:(FlutterMethodCall *)call result:(FlutterResult)result {
 
@@ -176,9 +167,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     if ([FluwxStringUtil isBlank:appId]) {
         result([FlutterError
-                errorWithCode:@"invalid app id"
-                message:@"are you sure your app id is correct ? "
-                details:appId]);
+                       errorWithCode:@"invalid app id"
+                             message:@"are you sure your app id is correct ? "
+                             details:appId]);
         return;
     }
 
@@ -204,9 +195,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     NSString *appId = call.arguments[@"appId"];
     if ([FluwxStringUtil isBlank:appId]) {
         result([FlutterError
-                errorWithCode:@"invalid app id"
-                message:@"are you sure your app id is correct ? "
-                details:appId]);
+                       errorWithCode:@"invalid app id"
+                             message:@"are you sure your app id is correct ? "
+                             details:appId]);
         return;
     }
 
@@ -214,9 +205,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
     if ([FluwxStringUtil isBlank:universalLink]) {
         result([FlutterError
-                errorWithCode:@"invalid universal link"
-                message:@"are you sure your universal link is correct ? "
-                details:universalLink]);
+                       errorWithCode:@"invalid universal link"
+                             message:@"are you sure your universal link is correct ? "
+                             details:universalLink]);
         return;
     }
 
@@ -262,6 +253,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
 }
 
+#ifdef FLUWX_NO_PAY
 - (void)handlePayment:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSNumber *timestamp = call.arguments[@"timeStamp"];
 
@@ -288,7 +280,9 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }];
 
 }
+#endif
 
+#ifdef FLUWX_NO_PAY
 - (void)handleHongKongWalletPayment:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *partnerId = call.arguments[@"prepayId"];
 
@@ -301,6 +295,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         result(@(done));
     }];
 }
+#endif
 
 - (void)handleLaunchMiniProgram:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSString *userName = call.arguments[@"userName"];
@@ -359,7 +354,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }];
 }
 
-- (void)handleautoDeductV2:(FlutterMethodCall *)call result:(FlutterResult)result {
+- (void)handleAutoDeductV2:(FlutterMethodCall *)call result:(FlutterResult)result {
     NSMutableDictionary *paramsFromDart = call.arguments[@"queryInfo"];
     WXOpenBusinessWebViewReq *req = [[WXOpenBusinessWebViewReq alloc] init];
     NSNumber *businessType = call.arguments[@"businessType"];
@@ -700,8 +695,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                                   ThumbData:thumbData
                               ThumbDataHash:call.arguments[fluwxKeyThumbDataHash]
                                  completion:^(BOOL done) {
-                result(@(done));
-            }];
+                                     result(@(done));
+                                 }];
         });
     });
 }
@@ -731,8 +726,8 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
                         ThumbData:thumbData
                     ThumbDataHash:thumbHash
                        completion:^(BOOL success) {
-                result(@(success));
-            }];
+                           result(@(success));
+                       }];
         });
     });
 }
@@ -1531,7 +1526,5 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
     }
     return nil;
 }
-
-#endif  // FLUWX_WITH_PAY
 
 @end

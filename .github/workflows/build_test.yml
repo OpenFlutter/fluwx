@@ -1,51 +1,122 @@
-name: Build test
+name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
 
 jobs:
-  test_iOS:
-    name: Test iOS on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest]
+  # ──────────────────────────────────────────────
+  analyze_test:
+    name: Analyze & Test (all packages)
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter pub get
-      - run: cd example/ios; pod update WechatOpenSDK-XCFramework; cd ../..
-      - run: cd example; flutter build ios --no-codesign
 
-  test_iOS_No_Pay:
-    name: Test iOS no_pay on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest]
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Verify symlinks
+        run: melos run symlinks:check
+
+      - name: Analyze
+        run: melos run analyze
+
+      - name: Test
+        run: melos run test
+
+  # ──────────────────────────────────────────────
+  ios_fluwx:
+    name: iOS build — fluwx (with pay, SPM)
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter pub get
-      - run: |
-             cd example
-             sed -i.bak0 's/#    no_pay: true/    no_pay: true/' pubspec.yaml
-             cat pubspec.yaml
-             flutter build ios --no-codesign
 
-  test_android:
-    name: Test android on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
+      - name: Enable SPM
+        run: flutter config --enable-swift-package-manager
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Build fluwx example (SPM)
+        run: |
+          cd packages/fluwx/example
+          flutter build ios --no-codesign
+
+  # ──────────────────────────────────────────────
+  ios_fluwx_no_pay:
+    name: iOS build — fluwx_no_pay (no SDK, SPM)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Enable SPM
+        run: flutter config --enable-swift-package-manager
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Build fluwx_no_pay example (SPM)
+        run: |
+          cd packages/fluwx_no_pay/example
+          flutter build ios --no-codesign
+
+      - name: Verify — no WechatOpenSDK symbols in binary
+        run: |
+          BINARY=$(find ~/Library/Developer/Xcode/DerivedData \
+            -name "fluwx_no_pay" -type f 2>/dev/null | head -1)
+          if [ -z "$BINARY" ]; then
+            echo "⚠️  Binary not found，跳过符号检查"
+            exit 0
+          fi
+          if nm "$BINARY" | grep -qE "^[^ ]+ [tT] _WX|WechatOpenSDK"; then
+            echo "❌ fluwx_no_pay binary 中发现 WechatOpenSDK 符号！合规检查失败"
+            nm "$BINARY" | grep -E "WX[A-Z]|WechatOpenSDK" | head -20
+            exit 1
+          fi
+          echo "✅ Binary 无微信 SDK 符号，合规通过"
+
+  # ──────────────────────────────────────────────
+  ios_pod_lint:
+    name: iOS CocoaPods lint (过渡期双轨验证)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Pod lint
+        run: melos run pod:lint
+
+  # ──────────────────────────────────────────────
+  android:
+    name: Android build (fluwx)
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 21
@@ -56,6 +127,14 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter doctor    
-      - run: flutter pub get
-      - run: cd example; flutter build apk --debug
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Build Android APK (fluwx example)
+        run: |
+          cd packages/fluwx/example
+          flutter build apk --debug

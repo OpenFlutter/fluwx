@@ -9,11 +9,29 @@ jobs:
   publish:
     environment: 'pub.dev'
     permissions:
-      id-token: write # Required for authentication using OIDC
+      id-token: write   # OIDC 认证
     runs-on: ubuntu-latest
     steps:
-      - name: 📚 Git Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - uses: ./.github/actions/publish_flutter_package
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+
+      - name: Install Melos
+        run: dart pub global activate melos
+
+      - name: Bootstrap
+        run: melos bootstrap
+
+      - name: Verify version sync
+        run: dart tools/sync_version.dart --check
+
+      - name: Verify symlinks
+        run: melos run symlinks:check
+
+      - name: Setup pub credentials
+        run: |
+          mkdir -p ~/.config/dart
+          echo '${{ secrets.PUB_CREDENTIALS }}' > ~/.config/dart/pub-credentials.json
+
+      - name: Publish (fluwx first, then fluwx_no_pay)
+        run: melos publish --no-dry-run --yes

@@ -1,0 +1,46 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <!-- Support WeChat query on Android P -->
+    <queries>
+        <package android:name="com.tencent.mm" />
+    </queries>
+
+    <application>
+
+        <activity
+            android:name=".wxapi.FluwxWXEntryActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:taskAffinity="${applicationId}"
+            android:theme="@style/DisablePreviewTheme" />
+
+        <activity-alias
+            android:name="${applicationId}.wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
+            android:taskAffinity="${applicationId}"
+            android:theme="@style/DisablePreviewTheme" />
+
+        <activity-alias
+            android:name="${applicationId}.wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:targetActivity="com.jarvan.fluwx.wxapi.FluwxWXEntryActivity"
+            android:theme="@style/DisablePreviewTheme" />
+
+        <provider
+            android:name="com.jarvan.fluwx.FluwxFileProvider"
+            android:authorities="${applicationId}.fluwxprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/fluwx_file_provider_paths" />
+        </provider>
+    </application>
+</manifest>

@@ -1,0 +1,53 @@
+name: fluwx
+
+packages:
+  - packages/fluwx
+  - packages/fluwx_no_pay
+  - "!packages/_shared"   # _shared 非 pub 包，排除
+
+command:
+  version:
+    linkToCommits: false
+    updateGitTagRefs: true
+    workspaceChangelog: true
+
+scripts:
+  analyze:
+    run: flutter analyze
+    exec:
+      concurrency: 1
+
+  test:
+    run: flutter test
+    exec:
+      concurrency: 2
+
+  version:sync:
+    run: dart tools/sync_version.dart
+    description: "同步 fluwx_no_pay 版本与 fluwx 一致"
+
+  pod:lint:
+    run: pod lib lint ios/$MELOS_PACKAGE_NAME.podspec --skip-tests --use-modular-headers
+    exec:
+      concurrency: 1
+    packageFilters:
+      fileExists: "ios/*.podspec"
+
+  symlinks:check:
+    run: |
+      test -L packages/fluwx_no_pay/lib                                                    || (echo "❌ fluwx_no_pay/lib symlink missing" && exit 1)
+      test -L packages/fluwx/ios/fluwx/Sources/fluwx                                       || (echo "❌ fluwx iOS Sources symlink missing" && exit 1)
+      test -L packages/fluwx_no_pay/ios/fluwx_no_pay/Sources/fluwx_no_pay                  || (echo "❌ fluwx_no_pay iOS Sources symlink missing" && exit 1)
+      test -L packages/fluwx/android/src/main/kotlin                                       || (echo "❌ fluwx Android kotlin symlink missing" && exit 1)
+      test -L packages/fluwx_no_pay/android/src/main/kotlin                                || (echo "❌ fluwx_no_pay Android kotlin symlink missing" && exit 1)
+      test -L packages/fluwx/example/lib/pages                                             || (echo "❌ fluwx example pages symlink missing" && exit 1)
+      test -L packages/fluwx_no_pay/example/lib/pages                                      || (echo "❌ fluwx_no_pay example pages symlink missing" && exit 1)
+      test -L packages/fluwx/example/images                                                || (echo "❌ fluwx example images symlink missing" && exit 1)
+      test -L packages/fluwx_no_pay/example/images                                         || (echo "❌ fluwx_no_pay example images symlink missing" && exit 1)
+      test -L packages/fluwx/ohos                                                          || (echo "❌ fluwx/ohos symlink missing" && exit 1)
+      test -L packages/fluwx_no_pay/ohos                                                   || (echo "❌ fluwx_no_pay/ohos symlink missing" && exit 1)
+      echo "✅ 所有 symlink 完好"
+
+  publish:all:
+    run: melos publish --no-dry-run --yes
+    description: "先发 fluwx，再发 fluwx_no_pay"

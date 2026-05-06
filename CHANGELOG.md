@@ -1,3 +1,7 @@
+# 6.0.0-preview.4
+* iOS迁移到Swift Package Manager
+* fluwx_no_pay又成为独立的包
+
 # 6.0.0-preview.3
 * 修复iOS编译错误
 

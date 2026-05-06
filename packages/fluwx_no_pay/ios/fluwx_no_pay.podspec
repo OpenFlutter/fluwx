@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
   s.name             = 'fluwx_no_pay'
   s.module_name      = 'fluwx_no_pay'
-  s.version          = library_version
+  s.version          = '2.0.5'
   s.summary          = 'WeChat SDK Flutter plugin without payment — passes App Store payment compliance review.'
   s.description      = <<-DESC
     fluwx_no_pay provides the same API as fluwx but the iOS binary contains NO WechatOpenSDK symbols.
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   DESC
   s.homepage         = 'https://github.com/OpenFlutter/fluwx'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'OpenFlutter' => 'openflutter@gmail.com' }
+  s.author           = { 'OpenFlutter' => 'jarvan.mo@gmail.com' }
   s.source           = { :path => '.' }
   s.source_files     = 'fluwx_no_pay/Sources/fluwx_no_pay/**/*'
   s.public_header_files = 'fluwx_no_pay/Sources/fluwx_no_pay/include/**/*.h'

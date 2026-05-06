@@ -36,3 +36,7 @@ dependencies:
     path: ../
   http: ^1.6.0
 
+
+#flutter:
+#  config:
+#    enable-swift-package-manager: false

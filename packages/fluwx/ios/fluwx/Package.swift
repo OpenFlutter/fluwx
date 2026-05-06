@@ -9,6 +9,7 @@ let package = Package(
         .library(name: "fluwx", targets: ["fluwx"])
     ],
     dependencies: [
+        .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/JarvanMo/WechatOpenSDK-SPM", //
             from: "2.0.5"
@@ -18,6 +19,7 @@ let package = Package(
         .target(
             name: "fluwx",
             dependencies: [
+                .product(name: "FlutterFramework", package: "FlutterFramework"),
                 .product(name: "WechatOpenSDK", package: "WechatOpenSDK-SPM")
             ],
             resources: [

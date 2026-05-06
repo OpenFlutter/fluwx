@@ -8,6 +8,7 @@ let package = Package(
         .library(name: "fluwx-no-pay", targets: ["fluwx_no_pay"])
     ],
     dependencies: [
+        .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/JarvanMo/WechatOpenSDK-NoPay-SPM", //
             from: "2.0.5"
@@ -17,6 +18,7 @@ let package = Package(
         .target(
             name: "fluwx_no_pay",
             dependencies: [
+                .product(name: "FlutterFramework", package: "FlutterFramework"),
                 .product(name: "WechatOpenSDK", package: "WechatOpenSDK-NoPay-SPM")
             ],
             resources: [

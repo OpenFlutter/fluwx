@@ -23,15 +23,7 @@ jobs:
         run: melos bootstrap
 
       - name: Verify symlinks
-        run: |
-          test -L packages/fluwx_no_pay/lib                                || (echo "❌ fluwx_no_pay/lib symlink missing" && exit 1)
-          test -L packages/fluwx/ios/fluwx/Sources/fluwx                   || (echo "❌ fluwx iOS Sources symlink missing" && exit 1)
-          test -L packages/fluwx_no_pay/ios/fluwx_no_pay/Sources/fluwx_no_pay || (echo "❌ fluwx_no_pay iOS Sources symlink missing" && exit 1)
-          test -L packages/fluwx/android/src/main/kotlin                   || (echo "❌ fluwx Android kotlin symlink missing" && exit 1)
-          test -L packages/fluwx_no_pay/android/src/main/kotlin            || (echo "❌ fluwx_no_pay Android kotlin symlink missing" && exit 1)
-          test -L packages/fluwx/ohos                                      || (echo "❌ fluwx/ohos symlink missing" && exit 1)
-          test -L packages/fluwx_no_pay/ohos                               || (echo "❌ fluwx_no_pay/ohos symlink missing" && exit 1)
-          echo "✅ 所有 symlink 完好"
+        run: melos run symlinks:check
 
       - name: Analyze
         run: melos exec --concurrency=1 -- flutter analyze --no-fatal-infos --no-fatal-warnings

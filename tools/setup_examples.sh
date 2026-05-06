@@ -73,7 +73,7 @@ EOF
 
 cat > packages/fluwx_no_pay/example/lib/fluwx_compat.dart << 'EOF'
 // fluwx_no_pay 适配层 — 共享 example 代码通过此文件引入正确的包
-export 'package:fluwx_no_pay/fluwx.dart';
+export 'package:fluwx_no_pay/fluwx_no_pay.dart';
 EOF
 
 echo "  ✅ fluwx_compat.dart 写入完毕"

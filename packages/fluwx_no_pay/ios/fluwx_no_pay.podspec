@@ -1,5 +1,3 @@
-pubspec = YAML.load_file(File.join('..', 'pubspec.yaml'))
-library_version = pubspec['version'].gsub('+', '-')
 
 Pod::Spec.new do |s|
   s.name             = 'fluwx_no_pay'

@@ -12,14 +12,14 @@ Pod::Spec.new do |s|
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'OpenFlutter' => 'jarvan.mo@gmail.com' }
   s.source           = { :path => '.' }
-  s.source_files     = 'fluwx/Sources/fluwx/**/*'
-  s.public_header_files = 'fluwx/Sources/fluwx/include/**/*.h'
+  s.source_files     = 'fluwx/CocoaPodsSources/fluwx/**/*'
+  s.public_header_files = 'fluwx/CocoaPodsSources/fluwx/include/**/*.h'
   s.dependency 'Flutter'
   s.dependency 'WechatOpenSDK-XCFramework','~> 2.0.5'
   s.platform         = :ios, '12.0'
   s.static_framework = true
   s.resource_bundles = {
-    'fluwx_privacy' => ['fluwx/Sources/fluwx/Resources/PrivacyInfo.xcprivacy']
+    'fluwx_privacy' => ['fluwx/CocoaPodsSources/fluwx/Resources/PrivacyInfo.xcprivacy']
   }
   s.swift_version = '5.0'
 

@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "fluwx",
-    platforms: [.iOS("12.0")],
+    platforms: [.iOS(.v13)],
     products: [
         .library(name: "fluwx", targets: ["fluwx"])
     ],

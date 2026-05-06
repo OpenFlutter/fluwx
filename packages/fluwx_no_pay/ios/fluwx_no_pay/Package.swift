@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "fluwx_no_pay",
-    platforms: [.iOS("12.0")],
+    platforms: [.iOS(.v13)],
     products: [
         .library(name: "fluwx-no-pay", targets: ["fluwx_no_pay"])
     ],

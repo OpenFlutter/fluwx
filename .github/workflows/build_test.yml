@@ -118,7 +118,7 @@ jobs:
 
   # ──────────────────────────────────────────────
   ios_fluwx_pod:
-    name: iOS build — fluwx (no pay, CocoaPods)
+    name: iOS build — fluwx (CocoaPods)
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6

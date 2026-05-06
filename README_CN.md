@@ -4,7 +4,7 @@
 ![Build status](https://github.com/OpenFlutter/fluwx/actions/workflows/build_test.yml/badge.svg)
 [![GitHub stars](https://img.shields.io/github/stars/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/network)
-[![GitHub license](https://img.shields.io/github/license/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/blob/main/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/OpenFlutter/fluwx)](https://github.com/OpenFlutter/fluwx/issues)
 <a target="_blank" href="https://qm.qq.com/q/TJ29rkzywM"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="OpenFlutter" title="OpenFlutter"></a>
 

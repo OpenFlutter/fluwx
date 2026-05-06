@@ -4,7 +4,7 @@ Simple and easy:
 ```dart
  fluwx.share(WeChatShareTextModel("source text", scene: WeChatScene.SESSION));
 ```
-The destination of sharing can be SESSION(default),TIMELINE or FAVORITE.However,mini-program only support SESSION.
+The destination of sharing can be SESSION(default),TIMELINE or FAVORITE.
 
 ```dart
     ///[WeChatScene.session]会话

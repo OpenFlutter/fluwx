@@ -164,6 +164,10 @@ jobs:
         run: |
           cd packages/fluwx_no_pay/example
           flutter pub get
+          cd ios
+          pod repo update
+          pod install
+          cd ..
           flutter build ios --no-codesign
   # ──────────────────────────────────────────────
   android:

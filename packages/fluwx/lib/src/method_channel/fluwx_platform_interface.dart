@@ -18,7 +18,8 @@
  */
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import '../../fluwx.dart';
+import '../foundation/arguments.dart';
+import '../response/wechat_response.dart';
 import 'fluwx_method_channel.dart';
 
 abstract class FluwxPlatform extends PlatformInterface {

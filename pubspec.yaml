@@ -43,7 +43,8 @@ melos:
 
     symlinks:check:
       run: |
-        test -L packages/fluwx_no_pay/lib                                                    || (echo "❌ fluwx_no_pay/lib symlink missing" && exit 1)
+        test -L packages/fluwx_no_pay/lib/src                                                || (echo "❌ fluwx_no_pay/lib/src symlink missing" && exit 1)
+        test -f packages/fluwx_no_pay/lib/fluwx_no_pay.dart                                  || (echo "❌ fluwx_no_pay library entrypoint missing" && exit 1)
         test -L packages/fluwx/ios/fluwx/Sources/fluwx                                       || (echo "❌ fluwx iOS Sources symlink missing" && exit 1)
         test -L packages/fluwx_no_pay/ios/fluwx_no_pay/Sources/fluwx_no_pay                  || (echo "❌ fluwx_no_pay iOS Sources symlink missing" && exit 1)
         test -L packages/fluwx/ios/fluwx/CocoaPodsSources/fluwx/FluwxPlugin.m                || (echo "❌ fluwx CocoaPods source symlink missing" && exit 1)

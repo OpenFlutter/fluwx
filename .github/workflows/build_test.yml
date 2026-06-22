@@ -131,6 +131,10 @@ jobs:
         run: |
           cd packages/fluwx/example
           flutter pub get
+          cd ios
+          pod repo update
+          pod install
+          cd ..
           flutter build ios --no-codesign
 
   # ──────────────────────────────────────────────

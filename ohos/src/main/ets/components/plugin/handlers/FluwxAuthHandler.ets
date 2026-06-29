@@ -83,6 +83,6 @@ export class FluwxAuthHandler implements OAuthCallback {
   }
 
   stopAuthByQRCode(result: MethodResult) {
-    result.success(this.diffDevOauth?.stopOAuth()?? false)
+    result.success(this.diffDevOauth?.stopOAuth())
   }
 }

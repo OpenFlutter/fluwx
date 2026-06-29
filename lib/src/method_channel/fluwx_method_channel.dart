@@ -187,14 +187,14 @@ class MethodChannelFluwx extends FluwxPlatform {
         return await methodChannel.invokeMethod(
           'sendAuth',
           which.arguments,
-        );
+        ) ?? false;
       case QRCode():
         return await methodChannel.invokeMethod(
                 'authByQRCode', which.arguments) ??
             false;
       case PhoneLogin():
         return await methodChannel.invokeMethod(
-            'authByPhoneLogin', which.arguments);
+            'authByPhoneLogin', which.arguments) ?? false;
     }
   }
 

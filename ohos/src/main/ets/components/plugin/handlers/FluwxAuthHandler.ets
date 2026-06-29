@@ -60,7 +60,7 @@ export class FluwxAuthHandler implements OAuthCallback {
 
     const done = await WXAPiHandler.wxApi?.sendReq(WXAPiHandler.uiContext, req);
 
-    result.success(done);
+    result.success(done ?? false);
   }
 
   authByQRCode(call: MethodCall, result: MethodResult) {
@@ -83,6 +83,6 @@ export class FluwxAuthHandler implements OAuthCallback {
   }
 
   stopAuthByQRCode(result: MethodResult) {
-    result.success(this.diffDevOauth?.stopOAuth())
+    result.success(this.diffDevOauth?.stopOAuth()?? false)
   }
 }

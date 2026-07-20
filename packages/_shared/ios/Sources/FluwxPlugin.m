@@ -418,9 +418,7 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
 
 // Available on iOS 9.0 and later
 // See https://developer.apple.com/documentation/uikit/uiapplicationdelegate/1623112-application?language=objc
-- (BOOL)application:(UIApplication *)app
-            openURL:(NSURL *)url
-            options:(NSDictionary<NSString *, id> *)options {
+- (BOOL)handleOrCacheOpenURL:(NSURL *)url {
     // ↓ previous solution -- according to document, this may fail if the WXApi hasn't registered yet.
     // return [WXApi handleOpenURL:url delegate:self];
 
@@ -440,6 +438,31 @@ NSObject <FlutterPluginRegistrar> *_fluwxRegistrar;
         // simply return YES to indicate that we can handle open url request later
         return NO;
     }
+}
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options {
+    return [self handleOrCacheOpenURL:url];
+}
+
+// Fix wx-open-launch-app cold starts when using FlutterSceneDelegate. Custom URL schemes are
+// delivered through UIScene connection options on cold start and openURLContexts while running.
+- (BOOL)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts API_AVAILABLE(ios(13.0)) {
+    BOOL handled = NO;
+    for (UIOpenURLContext *context in URLContexts) {
+        handled = [self handleOrCacheOpenURL:context.URL] || handled;
+    }
+    return handled;
+}
+
+- (BOOL)scene:(UIScene *)scene
+    willConnectToSession:(UISceneSession *)session
+                 options:(UISceneConnectionOptions *)connectionOptions API_AVAILABLE(ios(13.0)) {
+    if (connectionOptions == nil || connectionOptions.URLContexts.count == 0) {
+        return NO;
+    }
+    return [self scene:scene openURLContexts:connectionOptions.URLContexts];
 }
 
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nonnull))restorationHandler{

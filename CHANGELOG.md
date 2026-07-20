@@ -1,3 +1,6 @@
+# 6.0.1
+* 修复 iOS FlutterSceneDelegate 下微信开放标签冷启动回调(#770)
+
 # 6.0.0
 * iOS支持UISceneDelegate
 * iOS迁移到Swift Package Manager，iOS端自动化配置不再生效，需要自己生成

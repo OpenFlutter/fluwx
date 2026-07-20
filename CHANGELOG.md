@@ -1,3 +1,6 @@
+# 6.0.2
+* 修复Android Kotlin构建配置
+
 # 6.0.1
 * 修复 iOS FlutterSceneDelegate 下微信开放标签冷启动回调(#770)
 

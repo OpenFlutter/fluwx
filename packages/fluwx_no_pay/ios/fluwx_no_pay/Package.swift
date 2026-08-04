@@ -11,7 +11,7 @@ let package = Package(
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/JarvanMo/WechatOpenSDK-NoPay-SPM", //
-            from: "2.0.5+1"
+            from: "2.0.7"
         )
     ],
     targets: [

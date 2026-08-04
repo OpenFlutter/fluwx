@@ -12,7 +12,7 @@ let package = Package(
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
         .package(
             url: "https://github.com/JarvanMo/WechatOpenSDK-SPM", //
-            from: "2.0.5"
+            from: "2.0.7"
         )
     ],
     targets: [

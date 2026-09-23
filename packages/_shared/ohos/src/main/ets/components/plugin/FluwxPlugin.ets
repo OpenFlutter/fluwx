@@ -74,7 +74,7 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
         WXAPiHandler.checkWeChatInstallation(result);
         break;
       case "registerApp":
-        WXAPiHandler.registerApp(call, result);
+        WXAPiHandler.registerApp(call, result, this);
         break;
       case "sendAuth":
         this.authHandler?.sendAuth(call, result);
@@ -262,6 +262,7 @@ export default class FluwxPlugin implements FlutterPlugin, MethodCallHandler, Ab
 
   attemptToResumeMsgFromWx(result: MethodResult) {
     WXAPiHandler.wxApi?.handleWant(this.binding?.getAbility().launchWant, this)
+    result.success(null)
   }
 
   async launchMiniProgram(call: MethodCall, result: MethodResult) {

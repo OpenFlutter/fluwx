@@ -1,3 +1,6 @@
+# 6.0.4
+* Fix #773
+
 # 6.0.3
 * iOS framework=>2.0.7
 * android sdk => 6.6.8.40

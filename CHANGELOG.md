@@ -1,3 +1,7 @@
+# 6.0.6
+* iOS framework=>2.0.8
+* HarmonyOS SDK=>1.0.19
+
 # 6.0.5
 * Merge #777
 
@@ -6,7 +10,7 @@
 
 # 6.0.3
 * iOS framework=>2.0.7
-* android sdk => 6.6.8.40
+* android sdk => 6.8.40
 
 # 6.0.2
 * 修复Android Kotlin构建配置

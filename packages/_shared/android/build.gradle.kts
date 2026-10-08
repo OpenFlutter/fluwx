@@ -1,4 +1,5 @@
 import org.yaml.snakeyaml.Yaml
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 group = "com.jarvan.fluwx"
 version = "1.0-SNAPSHOT"
@@ -132,7 +133,7 @@ fun Project.generateFluwxConfigurations(
     File("${generateFolder.absolutePath}/FluwxConfigurations.kt").writeText(source)
 }
 
-tasks.register("generateFluwxHelperFile") {
+val generateFluwxHelperFile = tasks.register("generateFluwxHelperFile") {
     doFirst {
         val config = loadPubspec()
         @Suppress("UNCHECKED_CAST")
@@ -163,6 +164,11 @@ tasks.register("generateFluwxHelperFile") {
 
         generateFluwxConfigurations(interruptWeChatRequestByFluwx, flutterActivity, enableLogging)
     }
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    dependsOn(generateFluwxHelperFile)
+    source(layout.buildDirectory.dir("generated/src/kotlin"))
 }
 
 configure<com.android.build.gradle.LibraryExtension> {

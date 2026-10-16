@@ -65,8 +65,12 @@ melos:
         test -L packages/fluwx_no_pay/example/lib/pages                                      || (echo "❌ fluwx_no_pay example pages symlink missing" && exit 1)
         test -L packages/fluwx/example/images                                                || (echo "❌ fluwx example images symlink missing" && exit 1)
         test -L packages/fluwx_no_pay/example/images                                         || (echo "❌ fluwx_no_pay example images symlink missing" && exit 1)
-        test -L packages/fluwx/ohos                                                          || (echo "❌ fluwx/ohos symlink missing" && exit 1)
-        test -L packages/fluwx_no_pay/ohos                                                   || (echo "❌ fluwx_no_pay/ohos symlink missing" && exit 1)
+        for package in fluwx fluwx_no_pay; do
+          for path in build-profile.json5 hvigorfile.ts index.ets src/main/ets; do
+            test -L "packages/$package/ohos/$path" && test -e "packages/$package/ohos/$path" || exit 1
+          done
+        done
+        dart tools/check_ohos_metadata.dart || exit 1
         echo "✅ 所有 symlink 完好"
 
     publish:all:

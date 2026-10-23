@@ -65,9 +65,13 @@ melos:
         test -L packages/fluwx_no_pay/example/lib/pages                                      || (echo "❌ fluwx_no_pay example pages symlink missing" && exit 1)
         test -L packages/fluwx/example/images                                                || (echo "❌ fluwx example images symlink missing" && exit 1)
         test -L packages/fluwx_no_pay/example/images                                         || (echo "❌ fluwx_no_pay example images symlink missing" && exit 1)
-        test -L packages/fluwx/ohos                                                          || (echo "❌ fluwx/ohos symlink missing" && exit 1)
-        test -L packages/fluwx_no_pay/ohos                                                   || (echo "❌ fluwx_no_pay/ohos symlink missing" && exit 1)
+        dart tools/sync_ohos.dart --check || exit 1
+        dart tools/check_ohos_metadata.dart || exit 1
         echo "✅ 所有 symlink 完好"
+
+    ohos:sync:
+      run: dart tools/sync_ohos.dart
+      description: "同步共享 OHOS 实现到两个包的实际文件（ArkTS 不支持模块外软链接）"
 
     publish:all:
       run: melos publish --no-dry-run --yes

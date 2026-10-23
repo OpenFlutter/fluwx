@@ -1,1 +1,10 @@
-../../_shared/ohos/build-profile.json5
+{
+  "apiType": "stageMode",
+  "buildOption": {
+  },
+  "targets": [
+    {
+      "name": "default"
+    }
+  ]
+}

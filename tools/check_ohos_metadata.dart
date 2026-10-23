@@ -28,6 +28,7 @@ void main() {
       exitCode = 1;
     }
   }
-  if (exitCode == 0)
+  if (exitCode == 0) {
     print('OHOS package and module names match both pubspecs.');
+  }
 }

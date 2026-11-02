@@ -1,0 +1,10 @@
+{
+  "module": {
+    "name": "fluwx_no_pay",
+    "type": "har",
+    "deviceTypes": [
+      "default",
+      "tablet"
+    ]
+  }
+}
